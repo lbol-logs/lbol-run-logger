@@ -2,6 +2,8 @@
 using LBoL.Core;
 using Newtonsoft.Json;
 using RunLogger.Utils;
+using System;
+using System.Collections.Generic;
 
 namespace RunLogger.Patches
 {
@@ -34,6 +36,39 @@ namespace RunLogger.Patches
         {
             Debugger.Write("loaded");
             RunDataController.Restore();
+        }
+
+        [HarmonyPatch(nameof(GameRunController.EnterStage)), HarmonyPostfix]
+        static void EnterStagePatch(int index, GameRunController __instance)
+        {
+            Debugger.Write("enter stage " + index);
+            GameMap gameMap = __instance.CurrentMap;
+            string bossId = gameMap.BossId;
+            List<Node> Nodes = new List<Node>();
+            for (int x = 0; x < 17; x++)
+            {
+                for (int y = 0; y < 5; y++)
+                {
+                    Debugger.Write($"x: {x}, y: {y}");
+                    MapNode mapNode = gameMap.Nodes[x, y];
+                    Debugger.Write("followers: " + String.Join(", ", mapNode.FollowerList));
+                    Node Node = new Node
+                    {
+                        X = mapNode.X,
+                        Y = mapNode.Y,
+                        Followers = mapNode.FollowerList
+                    };
+                    Nodes.Add(Node);
+                }
+            }
+            StageObj StageObj = new StageObj
+            {
+                Stage = index + 1,
+                Nodes = Nodes,
+                Boss = bossId
+            };
+            RunDataController.RunData.Stages.Add(StageObj);
+            RunDataController.Save();
         }
 
         [HarmonyPatch(nameof(GameRunController.EnterMapNode)), HarmonyPostfix]
