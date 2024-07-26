@@ -20,10 +20,12 @@ namespace RunLogger.Patches
                 if (!RunDataController.RunData.Info.HasClearBonus) return;
                 Exhibit _exhibit = ____exhibit;
                 int[] _bonusNos = ____bonusNos;
+                int Choice = 0;
                 Station station = RunDataController.CurrentStation;
                 station.Data = new Dictionary<string, object>
                 {
-                    { "Options", _bonusNos }
+                    { "Options", _bonusNos },
+                    { "Choice", Choice }
                 };
                 if (RunDataController.ShowRandom) station.Data.Add("Shinning", _exhibit.Id);
             }

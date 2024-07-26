@@ -1,5 +1,7 @@
 ﻿using HarmonyLib;
 using LBoL.Core;
+using LBoL.Core.Adventures;
+using LBoL.Core.Stations;
 using Newtonsoft.Json;
 using RunLogger.Utils;
 using System;
@@ -14,34 +16,35 @@ namespace RunLogger.Patches
         [HarmonyPatch(nameof(GameRunController.Create)), HarmonyPostfix]
         static void CreatePatch(GameRunStartupParameters parameters)
         {
-            Debugger.Write("created");
+            string Character = parameters.Player.ModelName;
             string PlayerType = parameters.PlayerType.ToString();
             bool HasClearBonus = parameters.UserProfile.HasClearBonus;
             bool ShowRandomResult = parameters.ShowRandomResult;
+            bool IsAutoSeed = parameters.Seed == null;
             RunDataController.Create();
+            RunDataController.RunData.Info.Character = Character;
             RunDataController.RunData.Info.PlayerType = PlayerType;
             RunDataController.RunData.Info.ShowRandomResult = ShowRandomResult;
+            RunDataController.RunData.Info.IsAutoSeed = IsAutoSeed;
             RunDataController.Save();
         }
 
         [HarmonyPatch(nameof(GameRunController.Save)), HarmonyPostfix]
         static void SavePatch()
         {
-            Debugger.Write("saved");
             RunDataController.Save();
         }
 
         [HarmonyPatch(nameof(GameRunController.Restore)), HarmonyPostfix]
         static void RestorePatch()
         {
-            Debugger.Write("loaded");
             RunDataController.Restore();
         }
 
         [HarmonyPatch(nameof(GameRunController.EnterStage)), HarmonyPostfix]
-        static void EnterStagePatch(int index, GameRunController __instance)
+        static void EnterStagePatch(GameRunController __instance)
         {
-            Debugger.Write("enter stage " + index);
+            int Stage = __instance.CurrentStage.Level;
             GameMap gameMap = __instance.CurrentMap;
             string bossId = gameMap.BossId;
             List<Node> Nodes = new List<Node>();
@@ -49,21 +52,21 @@ namespace RunLogger.Patches
             {
                 for (int y = 0; y < 5; y++)
                 {
-                    Debugger.Write($"x: {x}, y: {y}");
                     MapNode mapNode = gameMap.Nodes[x, y];
-                    Debugger.Write("followers: " + String.Join(", ", mapNode.FollowerList));
+                    if (mapNode == null) continue;
                     Node Node = new Node
                     {
                         X = mapNode.X,
                         Y = mapNode.Y,
-                        Followers = mapNode.FollowerList
+                        Followers = mapNode.FollowerList,
+                        Type = mapNode.StationType.ToString()
                     };
                     Nodes.Add(Node);
                 }
             }
             StageObj StageObj = new StageObj
             {
-                Stage = index + 1,
+                Stage = Stage,
                 Nodes = Nodes,
                 Boss = bossId
             };
@@ -75,12 +78,12 @@ namespace RunLogger.Patches
         static void EnterMapNodePatch(MapNode node, GameRunController __instance)
         {
             int Stage = __instance.CurrentStage.Level;
-            int Level = __instance.CurrentStation.Level;
+            LBoL.Core.Stations.Station CurrentStation = __instance.CurrentStation;
+            int Level = CurrentStation.Level;
             string Type = node.StationType.ToString();
             int X = node.X;
             int Y = node.Y;
-            Debugger.Write($"x: {X}, y: {Y}");
-            Station station = new Station
+            Utils.Station station = new Utils.Station
             {
                 Stage = Stage,
                 Level = Level,
@@ -88,8 +91,12 @@ namespace RunLogger.Patches
                 X = X,
                 Y = Y
             };
+            if (CurrentStation is AdventureStation AdventureStation)
+            {
+                string Name = AdventureStation.Adventure.GetType().Name;
+                station.Name = Name;
+            }
             RunDataController.RunData.Stations.Add(station);
-            Debugger.Write($"station: {JsonConvert.SerializeObject(station)}");
         }
     }
 }

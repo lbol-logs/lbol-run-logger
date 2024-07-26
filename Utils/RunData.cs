@@ -11,9 +11,11 @@ namespace RunLogger.Utils
 
     public class Info
     {
+        public string Character { get; set; }
         public string PlayerType { get; set; }
         public bool HasClearBonus { get; set; }
         public bool ShowRandomResult { get; set; }
+        public bool IsAutoSeed { get; set; }
     }
 
     public class Station
@@ -23,8 +25,9 @@ namespace RunLogger.Utils
         public string Type { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
+        public Dictionary<string, object> Data { get; set; }
 #nullable enable
-        public Dictionary<string, object>? Data { get; set; }
+        public string? Name { get; set; }
 #nullable disable
     }
 
@@ -40,5 +43,6 @@ namespace RunLogger.Utils
         public int X { get; set; }
         public int Y { get; set; }
         public List<int> Followers { get; set; } = new List<int>();
+        public string Type { get; set; }
     }
 }
