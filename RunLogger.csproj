@@ -245,15 +245,6 @@
 
 
     <ItemGroup>
-        <Reference Include="0Harmony">
-          <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\LBoL\BepInEx\core\0Harmony.dll</HintPath>
-        </Reference>
-        <Reference Include="BepInEx">
-          <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\LBoL\BepInEx\core\BepInEx.dll</HintPath>
-        </Reference>
-        <Reference Include="DebugMode">
-          <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\LBoL\BepInEx\plugins\DebugMode.dll</HintPath>
-        </Reference>
         <Reference Include="LBoL.Base">
             <HintPath>$(GameFolder)\LBoL_Data\Managed\LBoL.Base.dll</HintPath>
         </Reference>
@@ -308,7 +299,7 @@
         <Reference Include="UniTask">
             <HintPath>$(GameFolder)\LBoL_Data\Managed\UniTask.dll</HintPath>
         </Reference>        
-		<Reference Include="spine-csharp">
+        <Reference Include="spine-csharp">
             <HintPath>$(GameFolder)\LBoL_Data\Managed\spine-csharp.dll</HintPath>
         </Reference>
         <Reference Include="spine-unity">
@@ -319,7 +310,10 @@
         </Reference>
         <Reference Include="UnityEngine.UnityEngine.ParticleSystemModule">
             <HintPath>$(GameFolder)\LBoL_Data\Managed\UnityEngine.ParticleSystemModule.dll</HintPath>
-        </Reference>	
+        </Reference>
+        <Reference Include="Newtonsoft.Json">
+            <HintPath>$(ProjectFolder)\DirResources\Newtonsoft.Json.dll</HintPath>
+        </Reference>
     </ItemGroup>
 
 
@@ -329,7 +323,7 @@
 
 
     <ItemGroup>
-      <Folder Include="DirResources\" />
+      <Folder Include="Libs\" />
       <Folder Include="Resources\" />
     </ItemGroup>
 

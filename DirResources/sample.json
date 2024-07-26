@@ -1,0 +1,14 @@
+{
+    "Info": {
+        "PlayerType": "ReimuA",
+        "HasClearBonus": true
+    },
+    "Stations": [
+        {
+            "Stage": 1,
+            "Level": 0,
+            "Type": "Adventure",
+            "Data": {}
+        }
+    ]
+}

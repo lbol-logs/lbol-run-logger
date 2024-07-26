@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace HistoryLogging
+namespace RunLogger
 {
     internal class WatermarkWrapper
     {
