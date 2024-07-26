@@ -3,3 +3,5 @@
 /bin
 *.log
 /obj
+/.vs
+RunLogger.csproj
