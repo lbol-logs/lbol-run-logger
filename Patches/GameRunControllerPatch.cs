@@ -1,11 +1,10 @@
 ﻿using HarmonyLib;
 using LBoL.Core;
-using LBoL.Core.Adventures;
 using LBoL.Core.Stations;
-using Newtonsoft.Json;
+using LBoL.Core.Stats;
 using RunLogger.Utils;
-using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RunLogger.Patches
 {
@@ -16,22 +15,48 @@ namespace RunLogger.Patches
         [HarmonyPatch(nameof(GameRunController.Create)), HarmonyPostfix]
         static void CreatePatch(GameRunStartupParameters parameters)
         {
-            string Character = parameters.Player.ModelName;
+            string Character = parameters.Player.Id;
             string PlayerType = parameters.PlayerType.ToString();
             bool HasClearBonus = parameters.UserProfile.HasClearBonus;
             bool ShowRandomResult = parameters.ShowRandomResult;
             bool IsAutoSeed = parameters.Seed == null;
+            IEnumerable<PuzzleFlag> AllPuzzleFlags = PuzzleFlags.EnumerateComponents(parameters.Puzzles);
+            List<string> Puzzules = AllPuzzleFlags.Select(puzzleFlag => PuzzleFlags.GetDisplayWord(puzzleFlag).Name).ToList();
+            string Difficulty = parameters.Difficulty.ToString();
             RunDataController.Create();
-            RunDataController.RunData.Info.Character = Character;
-            RunDataController.RunData.Info.PlayerType = PlayerType;
-            RunDataController.RunData.Info.ShowRandomResult = ShowRandomResult;
-            RunDataController.RunData.Info.IsAutoSeed = IsAutoSeed;
+            Settings Settings = new Settings()
+            {
+                Character = Character,
+                PlayerType = PlayerType,
+                ShowRandomResult = ShowRandomResult,
+                IsAutoSeed = IsAutoSeed,
+                Difficulty = Difficulty,
+                Puzzles = Puzzules
+            };
+            RunDataController.RunData.Settings = Settings;
             RunDataController.Save();
         }
 
         [HarmonyPatch(nameof(GameRunController.Save)), HarmonyPostfix]
-        static void SavePatch()
+        static void SavePatch(GameRunController __instance)
         {
+            StationObj StationObj = RunDataController.CurrentStation;
+            Status Status = new Status
+            {
+                Money = __instance.Money,
+                Hp = __instance.Player.Hp,
+                MaxHp = __instance.Player.MaxHp,
+                Power = __instance.Player.Power,
+                MaxPower = __instance.Player.MaxPower
+            };
+            if (StationObj == null)
+            {
+                RunDataController.RunData.Settings.Status = Status;
+            }
+            else {
+
+                StationObj.Status = Status;
+            }
             RunDataController.Save();
         }
 
@@ -48,9 +73,9 @@ namespace RunLogger.Patches
             GameMap gameMap = __instance.CurrentMap;
             string bossId = gameMap.BossId;
             List<Node> Nodes = new List<Node>();
-            for (int x = 0; x < 17; x++)
+            for (int x = 0; x < gameMap.Nodes.GetLength(0); x++)
             {
-                for (int y = 0; y < 5; y++)
+                for (int y = 0; y < gameMap.Nodes.GetLength(1); y++)
                 {
                     MapNode mapNode = gameMap.Nodes[x, y];
                     if (mapNode == null) continue;
@@ -78,25 +103,41 @@ namespace RunLogger.Patches
         static void EnterMapNodePatch(MapNode node, GameRunController __instance)
         {
             int Stage = __instance.CurrentStage.Level;
-            LBoL.Core.Stations.Station CurrentStation = __instance.CurrentStation;
+            Station CurrentStation = __instance.CurrentStation;
             int Level = CurrentStation.Level;
             string Type = node.StationType.ToString();
             int X = node.X;
             int Y = node.Y;
-            Utils.Station station = new Utils.Station
+            StationObj station = new StationObj
             {
-                Stage = Stage,
-                Level = Level,
                 Type = Type,
-                X = X,
-                Y = Y
+                Position = new Position
+                {
+                    Stage = Stage,
+                    Level = Level,
+                    X = X,
+                    Y = Y
+                }
             };
             if (CurrentStation is AdventureStation AdventureStation)
             {
                 string Name = AdventureStation.Adventure.GetType().Name;
                 station.Name = Name;
             }
+            else if (CurrentStation is BattleStation BattleStation)
+            {
+                string Name = BattleStation.EnemyGroup.Id;
+                station.Name = Name;
+            }
             RunDataController.RunData.Stations.Add(station);
+        }
+
+        [HarmonyPatch(nameof(GameRunController.LeaveBattle)), HarmonyPostfix]
+        static void LeaveBattlePatch(BattleStats __result)
+        {
+            int Rounds = __result.TotalRounds;
+            RunDataController.AddData("Rounds", Rounds);
+            RunDataController.Save();
         }
     }
 }

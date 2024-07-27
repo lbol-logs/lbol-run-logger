@@ -13,14 +13,12 @@ namespace RunLogger.Utils
         private const string _dir = "runLogger";
         private static readonly string _path = $"{_dir}/temp.json";
         private static bool _initialized;
-        private static FileStream _fileStream;
-        private static StreamWriter _streamWriter;
         public static RunData RunData;
 
-        static public Station CurrentStation
+        static public StationObj CurrentStation
         {
             get {
-                Station station = RunData.Stations.Last();
+                StationObj station = RunData.Stations.LastOrDefault();
                 return station;
             }
         }
@@ -29,7 +27,7 @@ namespace RunLogger.Utils
         {
             get
             {
-                bool ShowRandomResult = RunData.Info.ShowRandomResult;
+                bool ShowRandomResult = RunData.Settings.ShowRandomResult;
                 return ShowRandomResult;
             }
         }
@@ -53,13 +51,21 @@ namespace RunLogger.Utils
             Data[key] = list;
         }
 
+        static public void AddListItem2Obj<T>(ref Dictionary<string, object> dict, string key, T listItem)
+        {
+            key += "s";
+            if (!dict.ContainsKey(key)) dict[key] = new List<T>();
+            (dict[key] as List<T>).Add(listItem);
+        }
+
         public static void Create()
         {
-            _Initialize(true);
+            _Write("{}");
         }
 
         public static void Save()
         {
+            Debugger.Write("save");
             if (!_initialized) return;
             string jsonString = _Encode();
             _Write(jsonString);
@@ -67,33 +73,45 @@ namespace RunLogger.Utils
 
         public static void Restore()
         {
+            Debugger.Write("restore");
             if (!File.Exists(_path))
             {
-                Create();
+                _initialized = false;
                 return;
             }
-            _Initialize();
-            StreamReader streamReader = new StreamReader(_fileStream);
-            string jsonString = streamReader.ReadToEnd();
-            _fileStream.Position = 0;
-            _Decode(jsonString);
+            using (FileStream fileStream = File.Open(_path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            {
+                using (StreamReader streamReader = new StreamReader(fileStream))
+                {
+                    string jsonString = streamReader.ReadToEnd();
+                    _Decode(jsonString);
+                    _initialized = true;
+                }
+            }
         }
 
-        private static void _Initialize(bool create = false)
+        public static void Copy(string name)
         {
-            FileStream fileStream = File.Open(_path, create ? FileMode.Create : FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
-            StreamWriter streamWriter = new StreamWriter(fileStream, Encoding.UTF8);
-            _fileStream = fileStream;
-            _streamWriter = streamWriter;
-            RunData = new RunData();
-            _initialized = true;
+            Debugger.Write("name: " + name);
+            _initialized = false;
+            File.Copy(_path, $"{_dir}/{name}.json");
+            _Write("{}");
         }
 
         private static void _Write(string line)
         {
-            _streamWriter.WriteLine(line);
-            _streamWriter.Flush();
-            _fileStream.Position = 0;
+            if (!_initialized)
+            {
+                RunData = new RunData();
+                _initialized = true;
+            }
+            using (FileStream fileStream = File.Open(_path, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
+            {
+                using (StreamWriter streamWriter = new StreamWriter(fileStream, Encoding.UTF8))
+                {
+                    streamWriter.WriteLine(line);
+                }
+            }
         }
 
         private static string _Encode()
@@ -110,8 +128,7 @@ namespace RunLogger.Utils
             }
             catch (Exception e)
             {
-                Debugger.Write(e.ToString());
-                Debugger.Write("decode failed");
+                _initialized = false;
             }
         }
     }

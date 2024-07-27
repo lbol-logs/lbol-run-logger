@@ -17,11 +17,11 @@ namespace RunLogger.Patches
             [HarmonyPatch(nameof(Debut.RollBonus))]
             static void Postfix(Exhibit ____exhibit, int[] ____bonusNos)
             {
-                if (!RunDataController.RunData.Info.HasClearBonus) return;
+                if (!RunDataController.RunData.Settings.HasClearBonus) return;
                 Exhibit _exhibit = ____exhibit;
                 int[] _bonusNos = ____bonusNos;
                 int Choice = 0;
-                Station station = RunDataController.CurrentStation;
+                StationObj station = RunDataController.CurrentStation;
                 station.Data = new Dictionary<string, object>
                 {
                     { "Options", _bonusNos },
