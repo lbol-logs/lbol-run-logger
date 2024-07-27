@@ -1,7 +1,9 @@
 ﻿using HarmonyLib;
 using LBoL.Core;
+using LBoL.Core.Cards;
 using LBoL.Core.Stations;
 using LBoL.Core.Stats;
+using LBoL.Core.Units;
 using RunLogger.Utils;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +23,7 @@ namespace RunLogger.Patches
             bool ShowRandomResult = parameters.ShowRandomResult;
             bool IsAutoSeed = parameters.Seed == null;
             IEnumerable<PuzzleFlag> AllPuzzleFlags = PuzzleFlags.EnumerateComponents(parameters.Puzzles);
-            List<string> Puzzules = AllPuzzleFlags.Select(puzzleFlag => PuzzleFlags.GetDisplayWord(puzzleFlag).Name).ToList();
+            List<string> Puzzules = AllPuzzleFlags.Select(puzzleFlag => puzzleFlag.ToString()).ToList();
             string Difficulty = parameters.Difficulty.ToString();
             RunDataController.Create();
             Settings Settings = new Settings()
@@ -130,6 +132,37 @@ namespace RunLogger.Patches
                 station.Name = Name;
             }
             RunDataController.RunData.Stations.Add(station);
+        }
+
+        [HarmonyPatch(nameof(GameRunController.InternalAddDeckCards)), HarmonyPostfix]
+        static void InternalAddDeckCardsPatch(Card[] cards)
+        {
+            RunDataController.AddCardChange(cards, ChangeType.Add);
+        }
+
+        [HarmonyPatch(nameof(GameRunController.RemoveDeckCards)), HarmonyPostfix]
+        static void RemoveDeckCardsPatch(IEnumerable<Card> cards)
+        {
+            RunDataController.AddCardChange(cards.ToArray<Card>(), ChangeType.Remove);
+        }
+
+        [HarmonyPatch(nameof(GameRunController.UpgradeDeckCards)), HarmonyPostfix]
+        static void UpgradeDeckCardsPatch(IEnumerable<Card> cards)
+        {
+            Debugger.Write("upgrade");
+            RunDataController.AddCardChange(cards.ToArray<Card>(), ChangeType.Upgrade);
+        }
+
+        [HarmonyPatch(nameof(GameRunController.GainExhibitRunner)), HarmonyPostfix]
+        static void GainExhibitRunnerPatch(Exhibit exhibit)
+        {
+            RunDataController.AddExhibitChange(exhibit, ChangeType.Add);
+        }
+
+        [HarmonyPatch(nameof(GameRunController.LoseExhibit)), HarmonyPostfix]
+        static void LoseExhibitPatch(Exhibit exhibit)
+        {
+            RunDataController.AddExhibitChange(exhibit, ChangeType.Remove);
         }
 
         [HarmonyPatch(nameof(GameRunController.LeaveBattle)), HarmonyPostfix]

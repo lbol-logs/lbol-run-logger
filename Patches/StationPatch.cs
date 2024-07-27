@@ -98,9 +98,7 @@ namespace RunLogger.Patches
         static void OptionClickedPatch(GapOption option, GapOptionsPanel __instance)
         {
             string Choice = option.Type.ToString();
-            Debugger.Write("Choice: " + Choice);
             List<string> Options = __instance.GapStation.GapOptions.Select(gapOption => gapOption.Type.ToString()).ToList();
-            Debugger.Write("type: " + String.Join(", ", Options));
             RunDataController.AddData("Choice", Choice);
             RunDataController.AddData("Options", Options);
         }

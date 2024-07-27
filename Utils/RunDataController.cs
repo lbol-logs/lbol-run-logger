@@ -5,6 +5,8 @@ using System.Text;
 using System.Linq;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using LBoL.Core.Cards;
+using LBoL.Core;
 
 namespace RunLogger.Utils
 {
@@ -58,6 +60,33 @@ namespace RunLogger.Utils
             (dict[key] as List<T>).Add(listItem);
         }
 
+        static public void AddCardChange(Card[] cards, ChangeType Type)
+        {
+            foreach (Card card in cards)
+            {
+                CardChange Card = new CardChange
+                {
+                    Name = card.Id,
+                    Type = Type.ToString(),
+                    Position = CurrentStation.Position,
+                    IsUpgraded = card.IsUpgraded,
+                    UpgradeCounter = card.UpgradeCounter
+                };
+                RunData.Cards.Add(Card);
+            }
+        }
+
+        static public void AddExhibitChange(Exhibit exhibit, ChangeType Type)
+        {
+            ExhibitChange Exhibit = new ExhibitChange
+            {
+                Name = exhibit.Id,
+                Type = Type.ToString(),
+                Position = CurrentStation.Position
+            };
+            RunData.Exhibits.Add(Exhibit);
+        }
+
         public static void Create()
         {
             _Write("{}");
@@ -65,7 +94,6 @@ namespace RunLogger.Utils
 
         public static void Save()
         {
-            Debugger.Write("save");
             if (!_initialized) return;
             string jsonString = _Encode();
             _Write(jsonString);
@@ -73,7 +101,6 @@ namespace RunLogger.Utils
 
         public static void Restore()
         {
-            Debugger.Write("restore");
             if (!File.Exists(_path))
             {
                 _initialized = false;
@@ -92,7 +119,6 @@ namespace RunLogger.Utils
 
         public static void Copy(string name)
         {
-            Debugger.Write("name: " + name);
             _initialized = false;
             File.Copy(_path, $"{_dir}/{name}.json");
             _Write("{}");
@@ -126,7 +152,7 @@ namespace RunLogger.Utils
             {
                 if (!String.IsNullOrEmpty(jsonString)) RunData = JsonConvert.DeserializeObject<RunData>(jsonString);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 _initialized = false;
             }

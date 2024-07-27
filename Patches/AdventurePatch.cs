@@ -30,11 +30,5 @@ namespace RunLogger.Patches
                 if (RunDataController.ShowRandom) station.Data.Add("Shinning", _exhibit.Id);
             }
         }
-
-        [HarmonyPatch(typeof(DialogFunctions), nameof(DialogFunctions.AdventureRand)), HarmonyPostfix]
-        static void AdventureRandPatch(int __result, GameRunController ____gameRun)
-        {
-            //____gameRun.EnteringNode
-        }
     }
 }

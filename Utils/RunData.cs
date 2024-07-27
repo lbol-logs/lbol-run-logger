@@ -9,6 +9,8 @@ namespace RunLogger.Utils
         public List<StageObj> Stages { get; set; } = new List<StageObj>();
         public string Result { get; set; }
         public string Timestamp { get; set; }
+        public List<CardChange> Cards { get; set; } = new List<CardChange> { };
+        public List<ExhibitChange> Exhibits { get; set; } = new List<ExhibitChange> { };
     }
 
     public class Settings
@@ -72,5 +74,28 @@ namespace RunLogger.Utils
         public int Y { get; set; }
         public List<int> Followers { get; set; } = new List<int>();
         public string Type { get; set; }
+    }
+
+    public class CardChange
+    {
+        public string Name { get; set; }
+        public string Type { get; set; }
+        public Position Position { get; set; }
+        public bool IsUpgraded { get; set; }
+        public int? UpgradeCounter { get; set; }
+    }
+
+    public class ExhibitChange
+    {
+        public string Name { get; set; }
+        public string Type { get; set; }
+        public Position Position { get; set; }
+    }
+
+    public enum ChangeType
+    {
+        Add,
+        Remove,
+        Upgrade
     }
 }
