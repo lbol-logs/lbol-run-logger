@@ -3,7 +3,6 @@ using LBoL.Core;
 using LBoL.Core.Cards;
 using LBoL.Core.Stations;
 using LBoL.Core.Stats;
-using LBoL.Core.Units;
 using RunLogger.Utils;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +25,7 @@ namespace RunLogger.Patches
             List<string> Puzzules = AllPuzzleFlags.Select(puzzleFlag => puzzleFlag.ToString()).ToList();
             string Difficulty = parameters.Difficulty.ToString();
             RunDataController.Create();
+            RunDataController.RunData.Version = VersionInfo.Current.Version;
             Settings Settings = new Settings()
             {
                 Character = Character,

@@ -1,7 +1,5 @@
 ﻿using HarmonyLib;
-using LBoL.Core;
 using LBoL.Core.Dialogs;
-using LBoL.Core.Units;
 using RunLogger.Utils;
 
 namespace RunLogger.Patches

@@ -4,6 +4,7 @@ namespace RunLogger.Utils
 {
     public class RunData
     {
+        public string Version { get; set; }
         public Settings Settings { get; set; }
         public List<StationObj> Stations { get; set; } = new List<StationObj>();
         public List<StageObj> Stages { get; set; } = new List<StageObj>();

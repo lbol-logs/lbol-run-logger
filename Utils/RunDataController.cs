@@ -4,7 +4,6 @@ using System.IO;
 using System.Text;
 using System.Linq;
 using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
 using LBoL.Core.Cards;
 using LBoL.Core;
 
