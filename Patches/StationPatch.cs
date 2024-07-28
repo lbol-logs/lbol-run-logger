@@ -51,7 +51,7 @@ namespace RunLogger.Patches
                     {
                         CardObj Card = new CardObj
                         {
-                            Name = card.Id,
+                            Id = card.Id,
                             IsUpgraded = card.IsUpgraded,
                             UpgradeCounter = card.UpgradeCounter
                         };

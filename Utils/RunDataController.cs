@@ -66,9 +66,9 @@ namespace RunLogger.Utils
             {
                 CardChange Card = new CardChange
                 {
-                    Name = card.Id,
+                    Id = card.Id,
                     Type = Type.ToString(),
-                    Position = CurrentStation.Position,
+                    Node = CurrentStation.Node,
                     IsUpgraded = card.IsUpgraded,
                     UpgradeCounter = card.UpgradeCounter
                 };
@@ -80,22 +80,24 @@ namespace RunLogger.Utils
         {
             ExhibitChange Exhibit = new ExhibitChange
             {
-                Name = exhibit.Id,
+                Id = exhibit.Id,
                 Type = Type.ToString(),
-                Position = CurrentStation.Position
+                Node = CurrentStation.Node
             };
             RunData.Exhibits.Add(Exhibit);
         }
 
         public static void Create()
         {
-            _Write("{}");
+            RunData = new RunData();
+            _initialized = true;
+            Save();
         }
 
-        public static void Save()
+        public static void Save(bool indent = true)
         {
             if (!_initialized) return;
-            string jsonString = _Encode();
+            string jsonString = _Encode(indent);
             _Write(jsonString);
         }
 
@@ -112,25 +114,21 @@ namespace RunLogger.Utils
                 {
                     string jsonString = streamReader.ReadToEnd();
                     _Decode(jsonString);
-                    _initialized = true;
                 }
             }
         }
 
         public static void Copy(string name)
         {
-            _initialized = false;
+            if (!_initialized) return;
+            Save(false);
             File.Copy(_path, $"{_dir}/{name}.json");
-            _Write("{}");
+            _initialized = false;
         }
 
         private static void _Write(string line)
         {
-            if (!_initialized)
-            {
-                RunData = new RunData();
-                _initialized = true;
-            }
+            if (!_initialized) return;
             using (FileStream fileStream = File.Open(_path, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
             {
                 using (StreamWriter streamWriter = new StreamWriter(fileStream, Encoding.UTF8))
@@ -140,9 +138,13 @@ namespace RunLogger.Utils
             }
         }
 
-        private static string _Encode()
+        private static string _Encode(bool indent = true)
         {
-            string jsonString = JsonConvert.SerializeObject(RunData, Formatting.Indented, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+            string jsonString = JsonConvert.SerializeObject(
+                RunData,
+                indent ? Formatting.Indented : Formatting.None,
+                new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }
+            );
             return jsonString;
         }
 
@@ -150,12 +152,18 @@ namespace RunLogger.Utils
         {
             try
             {
-                if (!String.IsNullOrEmpty(jsonString)) RunData = JsonConvert.DeserializeObject<RunData>(jsonString);
+                if (!String.IsNullOrEmpty(jsonString))
+                {
+                    RunData = JsonConvert.DeserializeObject<RunData>(jsonString);
+                    _initialized = true;
+                    return;
+                }
             }
-            catch (Exception)
+            finally
             {
-                _initialized = false;
+
             }
+            _initialized = false;
         }
     }
 }

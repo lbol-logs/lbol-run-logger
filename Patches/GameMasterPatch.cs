@@ -13,6 +13,7 @@ namespace RunLogger.Patches
         [HarmonyPatch(nameof(GameMaster.AppendGameRunHistory)), HarmonyPostfix]
         static void AppendGameRunHistoryPatch(GameRunRecordSaveData record)
         {
+            RunDataController.Restore();
             string Result = record.ResultType.ToString();
             string Timestamp = record.SaveTimestamp;
             RunDataController.RunData.Result = Result;

@@ -23,15 +23,7 @@ namespace RunLogger.Patches
         [HarmonyPatch(nameof(DialogFunctions.AdventureRand)), HarmonyPostfix]
         static void AdventureRandPatch(int __result)
         {
-            Debugger.Write("rand: " + __result);
             RunDataController.AddDataItem("Values", __result);
         }
     }
-
-    //[HarmonyPatch(typeof(PlayerUnit))]
-    //class PlayerUnitPatch
-    //{
-
-
-    //}
 }

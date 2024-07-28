@@ -108,28 +108,24 @@ namespace RunLogger.Patches
             Station CurrentStation = __instance.CurrentStation;
             int Level = CurrentStation.Level;
             string Type = node.StationType.ToString();
-            int X = node.X;
-            int Y = node.Y;
             StationObj station = new StationObj
             {
                 Type = Type,
-                Position = new Position
+                Node = new NodeObj
                 {
                     Stage = Stage,
-                    Level = Level,
-                    X = X,
-                    Y = Y
+                    Level = Level
                 }
             };
             if (CurrentStation is AdventureStation AdventureStation)
             {
-                string Name = AdventureStation.Adventure.GetType().Name;
-                station.Name = Name;
+                string Id = AdventureStation.Adventure.Id;
+                station.Id = Id;
             }
             else if (CurrentStation is BattleStation BattleStation)
             {
-                string Name = BattleStation.EnemyGroup.Id;
-                station.Name = Name;
+                string Id = BattleStation.EnemyGroup.Id;
+                station.Id = Id;
             }
             RunDataController.RunData.Stations.Add(station);
         }
@@ -149,7 +145,6 @@ namespace RunLogger.Patches
         [HarmonyPatch(nameof(GameRunController.UpgradeDeckCards)), HarmonyPostfix]
         static void UpgradeDeckCardsPatch(IEnumerable<Card> cards)
         {
-            Debugger.Write("upgrade");
             RunDataController.AddCardChange(cards.ToArray<Card>(), ChangeType.Upgrade);
         }
 

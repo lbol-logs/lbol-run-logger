@@ -28,21 +28,19 @@ namespace RunLogger.Utils
     public class StationObj
     {
         public string Type { get; set; }
-        public Position Position { get; set; }
+        public NodeObj Node { get; set; }
         public Status Status { get; set; }
         public Dictionary<string, object> Data { get; set; }
 #nullable enable
-        public string? Name { get; set; }
+        public string? Id { get; set; }
         public Dictionary<string, object>? Rewards { get; set; }
 #nullable disable
     }
 
-    public class Position
+    public class NodeObj
     {
         public int Stage { get; set; }
         public int Level { get; set; }
-        public int X { get; set; }
-        public int Y { get; set; }
     }
 
     public class Status
@@ -56,7 +54,7 @@ namespace RunLogger.Utils
 
     public class CardObj
     {
-        public string Name { get; set; }
+        public string Id { get; set; }
         public bool IsUpgraded { get; set; }
         public int? UpgradeCounter { get; set; }
     }
@@ -78,18 +76,18 @@ namespace RunLogger.Utils
 
     public class CardChange
     {
-        public string Name { get; set; }
+        public string Id { get; set; }
         public string Type { get; set; }
-        public Position Position { get; set; }
+        public NodeObj Node { get; set; }
         public bool IsUpgraded { get; set; }
         public int? UpgradeCounter { get; set; }
     }
 
     public class ExhibitChange
     {
-        public string Name { get; set; }
+        public string Id { get; set; }
         public string Type { get; set; }
-        public Position Position { get; set; }
+        public NodeObj Node { get; set; }
     }
 
     public enum ChangeType
