@@ -17,7 +17,7 @@ namespace RunLogger.Patches
         static void CreatePatch(GameRunStartupParameters parameters)
         {
             string Character = parameters.Player.Id;
-            string PlayerType = parameters.PlayerType.ToString();
+            string PlayerType = parameters.PlayerType.ToString().Replace("Type", ""); ;
             bool HasClearBonus = parameters.UserProfile.HasClearBonus;
             bool ShowRandomResult = parameters.ShowRandomResult;
             bool IsAutoSeed = parameters.Seed == null;
