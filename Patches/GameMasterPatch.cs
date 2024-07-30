@@ -21,7 +21,7 @@ namespace RunLogger.Patches
 
             string ts = Timestamp.Replace(":", "-");
             string character = record.Player;
-            string type = record.PlayerType.ToString();
+            string type = record.PlayerType.ToString().Replace("Type", "");
 
             string name = $"{ts}_{character}_{type}_{Result}";
             RunDataController.Copy(name);
