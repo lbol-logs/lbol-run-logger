@@ -22,7 +22,7 @@ namespace RunLogger.Patches
             bool ShowRandomResult = parameters.ShowRandomResult;
             bool IsAutoSeed = parameters.Seed == null;
             IEnumerable<PuzzleFlag> AllPuzzleFlags = PuzzleFlags.EnumerateComponents(parameters.Puzzles);
-            List<string> Puzzules = AllPuzzleFlags.Select(puzzleFlag => puzzleFlag.ToString()).ToList();
+            List<string> Requests = AllPuzzleFlags.Select(puzzleFlag => puzzleFlag.ToString()).ToList();
             string Difficulty = parameters.Difficulty.ToString();
             RunDataController.Create();
             RunDataController.RunData.Version = VersionInfo.Current.Version;
@@ -33,7 +33,7 @@ namespace RunLogger.Patches
                 ShowRandomResult = ShowRandomResult,
                 IsAutoSeed = IsAutoSeed,
                 Difficulty = Difficulty,
-                Puzzles = Puzzules
+                Requests = Requests
             };
             RunDataController.RunData.Settings = Settings;
             RunDataController.Save();

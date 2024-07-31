@@ -21,7 +21,7 @@ namespace RunLogger.Utils
         public bool HasClearBonus { get; set; }
         public bool ShowRandomResult { get; set; }
         public bool IsAutoSeed { get; set; }
-        public List<string> Puzzles { get; set; }
+        public List<string> Requests { get; set; }
         public string Difficulty { get; set; }
         public Status Status { get; set; }
     }
