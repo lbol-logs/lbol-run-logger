@@ -7,7 +7,7 @@ namespace RunLogger.Utils
         public string Version { get; set; }
         public Settings Settings { get; set; }
         public List<StationObj> Stations { get; set; } = new List<StationObj>();
-        public List<StageObj> Stages { get; set; } = new List<StageObj>();
+        public List<ActObj> Acts { get; set; } = new List<ActObj>();
         public string Result { get; set; }
         public string Timestamp { get; set; }
         public List<CardChange> Cards { get; set; } = new List<CardChange> { };
@@ -40,7 +40,7 @@ namespace RunLogger.Utils
 
     public class NodeObj
     {
-        public int Stage { get; set; }
+        public int Act { get; set; }
         public int Level { get; set; }
     }
 
@@ -60,9 +60,9 @@ namespace RunLogger.Utils
         public int? UpgradeCounter { get; set; }
     }
 
-    public class StageObj
+    public class ActObj
     {
-        public int Stage { get; set; }
+        public int Act { get; set; }
         public List<Node> Nodes { get; set; } = new List<Node>();
         public string Boss { get; set; }
     }

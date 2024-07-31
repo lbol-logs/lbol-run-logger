@@ -71,7 +71,7 @@ namespace RunLogger.Patches
         [HarmonyPatch(nameof(GameRunController.EnterStage)), HarmonyPostfix]
         static void EnterStagePatch(GameRunController __instance)
         {
-            int Stage = __instance.CurrentStage.Level;
+            int Act = __instance.CurrentStage.Level;
             GameMap gameMap = __instance.CurrentMap;
             string bossId = gameMap.BossId;
             List<Node> Nodes = new List<Node>();
@@ -91,20 +91,20 @@ namespace RunLogger.Patches
                     Nodes.Add(Node);
                 }
             }
-            StageObj StageObj = new StageObj
+            ActObj ActObj = new ActObj
             {
-                Stage = Stage,
+                Act = Act,
                 Nodes = Nodes,
                 Boss = bossId
             };
-            RunDataController.RunData.Stages.Add(StageObj);
+            RunDataController.RunData.Acts.Add(ActObj);
             RunDataController.Save();
         }
 
         [HarmonyPatch(nameof(GameRunController.EnterMapNode)), HarmonyPostfix]
         static void EnterMapNodePatch(MapNode node, GameRunController __instance)
         {
-            int Stage = __instance.CurrentStage.Level;
+            int Act = __instance.CurrentStage.Level;
             Station CurrentStation = __instance.CurrentStation;
             int Level = CurrentStation.Level;
             string Type = node.StationType.ToString();
@@ -113,7 +113,7 @@ namespace RunLogger.Patches
                 Type = Type,
                 Node = new NodeObj
                 {
-                    Stage = Stage,
+                    Act = Act,
                     Level = Level
                 }
             };

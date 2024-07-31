@@ -19,7 +19,7 @@
   "Stations": [
     {
       "Type": "Entry",
-      "Node": { "Stage": 1, "Level": 0 },
+      "Node": { "Act": 1, "Level": 0 },
       "Status": {
         "Money": 110,
         "Hp": 80,
@@ -31,7 +31,7 @@
     },
     {
       "Type": "Enemy",
-      "Node": { "Stage": 1, "Level": 1 },
+      "Node": { "Act": 1, "Level": 1 },
       "Status": {
         "Money": 110,
         "Hp": 80,
@@ -54,7 +54,7 @@
     },
     {
       "Type": "Adventure",
-      "Node": { "Stage": 1, "Level": 2 },
+      "Node": { "Act": 1, "Level": 2 },
       "Status": {
         "Money": 110,
         "Hp": 80,
@@ -67,7 +67,7 @@
     },
     {
       "Type": "Enemy",
-      "Node": { "Stage": 1, "Level": 3 },
+      "Node": { "Act": 1, "Level": 3 },
       "Status": {
         "Money": 110,
         "Hp": 80,
@@ -90,7 +90,7 @@
     },
     {
       "Type": "EliteEnemy",
-      "Node": { "Stage": 1, "Level": 4 },
+      "Node": { "Act": 1, "Level": 4 },
       "Status": {
         "Money": 110,
         "Hp": 0,
@@ -102,9 +102,9 @@
       "Id": "Sanyue"
     }
   ],
-  "Stages": [
+  "Acts": [
     {
-      "Stage": 1,
+      "Act": 1,
       "Nodes": [
         { "X": 0, "Y": 0, "Followers": [1, 2, 3, 4], "Type": "Entry" },
         { "X": 1, "Y": 1, "Followers": [1], "Type": "Enemy" },
@@ -168,11 +168,11 @@
     {
       "Id": "YuyukoMisfortune",
       "Type": "Add",
-      "Node": { "Stage": 1, "Level": 2 },
+      "Node": { "Act": 1, "Level": 2 },
       "IsUpgraded": false
     }
   ],
   "Exhibits": [
-    { "Id": "SadinYuebing", "Type": "Add", "Node": { "Stage": 1, "Level": 2 } }
+    { "Id": "SadinYuebing", "Type": "Add", "Node": { "Act": 1, "Level": 2 } }
   ]
 }
