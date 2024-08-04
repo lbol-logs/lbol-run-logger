@@ -89,12 +89,14 @@ namespace RunLogger.Utils
         public string Id { get; set; }
         public string Type { get; set; }
         public NodeObj Node { get; set; }
+        public int? Counter { get; set; }
     }
 
     public enum ChangeType
     {
         Add,
         Remove,
-        Upgrade
+        Upgrade,
+        Use
     }
 }

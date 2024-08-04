@@ -86,6 +86,24 @@ namespace RunLogger.Utils
             RunData.Exhibits.Add(Exhibit);
         }
 
+        static public void AddExhibitUse(Exhibit exhibit, int Counter)
+        {
+            Debugger.Write(JsonConvert.SerializeObject(RunData));
+            if (RunData == null) return;
+            ChangeType Type = ChangeType.Use;
+            if (!RunData.Exhibits.Any(e => e.Type == Type.ToString() && e.Id == exhibit.Id && e.Counter == Counter))
+            {
+                ExhibitChange Exhibit = new ExhibitChange
+                {
+                    Id = exhibit.Id,
+                    Type = Type.ToString(),
+                    Node = CurrentStation.Node,
+                    Counter = Counter
+                };
+                RunData.Exhibits.Add(Exhibit);
+            }
+        }
+
         public static void Create()
         {
             RunData = new RunData();
