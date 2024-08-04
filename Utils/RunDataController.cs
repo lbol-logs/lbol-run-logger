@@ -15,6 +15,7 @@ namespace RunLogger.Utils
         private static readonly string _path = $"{_dir}/temp.json";
         private static bool _initialized;
         public static RunData RunData;
+        public static bool isInitialize;
 
         static public StationObj CurrentStation
         {
@@ -88,11 +89,10 @@ namespace RunLogger.Utils
 
         static public void AddExhibitUse(Exhibit exhibit, int Counter)
         {
-            Debugger.Write(JsonConvert.SerializeObject(RunData));
-            if (RunData == null) return;
+            // if (RunData == null) return;
             ChangeType Type = ChangeType.Use;
-            if (!RunData.Exhibits.Any(e => e.Type == Type.ToString() && e.Id == exhibit.Id && e.Counter == Counter))
-            {
+            // if (!RunData.Exhibits.Any(e => e.Type == Type.ToString() && e.Id == exhibit.Id && e.Counter == Counter))
+            // {
                 ExhibitChange Exhibit = new ExhibitChange
                 {
                     Id = exhibit.Id,
@@ -101,7 +101,7 @@ namespace RunLogger.Utils
                     Counter = Counter
                 };
                 RunData.Exhibits.Add(Exhibit);
-            }
+            //}
         }
 
         public static void Create()

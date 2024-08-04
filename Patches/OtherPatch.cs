@@ -3,7 +3,9 @@ using LBoL.Core;
 using LBoL.Core.Dialogs;
 using LBoL.EntityLib.Exhibits.Common;
 using RunLogger.Utils;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace RunLogger.Patches
 {
@@ -33,7 +35,7 @@ namespace RunLogger.Patches
     {
         static void Postfix(int value, Exhibit __instance)
         {
-
+            if (RunDataController.isInitialize) return;
             if (__instance is ChuRenou ChuRenou)
             {
                 RunDataController.AddExhibitUse(__instance, value);
@@ -43,9 +45,24 @@ namespace RunLogger.Patches
                 RunDataController.AddExhibitUse(__instance, value);
             }
         }
+
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             return instructions;
+        }
+    }
+
+    [HarmonyPatch(typeof(Exhibit), nameof(Exhibit.Initialize))]
+    class ExihibitInitializePatch
+    {
+        static void Prefix()
+        {
+            RunDataController.isInitialize = true;
+        }
+
+        static void Postfix()
+        {
+            RunDataController.isInitialize = false;
         }
     }
 }
