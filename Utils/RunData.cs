@@ -8,8 +8,7 @@ namespace RunLogger.Utils
         public Settings Settings { get; set; }
         public List<StationObj> Stations { get; set; } = new List<StationObj>();
         public List<ActObj> Acts { get; set; } = new List<ActObj>();
-        public string Result { get; set; }
-        public string Timestamp { get; set; }
+        public Result Result { get; set; }
         public List<CardChange> Cards { get; set; } = new List<CardChange> { };
         public List<ExhibitChange> Exhibits { get; set; } = new List<ExhibitChange> { };
     }
@@ -75,13 +74,10 @@ namespace RunLogger.Utils
         public string Type { get; set; }
     }
 
-    public class CardChange
+    public class CardChange : CardObj
     {
-        public string Id { get; set; }
         public string Type { get; set; }
         public NodeObj Node { get; set; }
-        public bool IsUpgraded { get; set; }
-        public int? UpgradeCounter { get; set; }
     }
 
     public class ExhibitChange
@@ -98,5 +94,13 @@ namespace RunLogger.Utils
         Remove,
         Upgrade,
         Use
+    }
+
+    public class Result
+    {
+        public string Type { get; set; }
+        public string Timestamp { get; set; }
+        public List<CardObj> Cards { get; set; }
+        public List<string> Exhibits { get; set; }
     }
 }

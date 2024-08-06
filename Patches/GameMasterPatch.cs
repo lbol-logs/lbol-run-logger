@@ -1,7 +1,10 @@
 ﻿using HarmonyLib;
 using LBoL.Core.SaveData;
 using LBoL.Presentation;
+using Newtonsoft.Json;
 using RunLogger.Utils;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace RunLogger.Patches
 {
@@ -13,10 +16,18 @@ namespace RunLogger.Patches
         static void AppendGameRunHistoryPatch(GameRunRecordSaveData record)
         {
             RunDataController.Restore();
-            string Result = record.ResultType.ToString();
+            string Type = record.ResultType.ToString();
             string Timestamp = record.SaveTimestamp;
+            List<CardObj> Cards = JsonConvert.DeserializeObject<List<CardObj>>(JsonConvert.SerializeObject(record.Cards));
+            List<string> Exhibits = record.Exhibits.ToList();
+            Result Result = new Result()
+            {
+                Type = Type,
+                Timestamp = Timestamp,
+                Cards = Cards,
+                Exhibits = Exhibits
+            };
             RunDataController.RunData.Result = Result;
-            RunDataController.RunData.Timestamp = Timestamp;
             RunDataController.Save();
 
             string ts = Timestamp.Replace(":", "-");
