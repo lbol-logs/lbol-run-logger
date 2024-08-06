@@ -107,6 +107,7 @@ namespace RunLogger.Patches
             int Act = __instance.CurrentStage.Level;
             Station CurrentStation = __instance.CurrentStation;
             int Level = CurrentStation.Level;
+            int Y = node.Y;
             string Type = node.StationType.ToString();
             StationObj station = new StationObj
             {
@@ -114,7 +115,8 @@ namespace RunLogger.Patches
                 Node = new NodeObj
                 {
                     Act = Act,
-                    Level = Level
+                    Level = Level,
+                    Y = Y
                 }
             };
             if (CurrentStation is AdventureStation AdventureStation)

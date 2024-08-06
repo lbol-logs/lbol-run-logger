@@ -41,6 +41,7 @@ namespace RunLogger.Utils
     {
         public int Act { get; set; }
         public int Level { get; set; }
+        public int Y { get; set; }
     }
 
     public class Status
