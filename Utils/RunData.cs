@@ -8,9 +8,9 @@ namespace RunLogger.Utils
         public Settings Settings { get; set; }
         public List<StationObj> Stations { get; set; } = new List<StationObj>();
         public List<ActObj> Acts { get; set; } = new List<ActObj>();
-        public Result Result { get; set; }
         public List<CardChange> Cards { get; set; } = new List<CardChange> { };
         public List<ExhibitChange> Exhibits { get; set; } = new List<ExhibitChange> { };
+        public Result Result { get; set; }
     }
 
     public class Settings
