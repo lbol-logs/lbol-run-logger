@@ -78,14 +78,14 @@ namespace RunLogger.Utils
     public class CardChange : CardObj
     {
         public string Type { get; set; }
-        public NodeObj Node { get; set; }
+        public int Station { get; set; }
     }
 
     public class ExhibitChange
     {
         public string Id { get; set; }
         public string Type { get; set; }
-        public NodeObj Node { get; set; }
+        public int Station { get; set; }
         public int? Counter { get; set; }
     }
 

@@ -25,6 +25,12 @@ namespace RunLogger.Utils
             }
         }
 
+        static public int CurrentStationIndex {
+            get {
+                return RunData.Stations.Count - 1;
+            }
+        }
+
         static public bool ShowRandom
         {
             get
@@ -68,7 +74,7 @@ namespace RunLogger.Utils
                 {
                     Id = card.Id,
                     Type = Type.ToString(),
-                    Node = CurrentStation.Node,
+                    Station = CurrentStationIndex,
                     IsUpgraded = card.IsUpgraded,
                     UpgradeCounter = card.UpgradeCounter
                 };
@@ -82,26 +88,22 @@ namespace RunLogger.Utils
             {
                 Id = exhibit.Id,
                 Type = Type.ToString(),
-                Node = CurrentStation.Node
+                Station = CurrentStationIndex
             };
             RunData.Exhibits.Add(Exhibit);
         }
 
         static public void AddExhibitUse(Exhibit exhibit, int Counter)
         {
-            // if (RunData == null) return;
             ChangeType Type = ChangeType.Use;
-            // if (!RunData.Exhibits.Any(e => e.Type == Type.ToString() && e.Id == exhibit.Id && e.Counter == Counter))
-            // {
-                ExhibitChange Exhibit = new ExhibitChange
-                {
-                    Id = exhibit.Id,
-                    Type = Type.ToString(),
-                    Node = CurrentStation.Node,
-                    Counter = Counter
-                };
-                RunData.Exhibits.Add(Exhibit);
-            //}
+            ExhibitChange Exhibit = new ExhibitChange
+            {
+                Id = exhibit.Id,
+                Type = Type.ToString(),
+                Station = CurrentStationIndex,
+                Counter = Counter
+            };
+            RunData.Exhibits.Add(Exhibit);
         }
 
         public static void Create()
