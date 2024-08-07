@@ -1,4 +1,6 @@
 ﻿using HarmonyLib;
+using LBoL.Base;
+using LBoL.ConfigData;
 using LBoL.Core.SaveData;
 using LBoL.Presentation;
 using Newtonsoft.Json;
@@ -21,6 +23,14 @@ namespace RunLogger.Patches
             List<CardObj> Cards = JsonConvert.DeserializeObject<List<CardObj>>(JsonConvert.SerializeObject(record.Cards));
             List<string> Exhibits = record.Exhibits.ToList();
             string BaseMana = record.BaseMana;
+            foreach (string Exhibit in Exhibits)
+            {
+                ExhibitConfig config = ExhibitConfig.FromId(Exhibit);
+                Rarity rarity = config.Rarity;
+                if (rarity != Rarity.Shining) continue;
+                ManaColor? manaColor = config.BaseManaColor;
+                if (manaColor == null) BaseMana += "A";
+            }
             Result Result = new Result()
             {
                 Type = Type,
