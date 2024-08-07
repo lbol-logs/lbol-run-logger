@@ -103,5 +103,6 @@ namespace RunLogger.Utils
         public string Timestamp { get; set; }
         public List<CardObj> Cards { get; set; }
         public List<string> Exhibits { get; set; }
+        public string BaseMana { get; set; }
     }
 }

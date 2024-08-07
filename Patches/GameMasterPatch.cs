@@ -20,12 +20,14 @@ namespace RunLogger.Patches
             string Timestamp = record.SaveTimestamp;
             List<CardObj> Cards = JsonConvert.DeserializeObject<List<CardObj>>(JsonConvert.SerializeObject(record.Cards));
             List<string> Exhibits = record.Exhibits.ToList();
+            string BaseMana = record.BaseMana;
             Result Result = new Result()
             {
                 Type = Type,
                 Timestamp = Timestamp,
                 Cards = Cards,
-                Exhibits = Exhibits
+                Exhibits = Exhibits,
+                BaseMana = BaseMana
             };
             RunDataController.RunData.Result = Result;
             RunDataController.Save();
