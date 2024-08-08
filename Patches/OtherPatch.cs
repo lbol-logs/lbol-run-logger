@@ -65,4 +65,15 @@ namespace RunLogger.Patches
             RunDataController.isInitialize = false;
         }
     }
+
+    [HarmonyDebug]
+    [HarmonyPatch(typeof(Stage))]
+    class StagePatch
+    {
+        [HarmonyPatch(nameof(Stage.SetBoss)), HarmonyPostfix]
+        static void SetBossPatch(string enemyGroupName)
+        {
+            RunDataController.RunData.Acts[0].Boss = enemyGroupName;
+        }
+    }
 }
