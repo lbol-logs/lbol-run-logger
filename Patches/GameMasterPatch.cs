@@ -46,7 +46,7 @@ namespace RunLogger.Patches
             string character = record.Player;
             string type = record.PlayerType.ToString().Replace("Type", "");
 
-            string name = $"{ts}_{character}_{type}_{Result}";
+            string name = $"{ts}_{character}_{type}_{Type}";
             RunDataController.Copy(name);
 
         }
