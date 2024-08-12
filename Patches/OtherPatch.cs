@@ -3,9 +3,7 @@ using LBoL.Core;
 using LBoL.Core.Dialogs;
 using LBoL.EntityLib.Exhibits.Common;
 using RunLogger.Utils;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace RunLogger.Patches
 {
