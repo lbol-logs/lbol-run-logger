@@ -43,6 +43,7 @@ namespace RunLogger.Patches
         static void SavePatch(GameRunController __instance)
         {
             StationObj StationObj = RunDataController.CurrentStation;
+            if (StationObj == null) return;
             if (StationObj != null && StationObj.Status != null) return;
             Status Status = new Status
             {

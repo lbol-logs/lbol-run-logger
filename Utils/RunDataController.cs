@@ -20,6 +20,7 @@ namespace RunLogger.Utils
         static public StationObj CurrentStation
         {
             get {
+                if (RunData == null) return null;
                 StationObj station = RunData.Stations.LastOrDefault();
                 return station;
             }
@@ -95,6 +96,7 @@ namespace RunLogger.Utils
 
         static public void AddExhibitUse(Exhibit exhibit, int Counter)
         {
+            if (RunData == null) return;
             ChangeType Type = ChangeType.Use;
             ExhibitChange Exhibit = new ExhibitChange
             {

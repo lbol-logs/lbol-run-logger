@@ -73,6 +73,7 @@ namespace RunLogger.Patches
         [HarmonyPatch(nameof(Stage.SetBoss)), HarmonyPostfix]
         static void SetBossPatch(string enemyGroupName)
         {
+            if (RunDataController.RunData == null) return;
             RunDataController.RunData.Acts[0].Boss = enemyGroupName;
         }
     }
