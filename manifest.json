@@ -1,7 +1,7 @@
 {
-  "name": "",
+  "name": "LBoL Run Logger",
   "version_number": "1.0.0",
-  "website_url": "",
-  "description": "",
+  "website_url": "https://ed-ev.github.io/lbol-logs/",
+  "description": "An advanced logging mod to use LBoL Logs",
   "dependencies": [ "BepInEx-BepInExPack-5.4.2100", "TeamNeo-Sideloader-0.5.0"]
 }

@@ -83,28 +83,16 @@ namespace RunLogger.Utils
             }
         }
 
-        static public void AddExhibitChange(Exhibit exhibit, ChangeType Type)
+        static public void AddExhibitChange(Exhibit exhibit, ChangeType Type, int? Counter = null)
         {
+            if (RunData == null) return;
             ExhibitChange Exhibit = new ExhibitChange
             {
                 Id = exhibit.Id,
                 Type = Type.ToString(),
                 Station = CurrentStationIndex
             };
-            RunData.Exhibits.Add(Exhibit);
-        }
-
-        static public void AddExhibitUse(Exhibit exhibit, int Counter)
-        {
-            if (RunData == null) return;
-            ChangeType Type = ChangeType.Use;
-            ExhibitChange Exhibit = new ExhibitChange
-            {
-                Id = exhibit.Id,
-                Type = Type.ToString(),
-                Station = CurrentStationIndex,
-                Counter = Counter
-            };
+            if (Counter != null) Exhibit.Counter = Counter;
             RunData.Exhibits.Add(Exhibit);
         }
 

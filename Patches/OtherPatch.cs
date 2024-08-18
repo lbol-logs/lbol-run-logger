@@ -2,8 +2,10 @@
 using LBoL.Core;
 using LBoL.Core.Dialogs;
 using LBoL.EntityLib.Exhibits.Common;
+using Newtonsoft.Json;
 using RunLogger.Utils;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RunLogger.Patches
 {
@@ -31,17 +33,17 @@ namespace RunLogger.Patches
     [HarmonyPatch(typeof(Exhibit), nameof(Exhibit.Counter), MethodType.Setter)]
     class ExihibitCounterSetterPatch
     {
-        static void Postfix(int value, Exhibit __instance)
+        static void Prefix(int value, Exhibit __instance)
         {
             if (RunDataController.isInitialize) return;
-            if (__instance is ChuRenou ChuRenou)
-            {
-                RunDataController.AddExhibitUse(__instance, value);
-            }
-            else if (__instance is GanzhuYao GanzhuYao)
-            {
-                RunDataController.AddExhibitUse(__instance, value);
-            }
+
+            string[] exhibits = { "GanzhuYao", "ChuRenou", "TiangouYuyi", "Moping", "Baota" };
+            if (!exhibits.Contains(__instance.Id)) return;
+
+            int before = __instance.Counter;
+
+            if (before > value) RunDataController.AddExhibitChange(__instance, ChangeType.Use, value);
+            else if (before < value) RunDataController.AddExhibitChange(__instance, ChangeType.Upgrade, value);
         }
 
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
