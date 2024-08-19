@@ -20,7 +20,15 @@ namespace RunLogger.Patches
             RunDataController.Restore();
             string Type = record.ResultType.ToString();
             string Timestamp = record.SaveTimestamp;
-            List<CardObj> Cards = JsonConvert.DeserializeObject<List<CardObj>>(JsonConvert.SerializeObject(record.Cards));
+            List<CardObj> Cards = record.Cards.Select(card =>
+            {
+                return new CardObj()
+                {
+                    Id = card.Id,
+                    IsUpgraded = card.Upgraded,
+                    UpgradeCounter = card.UpgradeCounter
+                };
+            }).ToList();
             List<string> Exhibits = record.Exhibits.ToList();
             string BaseMana = record.BaseMana;
             foreach (string Exhibit in Exhibits)
