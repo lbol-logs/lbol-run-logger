@@ -20,6 +20,7 @@ namespace RunLogger.Patches
         }
     }
 
+    [HarmonyDebug]
     [HarmonyPatch(typeof(DialogFunctions))]
     class DialogFunctionsPatch
     {
@@ -30,6 +31,7 @@ namespace RunLogger.Patches
         }
     }
 
+    [HarmonyDebug]
     [HarmonyPatch(typeof(Exhibit), nameof(Exhibit.Counter), MethodType.Setter)]
     class ExihibitCounterSetterPatch
     {
@@ -52,6 +54,7 @@ namespace RunLogger.Patches
         }
     }
 
+    [HarmonyDebug]
     [HarmonyPatch(typeof(Exhibit), nameof(Exhibit.Initialize))]
     class ExihibitInitializePatch
     {

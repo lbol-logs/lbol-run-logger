@@ -1,9 +1,13 @@
 ﻿using HarmonyLib;
+using LBoL.Base;
+using LBoL.ConfigData;
 using LBoL.Core;
 using LBoL.Core.Cards;
+using LBoL.Core.Randoms;
 using LBoL.Core.Stations;
 using LBoL.Core.Stats;
 using RunLogger.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -170,6 +174,32 @@ namespace RunLogger.Patches
             int Rounds = __result.TotalRounds;
             RunDataController.AddData("Rounds", Rounds);
             RunDataController.Save();
+        }
+
+        [HarmonyPatch(nameof(GameRunController.RollCards), new Type[] { typeof(RandomGen), typeof(CardWeightTable), typeof(int), typeof(ManaGroup?), typeof(bool), typeof(bool), typeof(bool), typeof(bool), typeof(Predicate<CardConfig>) }), HarmonyPostfix]
+        static void RollCardsPatch(Card[] __result)
+        {
+            if (!RunDataController.isListening) return;
+            List<CardObj> cards = __result.Select(card =>
+            {
+                return new CardObj()
+                {
+                    Id = card.Id,
+                    IsUpgraded = card.IsUpgraded,
+                    UpgradeCounter = card.UpgradeCounter
+                };
+            }).ToList();
+            RunDataController.Cards = cards;
+            RunDataController.isListening = false;
+        }
+
+        [HarmonyPatch(nameof(GameRunController.RollNormalExhibit)), HarmonyPostfix]
+        static void RollNormalExhibitPatch(Exhibit __result)
+        {
+            if (!RunDataController.isListening) return;
+            string exhibit = __result.Id;
+            RunDataController.Exhibits.Add(exhibit);
+            RunDataController.isListening = false;
         }
     }
 }

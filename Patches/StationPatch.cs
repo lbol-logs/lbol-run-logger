@@ -4,6 +4,7 @@ using LBoL.Core.Cards;
 using LBoL.Core.GapOptions;
 using LBoL.Core.Stations;
 using LBoL.Presentation.UI.Panels;
+using Newtonsoft.Json;
 using RunLogger.Utils;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,64 +12,36 @@ using System.Linq;
 namespace RunLogger.Patches
 {
     [HarmonyDebug]
-    [HarmonyPatch(typeof(BattleStation))]
-    class BattleStationPatch
+    [HarmonyPatch(typeof(Station))]
+    class StationPatch
     {
-        [HarmonyPatch(typeof(EnemyStation), nameof(EnemyStation.GenerateRewards)), HarmonyPostfix]
-        static void GenerateRewardsPatch_Enemy(EnemyStation __instance)
+        [HarmonyPatch(nameof(Station.AddReward)), HarmonyPostfix]
+        static void AddRewardPatch(StationReward reward)
         {
-            GenerateRewardsPatch(__instance);
-        }
-        [HarmonyPatch(typeof(EliteEnemyStation), nameof(EliteEnemyStation.GenerateRewards)), HarmonyPostfix]
-        static void GenerateRewardsPatch_Elite(EliteEnemyStation __instance)
-        {
-            GenerateRewardsPatch(__instance);
-        }
-        [HarmonyPatch(typeof(BossStation), nameof(BossStation.GenerateRewards)), HarmonyPostfix]
-        static void GenerateRewardsPatch_Boss(BossStation __instance)
-        {
-            GenerateRewardsPatch(__instance);
-        }
-        static void GenerateRewardsPatch<T>(T __instance)
-        {
-            List<StationReward> rewards = (__instance as BattleStation).Rewards;
-            Dictionary<string, object> Rewards = new Dictionary<string, object>();
-            foreach (StationReward reward in rewards)
-            {
-                string Type = reward.Type.ToString();
-                if (Type == "Money")
-                {
-                    int Money = reward.Money;
-                    Rewards[Type] = Money;
-                }
-                else if (Type == "Card" || Type == "Tool")
-                {
-                    List<Card> list = reward.Cards;
-                    List<CardObj> Cards = list.Select(card =>
-                    {
-                        CardObj Card = new CardObj
-                        {
-                            Id = card.Id,
-                            IsUpgraded = card.IsUpgraded,
-                            UpgradeCounter = card.UpgradeCounter
-                        };
-                        return Card;
-                    }).ToList();
-                    RunDataController.AddListItem2Obj(ref Rewards, Type, Cards);
-                }
-                else if (Type == "Exhibit")
-                {
-                    string Exhibit = reward.Exhibit.Id;
-                    RunDataController.AddListItem2Obj(ref Rewards, Type, Exhibit);
-                }
-            }
-            if (RunDataController.CurrentStation.Rewards != null)
-            {
-                Rewards = RunDataController.CurrentStation.Rewards.Concat(Rewards).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-            }
-            RunDataController.CurrentStation.Rewards = Rewards;
+            RewardsPatch.AddReward(reward);
         }
     }
+
+    //[HarmonyDebug]
+    //[HarmonyPatch(typeof(BattleStation))]
+    //class BattleStationPatch
+    //{
+    //    [HarmonyPatch(typeof(EnemyStation), nameof(EnemyStation.GenerateRewards)), HarmonyPostfix]
+    //    static void GenerateRewardsPatch_Enemy(EnemyStation __instance)
+    //    {
+    //        RewardsPatch.Patch(__instance);
+    //    }
+    //    [HarmonyPatch(typeof(EliteEnemyStation), nameof(EliteEnemyStation.GenerateRewards)), HarmonyPostfix]
+    //    static void GenerateRewardsPatch_Elite(EliteEnemyStation __instance)
+    //    {
+    //        RewardsPatch.Patch(__instance);
+    //    }
+    //    [HarmonyPatch(typeof(BossStation), nameof(BossStation.GenerateRewards)), HarmonyPostfix]
+    //    static void GenerateRewardsPatch_Boss(BossStation __instance)
+    //    {
+    //        RewardsPatch.Patch(__instance);
+    //    }
+    //}
 
     [HarmonyDebug]
     [HarmonyPatch(typeof(BossStation))]
@@ -98,6 +71,21 @@ namespace RunLogger.Patches
             List<string> Options = __instance.GapStation.GapOptions.Select(gapOption => gapOption.Type.ToString()).ToList();
             RunDataController.AddData("Choice", Choice);
             RunDataController.AddData("Options", Options);
+        }
+
+        [HarmonyPatch(typeof(GapOptionsPanel), nameof(GapOptionsPanel.InternalGerRareCard))]
+        class InternalGerRareCardPatch
+        {
+            static void Prefix()
+            {
+                RunDataController.isListening = true;
+            }
+
+            static void Postfix()
+            {
+                RunDataController.AddData("ShanliangDengpao", RunDataController.Cards);
+                RunDataController.Cards = null;
+            }
         }
     }
 }

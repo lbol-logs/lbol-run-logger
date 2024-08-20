@@ -16,6 +16,9 @@ namespace RunLogger.Utils
         private static bool _initialized;
         public static RunData RunData;
         public static bool isInitialize;
+        public static bool isListening;
+        public static List<CardObj> Cards;
+        public static List<string> Exhibits;
 
         static public StationObj CurrentStation
         {
