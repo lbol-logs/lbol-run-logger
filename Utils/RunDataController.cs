@@ -16,6 +16,7 @@ namespace RunLogger.Utils
         private static bool _initialized;
         public static RunData RunData;
         public static bool isInitialize;
+        //TODO: change string or callback
         public static bool isListening;
         public static List<CardObj> Cards;
         public static List<string> Exhibits;

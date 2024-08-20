@@ -1,6 +1,9 @@
 ﻿using HarmonyLib;
 using LBoL.Core;
+using LBoL.Core.Battle;
+using LBoL.Core.Battle.Interactions;
 using RunLogger.Utils;
+using System.Linq;
 
 namespace RunLogger.Patches
 {
@@ -8,18 +11,33 @@ namespace RunLogger.Patches
     [HarmonyPatch(typeof(Exhibit))]
     class ExhibitPatch
     {
-        [HarmonyPatch("OnGain"), HarmonyPostfix]
-        static void OnGainPatch(Exhibit __instance)
+        //[HarmonyPatch(typeof(RewardInteraction), nameof(RewardInteraction)), HarmonyPrefix]
+        //static void RewardInteractionPatch(IEnumerable<Exhibit> exhibits, RewardInteraction __instance)
+        //{
+        //    Debugger.Write("instance");
+        //    Debugger.Write(exhibits.ToList()[0].Id);
+        //    Debugger.Write(__instance.Source.Id);
+        //    //RewardsPatch.AddReward(reward);
+        //}
+
+        [HarmonyPatch(typeof(InteractionViewer), nameof(InteractionViewer.View)), HarmonyPrefix]
+        static void ViewPatch(Interaction interaction)
         {
-            string exhibit = __instance.Id;
-            switch (exhibit)
-            {
-                case "Modaoshu":
-                    RunDataController.isListening = true;
-                    RunDataController.AddData(exhibit, RunDataController.Cards);
-                    RunDataController.Cards = null;
-                    break;
-            }
+            Debugger.Write("view");
+            Debugger.Write((interaction as RewardInteraction).PendingExhibits.ToList()[0].Id);
+            Debugger.Write(interaction.Source.Id);
         }
+
+        //[HarmonyPatch("OnGain"), HarmonyPostfix]
+        //static void OnGainPatch(Exhibit __instance)
+        //{
+        //    string exhibit = __instance.Id;
+        //    switch (exhibit)
+        //    {
+        //        case "Modaoshu":
+        //            RunDataController.isListening = true;
+        //            break;
+        //    }
+        //}
     }
 }
