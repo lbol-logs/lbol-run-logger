@@ -3,6 +3,7 @@ using LBoL.Core;
 using LBoL.Core.Battle;
 using LBoL.Core.Battle.Interactions;
 using RunLogger.Utils;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace RunLogger.Patches
@@ -24,7 +25,10 @@ namespace RunLogger.Patches
         static void ViewPatch(Interaction interaction)
         {
             Debugger.Write("view");
-            Debugger.Write((interaction as RewardInteraction).PendingExhibits.ToList()[0].Id);
+            if (!(interaction is RewardInteraction)) return;
+            RewardInteraction rewardInteraction = interaction as RewardInteraction;
+            List<Exhibit> exhibits = rewardInteraction.PendingExhibits.ToList();
+            Debugger.Write(exhibits[0].Id);
             Debugger.Write(interaction.Source.Id);
         }
 
