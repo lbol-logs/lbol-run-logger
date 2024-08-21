@@ -12,15 +12,6 @@ namespace RunLogger.Patches
     [HarmonyPatch(typeof(Exhibit))]
     class ExhibitPatch
     {
-        //[HarmonyPatch(typeof(RewardInteraction), nameof(RewardInteraction)), HarmonyPrefix]
-        //static void RewardInteractionPatch(IEnumerable<Exhibit> exhibits, RewardInteraction __instance)
-        //{
-        //    Debugger.Write("instance");
-        //    Debugger.Write(exhibits.ToList()[0].Id);
-        //    Debugger.Write(__instance.Source.Id);
-        //    //RewardsPatch.AddReward(reward);
-        //}
-
         [HarmonyPatch(typeof(InteractionViewer), nameof(InteractionViewer.View)), HarmonyPrefix]
         static void ViewPatch(Interaction interaction)
         {
