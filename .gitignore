@@ -4,6 +4,5 @@
 *.log
 /obj
 /.vs
-RunLogger.csproj
 RunLogger.dll
 RunLogger-thunderstore.zip
