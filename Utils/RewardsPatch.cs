@@ -25,16 +25,7 @@ namespace RunLogger.Utils
                 else if (Type == "Card" || Type == "Tool")
                 {
                     List<Card> list = reward.Cards;
-                    List<CardObj> Cards = list.Select(card =>
-                    {
-                        CardObj Card = new CardObj
-                        {
-                            Id = card.Id,
-                            IsUpgraded = card.IsUpgraded,
-                            UpgradeCounter = card.UpgradeCounter
-                        };
-                        return Card;
-                    }).ToList();
+                    List<CardObj> Cards = RunDataController.GetCards(list);
                     RunDataController.AddListItem2Obj(ref Rewards, Type, Cards);
                 }
                 else if (Type == "Exhibit")
@@ -64,16 +55,7 @@ namespace RunLogger.Utils
             else if (Type == "Card" || Type == "Tool")
             {
                 List<Card> list = reward.Cards;
-                List<CardObj> Cards = list.Select(card =>
-                {
-                    CardObj Card = new CardObj
-                    {
-                        Id = card.Id,
-                        IsUpgraded = card.IsUpgraded,
-                        UpgradeCounter = card.UpgradeCounter
-                    };
-                    return Card;
-                }).ToList();
+                List<CardObj> Cards = RunDataController.GetCards(list);
                 RunDataController.AddListItem2Obj(ref Rewards, Type, Cards);
             }
             else if (Type == "Exhibit")

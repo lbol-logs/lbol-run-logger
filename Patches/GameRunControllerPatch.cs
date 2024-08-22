@@ -180,15 +180,7 @@ namespace RunLogger.Patches
         static void RollCardsPatch(Card[] __result)
         {
             if (!RunDataController.isListening) return;
-            List<CardObj> cards = __result.Select(card =>
-            {
-                return new CardObj()
-                {
-                    Id = card.Id,
-                    IsUpgraded = card.IsUpgraded,
-                    UpgradeCounter = card.UpgradeCounter
-                };
-            }).ToList();
+            List<CardObj> cards = RunDataController.GetCards(__result);
             RunDataController.Cards = cards;
             RunDataController.isListening = false;
         }

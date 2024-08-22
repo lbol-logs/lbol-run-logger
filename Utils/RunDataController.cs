@@ -100,6 +100,20 @@ namespace RunLogger.Utils
             RunData.Exhibits.Add(Exhibit);
         }
 
+        static public List<CardObj> GetCards(IEnumerable<Card> cards)
+        {
+            return cards.Select(card =>
+            {
+                CardObj Card = new CardObj
+                {
+                    Id = card.Id,
+                    IsUpgraded = card.IsUpgraded,
+                    UpgradeCounter = card.UpgradeCounter
+                };
+                return Card;
+            }).ToList();
+        }
+
         public static void Create()
         {
             RunData = new RunData();
