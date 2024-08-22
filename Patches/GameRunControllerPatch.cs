@@ -18,13 +18,13 @@ namespace RunLogger.Patches
     class GameRunControllerPatch
     {
         [HarmonyPatch(nameof(GameRunController.Create)), HarmonyPostfix]
-        static void CreatePatch(GameRunStartupParameters parameters)
+        static void CreatePatch(GameRunStartupParameters parameters, GameRunController __result)
         {
             string Character = parameters.Player.Id;
             string PlayerType = parameters.PlayerType.ToString().Replace("Type", "");
-            bool HasClearBonus = parameters.UserProfile.HasClearBonus;
+            bool HasClearBonus = __result.HasClearBonus;
             bool ShowRandomResult = parameters.ShowRandomResult;
-            bool IsAutoSeed = parameters.Seed == null;
+            bool IsAutoSeed = __result.IsAutoSeed;
             IEnumerable<PuzzleFlag> AllPuzzleFlags = PuzzleFlags.EnumerateComponents(parameters.Puzzles);
             List<string> Requests = AllPuzzleFlags.Select(puzzleFlag => puzzleFlag.ToString()).ToList();
             string Difficulty = parameters.Difficulty.ToString();

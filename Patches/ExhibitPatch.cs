@@ -16,6 +16,7 @@ namespace RunLogger.Patches
         [HarmonyPatch(typeof(InteractionViewer), nameof(InteractionViewer.View)), HarmonyPrefix]
         static void ViewPatch(Interaction interaction)
         {
+            if (interaction.Source == null) return;
             string source = interaction.Source.Id;
             if (interaction is RewardInteraction)
             {
