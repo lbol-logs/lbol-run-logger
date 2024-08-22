@@ -52,18 +52,16 @@ namespace RunLogger.Patches
             RunDataController.AddData("Options", Options);
         }
 
-        [HarmonyPatch(typeof(GapOptionsPanel), nameof(GapOptionsPanel.InternalGerRareCard))]
-        class InternalGerRareCardPatch
+        [HarmonyPatch(typeof(SelectCardPanel), nameof(SelectCardPanel.ShowMiniSelect)), HarmonyPrefix]
+        static void ShowMiniSelectPatch(SelectCardPayload payload)
         {
-            static void Prefix()
+            string name = payload.Name;
+            switch (name)
             {
-                RunDataController.isListening = true;
-            }
-
-            static void Postfix()
-            {
-                RunDataController.AddData("ShanliangDengpao", RunDataController.Cards);
-                RunDataController.Cards = null;
+                case "GetRareCard":
+                    List<CardObj> cards = RunDataController.GetCards(payload.Cards);
+                    RunDataController.AddData("ShanliangDengpao", cards);
+                    break;
             }
         }
     }
