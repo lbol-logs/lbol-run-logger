@@ -46,7 +46,6 @@ namespace RunLogger.Utils
             Dictionary<string, object> Rewards = new Dictionary<string, object>();
 
             string Type = reward.Type.ToString();
-            Debugger.Write(Type);
             if (Type == "Money")
             {
                 int Money = reward.Money;
