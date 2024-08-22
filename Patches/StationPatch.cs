@@ -1,10 +1,8 @@
 ﻿using HarmonyLib;
 using LBoL.Core;
-using LBoL.Core.Cards;
 using LBoL.Core.GapOptions;
 using LBoL.Core.Stations;
 using LBoL.Presentation.UI.Panels;
-using Newtonsoft.Json;
 using RunLogger.Utils;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,17 +50,23 @@ namespace RunLogger.Patches
             RunDataController.AddData("Options", Options);
         }
 
+        [HarmonyPatch(typeof(GapOptionsPanel), nameof(GapOptionsPanel.InternalGerRareCard)), HarmonyPrefix]
+        static void InternalGerRareCardPatch()
+        {
+            RunDataController.Listener = "GetRareCard";
+        }
+
         [HarmonyPatch(typeof(SelectCardPanel), nameof(SelectCardPanel.ShowMiniSelect)), HarmonyPrefix]
         static void ShowMiniSelectPatch(SelectCardPayload payload)
         {
-            string name = payload.Name;
-            switch (name)
+            switch (RunDataController.Listener)
             {
                 case "GetRareCard":
                     List<CardObj> cards = RunDataController.GetCards(payload.Cards);
                     RunDataController.AddData("ShanliangDengpao", cards);
                     break;
             }
+            RunDataController.Listener = null;
         }
     }
 }
