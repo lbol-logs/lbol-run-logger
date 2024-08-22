@@ -176,15 +176,6 @@ namespace RunLogger.Patches
             RunDataController.Save();
         }
 
-        [HarmonyPatch(nameof(GameRunController.RollCards), new Type[] { typeof(RandomGen), typeof(CardWeightTable), typeof(int), typeof(ManaGroup?), typeof(bool), typeof(bool), typeof(bool), typeof(bool), typeof(Predicate<CardConfig>) }), HarmonyPostfix]
-        static void RollCardsPatch(Card[] __result)
-        {
-            if (!RunDataController.isListening) return;
-            List<CardObj> cards = RunDataController.GetCards(__result);
-            RunDataController.Cards = cards;
-            RunDataController.isListening = false;
-        }
-
         [HarmonyPatch(nameof(GameRunController.RollNormalExhibit)), HarmonyPostfix]
         static void RollNormalExhibitPatch(Exhibit __result)
         {
