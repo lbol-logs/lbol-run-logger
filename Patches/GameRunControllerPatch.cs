@@ -34,6 +34,7 @@ namespace RunLogger.Patches
             {
                 Character = Character,
                 PlayerType = PlayerType,
+                HasClearBonus = HasClearBonus,
                 ShowRandomResult = ShowRandomResult,
                 IsAutoSeed = IsAutoSeed,
                 Difficulty = Difficulty,
