@@ -22,27 +22,6 @@ namespace RunLogger.Patches
         }
     }
 
-    //[HarmonyDebug]
-    //[HarmonyPatch(typeof(BattleStation))]
-    //class BattleStationPatch
-    //{
-    //    [HarmonyPatch(typeof(EnemyStation), nameof(EnemyStation.GenerateRewards)), HarmonyPostfix]
-    //    static void GenerateRewardsPatch_Enemy(EnemyStation __instance)
-    //    {
-    //        RewardsPatch.Patch(__instance);
-    //    }
-    //    [HarmonyPatch(typeof(EliteEnemyStation), nameof(EliteEnemyStation.GenerateRewards)), HarmonyPostfix]
-    //    static void GenerateRewardsPatch_Elite(EliteEnemyStation __instance)
-    //    {
-    //        RewardsPatch.Patch(__instance);
-    //    }
-    //    [HarmonyPatch(typeof(BossStation), nameof(BossStation.GenerateRewards)), HarmonyPostfix]
-    //    static void GenerateRewardsPatch_Boss(BossStation __instance)
-    //    {
-    //        RewardsPatch.Patch(__instance);
-    //    }
-    //}
-
     [HarmonyDebug]
     [HarmonyPatch(typeof(BossStation))]
     class BossStationPatch
