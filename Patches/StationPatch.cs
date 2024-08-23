@@ -74,10 +74,10 @@ namespace RunLogger.Patches
     [HarmonyPatch(typeof(SelectStation))]
     class SelectStationPatch
     {
-        [HarmonyPatch(nameof(SelectStation.OnEnter)), HarmonyPostfix]
-        static void OnEnterPatch(SelectStation __instance)
+        [HarmonyPatch(nameof(SelectStation.GenerateRecord)), HarmonyPostfix]
+        static void GenerateRecordPatch(SelectStation __instance)
         {
-            List<string> Opponents = __instance.Opponents.Select(opponent =>  opponent.Name).ToList();
+            List<string> Opponents = __instance.Opponents.Select(opponent =>  opponent.Id).ToList();
             RunDataController.AddData("Opponents", Opponents);
         }
     }
