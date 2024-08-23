@@ -46,7 +46,7 @@ namespace RunLogger.Patches
                                 break;
                             case 5:
                                 __instance.Storage.TryGetValue("$transformCard", out string transformCard);
-                                RunDataController.AddData("RransformCard", transformCard);
+                                RunDataController.AddData("TransformCard", transformCard);
                                 break;
                         }
                     }
