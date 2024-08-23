@@ -1,13 +1,9 @@
 ﻿using HarmonyLib;
-using LBoL.Base;
-using LBoL.ConfigData;
 using LBoL.Core;
 using LBoL.Core.Cards;
-using LBoL.Core.Randoms;
 using LBoL.Core.Stations;
 using LBoL.Core.Stats;
 using RunLogger.Utils;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 

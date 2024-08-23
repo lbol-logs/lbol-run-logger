@@ -16,12 +16,12 @@ namespace RunLogger.Utils
         private static bool _initialized;
         public static RunData RunData;
         public static bool isInitialize;
-        //TODO: change string or callback
+
         public static string Listener;
         public static List<CardObj> Cards;
         public static List<string> Exhibits;
 
-        static public StationObj CurrentStation
+        public static StationObj CurrentStation
         {
             get {
                 if (RunData == null) return null;
@@ -30,13 +30,13 @@ namespace RunLogger.Utils
             }
         }
 
-        static public int CurrentStationIndex {
+        public static int CurrentStationIndex {
             get {
                 return RunData.Stations.Count - 1;
             }
         }
 
-        static public bool ShowRandom
+        public static bool ShowRandom
         {
             get
             {
@@ -44,19 +44,19 @@ namespace RunLogger.Utils
                 return ShowRandomResult;
             }
         }
-        static public void GetData(out Dictionary<string, object> Data)
+        public static void GetData(out Dictionary<string, object> Data)
         {
             Data = CurrentStation.Data;
             if (Data == null) Data = (CurrentStation.Data = new Dictionary<string, object>());
         }
 
-        static public void AddData<T>(string key, T value)
+        public static void AddData<T>(string key, T value)
         {
             GetData(out Dictionary<string, object> Data);
             Data.Add(key, value);
         }
 
-        static public void AddDataItem<T>(string key, T item)
+        public static void AddDataItem<T>(string key, T item)
         {
             GetData(out Dictionary<string, object> Data);
             List<T> list = Data.TryGetValue(key, out object value) ? (List<T>)value : new List<T>();
@@ -64,14 +64,14 @@ namespace RunLogger.Utils
             Data[key] = list;
         }
 
-        static public void AddListItem2Obj<T>(ref Dictionary<string, object> dict, string key, T listItem)
+        public static void AddListItem2Obj<T>(ref Dictionary<string, object> dict, string key, T listItem)
         {
             key += "s";
             if (!dict.ContainsKey(key)) dict[key] = new List<T>();
             (dict[key] as List<T>).Add(listItem);
         }
 
-        static public void AddCardChange(Card[] cards, ChangeType Type)
+        public static void AddCardChange(Card[] cards, ChangeType Type)
         {
             foreach (Card card in cards)
             {
@@ -87,7 +87,7 @@ namespace RunLogger.Utils
             }
         }
 
-        static public void AddExhibitChange(Exhibit exhibit, ChangeType Type, int? Counter = null)
+        public static void AddExhibitChange(Exhibit exhibit, ChangeType Type, int? Counter = null)
         {
             if (RunData == null) return;
             ExhibitChange Exhibit = new ExhibitChange
@@ -100,7 +100,7 @@ namespace RunLogger.Utils
             RunData.Exhibits.Add(Exhibit);
         }
 
-        static public List<CardObj> GetCards(IEnumerable<Card> cards)
+        public static List<CardObj> GetCards(IEnumerable<Card> cards)
         {
             return cards.Select(card =>
             {

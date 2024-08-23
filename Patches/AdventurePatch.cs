@@ -1,6 +1,5 @@
 ﻿using HarmonyLib;
 using LBoL.Core;
-using LBoL.Core.Cards;
 using LBoL.EntityLib.Adventures;
 using RunLogger.Utils;
 using System.Collections.Generic;
@@ -9,13 +8,13 @@ namespace RunLogger.Patches
 {
     [HarmonyDebug]
     [HarmonyPatch]
-    class AdventurePatch
+    public static class AdventurePatch
     {
         [HarmonyPatch(typeof(Debut))]
-        class DebutPatch
+        public static class DebutPatch
         {
             [HarmonyPatch(nameof(Debut.RollBonus))]
-            static void Postfix(Exhibit ____exhibit, int[] ____bonusNos, Debut __instance)
+            public static void Postfix(Exhibit ____exhibit, int[] ____bonusNos, Debut __instance)
             {
                 if (!RunDataController.RunData.Settings.HasClearBonus) return;
                 Exhibit _exhibit = ____exhibit;
@@ -30,10 +29,7 @@ namespace RunLogger.Patches
                         switch (_bonusNo)
                         {
                             case 0:
-                                __instance.Storage.TryGetValue("$uncommonCard1", out string uncommonCard1);
-                                __instance.Storage.TryGetValue("$uncommonCard2", out string uncommonCard2);
-                                __instance.Storage.TryGetValue("$uncommonCard3", out string uncommonCard3);
-                                List<string> uncommonCards = new List<string> { uncommonCard1, uncommonCard2, uncommonCard3 };
+                                List<string> uncommonCards = GetUncommonCards(__instance);
                                 RunDataController.AddData("UncommonCards", uncommonCards);
                                 break;
                             case 1:
@@ -51,6 +47,15 @@ namespace RunLogger.Patches
                         }
                     }
                 }
+            }
+
+            private static List<string> GetUncommonCards(Debut debut)
+            {
+                debut.Storage.TryGetValue("$uncommonCard1", out string uncommonCard1);
+                debut.Storage.TryGetValue("$uncommonCard2", out string uncommonCard2);
+                debut.Storage.TryGetValue("$uncommonCard3", out string uncommonCard3);
+                List<string> uncommonCards = new List<string> { uncommonCard1, uncommonCard2, uncommonCard3 };
+                return uncommonCards;
             }
         }
     }

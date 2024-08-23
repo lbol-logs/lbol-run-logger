@@ -1,9 +1,8 @@
 ﻿using HarmonyLib;
 using LBoL.Core;
 using LBoL.Core.Dialogs;
-using LBoL.EntityLib.Exhibits.Common;
-using Newtonsoft.Json;
 using RunLogger.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,7 +13,7 @@ namespace RunLogger.Patches
     class DialogRunnerPatch
     {
         [HarmonyPatch(nameof(DialogRunner.SelectOption)), HarmonyPostfix]
-        static void SelectOptionPatch(int id)
+        static void SelectOptionPatch(int id, string ____name)
         {
             RunDataController.AddDataItem("Choices", id);
         }

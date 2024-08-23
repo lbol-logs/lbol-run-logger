@@ -3,7 +3,6 @@ using LBoL.Base;
 using LBoL.ConfigData;
 using LBoL.Core.SaveData;
 using LBoL.Presentation;
-using Newtonsoft.Json;
 using RunLogger.Utils;
 using System.Collections.Generic;
 using System.Linq;
