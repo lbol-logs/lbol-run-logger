@@ -39,7 +39,7 @@ namespace RunLogger.Patches
 
     [HarmonyDebug]
     [HarmonyPatch(typeof(GapStation))]
-    class GapStation
+    class GapStationPatch
     {
         [HarmonyPatch(typeof(GapOptionsPanel), nameof(GapOptionsPanel.OptionClicked)), HarmonyPostfix]
         static void OptionClickedPatch(GapOption option, GapOptionsPanel __instance)
@@ -67,6 +67,18 @@ namespace RunLogger.Patches
                     break;
             }
             RunDataController.Listener = null;
+        }
+    }
+
+    [HarmonyDebug]
+    [HarmonyPatch(typeof(SelectStation))]
+    class SelectStationPatch
+    {
+        [HarmonyPatch(nameof(SelectStation.OnEnter)), HarmonyPostfix]
+        static void OnEnterPatch(SelectStation __instance)
+        {
+            List<string> Opponents = __instance.Opponents.Select(opponent =>  opponent.Name).ToList();
+            RunDataController.AddData("Opponents", Opponents);
         }
     }
 }
