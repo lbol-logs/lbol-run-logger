@@ -14,12 +14,15 @@ namespace RunLogger.Utils
         private const string _dir = "runLogger";
         private static readonly string _path = $"{_dir}/temp.json";
         private static bool _initialized;
+
         public static RunData RunData;
         public static bool isInitialize;
 
         public static string Listener;
         public static List<CardObj> Cards;
         public static List<string> Exhibits;
+
+        public static List<string> enemiesShowDetails = new List<string>() { "Seija" };
 
         public static StationObj CurrentStation
         {
