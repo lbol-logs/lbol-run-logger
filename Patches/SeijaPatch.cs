@@ -5,6 +5,7 @@ using LBoL.Core.Battle.BattleActions;
 using LBoL.Core.Cards;
 using LBoL.Core.Units;
 using LBoL.EntityLib.EnemyUnits.Character;
+using LBoL.EntityLib.StatusEffects.Enemy.SeijaItems;
 using RunLogger.Utils;
 using System.Collections.Generic;
 using System.Reflection;
@@ -13,14 +14,14 @@ namespace RunLogger.Patches
 {
     [HarmonyDebug]
     [HarmonyPatch(typeof(Seija))]
-    class SeijaPatch
+    public static class SeijaPatch
     {
         [HarmonyPatch(nameof(Seija.RandomBuff)), HarmonyPostfix]
         static void RandomBuffPatch(BattleAction __result, Seija __instance)
         {
             ApplyStatusEffectAction applyStatusEffectAction = __result as ApplyStatusEffectAction;
             StatusEffectApplyEventArgs args = applyStatusEffectAction.Args;
-            string exhibit = args.Effect.Id;
+            string se = args.Effect.Id;
             if (RunDataController.CurrentStation.Data == null)
             {
                 int round = 0;
@@ -30,16 +31,32 @@ namespace RunLogger.Patches
                 {
                     { "Round", round },
                     { "Id", id },
-                    { "Exhibit", exhibit }
+                    { "Se", se }
                 };
                 RunDataController.AddDataItem("Details", details);
             }
             else
             {
-                List<Dictionary<string, object>> Details = RunDataController.CurrentStation.Data["Details"] as List<Dictionary<string, object>>;
-                Dictionary<string, object> details = Details[Details.Count - 1];
-                details["Exhibit"] = exhibit;
+                AddSe(se);
             }
+        }
+
+        public static void AddSe(string se)
+        {
+            List<Dictionary<string, object>> Details = RunDataController.CurrentStation.Data["Details"] as List<Dictionary<string, object>>;
+            Dictionary<string, object> details = Details[Details.Count - 1];
+            details["Se"] = se;
+        }
+    }
+
+    [HarmonyDebug]
+    [HarmonyPatch(typeof(DragonBallSe))]
+    class DragonBallSePatch
+    {
+        [HarmonyPatch(nameof(DragonBallSe.OnAdded)), HarmonyPostfix]
+        static void OnAddedPatch(DragonBallSe __instance)
+        {
+            SeijaPatch.AddSe(__instance.Id);
         }
     }
 
