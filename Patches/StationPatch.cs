@@ -13,10 +13,12 @@ namespace RunLogger.Patches
     [HarmonyPatch(typeof(Station))]
     class StationPatch
     {
-        [HarmonyPatch(nameof(Station.AddReward)), HarmonyPostfix]
+        [HarmonyPatch(nameof(Station.AddReward)), HarmonyPrefix]
         static void AddRewardPatch(StationReward reward)
         {
-            RewardsPatch.AddReward(reward);
+            RunDataController.Listener = "AddReward";
+            RewardsUtil.AddReward(reward);
+            RunDataController.Listener = null;
         }
     }
 

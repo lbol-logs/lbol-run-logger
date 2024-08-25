@@ -1,11 +1,13 @@
 ﻿using LBoL.Core.Cards;
 using LBoL.Core.Stations;
+using LBoL.Presentation.UI.Panels;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace RunLogger.Utils
 {
-    public static class RewardsPatch
+    public static class RewardsUtil
     {
         public static void GenerateRewards<T>(T __instance)
         {
@@ -21,6 +23,7 @@ namespace RunLogger.Utils
         private static void HandleRewards(List<StationReward> rewards)
         {
             Dictionary<string, object> Rewards = new Dictionary<string, object>();
+            List<CardObj> Cards = null;
             foreach (StationReward reward in rewards)
             {
                 string Type = reward.Type.ToString();
@@ -32,7 +35,7 @@ namespace RunLogger.Utils
                 else if (Type == "Card" || Type == "Tool")
                 {
                     List<Card> list = reward.Cards;
-                    List<CardObj> Cards = RunDataController.GetCards(list);
+                    Cards = RunDataController.GetCards(list);
                     RunDataController.AddListItem2Obj(ref Rewards, Type, Cards);
                 }
                 else if (Type == "Exhibit")
@@ -41,9 +44,15 @@ namespace RunLogger.Utils
                     RunDataController.AddListItem2Obj(ref Rewards, Type, Exhibit);
                 }
             }
+
             if (RunDataController.CurrentStation.Rewards != null)
             {
-                Rewards = RunDataController.CurrentStation.Rewards.Concat(Rewards).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                if (Cards != null && RunDataController.CurrentStation.Rewards.TryGetValue("Cards", out object currentCards))
+                {
+                    (currentCards as List<List<CardObj>>).Add(Cards);
+                    return;
+                }
+                RunDataController.CurrentStation.Rewards.Concat(Rewards).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             }
             RunDataController.CurrentStation.Rewards = Rewards;
         }

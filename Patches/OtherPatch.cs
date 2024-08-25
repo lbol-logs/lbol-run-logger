@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using LBoL.Core;
+using LBoL.Core.Stations;
 using RunLogger.Utils;
 using System;
 using System.Collections.Generic;
@@ -54,6 +55,13 @@ namespace RunLogger.Patches
         {
             if (RunDataController.RunData == null) return;
             RunDataController.RunData.Acts[0].Boss = enemyGroupName;
+        }
+
+        [HarmonyPatch(nameof(Stage.GetEnemyCardReward)), HarmonyPostfix]
+        static void GetEnemyCardRewardPatch(StationReward __result)
+        {
+            if (RunDataController.Listener != null) return;
+            RewardsUtil.AddReward(__result);
         }
     }
 }
