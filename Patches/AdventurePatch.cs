@@ -7,7 +7,6 @@ using System.Collections.Generic;
 namespace RunLogger.Patches
 {
     [HarmonyDebug]
-    [HarmonyPatch]
     public static class AdventurePatch
     {
         [HarmonyPatch(typeof(Debut))]
@@ -56,6 +55,21 @@ namespace RunLogger.Patches
                 debut.Storage.TryGetValue("$uncommonCard3", out string uncommonCard3);
                 List<string> uncommonCards = new List<string> { uncommonCard1, uncommonCard2, uncommonCard3 };
                 return uncommonCards;
+            }
+        }
+
+        [HarmonyPatch(typeof(Supply))]
+        public static class SupplyPatch
+        {
+            [HarmonyPatch(nameof(Supply.InitVariables))]
+            public static void Postfix(Supply __instance)
+            {
+                __instance.Storage.TryGetValue("$exhibitA", out string exhibitA);
+                __instance.Storage.TryGetValue("$exhibitB", out string exhibitB);
+                RunDataController.AddData("Exhibits", new List<string>() { exhibitA, exhibitB });
+
+                __instance.Storage.TryGetValue("$bothFlag", out bool bothFlag);
+                RunDataController.AddData("Both", bothFlag);
             }
         }
     }
