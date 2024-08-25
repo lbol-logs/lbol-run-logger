@@ -108,6 +108,7 @@ namespace RunLogger.Patches
                 int price = item.Price;
                 return RunDataController.GetCardWithPrice(item.Content, price);
             }).ToList();
+            cards[station.DiscountCardNo].IsDiscounted = true;
 
             List<ShopItem<Exhibit>> exhibitsList = station.ShopExhibits;
             List<string> exhibits = exhibitsList.Select(item => item.Content.Id).ToList();

@@ -63,6 +63,7 @@ namespace RunLogger.Utils
     public class CardWithPrice: CardObj
     {
         public int Price { get; set; }
+        public bool? IsDiscounted { get; set; }
     }
 
     public class ActObj
