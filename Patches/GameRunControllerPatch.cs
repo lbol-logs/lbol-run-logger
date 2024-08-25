@@ -44,23 +44,29 @@ namespace RunLogger.Patches
         static void SavePatch(GameRunController __instance)
         {
             StationObj StationObj = RunDataController.CurrentStation;
-            if (StationObj == null) return;
-            if (StationObj != null && StationObj.Status != null) return;
+            int Money = __instance.Money;
+
+            if (StationObj != null)
+            {
+                if (StationObj.Status != null) StationObj.Status.Money = Money;
+            }
+
             Status Status = new Status
             {
-                Money = __instance.Money,
+                Money = Money,
                 Hp = __instance.Player.Hp,
                 MaxHp = __instance.Player.MaxHp,
                 Power = __instance.Player.Power,
                 MaxPower = __instance.Player.MaxPower
             };
-            if (StationObj == null)
+
+            if (StationObj != null)
+            {
+                if (StationObj.Status == null) StationObj.Status = Status;
+            }
+            else
             {
                 RunDataController.RunData.Settings.Status = Status;
-            }
-            else {
-
-                StationObj.Status = Status;
             }
             RunDataController.Save();
         }

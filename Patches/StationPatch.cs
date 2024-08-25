@@ -92,11 +92,15 @@ namespace RunLogger.Patches
     [HarmonyPatch(typeof(ShopStation))]
     class ShopStationPatch
     {
+        private static bool appended;
+
         [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.EnterMapNode)), HarmonyPostfix, HarmonyPriority(1)]
         static void EnterMapNodePatch(GameRunController __instance)
         {
             Station CurrentStation = __instance.CurrentStation;
             if (!(CurrentStation is ShopStation)) return;
+
+            appended = false;
 
             ShopStation station = CurrentStation as ShopStation;
             List<ShopItem<Card>> cardsList = station.ShopCards;
@@ -157,8 +161,12 @@ namespace RunLogger.Patches
                 if (RunDataController.Listener != Listener) return;
                 RunDataController.CurrentStation.Rewards.TryGetValue("Cards", out object value);
                 List<List<CardWithPrice>> cards = value as List<List<CardWithPrice>>;
-                if (cards.Count == 1) cards.Add(new List<CardWithPrice>());
-                cards[1].Add(RunDataController.GetCardWithPrice(card, __result));
+                if (appended == false)
+                {
+                    cards.Add(new List<CardWithPrice>());
+                    appended = true;
+                }
+                cards[^1].Add(RunDataController.GetCardWithPrice(card, __result));
                 RunDataController.Listener = null;
             }
         }

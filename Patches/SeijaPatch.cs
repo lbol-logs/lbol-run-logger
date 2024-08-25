@@ -44,7 +44,7 @@ namespace RunLogger.Patches
         public static void AddSe(string se)
         {
             List<Dictionary<string, object>> Details = RunDataController.CurrentStation.Data["Details"] as List<Dictionary<string, object>>;
-            Dictionary<string, object> details = Details[Details.Count - 1];
+            Dictionary<string, object> details = Details[^1];
             details["Se"] = se;
         }
     }
