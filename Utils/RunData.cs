@@ -60,6 +60,11 @@ namespace RunLogger.Utils
         public int? UpgradeCounter { get; set; }
     }
 
+    public class CardWithPrice: CardObj
+    {
+        public int Price { get; set; }
+    }
+
     public class ActObj
     {
         public int Act { get; set; }

@@ -67,6 +67,14 @@ namespace RunLogger.Utils
             Data[key] = list;
         }
 
+        public static void AddPrice(string key, int price)
+        {
+            GetData(out Dictionary<string, object> Data);
+            Data.TryGetValue("Prices", out object value);
+            Dictionary<string, int> prices = value as Dictionary<string, int>;
+            prices.Add(key, price);
+        }
+
         public static void AddListItem2Obj<T>(ref Dictionary<string, object> dict, string key, T listItem)
         {
             key += "s";
@@ -103,18 +111,32 @@ namespace RunLogger.Utils
             RunData.Exhibits.Add(Exhibit);
         }
 
+        public static CardObj GetCard(Card card)
+        {
+            CardObj Card = new CardObj
+            {
+                Id = card.Id,
+                IsUpgraded = card.IsUpgraded,
+                UpgradeCounter = card.UpgradeCounter
+            };
+            return Card;
+        }
+
         public static List<CardObj> GetCards(IEnumerable<Card> cards)
         {
-            return cards.Select(card =>
+            return cards.Select(card => GetCard(card)).ToList();
+        }
+
+        public static CardWithPrice GetCardWithPrice(Card card, int price)
+        {
+            CardWithPrice Card = new CardWithPrice
             {
-                CardObj Card = new CardObj
-                {
-                    Id = card.Id,
-                    IsUpgraded = card.IsUpgraded,
-                    UpgradeCounter = card.UpgradeCounter
-                };
-                return Card;
-            }).ToList();
+                Id = card.Id,
+                IsUpgraded = card.IsUpgraded,
+                UpgradeCounter = card.UpgradeCounter,
+                Price = price
+            };
+            return Card;
         }
 
         public static void Create()

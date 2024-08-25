@@ -104,7 +104,7 @@ namespace RunLogger.Patches
             RunDataController.Save();
         }
 
-        [HarmonyPatch(nameof(GameRunController.EnterMapNode)), HarmonyPostfix]
+        [HarmonyPatch(nameof(GameRunController.EnterMapNode)), HarmonyPostfix, HarmonyPriority(2)]
         static void EnterMapNodePatch(MapNode node, GameRunController __instance)
         {
             int Act = __instance.CurrentStage.Level;
@@ -176,7 +176,7 @@ namespace RunLogger.Patches
         [HarmonyPatch(nameof(GameRunController.RollNormalExhibit)), HarmonyPostfix]
         static void RollNormalExhibitPatch(Exhibit __result)
         {
-            if (RunDataController.Listener == null) return;
+            if (RunDataController.Listener != StationPatch.Listener) return;
             string exhibit = __result.Id;
             RunDataController.Exhibits.Add(exhibit);
             RunDataController.Listener = null;

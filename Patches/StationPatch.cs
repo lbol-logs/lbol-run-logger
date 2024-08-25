@@ -1,9 +1,11 @@
 ﻿using HarmonyLib;
 using LBoL.Core;
+using LBoL.Core.Cards;
 using LBoL.Core.GapOptions;
 using LBoL.Core.Stations;
 using LBoL.Presentation.UI.Panels;
 using RunLogger.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,10 +15,12 @@ namespace RunLogger.Patches
     [HarmonyPatch(typeof(Station))]
     class StationPatch
     {
+        public const string Listener = "AddReward";
+
         [HarmonyPatch(nameof(Station.AddReward)), HarmonyPrefix]
         static void AddRewardPatch(StationReward reward)
         {
-            RunDataController.Listener = "AddReward";
+            RunDataController.Listener = Listener;
             RewardsUtil.AddReward(reward);
             RunDataController.Listener = null;
         }
@@ -81,6 +85,106 @@ namespace RunLogger.Patches
         {
             List<string> Opponents = __instance.Opponents.Select(opponent =>  opponent.Id).ToList();
             RunDataController.AddData("Opponents", Opponents);
+        }
+    }
+
+    [HarmonyDebug]
+    [HarmonyPatch(typeof(ShopStation))]
+    class ShopStationPatch
+    {
+        [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.EnterMapNode)), HarmonyPostfix, HarmonyPriority(1)]
+        static void EnterMapNodePatch(GameRunController __instance)
+        {
+            Station CurrentStation = __instance.CurrentStation;
+            if (!(CurrentStation is ShopStation)) return;
+
+            ShopStation station = CurrentStation as ShopStation;
+            List<ShopItem<Card>> cardsList = station.ShopCards;
+            List<CardWithPrice> cards = cardsList.Select(item => {
+                int price = item.Price;
+                return RunDataController.GetCardWithPrice(item.Content, price);
+            }).ToList();
+
+            List<ShopItem<Exhibit>> exhibitsList = station.ShopExhibits;
+            List<string> exhibits = exhibitsList.Select(item => item.Content.Id).ToList();
+            Dictionary<string, int> prices = new Dictionary<string, int>()
+            {
+                { "Remove", station.RemoveDeckCardPrice },
+                { "Upgrade", station.UpgradeDeckCardPrice }
+            };
+            foreach (ShopItem<Exhibit> item in exhibitsList) prices[item.Content.Id] = item.Price;
+
+            Dictionary<string, object> rewards = new Dictionary<string, object>()
+            {
+                { "Cards", new List<List<CardWithPrice>>() { cards } },
+                { "Exhibits", exhibits }
+            };
+
+            RunDataController.CurrentStation.Rewards = rewards;
+            RunDataController.AddData("Prices", prices);
+        }
+
+        [HarmonyPatch(nameof(ShopStation.RemoveDeckCard)), HarmonyPrefix]
+        static void RemoveDeckCardPatch(Card card)
+        {
+            RunDataController.AddData("Choice", 0);
+            RunDataController.AddData("Remove", RunDataController.GetCard(card));
+        }
+
+        [HarmonyPatch(nameof(ShopStation.UpgradeDeckCard)), HarmonyPrefix]
+        static void UpgradeDeckCardPatch(Card card)
+        {
+            RunDataController.AddData("Choice", 1);
+            RunDataController.AddData("Upgrade", RunDataController.GetCard(card));
+        }
+
+        [HarmonyDebug]
+        [HarmonyPatch(typeof(ShopStation))]
+        class BuyCardPatch
+        {
+            private const string Listener = "BuyCard";
+
+            [HarmonyPatch(nameof(ShopStation.BuyCard))]
+            static void Prefix(ShopItem<Card> cardItem, ShopStation __instance)
+            {
+                RunDataController.AddDataItem("Cards", RunDataController.GetCard(cardItem.Content));
+                RunDataController.Listener = Listener;
+            }
+
+            [HarmonyPatch(nameof(ShopStation.GetPrice), new Type[] { typeof(Card), typeof(bool) }), HarmonyPostfix]
+            static void GetPricePatch(Card card, int __result)
+            {
+                if (RunDataController.Listener != Listener) return;
+                RunDataController.CurrentStation.Rewards.TryGetValue("Cards", out object value);
+                List<List<CardWithPrice>> cards = value as List<List<CardWithPrice>>;
+                if (cards.Count == 1) cards.Add(new List<CardWithPrice>());
+                cards[1].Add(RunDataController.GetCardWithPrice(card, __result));
+                RunDataController.Listener = null;
+            }
+        }
+
+        [HarmonyDebug]
+        [HarmonyPatch(typeof(ShopStation))]
+        class BuyExhibitRunnerPatch
+        {
+            private const string Listener = "BuyExhibit";
+
+            [HarmonyPatch(nameof(ShopStation.BuyExhibitRunner))]
+            static void Prefix(ShopItem<Exhibit> exhibitItem, ShopStation __instance)
+            {
+                RunDataController.AddDataItem("Exhibits", exhibitItem.Content.Id);
+                RunDataController.Listener = Listener;
+            }
+
+            [HarmonyPatch(nameof(ShopStation.GetPrice), new Type[] { typeof(Exhibit) }), HarmonyPostfix]
+            static void GetPricePatch(Exhibit exhibit, int __result)
+            {
+                if (RunDataController.Listener != Listener) return;
+                RunDataController.CurrentStation.Rewards.TryGetValue("Exhibits", out object exhibits);
+                RunDataController.AddPrice(exhibit.Id, __result);
+                (exhibits as List<string>).Add(exhibit.Id);
+                RunDataController.Listener = null;
+            }
         }
     }
 }
