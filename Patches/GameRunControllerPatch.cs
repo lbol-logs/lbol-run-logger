@@ -43,26 +43,29 @@ namespace RunLogger.Patches
         [HarmonyPatch(nameof(GameRunController.Save)), HarmonyPostfix]
         static void SavePatch(GameRunController __instance)
         {
-            StationObj StationObj = RunDataController.CurrentStation;
+            StationObj station = RunDataController.CurrentStation;
             int Money = __instance.Money;
 
-            if (StationObj != null)
+            if (station != null)
             {
-                if (StationObj.Status != null) StationObj.Status.Money = Money;
+                if (station.Status != null) station.Status.Money = Money;
             }
 
             Status Status = new Status
             {
                 Money = Money,
-                Hp = __instance.Player.Hp,
                 MaxHp = __instance.Player.MaxHp,
                 Power = __instance.Player.Power,
                 MaxPower = __instance.Player.MaxPower
             };
-
-            if (StationObj != null)
+            if (!(__instance.CurrentStation is BossStation))
             {
-                if (StationObj.Status == null) StationObj.Status = Status;
+                Status.Hp = __instance.Player.Hp;
+            }
+
+            if (station != null)
+            {
+                if (station.Status == null) station.Status = Status;
             }
             else
             {
