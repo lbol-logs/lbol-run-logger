@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿using HarmonyLib;
+using LBoL.EntityLib.Adventures;
+using LBoL.EntityLib.Stages;
+using System.IO;
 using System.Text;
 
 namespace RunLogger.Utils
@@ -32,6 +35,28 @@ namespace RunLogger.Utils
             Initialize();
             _streamWriter.WriteLine(line);
             _streamWriter.Flush();
+        }
+
+        [HarmonyDebug]
+        [HarmonyPatch(typeof(BattleAdvTest))]
+        class BattleAdvTestPatch
+        {
+            [HarmonyPatch(nameof(BattleAdvTest.CreateMap)), HarmonyPrefix]
+            static void CreateMapPatch(BattleAdvTest __instance)
+            {
+                __instance.Level = 1;
+            }
+        }
+
+        [HarmonyDebug]
+        [HarmonyPatch(typeof(AllStations))]
+        class AllStationsPatch
+        {
+            [HarmonyPatch(nameof(AllStations.CreateMap)), HarmonyPrefix]
+            static void CreateMapPatch(AllStations __instance)
+            {
+                __instance.TradeAdventureType = typeof(RinnosukeTrade);
+            }
         }
     }
 }
