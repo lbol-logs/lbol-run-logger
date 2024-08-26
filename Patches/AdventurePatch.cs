@@ -72,5 +72,34 @@ namespace RunLogger.Patches
                 RunDataController.AddData("Both", bothFlag);
             }
         }
+
+        [HarmonyPatch(typeof(RinnosukeTrade))]
+        public static class RinnosukeTradePatch
+        {
+            [HarmonyPatch(nameof(RinnosukeTrade.InitVariables))]
+            public static void Postfix(Supply __instance)
+            {
+                __instance.Storage.TryGetValue("$canSell1", out bool canSell1);
+                __instance.Storage.TryGetValue("$canSell2", out bool canSell2);
+
+                if (canSell1)
+                {
+                    Dictionary<string, int> prices = new Dictionary<string, int>();
+
+                    __instance.Storage.TryGetValue("$exhibit1", out string exhibit1);
+                    __instance.Storage.TryGetValue("$exhibit1Price", out float exhibit1Price);
+                    prices.Add(exhibit1, (int)exhibit1Price);
+
+                    if (canSell2)
+                    {
+                        __instance.Storage.TryGetValue("$exhibit2", out string exhibit2);
+                        __instance.Storage.TryGetValue("$exhibit2Price", out float exhibit2Price);
+                        prices.Add(exhibit2, (int)exhibit2Price);
+                    }
+
+                    RunDataController.AddData("Prices", prices);
+                }
+            }
+        }
     }
 }

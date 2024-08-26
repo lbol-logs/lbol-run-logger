@@ -1,4 +1,6 @@
 ﻿using HarmonyLib;
+using LBoL.Core;
+using LBoL.Core.Stations;
 using LBoL.EntityLib.Adventures;
 using LBoL.EntityLib.Stages;
 using System.IO;
@@ -53,9 +55,18 @@ namespace RunLogger.Utils
         class AllStationsPatch
         {
             [HarmonyPatch(nameof(AllStations.CreateMap)), HarmonyPrefix]
-            static void CreateMapPatch(AllStations __instance)
+            static bool CreateMapPatch(AllStations __instance, ref GameMap __result)
             {
                 __instance.TradeAdventureType = typeof(RinnosukeTrade);
+                __result = GameMap.CreateSingleRoute(__instance.Boss.Id, new StationType[]
+                {
+                    StationType.Trade,
+                    StationType.Trade,
+                    StationType.Trade,
+                    StationType.Trade,
+                    StationType.Trade
+                });
+                return false;
             }
         }
     }
