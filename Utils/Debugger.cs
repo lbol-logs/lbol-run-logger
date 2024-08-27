@@ -3,6 +3,7 @@ using LBoL.Core;
 using LBoL.Core.Stations;
 using LBoL.EntityLib.Adventures;
 using LBoL.EntityLib.Stages;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -58,14 +59,13 @@ namespace RunLogger.Utils
             static bool CreateMapPatch(AllStations __instance, ref GameMap __result)
             {
                 __instance.TradeAdventureType = typeof(RinnosukeTrade);
-                __result = GameMap.CreateSingleRoute(__instance.Boss.Id, new StationType[]
+                List<StationType> stationTypes = new List<StationType>();
+                for (int i = 0; i < 5; i++)
                 {
-                    StationType.Trade,
-                    StationType.Trade,
-                    StationType.Trade,
-                    StationType.Trade,
-                    StationType.Trade
-                });
+                    stationTypes.Add(StationType.Trade);
+                    stationTypes.Add(StationType.Entry);
+                }
+                __result = GameMap.CreateSingleRoute(__instance.Boss.Id, stationTypes.ToArray());
                 return false;
             }
         }

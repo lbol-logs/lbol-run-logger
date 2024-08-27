@@ -11,8 +11,10 @@ namespace RunLogger.Patches
 {
     [HarmonyDebug]
     [HarmonyPatch(typeof(GameRunController))]
-    class GameRunControllerPatch
+    static class GameRunControllerPatch
     {
+        private static bool isAfterBossReward = false;
+
         [HarmonyPatch(nameof(GameRunController.Create)), HarmonyPostfix]
         static void CreatePatch(GameRunStartupParameters parameters, GameRunController __result)
         {
@@ -40,37 +42,37 @@ namespace RunLogger.Patches
             RunDataController.Save();
         }
 
+        [HarmonyDebug]
         [HarmonyPatch(nameof(GameRunController.Save)), HarmonyPostfix]
         static void SavePatch(GameRunController __instance)
         {
             StationObj station = RunDataController.CurrentStation;
-            int Money = __instance.Money;
 
-            if (station != null)
+            Station s = __instance.CurrentStation;
+            int Hp = __instance.Player.Hp;
+            if (s != null)
             {
-                if (station.Status != null) station.Status.Money = Money;
+                if (s.IsStageEnd) isAfterBossReward = true;
+            }
+
+            if (s == null && isAfterBossReward)
+            {
+                Hp = station.Status.Hp;
+                isAfterBossReward = false;
             }
 
             Status Status = new Status
             {
-                Money = Money,
+                Money = __instance.Money,
+                Hp = Hp,
                 MaxHp = __instance.Player.MaxHp,
                 Power = __instance.Player.Power,
                 MaxPower = __instance.Player.MaxPower
             };
-            if (!(__instance.CurrentStation is BossStation))
-            {
-                Status.Hp = __instance.Player.Hp;
-            }
 
-            if (station != null)
-            {
-                if (station.Status == null) station.Status = Status;
-            }
-            else
-            {
-                RunDataController.RunData.Settings.Status = Status;
-            }
+            if (station == null) RunDataController.RunData.Settings.Status = Status; 
+            else station.Status = Status;
+
             RunDataController.Save();
         }
 
