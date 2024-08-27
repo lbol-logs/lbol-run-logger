@@ -63,5 +63,12 @@ namespace RunLogger.Patches
             if (RunDataController.Listener != null) return;
             RewardsUtil.AddReward(__result);
         }
+
+        [HarmonyPatch(typeof(StationReward), nameof(StationReward.CreateToolCard)), HarmonyPostfix]
+        static void GetShopToolCardsPatch(StationReward __result)
+        {
+            if (RunDataController.Listener != null) return;
+            RewardsUtil.AddReward(__result);
+        }
     }
 }

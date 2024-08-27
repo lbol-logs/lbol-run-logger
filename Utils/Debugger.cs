@@ -61,12 +61,12 @@ namespace RunLogger.Utils
             {
                 //__instance.TradeAdventureType = typeof(RinnosukeTrade);
                 List<StationType> stationTypes = new List<StationType>();
+                stationTypes.Add(StationType.Boss);
                 for (int i = 0; i < 10; i++)
                 {
                     //stationTypes.Add(StationType.Trade);
                     //stationTypes.Add(StationType.Entry);
 
-                    stationTypes.Add(StationType.Boss);
                     stationTypes.Add(StationType.Enemy);
                     stationTypes.Add(StationType.Enemy);
                     stationTypes.Add(StationType.Entry);
