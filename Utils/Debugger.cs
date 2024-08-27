@@ -2,6 +2,7 @@
 using LBoL.Core;
 using LBoL.Core.Stations;
 using LBoL.EntityLib.Adventures;
+using LBoL.EntityLib.Exhibits.Shining;
 using LBoL.EntityLib.Stages;
 using System.Collections.Generic;
 using System.IO;
@@ -63,9 +64,21 @@ namespace RunLogger.Utils
                 for (int i = 0; i < 10; i++)
                 {
                     //stationTypes.Add(StationType.Trade);
+                    //stationTypes.Add(StationType.Entry);
+
+                    stationTypes.Add(StationType.Boss);
+                    stationTypes.Add(StationType.Enemy);
+                    stationTypes.Add(StationType.Enemy);
                     stationTypes.Add(StationType.Entry);
                 }
                 __result = GameMap.CreateSingleRoute(__instance.Boss.Id, stationTypes.ToArray());
+                return false;
+            }
+
+            [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.RollShiningExhibit)), HarmonyPrefix]
+            static bool RollShiningExhibitPatch(ref Exhibit __result)
+            {
+                __result = Library.CreateExhibit(typeof(Gongjuxiang));
                 return false;
             }
         }
