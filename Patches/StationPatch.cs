@@ -152,7 +152,6 @@ namespace RunLogger.Patches
             [HarmonyPatch(nameof(ShopStation.BuyCard))]
             static void Prefix(ShopItem<Card> cardItem, ShopStation __instance)
             {
-                //RunDataController.AddDataItem("Cards", RunDataController.GetCard(cardItem.Content));
                 RunDataController.Listener = Listener;
             }
 
@@ -181,7 +180,6 @@ namespace RunLogger.Patches
             [HarmonyPatch(nameof(ShopStation.BuyExhibitRunner))]
             static void Prefix(ShopItem<Exhibit> exhibitItem, ShopStation __instance)
             {
-                //RunDataController.AddDataItem("Exhibits", exhibitItem.Content.Id);
                 RunDataController.Listener = Listener;
             }
 

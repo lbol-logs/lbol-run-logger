@@ -58,11 +58,11 @@ namespace RunLogger.Utils
             [HarmonyPatch(nameof(AllStations.CreateMap)), HarmonyPrefix]
             static bool CreateMapPatch(AllStations __instance, ref GameMap __result)
             {
-                __instance.TradeAdventureType = typeof(RinnosukeTrade);
+                //__instance.TradeAdventureType = typeof(RinnosukeTrade);
                 List<StationType> stationTypes = new List<StationType>();
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < 10; i++)
                 {
-                    stationTypes.Add(StationType.Trade);
+                    //stationTypes.Add(StationType.Trade);
                     stationTypes.Add(StationType.Entry);
                 }
                 __result = GameMap.CreateSingleRoute(__instance.Boss.Id, stationTypes.ToArray());
