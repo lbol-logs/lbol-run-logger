@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using LBoL.Core;
 using LBoL.EntityLib.Adventures;
+using LBoL.EntityLib.Adventures.FirstPlace;
 using RunLogger.Utils;
 using System.Collections.Generic;
 
@@ -98,6 +99,20 @@ namespace RunLogger.Patches
                     }
 
                     RunDataController.AddData("Prices", prices);
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(DoremyPortal))]
+        public static class DoremyPortalPatch
+        {
+            [HarmonyPatch(nameof(DoremyPortal.InitVariables))]
+            public static void Postfix(DoremyPortal __instance)
+            {
+                if (RunDataController.ShowRandom)
+                {
+                    __instance.Storage.TryGetValue("$randomExhibit", out string randomExhibit);
+                    RunDataController.AddData("Exhibit", randomExhibit);
                 }
             }
         }
