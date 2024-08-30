@@ -6,6 +6,9 @@ using System.Linq;
 using System.Collections.Generic;
 using LBoL.Core.Cards;
 using LBoL.Core;
+using LBoL.Base;
+using LBoL.ConfigData;
+using LBoL.EntityLib.JadeBoxes;
 
 namespace RunLogger.Utils
 {
@@ -137,6 +140,19 @@ namespace RunLogger.Utils
                 Price = price
             };
             return Card;
+        }
+
+        public static string GetBaseMana(string baseMana, IEnumerable<string> exhibits)
+        {
+            foreach (string exhibit in exhibits)
+            {
+                ExhibitConfig config = ExhibitConfig.FromId(exhibit);
+                Rarity rarity = config.Rarity;
+                if (rarity != Rarity.Shining) continue;
+                ManaColor? manaColor = config.BaseManaColor;
+                if (manaColor == null) baseMana += "A";
+            }
+            return baseMana;
         }
 
         public static void Create()

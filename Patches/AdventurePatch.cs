@@ -1,15 +1,34 @@
 ﻿using HarmonyLib;
+using LBoL.Base;
 using LBoL.Core;
+using LBoL.Core.Adventures;
+using LBoL.Core.Battle.Interactions;
 using LBoL.EntityLib.Adventures;
 using LBoL.EntityLib.Adventures.FirstPlace;
 using RunLogger.Utils;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RunLogger.Patches
 {
     [HarmonyDebug]
+    [HarmonyPatch(typeof(Adventure))]
     public static class AdventurePatch
     {
+        [HarmonyPatch("InitVariables")]
+        public static void Postfix(Adventure __instance)
+        {
+            string Id = __instance.Id;
+            string[] manaEvents = new[] { "JunkoColorless", "PatchouliPhilosophy" };
+            if (manaEvents.Contains(Id))
+            {
+                GameRunController gameRun = __instance.GameRun;
+                string[] exhibits = gameRun.ExhibitRecord.ToArray();
+                string baseMana = RunDataController.GetBaseMana(gameRun.BaseMana.ToString(), exhibits);
+                RunDataController.AddData("BaseMana", baseMana);
+            }
+        }
+
         [HarmonyPatch(typeof(Debut))]
         public static class DebutPatch
         {
@@ -114,6 +133,22 @@ namespace RunLogger.Patches
                     __instance.Storage.TryGetValue("$randomExhibit", out string randomExhibit);
                     RunDataController.AddData("Exhibit", randomExhibit);
                 }
+            }
+        }
+
+        [HarmonyPatch(typeof(SelectBaseManaInteraction), nameof(SelectBaseManaInteraction.SelectedMana), MethodType.Setter)]
+        public static class SelectBaseManaInteractionPatch
+        {
+            static void Prefix(ManaGroup value)
+            {
+                ManaGroup mana = value;
+                string color = mana.MaxColor.ToShortName().ToString();
+                RunDataController.AddData("Color", color);
+            }
+
+            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+            {
+                return instructions;
             }
         }
     }

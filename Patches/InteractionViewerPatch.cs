@@ -5,8 +5,6 @@ using LBoL.Core.Cards;
 using LBoL.Core;
 using RunLogger.Utils;
 using System.Collections.Generic;
-using LBoL.Presentation.UI.Panels;
-using System.Linq;
 
 namespace RunLogger.Patches
 {
@@ -28,6 +26,7 @@ namespace RunLogger.Patches
                         { "Cards", RunDataController.GetCards(cards) }
                     };
                     RunDataController.CurrentStation.Rewards = Rewards;
+                    return;
                 }
             }
 
