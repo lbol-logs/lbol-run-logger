@@ -77,10 +77,11 @@ namespace RunLogger.Patches
         private static void AddMiniSelectCardInteractionRewards(Interaction interaction)
         {
             MiniSelectCardInteraction miniSelectCardInteraction = interaction as MiniSelectCardInteraction;
-            IReadOnlyList<Card> cards = miniSelectCardInteraction.PendingCards;
+            IReadOnlyList<Card> pendingCards = miniSelectCardInteraction.PendingCards;
+            List<CardObj> cards = RunDataController.GetCards(pendingCards);
             Dictionary<string, object> Rewards = new Dictionary<string, object>
             {
-                { "Cards", RunDataController.GetCards(cards) }
+                { "Cards", new List<List<CardObj>>() { cards } }
             };
             RunDataController.CurrentStation.Rewards = Rewards;
         }
