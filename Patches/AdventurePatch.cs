@@ -3,7 +3,9 @@ using LBoL.Base;
 using LBoL.Core;
 using LBoL.Core.Adventures;
 using LBoL.Core.Battle.Interactions;
+using LBoL.Core.Dialogs;
 using LBoL.Core.Randoms;
+using LBoL.Core.Stations;
 using LBoL.EntityLib.Adventures;
 using LBoL.EntityLib.Adventures.FirstPlace;
 using RunLogger.Utils;
@@ -41,30 +43,29 @@ namespace RunLogger.Patches
                 int[] _bonusNos = ____bonusNos;
                 RunDataController.AddData("Options", _bonusNos);
 
-                if (RunDataController.ShowRandom)
+                if (!RunDataController.ShowRandom) return;
+
+                RunDataController.AddData("Shinning", _exhibit.Id);
+                foreach (int _bonusNo in _bonusNos)
                 {
-                    RunDataController.AddData("Shinning", _exhibit.Id);
-                    foreach (int _bonusNo in _bonusNos)
+                    switch (_bonusNo)
                     {
-                        switch (_bonusNo)
-                        {
-                            case 0:
-                                List<string> uncommonCards = GetUncommonCards(__instance);
-                                RunDataController.AddData("UncommonCards", uncommonCards);
-                                break;
-                            case 1:
-                                __instance.Storage.TryGetValue("$rareCard", out string rareCard);
-                                RunDataController.AddData("RareCard", rareCard);
-                                break;
-                            case 2:
-                                __instance.Storage.TryGetValue("$rareExhibit", out string rareExhibit);
-                                RunDataController.AddData("RareExhibit", rareExhibit);
-                                break;
-                            case 5:
-                                __instance.Storage.TryGetValue("$transformCard", out string transformCard);
-                                RunDataController.AddData("TransformCard", transformCard);
-                                break;
-                        }
+                        case 0:
+                            List<string> uncommonCards = GetUncommonCards(__instance);
+                            RunDataController.AddData("UncommonCards", uncommonCards);
+                            break;
+                        case 1:
+                            __instance.Storage.TryGetValue("$rareCard", out string rareCard);
+                            RunDataController.AddData("RareCard", rareCard);
+                            break;
+                        case 2:
+                            __instance.Storage.TryGetValue("$rareExhibit", out string rareExhibit);
+                            RunDataController.AddData("RareExhibit", rareExhibit);
+                            break;
+                        case 5:
+                            __instance.Storage.TryGetValue("$transformCard", out string transformCard);
+                            RunDataController.AddData("TransformCard", transformCard);
+                            break;
                     }
                 }
             }
@@ -172,6 +173,38 @@ namespace RunLogger.Patches
                     __instance.Storage.TryGetValue("$randomExhibit", out string randomExhibit);
                     RunDataController.AddData("Exhibit", randomExhibit);
                 }
+            }
+        }
+
+        [HarmonyPatch(typeof(SumirekoGathering))]
+        public static class SumirekoGatheringPatch
+        {
+            [HarmonyPatch(nameof(SumirekoGathering.InitVariables))]
+            public static void Postfix(MiyoiBartender __instance)
+            {
+                __instance.Storage.TryGetValue("$rareCard1", out string rareCard1);
+                if (rareCard1 == null) return;
+
+                __instance.Storage.TryGetValue("$isUpgraded", out bool isUpgraded);
+                CardObj card = new CardObj()
+                {
+                    Id = rareCard1,
+                    IsUpgraded = isUpgraded
+                };
+                RunDataController.AddData("Card", card);
+
+                RunDataController.Listener = nameof(SumirekoGathering);
+            }
+
+            [HarmonyPatch(typeof(DialogFunctions), nameof(DialogFunctions.HasMoney)), HarmonyPostfix]
+            public static void HasMoneyPatch(bool __result, GameRunController ____gameRun)
+            {
+                Station station = ____gameRun.CurrentStation;
+                Adventure adv = null;
+                if (station is AdventureStation) adv = (station as AdventureStation).Adventure;
+                else if (station is BattleAdvTestStation) adv = (station as BattleAdvTestStation).Adventure;
+                if (adv == null) return;
+                RunDataController.AddData("HasMoney", __result);
             }
         }
     }

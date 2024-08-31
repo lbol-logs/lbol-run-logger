@@ -32,7 +32,6 @@ namespace RunLogger.Patches
             }
         }
 
-        //Debug
         [HarmonyDebug]
         [HarmonyPatch(typeof(DialogLinePhase))]
         class DialogLinePhasePatch
@@ -40,11 +39,11 @@ namespace RunLogger.Patches
             [HarmonyPatch(nameof(DialogLinePhase.GetLocalizedText)), HarmonyPostfix]
             static void GetLocalizedTextPatch(string ____lineId)
             {
+                if (!Debugger.isDebug) return;
                 Debugger.Write(____lineId);
             }
         }
 
-        //Debug
         [HarmonyDebug]
         [HarmonyPatch(typeof(DialogOption))]
         class DialogPatchPatch
@@ -52,6 +51,7 @@ namespace RunLogger.Patches
             [HarmonyPatch(nameof(DialogOption.GetLocalizedText)), HarmonyPostfix]
             static void GetLocalizedTextPatch(string ____lineId, DialogOption __instance)
             {
+                if (!Debugger.isDebug) return;
                 Debugger.Write(__instance.Id.ToString() + ": " + ____lineId);
             }
         }

@@ -1,7 +1,5 @@
 ﻿using LBoL.Core.Cards;
 using LBoL.Core.Stations;
-using LBoL.Presentation.UI.Panels;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,12 +7,6 @@ namespace RunLogger.Utils
 {
     public static class RewardsUtil
     {
-        //public static void GenerateRewards<T>(T __instance)
-        //{
-        //    List<StationReward> rewards = (__instance as BattleStation).Rewards;
-        //    HandleRewards(rewards);
-        //}
-
         public static void AddReward(StationReward reward)
         {
             HandleRewards(new List<StationReward> { reward });

@@ -4,7 +4,6 @@ using LBoL.Core.Cards;
 using LBoL.Core.Stations;
 using LBoL.Core.Stats;
 using LBoL.Core.Units;
-using LBoL.EntityLib.Adventures.FirstPlace;
 using RunLogger.Utils;
 using System.Collections.Generic;
 using System.Linq;

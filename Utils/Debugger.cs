@@ -1,19 +1,14 @@
 ﻿using HarmonyLib;
-using LBoL.Base;
 using LBoL.Core;
-using LBoL.Core.Battle;
 using LBoL.Core.Randoms;
 using LBoL.Core.Stations;
 using LBoL.EntityLib.Adventures.FirstPlace;
-using LBoL.EntityLib.Adventures.Stage2;
 using LBoL.EntityLib.Exhibits.Shining;
 using LBoL.EntityLib.Stages;
 using LBoL.EntityLib.Stages.NormalStages;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using System.Text;
 
 namespace RunLogger.Utils
@@ -23,7 +18,7 @@ namespace RunLogger.Utils
         private const string _dir = "runLogger";
         private static bool _initialized;
         private static StreamWriter _streamWriter;
-        private static bool isDebug = true;
+        public static bool isDebug = true;
 
         public static void Initialize()
         {

@@ -5,6 +5,7 @@ using LBoL.Core.Cards;
 using LBoL.Core;
 using RunLogger.Utils;
 using System.Collections.Generic;
+using LBoL.EntityLib.Adventures;
 
 namespace RunLogger.Patches
 {
@@ -13,21 +14,21 @@ namespace RunLogger.Patches
     public class InteractionViewerPatch
     {
         [HarmonyPatch(nameof(InteractionViewer.View)), HarmonyPrefix]
-        static void ViewPatch(Interaction interaction)
+        public static void ViewPatch(Interaction interaction)
         {
             if (interaction is MiniSelectCardInteraction)
             {
                 if (RunDataController.CurrentStationIndex == 0 && interaction.Source == null)
                 {
-                    MiniSelectCardInteraction miniSelectCardInteraction = interaction as MiniSelectCardInteraction;
-                    IReadOnlyList<Card> cards = miniSelectCardInteraction.PendingCards;
-                    Dictionary<string, object> Rewards = new Dictionary<string, object>
-                    {
-                        { "Cards", RunDataController.GetCards(cards) }
-                    };
-                    RunDataController.CurrentStation.Rewards = Rewards;
+                    AddMiniSelectCardInteractionRewards(interaction);
                     return;
                 }
+            }
+
+            if (RunDataController.Listener == nameof(SumirekoGathering))
+            {
+                AddMiniSelectCardInteractionRewards(interaction);
+                return;
             }
 
             if (interaction.Source == null) return;
@@ -71,6 +72,17 @@ namespace RunLogger.Patches
                     currentCards[^1] = RunDataController.GetCards(cards);
                 }
             }
+        }
+
+        private static void AddMiniSelectCardInteractionRewards(Interaction interaction)
+        {
+            MiniSelectCardInteraction miniSelectCardInteraction = interaction as MiniSelectCardInteraction;
+            IReadOnlyList<Card> cards = miniSelectCardInteraction.PendingCards;
+            Dictionary<string, object> Rewards = new Dictionary<string, object>
+            {
+                { "Cards", RunDataController.GetCards(cards) }
+            };
+            RunDataController.CurrentStation.Rewards = Rewards;
         }
     }
 }

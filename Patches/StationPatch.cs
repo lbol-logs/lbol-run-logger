@@ -15,7 +15,7 @@ namespace RunLogger.Patches
     [HarmonyPatch(typeof(Station))]
     class StationPatch
     {
-        public const string Listener = "AddReward";
+        public const string Listener = nameof(Station.AddReward);
 
         [HarmonyPatch(nameof(Station.AddReward)), HarmonyPrefix]
         static void AddRewardPatch(StationReward reward)
@@ -47,6 +47,8 @@ namespace RunLogger.Patches
     [HarmonyPatch(typeof(GapStation))]
     class GapStationPatch
     {
+        private const string Listener = nameof(GapOptionsPanel.InternalGerRareCard);
+
         [HarmonyPatch(typeof(GapOptionsPanel), nameof(GapOptionsPanel.OptionClicked)), HarmonyPostfix]
         static void OptionClickedPatch(GapOption option, GapOptionsPanel __instance)
         {
@@ -59,7 +61,7 @@ namespace RunLogger.Patches
         [HarmonyPatch(typeof(GapOptionsPanel), nameof(GapOptionsPanel.InternalGerRareCard)), HarmonyPrefix]
         static void InternalGerRareCardPatch()
         {
-            RunDataController.Listener = "GetRareCard";
+            RunDataController.Listener = Listener;
         }
 
         [HarmonyPatch(typeof(SelectCardPanel), nameof(SelectCardPanel.ShowMiniSelect)), HarmonyPrefix]
@@ -67,7 +69,7 @@ namespace RunLogger.Patches
         {
             switch (RunDataController.Listener)
             {
-                case "GetRareCard":
+                case Listener:
                     List<CardObj> cards = RunDataController.GetCards(payload.Cards);
                     RunDataController.AddData("ShanliangDengpao", cards);
                     break;
@@ -147,7 +149,7 @@ namespace RunLogger.Patches
         [HarmonyPatch(typeof(ShopStation))]
         class BuyCardPatch
         {
-            private const string Listener = "BuyCard";
+            private const string Listener = nameof(ShopStation.BuyCard);
 
             [HarmonyPatch(nameof(ShopStation.BuyCard))]
             static void Prefix(ShopItem<Card> cardItem, ShopStation __instance)
@@ -175,7 +177,7 @@ namespace RunLogger.Patches
         [HarmonyPatch(typeof(ShopStation))]
         class BuyExhibitRunnerPatch
         {
-            private const string Listener = "BuyExhibit";
+            private const string Listener = nameof(ShopStation.BuyExhibitRunner);
 
             [HarmonyPatch(nameof(ShopStation.BuyExhibitRunner))]
             static void Prefix(ShopItem<Exhibit> exhibitItem, ShopStation __instance)
