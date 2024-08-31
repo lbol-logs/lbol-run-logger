@@ -9,10 +9,10 @@ namespace RunLogger.Utils
     {
         public static void AddReward(StationReward reward)
         {
-            HandleRewards(new List<StationReward> { reward });
+            AddRewards(new List<StationReward> { reward });
         }
 
-        private static void HandleRewards(List<StationReward> rewards)
+        public static void AddRewards(List<StationReward> rewards)
         {
             Dictionary<string, object> Rewards = new Dictionary<string, object>();
             List<CardObj> Cards = null;
@@ -36,17 +36,21 @@ namespace RunLogger.Utils
                     RunDataController.AddListItem2Obj(ref Rewards, Type, Exhibit);
                 }
             }
-
             if (RunDataController.CurrentStation.Rewards != null)
             {
                 if (Cards != null && RunDataController.CurrentStation.Rewards.TryGetValue("Cards", out object currentCards))
                 {
                     (currentCards as List<List<CardObj>>).Add(Cards);
-                    return;
                 }
-                RunDataController.CurrentStation.Rewards.Concat(Rewards).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                else
+                {
+                    RunDataController.CurrentStation.Rewards = RunDataController.CurrentStation.Rewards.Concat(Rewards).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+                }
             }
-            RunDataController.CurrentStation.Rewards = Rewards;
+            else
+            {
+                RunDataController.CurrentStation.Rewards = Rewards;
+            }
         }
     }
 }

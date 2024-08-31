@@ -97,11 +97,9 @@ namespace RunLogger.Utils
                 if (!isDebug) return true;
 
                 __instance.Level = 3;
-                __instance.EnemyPoolAct3 = new UniqueRandomPool<string>(true) 
+                __instance.EnemyPoolAct1 = new UniqueRandomPool<string>(true) 
                 {
-                    { "37", 1f },
-                    { "38", 1f },
-                    { "39", 1f }
+                    { "33", 1f }
                 };
 
                 //__instance.TradeAdventureType = typeof(RinnosukeTrade);
@@ -112,10 +110,10 @@ namespace RunLogger.Utils
                     //stationTypes.Add(StationType.Trade);
                     //stationTypes.Add(StationType.Entry);
 
-                    //stationTypes.Add(StationType.Enemy);
-                    stationTypes.Add(StationType.BattleAdvTest);
-                    stationTypes.Add(StationType.BattleAdvTest);
-                    stationTypes.Add(StationType.BattleAdvTest);
+                    stationTypes.Add(StationType.Enemy);
+                    //stationTypes.Add(StationType.BattleAdvTest);
+                    //stationTypes.Add(StationType.BattleAdvTest);
+                    //stationTypes.Add(StationType.BattleAdvTest);
                 }
                 __result = GameMap.CreateSingleRoute(__instance.Boss.Id, stationTypes.ToArray());
                 return false;

@@ -74,6 +74,8 @@ namespace RunLogger.Patches
             if (station == null) RunDataController.RunData.Settings.Status = Status; 
             else station.Status = Status;
 
+            StagePatch.waitForSave = false;
+
             RunDataController.Save();
         }
 

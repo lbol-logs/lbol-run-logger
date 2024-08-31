@@ -48,8 +48,10 @@ namespace RunLogger.Patches
 
     [HarmonyDebug]
     [HarmonyPatch(typeof(Stage))]
-    class StagePatch
+    public static class StagePatch
     {
+        public static bool waitForSave = false;
+
         [HarmonyPatch(nameof(Stage.SetBoss)), HarmonyPostfix]
         static void SetBossPatch(string enemyGroupName)
         {
@@ -60,7 +62,8 @@ namespace RunLogger.Patches
         [HarmonyPatch(nameof(Stage.GetEnemyCardReward)), HarmonyPostfix]
         static void GetEnemyCardRewardPatch(StationReward __result)
         {
-            if (RunDataController.Listener != null) return;
+            Debugger.Write("GetEnemyCardReward, listener: " + waitForSave);
+            if (!waitForSave) return;
             RewardsUtil.AddReward(__result);
         }
 

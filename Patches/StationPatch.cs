@@ -20,9 +20,28 @@ namespace RunLogger.Patches
         [HarmonyPatch(nameof(Station.AddReward)), HarmonyPrefix]
         static void AddRewardPatch(StationReward reward)
         {
+            if (RunDataController.Listener != null) return;
             RunDataController.Listener = Listener;
             RewardsUtil.AddReward(reward);
-            RunDataController.Listener = null;
+        }
+
+        [HarmonyDebug]
+        [HarmonyPatch(typeof(Station))]
+        class AddRewarsdPatchPatch
+        {
+            [HarmonyPatch(nameof(Station.AddRewards), new Type[] { typeof(IEnumerable<StationReward>) })]
+            static void Prefix(IEnumerable<StationReward> rewards)
+            {
+                RunDataController.Listener = Listener;
+                RewardsUtil.AddRewards(rewards.ToList());
+            }
+
+            [HarmonyPatch(nameof(Station.AddRewards), new Type[] { typeof(IEnumerable<StationReward>) })]
+            static void Postfix()
+            {
+                RunDataController.Listener = null;
+                StagePatch.waitForSave = true;
+            }
         }
     }
 
