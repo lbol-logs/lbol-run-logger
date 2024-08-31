@@ -3,6 +3,8 @@ using LBoL.Core;
 using LBoL.Core.Cards;
 using LBoL.Core.Stations;
 using LBoL.Core.Stats;
+using LBoL.Core.Units;
+using LBoL.EntityLib.Adventures.FirstPlace;
 using RunLogger.Utils;
 using System.Collections.Generic;
 using System.Linq;
@@ -177,10 +179,14 @@ namespace RunLogger.Patches
         }
 
         [HarmonyPatch(nameof(GameRunController.LeaveBattle)), HarmonyPostfix]
-        static void LeaveBattlePatch(BattleStats __result)
+        static void LeaveBattlePatch(EnemyGroup enemyGroup, BattleStats __result, GameRunController __instance)
         {
             int Rounds = __result.TotalRounds;
             RunDataController.AddData("Rounds", Rounds);
+            if (__instance.CurrentStation.Type is StationType.Adventure)
+            {
+                RunDataController.AddData("Id", enemyGroup.Id);
+            }
             RunDataController.Save();
         }
 

@@ -3,6 +3,7 @@ using LBoL.Base;
 using LBoL.Core;
 using LBoL.Core.Adventures;
 using LBoL.Core.Battle.Interactions;
+using LBoL.Core.Randoms;
 using LBoL.EntityLib.Adventures;
 using LBoL.EntityLib.Adventures.FirstPlace;
 using RunLogger.Utils;
@@ -149,6 +150,28 @@ namespace RunLogger.Patches
             static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
             {
                 return instructions;
+            }
+        }
+
+        [HarmonyPatch(typeof(MiyoiBartender))]
+        public static class MiyoiBartenderPatch
+        {
+            [HarmonyPatch(nameof(MiyoiBartender.InitVariables))]
+            public static void Prefix(MiyoiBartender __instance)
+            {
+                UniqueRandomPool<string> uniqueRandomPool = __instance.Stage.EnemyPoolAct3;
+                List<string> ids = uniqueRandomPool.Select((RandomPoolEntry<string> e) => e.Elem).ToList();
+                RunDataController.AddData("Ids", ids);
+            }
+
+            [HarmonyPatch(nameof(MiyoiBartender.InitVariables))]
+            public static void Postfix(MiyoiBartender __instance)
+            {
+                if (RunDataController.ShowRandom)
+                {
+                    __instance.Storage.TryGetValue("$randomExhibit", out string randomExhibit);
+                    RunDataController.AddData("Exhibit", randomExhibit);
+                }
             }
         }
     }

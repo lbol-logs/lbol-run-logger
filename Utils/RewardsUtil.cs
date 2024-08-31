@@ -9,11 +9,11 @@ namespace RunLogger.Utils
 {
     public static class RewardsUtil
     {
-        public static void GenerateRewards<T>(T __instance)
-        {
-            List<StationReward> rewards = (__instance as BattleStation).Rewards;
-            HandleRewards(rewards);
-        }
+        //public static void GenerateRewards<T>(T __instance)
+        //{
+        //    List<StationReward> rewards = (__instance as BattleStation).Rewards;
+        //    HandleRewards(rewards);
+        //}
 
         public static void AddReward(StationReward reward)
         {
