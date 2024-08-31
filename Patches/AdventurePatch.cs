@@ -179,9 +179,13 @@ namespace RunLogger.Patches
         [HarmonyPatch(typeof(SumirekoGathering))]
         public static class SumirekoGatheringPatch
         {
+            private static List<string> rareCards;
+
             [HarmonyPatch(nameof(SumirekoGathering.InitVariables))]
-            public static void Postfix(MiyoiBartender __instance)
+            public static void Postfix(SumirekoGathering __instance)
             {
+                rareCards = GetRareCards(__instance);
+
                 __instance.Storage.TryGetValue("$rareCard1", out string rareCard1);
                 if (rareCard1 == null) return;
 
@@ -192,6 +196,7 @@ namespace RunLogger.Patches
                     IsUpgraded = isUpgraded
                 };
                 RunDataController.AddData("Card", card);
+                RunDataController.AddData("Cards", rareCards);
 
                 RunDataController.Listener = nameof(SumirekoGathering);
             }
@@ -205,6 +210,20 @@ namespace RunLogger.Patches
                 else if (station is BattleAdvTestStation) adv = (station as BattleAdvTestStation).Adventure;
                 if (adv == null) return;
                 RunDataController.AddData("HasMoney", __result);
+                if (__result)
+                {
+                    if (RunDataController.CurrentStation.Data.TryGetValue("Cards", out object cards)) return;
+                    RunDataController.AddData("Cards", rareCards);
+                }
+            }
+
+            private static List<string> GetRareCards(SumirekoGathering sumirekoGathering)
+            {
+                sumirekoGathering.Storage.TryGetValue("$rareTrade1", out string rareTrade1);
+                sumirekoGathering.Storage.TryGetValue("$rareTrade2", out string rareTrade2);
+                sumirekoGathering.Storage.TryGetValue("$rareTrade3", out string rareTrade3);
+                List<string> rareCards = new List<string> { rareTrade1, rareTrade2, rareTrade3 };
+                return rareCards;
             }
         }
     }
