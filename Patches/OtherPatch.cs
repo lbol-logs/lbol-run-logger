@@ -62,7 +62,6 @@ namespace RunLogger.Patches
         [HarmonyPatch(nameof(Stage.GetEnemyCardReward)), HarmonyPostfix]
         static void GetEnemyCardRewardPatch(StationReward __result)
         {
-            Debugger.Write("GetEnemyCardReward, listener: " + waitForSave);
             if (!waitForSave) return;
             RewardsUtil.AddReward(__result);
         }
