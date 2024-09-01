@@ -226,5 +226,20 @@ namespace RunLogger.Patches
                 return rareCards;
             }
         }
+
+        [HarmonyPatch(typeof(ShinmyoumaruForge))]
+        public static class ShinmyoumaruForgePatch
+        {
+            [HarmonyPatch(nameof(ShinmyoumaruForge.InitVariables))]
+            public static void Postfix(ShinmyoumaruForge __instance)
+            {
+                __instance.Storage.TryGetValue("$hasUpgradableBasics", out bool hasUpgradableBasics);
+                RunDataController.AddData("HasUpgradableBasics", hasUpgradableBasics);
+                __instance.Storage.TryGetValue("$hasNonBasics", out bool hasNonBasics);
+                RunDataController.AddData("HasNonBasics", hasNonBasics);
+                __instance.Storage.TryGetValue("$loseMax", out float loseMax);
+                RunDataController.AddData("LoseMax", (int)loseMax);
+            }
+        }
     }
 }
