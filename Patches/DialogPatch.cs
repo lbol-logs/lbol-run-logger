@@ -1,9 +1,6 @@
 ﻿using HarmonyLib;
 using LBoL.Core.Dialogs;
 using RunLogger.Utils;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace RunLogger.Patches
 {

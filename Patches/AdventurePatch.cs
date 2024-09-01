@@ -8,6 +8,7 @@ using LBoL.Core.Randoms;
 using LBoL.Core.Stations;
 using LBoL.EntityLib.Adventures;
 using LBoL.EntityLib.Adventures.FirstPlace;
+using LBoL.EntityLib.Adventures.Shared23;
 using RunLogger.Utils;
 using System.Collections.Generic;
 using System.Linq;
@@ -251,6 +252,20 @@ namespace RunLogger.Patches
             {
                 __instance.Storage.TryGetValue("$loseMax", out float loseMax);
                 RunDataController.AddData("LoseMax", (int)loseMax);
+            }
+        }
+
+        [HarmonyPatch(typeof(HinaCollect))]
+        public static class HinaCollectPatch
+        {
+            [HarmonyPatch(nameof(HinaCollect.InitVariables))]
+            public static void Postfix(HinaCollect __instance)
+            {
+                if (RunDataController.ShowRandom)
+                {
+                    __instance.Storage.TryGetValue("$card", out string card);
+                    RunDataController.AddData("Card", card);
+                }
             }
         }
     }
