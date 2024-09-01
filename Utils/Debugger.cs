@@ -1,7 +1,10 @@
 ﻿using HarmonyLib;
+using LBoL.Base;
 using LBoL.Core;
+using LBoL.Core.Adventures;
 using LBoL.Core.Randoms;
 using LBoL.Core.Stations;
+using LBoL.Core.Units;
 using LBoL.EntityLib.Adventures.FirstPlace;
 using LBoL.EntityLib.Exhibits.Shining;
 using LBoL.EntityLib.Stages;
@@ -84,6 +87,29 @@ namespace RunLogger.Utils
             {
                 if (!isDebug) return;
                 __instance.Level = 1;
+            }
+        }
+
+        [HarmonyDebug]
+        [HarmonyPatch(typeof(BattleAdvTestStation))]
+        class BattleAdvTestStationPatch
+        {
+            [HarmonyPatch(nameof(BattleAdvTestStation.SetEnemy)), HarmonyPostfix]
+            static void SetEnemyPatch(EnemyGroupEntry entry)
+            {
+                EnemyType enemyType = entry.EnemyType;
+                string type;
+                if (enemyType == EnemyType.Normal) type = StationType.Enemy.ToString();
+                else type = enemyType.ToString();
+                RunDataController.CurrentStation.Type = type;
+                RunDataController.CurrentStation.Id = entry.Id;
+            }
+
+            [HarmonyPatch(nameof(BattleAdvTestStation.SetAdventure)), HarmonyPostfix]
+            static void SetAdventurePatch(Adventure adventure)
+            {
+                RunDataController.CurrentStation.Type = StationType.Adventure.ToString();
+                RunDataController.CurrentStation.Id = adventure.Id;
             }
         }
 

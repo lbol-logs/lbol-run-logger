@@ -206,11 +206,10 @@ namespace RunLogger.Patches
             public static void HasMoneyPatch(bool __result, GameRunController ____gameRun)
             {
                 Station station = ____gameRun.CurrentStation;
-                Adventure adv = null;
-                if (station is AdventureStation) adv = (station as AdventureStation).Adventure;
-                else if (station is BattleAdvTestStation) adv = (station as BattleAdvTestStation).Adventure;
-                if (adv == null) return;
-                if (adv.Id != nameof(SumirekoGathering)) return;
+                string Id = RunDataController.GetAdventureId(station);
+                if (Id == null) return;
+                else if (Id != nameof(SumirekoGathering)) return;
+
                 RunDataController.AddData("HasMoney", __result);
                 if (__result)
                 {

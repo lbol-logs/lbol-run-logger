@@ -4,6 +4,7 @@ using LBoL.Core.Cards;
 using LBoL.Core.Stations;
 using LBoL.Core.Stats;
 using LBoL.Core.Units;
+using Newtonsoft.Json;
 using RunLogger.Utils;
 using System.Collections.Generic;
 using System.Linq;
@@ -122,8 +123,8 @@ namespace RunLogger.Patches
         static void EnterMapNodePatch(MapNode node, GameRunController __instance)
         {
             int Act = __instance.CurrentStage.Level;
-            Station CurrentStation = __instance.CurrentStation;
-            int Level = CurrentStation.Level;
+            Station currentStation = __instance.CurrentStation;
+            int Level = currentStation.Level;
             int Y = node.Y;
             string Type = node.StationType.ToString();
             StationObj station = new StationObj
@@ -136,15 +137,14 @@ namespace RunLogger.Patches
                     Y = Y
                 }
             };
-            if (CurrentStation is AdventureStation AdventureStation)
+            string Id = RunDataController.GetAdventureId(currentStation);
+            if (Id != null) station.Id = Id;
+            else
             {
-                string Id = AdventureStation.Adventure.Id;
-                station.Id = Id;
-            }
-            else if (CurrentStation is BattleStation BattleStation)
-            {
-                string Id = BattleStation.EnemyGroup.Id;
-                station.Id = Id;
+                Debugger.Write(JsonConvert.SerializeObject(station));
+                Id = RunDataController.GetEnemyGroupId(currentStation);
+                Debugger.Write(JsonConvert.SerializeObject(station));
+                if (Id != null) station.Id = Id;
             }
             RunDataController.RunData.Stations.Add(station);
         }
@@ -184,7 +184,7 @@ namespace RunLogger.Patches
         {
             int Rounds = __result.TotalRounds;
             RunDataController.AddData("Rounds", Rounds);
-            if (__instance.CurrentStation.Type is StationType.Adventure)
+            if (RunDataController.GetAdventureId(__instance.CurrentStation) != null)
             {
                 RunDataController.AddData("Id", enemyGroup.Id);
             }

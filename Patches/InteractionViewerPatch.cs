@@ -34,11 +34,10 @@ namespace RunLogger.Patches
             if (interaction.Source == null) return;
             string source = interaction.Source.Id;
 
-            if (interaction is RewardInteraction)
+            if (interaction is RewardInteraction rewardInteraction)
             {
                 if (source == "HuiyeBaoxiang")
                 {
-                    RewardInteraction rewardInteraction = interaction as RewardInteraction;
                     IReadOnlyList<Exhibit> exhibits = rewardInteraction.PendingExhibits;
 
                     if (RunDataController.CurrentStation.Rewards == null)
@@ -54,11 +53,10 @@ namespace RunLogger.Patches
                     }
                 }
             }
-            else if (interaction is MiniSelectCardInteraction)
+            else if (interaction is MiniSelectCardInteraction miniSelectCardInteraction)
             {
                 if (source == "Modaoshu")
                 {
-                    MiniSelectCardInteraction miniSelectCardInteraction = interaction as MiniSelectCardInteraction;
                     IReadOnlyList<Card> cards = miniSelectCardInteraction.PendingCards;
 
                     if (RunDataController.CurrentStation.Rewards == null)

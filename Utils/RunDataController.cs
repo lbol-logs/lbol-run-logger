@@ -8,7 +8,9 @@ using LBoL.Core.Cards;
 using LBoL.Core;
 using LBoL.Base;
 using LBoL.ConfigData;
-using LBoL.EntityLib.JadeBoxes;
+using LBoL.Core.Stations;
+using LBoL.Core.Adventures;
+using LBoL.Core.Units;
 
 namespace RunLogger.Utils
 {
@@ -153,6 +155,46 @@ namespace RunLogger.Utils
                 if (manaColor == null) baseMana += "A";
             }
             return baseMana;
+        }
+
+        public static string GetEnemyGroupId(Station station)
+        {
+            EnemyGroup enemyGroup;
+            if (station is BattleStation battleStation)
+            {
+                enemyGroup = battleStation.EnemyGroup;
+                return enemyGroup.Id;
+            }
+            else if (station is BattleAdvTestStation battleAdvTestStation)
+            {
+                enemyGroup = battleAdvTestStation.EnemyGroup;
+                if (enemyGroup == null) return null;
+                return enemyGroup.Id;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public static string GetAdventureId(Station station)
+        {
+            Adventure adventure;
+            if (station is AdventureStation adventureStation)
+            {
+                adventure = adventureStation.Adventure;
+                return adventure.Id;
+            }
+            else if (station is BattleAdvTestStation battleAdvTestStation)
+            {
+                adventure = battleAdvTestStation.Adventure;
+                if (adventure == null) return null;
+                return adventure.Id;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public static void Create()

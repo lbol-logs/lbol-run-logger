@@ -71,12 +71,11 @@ namespace RunLogger.Patches
         static void Prefix(BattleAction __instance, string name, UnitEventArgs args)
         {
             if (name != "TurnStarted") return;
-            if (__instance is StartPlayerTurnAction)
+            if (__instance is StartPlayerTurnAction startPlayerTurnAction)
             {
                 BattleController battleController = __instance.Battle;
                 if (battleController.EnemyGroup.Id != "Seija") return;
 
-                StartPlayerTurnAction startPlayerTurnAction = __instance as StartPlayerTurnAction;
                 bool isExtra = startPlayerTurnAction.IsExtra;
                 if (isExtra) return;
 
@@ -96,10 +95,8 @@ namespace RunLogger.Patches
                 };
                 RunDataController.AddDataItem("Details", details);
             }
-            else if (__instance is StartEnemyTurnAction)
+            else if (__instance is StartEnemyTurnAction startEnemyTurnAction)
             {
-                StartEnemyTurnAction startEnemyTurnAction = __instance as StartEnemyTurnAction;
-
                 EnemyUnit enemy = args.Unit as EnemyUnit;
                 string id = enemy.Id;
                 if (!RunDataController.enemiesShowDetails.Contains(id)) return;

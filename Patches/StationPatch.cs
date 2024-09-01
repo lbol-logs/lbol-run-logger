@@ -119,11 +119,10 @@ namespace RunLogger.Patches
         static void EnterMapNodePatch(GameRunController __instance)
         {
             Station CurrentStation = __instance.CurrentStation;
-            if (!(CurrentStation is ShopStation)) return;
+            if (!(CurrentStation is ShopStation station)) return;
 
             appended = false;
 
-            ShopStation station = CurrentStation as ShopStation;
             List<ShopItem<Card>> cardsList = station.ShopCards;
             List<CardWithPrice> cards = cardsList.Select(item => {
                 int price = item.Price;
