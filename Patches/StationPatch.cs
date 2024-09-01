@@ -113,7 +113,7 @@ namespace RunLogger.Patches
     [HarmonyPatch(typeof(ShopStation))]
     class ShopStationPatch
     {
-        private static bool appended;
+        private static int index = -1;
 
         [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.EnterMapNode)), HarmonyPostfix, HarmonyPriority(1)]
         static void EnterMapNodePatch(GameRunController __instance)
@@ -121,7 +121,7 @@ namespace RunLogger.Patches
             Station CurrentStation = __instance.CurrentStation;
             if (!(CurrentStation is ShopStation station)) return;
 
-            appended = false;
+            index = -1;
 
             List<ShopItem<Card>> cardsList = station.ShopCards;
             List<CardWithPrice> cards = cardsList.Select(item => {
@@ -181,12 +181,12 @@ namespace RunLogger.Patches
                 if (RunDataController.Listener != Listener) return;
                 RunDataController.CurrentStation.Rewards.TryGetValue("Cards", out object value);
                 List<List<CardWithPrice>> cards = value as List<List<CardWithPrice>>;
-                if (appended == false)
+                if (index == -1)
                 {
+                    index = cards.Count;
                     cards.Add(new List<CardWithPrice>());
-                    appended = true;
                 }
-                cards[^1].Add(RunDataController.GetCardWithPrice(card, __result));
+                cards[index].Add(RunDataController.GetCardWithPrice(card, __result));
                 RunDataController.Listener = null;
             }
         }
