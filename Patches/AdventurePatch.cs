@@ -209,6 +209,7 @@ namespace RunLogger.Patches
                 if (station is AdventureStation) adv = (station as AdventureStation).Adventure;
                 else if (station is BattleAdvTestStation) adv = (station as BattleAdvTestStation).Adventure;
                 if (adv == null) return;
+                if (adv.Id != nameof(SumirekoGathering)) return;
                 RunDataController.AddData("HasMoney", __result);
                 if (__result)
                 {
