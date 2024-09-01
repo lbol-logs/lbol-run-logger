@@ -267,5 +267,38 @@ namespace RunLogger.Patches
                 }
             }
         }
+
+        [HarmonyPatch(typeof(KosuzuBookstore))]
+        public static class KosuzuBookstorePatch
+        {
+            [HarmonyPatch(nameof(KosuzuBookstore.InitVariables))]
+            public static void Postfix(KosuzuBookstore __instance)
+            {
+                __instance.Storage.TryGetValue("$thirdBook", out bool thirdBook);
+                __instance.Storage.TryGetValue("$book0", out string book0);
+                __instance.Storage.TryGetValue("$book1", out string book1);
+                List<string> exhibits = new List<string>() { book0, book1 };
+                if (thirdBook)
+                {
+                    __instance.Storage.TryGetValue("$book2", out string book2);
+                    exhibits.Add(book2);
+                }
+                RunDataController.AddData("Exhibits", exhibits);
+
+                __instance.Storage.TryGetValue("$returnBookCount", out float returnBookCount);
+                int k = (int)returnBookCount;
+                if (k > 0)
+                {
+                    List<string> returns = new List<string>();
+                    string returnBook;
+                    for (int i = 0; i < k; i++)
+                    {
+                        __instance.Storage.TryGetValue("$returnBook" + i.ToString(), out returnBook);
+                        returns.Add(returnBook);
+                    }
+                    RunDataController.AddData("Returns", returns);
+                }
+            }
+        }
     }
 }
