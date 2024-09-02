@@ -3,6 +3,7 @@ using LBoL.Base;
 using LBoL.Core;
 using LBoL.Core.Adventures;
 using LBoL.Core.Battle.Interactions;
+using LBoL.Core.Cards;
 using LBoL.Core.Dialogs;
 using LBoL.Core.Randoms;
 using LBoL.Core.Stations;
@@ -10,6 +11,7 @@ using LBoL.EntityLib.Adventures;
 using LBoL.EntityLib.Adventures.FirstPlace;
 using LBoL.EntityLib.Adventures.Shared23;
 using RunLogger.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -298,6 +300,29 @@ namespace RunLogger.Patches
                     }
                     RunDataController.AddData("Returns", returns);
                 }
+            }
+        }
+
+        [HarmonyPatch(typeof(NarumiOfferCard))]
+        public static class NarumiOfferCardPatch
+        {
+            [HarmonyPatch(nameof(NarumiOfferCard.OfferDeckCard))]
+            public static void Prefix(string description)
+            {
+                RunDataController.Listener = nameof(NarumiOfferCard);
+            }
+
+            [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.RemoveDeckCards), new Type[] { typeof(IEnumerable<Card>), typeof(bool) }), HarmonyPostfix]
+            public static void RemoveDeckCardsPatch(IEnumerable<Card> cards)
+            {
+                if (RunDataController.Listener != nameof(NarumiOfferCard)) return;
+
+                string type;
+                Card card = cards.First();
+                if (card.CardType == CardType.Misfortune) type = CardType.Misfortune.ToString();
+                else type = card.Config.Rarity.ToString();
+                RunDataController.AddData("Type", type);
+                RunDataController.Listener = null;
             }
         }
     }
