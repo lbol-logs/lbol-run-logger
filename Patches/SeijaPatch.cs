@@ -74,7 +74,7 @@ namespace RunLogger.Patches
             if (__instance is StartPlayerTurnAction startPlayerTurnAction)
             {
                 BattleController battleController = __instance.Battle;
-                if (battleController.EnemyGroup.Id != "Seija") return;
+                if (battleController.EnemyGroup.Id != nameof(Seija)) return;
 
                 bool isExtra = startPlayerTurnAction.IsExtra;
                 if (isExtra) return;

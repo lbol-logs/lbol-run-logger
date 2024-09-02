@@ -6,6 +6,9 @@ using LBoL.Core;
 using RunLogger.Utils;
 using System.Collections.Generic;
 using LBoL.EntityLib.Adventures;
+using LBoL.EntityLib.Exhibits.Shining;
+using LBoL.EntityLib.Exhibits.Common;
+using LBoL.EntityLib.Exhibits.Adventure;
 
 namespace RunLogger.Patches
 {
@@ -36,7 +39,7 @@ namespace RunLogger.Patches
 
             if (interaction is RewardInteraction rewardInteraction)
             {
-                if (source == "HuiyeBaoxiang")
+                if (source == nameof(HuiyeBaoxiang))
                 {
                     IReadOnlyList<Exhibit> exhibits = rewardInteraction.PendingExhibits;
 
@@ -55,7 +58,7 @@ namespace RunLogger.Patches
             }
             else if (interaction is MiniSelectCardInteraction miniSelectCardInteraction)
             {
-                if (source == "Modaoshu")
+                if (source == nameof(Modaoshu))
                 {
                     IReadOnlyList<Card> cards = miniSelectCardInteraction.PendingCards;
 
@@ -68,6 +71,10 @@ namespace RunLogger.Patches
                     List<List<CardObj>> currentCards = value as List<List<CardObj>>;
                     currentCards.Add(new List<CardObj>());
                     currentCards[^1] = RunDataController.GetCards(cards);
+                }
+                else if (source == nameof(FixBook))
+                {
+
                 }
             }
         }

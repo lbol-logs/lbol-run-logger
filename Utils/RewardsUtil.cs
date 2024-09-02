@@ -18,22 +18,23 @@ namespace RunLogger.Utils
             List<CardObj> Cards = null;
             foreach (StationReward reward in rewards)
             {
-                string Type = reward.Type.ToString();
-                if (Type == "Money")
+                StationRewardType Type = reward.Type;
+                string type = Type.ToString();
+                if (Type == StationRewardType.Money)
                 {
                     int Money = reward.Money;
-                    Rewards[Type] = Money;
+                    Rewards[type] = Money;
                 }
-                else if (Type == "Card" || Type == "Tool")
+                else if (Type == StationRewardType.Card || Type == StationRewardType.Tool)
                 {
                     List<Card> list = reward.Cards;
                     Cards = RunDataController.GetCards(list);
-                    RunDataController.AddListItem2Obj(ref Rewards, Type, Cards);
+                    RunDataController.AddListItem2Obj(ref Rewards, type, Cards);
                 }
-                else if (Type == "Exhibit")
+                else if (Type == StationRewardType.Exhibit)
                 {
                     string Exhibit = reward.Exhibit.Id;
-                    RunDataController.AddListItem2Obj(ref Rewards, Type, Exhibit);
+                    RunDataController.AddListItem2Obj(ref Rewards, type, Exhibit);
                 }
             }
             if (RunDataController.CurrentStation.Rewards != null)
