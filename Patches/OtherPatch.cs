@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using LBoL.Core;
 using LBoL.Core.Stations;
+using LBoL.EntityLib.Exhibits.Common;
 using RunLogger.Utils;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace RunLogger.Patches
         {
             if (RunDataController.isInitialize) return;
 
-            string[] exhibits = { "GanzhuYao", "ChuRenou", "TiangouYuyi", "Moping", "Baota" };
+            string[] exhibits = { nameof(GanzhuYao), nameof(ChuRenou), nameof(TiangouYuyi), nameof(Moping), nameof(Baota) };
             if (!exhibits.Contains(__instance.Id)) return;
 
             int before = __instance.Counter;

@@ -10,6 +10,7 @@ using LBoL.Core.Stations;
 using LBoL.EntityLib.Adventures;
 using LBoL.EntityLib.Adventures.FirstPlace;
 using LBoL.EntityLib.Adventures.Shared23;
+using LBoL.EntityLib.Exhibits.Adventure;
 using LBoL.Presentation.UI.Panels;
 using RunLogger.Utils;
 using System;
@@ -327,13 +328,26 @@ namespace RunLogger.Patches
             }
         }
 
-        [HarmonyPatch(typeof(NazrinDetect))]
         public static class NazrinDetectPatch
         {
             [HarmonyPatch(typeof(NazrinDetectPanel), nameof(NazrinDetectPanel.Roll)), HarmonyPostfix]
             public static void RollPatch(int resultIndex)
             {
                 RunDataController.AddData("Result", resultIndex);
+            }
+        }
+
+        public static class HecatiaTshirtPatch
+        {
+            [HarmonyPatch(typeof(Adventure), nameof(Adventure.GainExhibitRunner)), HarmonyPostfix]
+            static void GainExhibitRunnerPatch(string name)
+            {
+
+                Debugger.Write("name: " + name);
+                //if (name != nameof(IdolTshirt)) return;
+                //int counter = exhibit.Counter;
+                //Debugger.Write(counter.ToString());
+                //if (counter > 2) RunDataController.AddExhibitChange(exhibit, ChangeType.Upgrade, counter);
             }
         }
     }
