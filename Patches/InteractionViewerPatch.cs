@@ -74,7 +74,14 @@ namespace RunLogger.Patches
                 }
                 else if (source == nameof(FixBook))
                 {
+                    IReadOnlyList<Card> cards = miniSelectCardInteraction.PendingCards;
 
+                    List<List<CardObj>> Cards = new List<List<CardObj>>() { RunDataController.GetCards(cards) };
+                    Dictionary<string, object> Rewards = new Dictionary<string, object>
+                    {
+                        { "Cards", Cards }
+                    };
+                    RunDataController.CurrentStation.Rewards = Rewards;
                 }
             }
         }
