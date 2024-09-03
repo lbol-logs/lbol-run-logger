@@ -30,7 +30,7 @@ namespace RunLogger.Utils
                 {
                     List<Card> list = reward.Cards;
                     Cards = RunDataController.GetCards(list);
-                    RunDataController.AddListItem2Obj(type, Cards);
+                    RunDataController.AddListItem2Obj(StationRewardType.Card.ToString(), Cards);
                 }
                 else if (Type == StationRewardType.Exhibit)
                 {
