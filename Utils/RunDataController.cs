@@ -11,6 +11,8 @@ using LBoL.ConfigData;
 using LBoL.Core.Stations;
 using LBoL.Core.Adventures;
 using LBoL.Core.Units;
+using LBoL.EntityLib.Adventures;
+using LBoL.Core.Dialogs;
 
 namespace RunLogger.Utils
 {
@@ -195,6 +197,17 @@ namespace RunLogger.Utils
             {
                 return null;
             }
+        }
+
+        public static List<T> GetList<T>(DialogStorage storage, IEnumerable<int> keys, string prefix, string suffix = "")
+        {
+            List<T> ids = new List<T>();
+            foreach (int key in keys)
+            {
+                storage.TryGetValue($"{prefix}{key}{suffix}", out object id);
+                ids.Add((T)id);
+            }
+            return ids;
         }
 
         public static void Create()

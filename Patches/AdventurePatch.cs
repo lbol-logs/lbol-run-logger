@@ -52,38 +52,30 @@ namespace RunLogger.Patches
 
                 if (!RunDataController.ShowRandom) return;
 
+                DialogStorage storage = __instance.Storage;
                 RunDataController.AddData("Shinning", _exhibit.Id);
                 foreach (int _bonusNo in _bonusNos)
                 {
                     switch (_bonusNo)
                     {
                         case 0:
-                            List<string> uncommonCards = GetUncommonCards(__instance);
+                            List<string> uncommonCards = RunDataController.GetList<string>(storage, new[] { 1, 2, 3 }, "$uncommonCard");
                             RunDataController.AddData("UncommonCards", uncommonCards);
                             break;
                         case 1:
-                            __instance.Storage.TryGetValue("$rareCard", out string rareCard);
+                            storage.TryGetValue("$rareCard", out string rareCard);
                             RunDataController.AddData("RareCard", rareCard);
                             break;
                         case 2:
-                            __instance.Storage.TryGetValue("$rareExhibit", out string rareExhibit);
+                            storage.TryGetValue("$rareExhibit", out string rareExhibit);
                             RunDataController.AddData("RareExhibit", rareExhibit);
                             break;
                         case 5:
-                            __instance.Storage.TryGetValue("$transformCard", out string transformCard);
+                            storage.TryGetValue("$transformCard", out string transformCard);
                             RunDataController.AddData("TransformCard", transformCard);
                             break;
                     }
                 }
-            }
-
-            private static List<string> GetUncommonCards(Debut debut)
-            {
-                debut.Storage.TryGetValue("$uncommonCard1", out string uncommonCard1);
-                debut.Storage.TryGetValue("$uncommonCard2", out string uncommonCard2);
-                debut.Storage.TryGetValue("$uncommonCard3", out string uncommonCard3);
-                List<string> uncommonCards = new List<string> { uncommonCard1, uncommonCard2, uncommonCard3 };
-                return uncommonCards;
             }
         }
 
@@ -93,11 +85,12 @@ namespace RunLogger.Patches
             [HarmonyPatch(nameof(Supply.InitVariables))]
             public static void Postfix(Supply __instance)
             {
-                __instance.Storage.TryGetValue("$exhibitA", out string exhibitA);
-                __instance.Storage.TryGetValue("$exhibitB", out string exhibitB);
+                DialogStorage storage = __instance.Storage;
+                storage.TryGetValue("$exhibitA", out string exhibitA);
+                storage.TryGetValue("$exhibitB", out string exhibitB);
                 RunDataController.AddData("Exhibits", new List<string>() { exhibitA, exhibitB });
 
-                __instance.Storage.TryGetValue("$bothFlag", out bool bothFlag);
+                storage.TryGetValue("$bothFlag", out bool bothFlag);
                 RunDataController.AddData("Both", bothFlag);
             }
         }
@@ -108,21 +101,22 @@ namespace RunLogger.Patches
             [HarmonyPatch(nameof(RinnosukeTrade.InitVariables))]
             public static void Postfix(Supply __instance)
             {
-                __instance.Storage.TryGetValue("$canSell1", out bool canSell1);
-                __instance.Storage.TryGetValue("$canSell2", out bool canSell2);
+                DialogStorage storage = __instance.Storage;
+                storage.TryGetValue("$canSell1", out bool canSell1);
+                storage.TryGetValue("$canSell2", out bool canSell2);
 
                 if (canSell1)
                 {
                     Dictionary<string, int> prices = new Dictionary<string, int>();
 
-                    __instance.Storage.TryGetValue("$exhibit1", out string exhibit1);
-                    __instance.Storage.TryGetValue("$exhibit1Price", out float exhibit1Price);
+                    storage.TryGetValue("$exhibit1", out string exhibit1);
+                    storage.TryGetValue("$exhibit1Price", out float exhibit1Price);
                     prices.Add(exhibit1, (int)exhibit1Price);
 
                     if (canSell2)
                     {
-                        __instance.Storage.TryGetValue("$exhibit2", out string exhibit2);
-                        __instance.Storage.TryGetValue("$exhibit2Price", out float exhibit2Price);
+                        storage.TryGetValue("$exhibit2", out string exhibit2);
+                        storage.TryGetValue("$exhibit2Price", out float exhibit2Price);
                         prices.Add(exhibit2, (int)exhibit2Price);
                     }
 
@@ -191,12 +185,13 @@ namespace RunLogger.Patches
             [HarmonyPatch(nameof(SumirekoGathering.InitVariables))]
             public static void Postfix(SumirekoGathering __instance)
             {
-                rareCards = GetRareCards(__instance);
+                DialogStorage storage = __instance.Storage;
+                rareCards = RunDataController.GetList<string>(storage, new[] { 1, 2, 3 }, "$rareTrade");
 
-                __instance.Storage.TryGetValue("$rareCard1", out string rareCard1);
+                storage.TryGetValue("$rareCard1", out string rareCard1);
                 if (rareCard1 == null) return;
 
-                __instance.Storage.TryGetValue("$isUpgraded", out bool isUpgraded);
+                storage.TryGetValue("$isUpgraded", out bool isUpgraded);
                 CardObj card = new CardObj()
                 {
                     Id = rareCard1,
@@ -223,15 +218,6 @@ namespace RunLogger.Patches
                     RunDataController.AddData("Cards", rareCards);
                 }
             }
-
-            private static List<string> GetRareCards(SumirekoGathering sumirekoGathering)
-            {
-                sumirekoGathering.Storage.TryGetValue("$rareTrade1", out string rareTrade1);
-                sumirekoGathering.Storage.TryGetValue("$rareTrade2", out string rareTrade2);
-                sumirekoGathering.Storage.TryGetValue("$rareTrade3", out string rareTrade3);
-                List<string> rareCards = new List<string> { rareTrade1, rareTrade2, rareTrade3 };
-                return rareCards;
-            }
         }
 
         [HarmonyPatch(typeof(ShinmyoumaruForge))]
@@ -240,11 +226,12 @@ namespace RunLogger.Patches
             [HarmonyPatch(nameof(ShinmyoumaruForge.InitVariables))]
             public static void Postfix(ShinmyoumaruForge __instance)
             {
-                __instance.Storage.TryGetValue("$hasUpgradableBasics", out bool hasUpgradableBasics);
+                DialogStorage storage = __instance.Storage;
+                storage.TryGetValue("$hasUpgradableBasics", out bool hasUpgradableBasics);
                 RunDataController.AddData("HasUpgradableBasics", hasUpgradableBasics);
-                __instance.Storage.TryGetValue("$hasNonBasics", out bool hasNonBasics);
+                storage.TryGetValue("$hasNonBasics", out bool hasNonBasics);
                 RunDataController.AddData("HasNonBasics", hasNonBasics);
-                __instance.Storage.TryGetValue("$loseMax", out float loseMax);
+                storage.TryGetValue("$loseMax", out float loseMax);
                 RunDataController.AddData("LoseMax", (int)loseMax);
             }
         }
@@ -280,28 +267,23 @@ namespace RunLogger.Patches
             [HarmonyPatch(nameof(KosuzuBookstore.InitVariables))]
             public static void Postfix(KosuzuBookstore __instance)
             {
-                __instance.Storage.TryGetValue("$thirdBook", out bool thirdBook);
-                __instance.Storage.TryGetValue("$book0", out string book0);
-                __instance.Storage.TryGetValue("$book1", out string book1);
+                DialogStorage storage = __instance.Storage;
+                storage.TryGetValue("$thirdBook", out bool thirdBook);
+                storage.TryGetValue("$book0", out string book0);
+                storage.TryGetValue("$book1", out string book1);
                 List<string> exhibits = new List<string>() { book0, book1 };
                 if (thirdBook)
                 {
-                    __instance.Storage.TryGetValue("$book2", out string book2);
+                    storage.TryGetValue("$book2", out string book2);
                     exhibits.Add(book2);
                 }
                 RunDataController.AddData("Exhibits", exhibits);
 
-                __instance.Storage.TryGetValue("$returnBookCount", out float returnBookCount);
+                storage.TryGetValue("$returnBookCount", out float returnBookCount);
                 int k = (int)returnBookCount;
                 if (k > 0)
                 {
-                    List<string> returns = new List<string>();
-                    string returnBook;
-                    for (int i = 0; i < k; i++)
-                    {
-                        __instance.Storage.TryGetValue("$returnBook" + i.ToString(), out returnBook);
-                        returns.Add(returnBook);
-                    }
+                    List<string> returns = RunDataController.GetList<string>(storage, Enumerable.Range(0, k), "$returnBook");
                     RunDataController.AddData("Returns", returns);
                 }
             }
@@ -358,16 +340,11 @@ namespace RunLogger.Patches
             [HarmonyPatch(nameof(KeineSales.InitVariables))]
             public static void Postfix(KeineSales __instance)
             {
-                List<int> questions = new List<int>();
-                __instance.Storage.TryGetValue("$stageNo", out float stageNo);
-                int k = stageNo < 2 ? 1 : 2;
-
-                float no;
-                for (int i = 1; i <= k; i++)
-                {
-                    __instance.Storage.TryGetValue($"$question{i}No", out no);
-                    questions.Add((int)no);
-                }
+                DialogStorage storage = __instance.Storage;
+                storage.TryGetValue("$stageNo", out float stageNo);
+                List<int> keys = new List<int>() { 1 };
+                if (stageNo > 1) keys.Add(2);
+                List<int> questions = RunDataController.GetList<int>(storage, keys, "$question", "No");
                 RunDataController.AddData("Questions", questions);
             }
         }
@@ -378,11 +355,12 @@ namespace RunLogger.Patches
             [HarmonyPatch(nameof(MikeInvest.InitVariables))]
             public static void Postfix(MikeInvest __instance)
             {
-                __instance.Storage.TryGetValue("$longMoney", out float longMoney);
+                DialogStorage storage = __instance.Storage;
+                storage.TryGetValue("$longMoney", out float longMoney);
                 RunDataController.AddData("Money", (int)longMoney);
                 if (RunDataController.ShowRandom)
                 {
-                    __instance.Storage.TryGetValue("$cardReward", out string cardReward);
+                    storage.TryGetValue("$cardReward", out string cardReward);
                     RunDataController.AddData("Card", cardReward);
                 }
             }
@@ -410,6 +388,21 @@ namespace RunLogger.Patches
             {
                 __instance.Storage.TryGetValue("$hasExhibit", out bool hasExhibit);
                 RunDataController.AddData("HasExhibit", hasExhibit);
+            }
+        }
+
+        [HarmonyPatch(typeof(RingoEmp))]
+        public static class RingoEmpPatch
+        {
+            [HarmonyPatch(nameof(RingoEmp.InitVariables))]
+            public static void Postfix(RingoEmp __instance)
+            {
+                if (RunDataController.ShowRandom)
+                {
+                    DialogStorage storage = __instance.Storage;
+                    List<string> cards = RunDataController.GetList<string>(storage, new[] { 1, 2, 3 }, "$tool");
+                    RunDataController.AddData("Cards", cards);
+                }
             }
         }
     }
