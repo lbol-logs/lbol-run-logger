@@ -11,6 +11,7 @@ using LBoL.EntityLib.Adventures;
 using LBoL.EntityLib.Adventures.FirstPlace;
 using LBoL.EntityLib.Adventures.Shared12;
 using LBoL.EntityLib.Adventures.Shared23;
+using LBoL.EntityLib.Adventures.Stage2;
 using LBoL.EntityLib.Exhibits.Adventure;
 using LBoL.Presentation.UI.Panels;
 using RunLogger.Utils;
@@ -398,6 +399,17 @@ namespace RunLogger.Patches
                     __instance.Storage.TryGetValue("$transformCard", out string transformCard);
                     RunDataController.AddData("Card", transformCard);
                 }
+            }
+        }
+
+        [HarmonyPatch(typeof(RemiliaMeet))]
+        public static class RemiliaMeetPatch
+        {
+            [HarmonyPatch(nameof(RemiliaMeet.InitVariables))]
+            public static void Postfix(RemiliaMeet __instance)
+            {
+                __instance.Storage.TryGetValue("$hasExhibit", out bool hasExhibit);
+                RunDataController.AddData("HasExhibit", hasExhibit);
             }
         }
     }
