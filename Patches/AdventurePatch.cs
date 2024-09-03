@@ -386,5 +386,19 @@ namespace RunLogger.Patches
                 }
             }
         }
+
+        [HarmonyPatch(typeof(YoumuDelivery))]
+        public static class YoumuDeliveryPatch
+        {
+            [HarmonyPatch(nameof(YoumuDelivery.InitVariables))]
+            public static void Postfix(YoumuDelivery __instance)
+            {
+                if (RunDataController.ShowRandom)
+                {
+                    __instance.Storage.TryGetValue("$transformCard", out string transformCard);
+                    RunDataController.AddData("Card", transformCard);
+                }
+            }
+        }
     }
 }
