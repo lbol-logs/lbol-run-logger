@@ -370,5 +370,21 @@ namespace RunLogger.Patches
                 RunDataController.AddData("Questions", questions);
             }
         }
+
+        [HarmonyPatch(typeof(MikeInvest))]
+        public static class MikeInvestPatch
+        {
+            [HarmonyPatch(nameof(MikeInvest.InitVariables))]
+            public static void Postfix(MikeInvest __instance)
+            {
+                __instance.Storage.TryGetValue("$longMoney", out float longMoney);
+                RunDataController.AddData("Money", (int)longMoney);
+                if (RunDataController.ShowRandom)
+                {
+                    __instance.Storage.TryGetValue("$cardReward", out string cardReward);
+                    RunDataController.AddData("Card", cardReward);
+                }
+            }
+        }
     }
 }
