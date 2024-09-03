@@ -14,7 +14,8 @@ namespace RunLogger.Utils
 
         public static void AddRewards(List<StationReward> rewards)
         {
-            Dictionary<string, object> Rewards = new Dictionary<string, object>();
+            if (RunDataController.CurrentStation.Rewards == null) RunDataController.CurrentStation.Rewards = new Dictionary<string, object>();
+
             List<CardObj> Cards = null;
             foreach (StationReward reward in rewards)
             {
@@ -23,34 +24,19 @@ namespace RunLogger.Utils
                 if (Type == StationRewardType.Money)
                 {
                     int Money = reward.Money;
-                    Rewards[type] = Money;
+                    RunDataController.CurrentStation.Rewards[type] = Money;
                 }
                 else if (Type == StationRewardType.Card || Type == StationRewardType.Tool)
                 {
                     List<Card> list = reward.Cards;
                     Cards = RunDataController.GetCards(list);
-                    RunDataController.AddListItem2Obj(ref Rewards, type, Cards);
+                    RunDataController.AddListItem2Obj(type, Cards);
                 }
                 else if (Type == StationRewardType.Exhibit)
                 {
                     string Exhibit = reward.Exhibit.Id;
-                    RunDataController.AddListItem2Obj(ref Rewards, type, Exhibit);
+                    RunDataController.AddListItem2Obj(type, Exhibit);
                 }
-            }
-            if (RunDataController.CurrentStation.Rewards != null)
-            {
-                if (Cards != null && RunDataController.CurrentStation.Rewards.TryGetValue("Cards", out object currentCards))
-                {
-                    (currentCards as List<List<CardObj>>).Add(Cards);
-                }
-                else
-                {
-                    RunDataController.CurrentStation.Rewards = RunDataController.CurrentStation.Rewards.Concat(Rewards).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-                }
-            }
-            else
-            {
-                RunDataController.CurrentStation.Rewards = Rewards;
             }
         }
     }

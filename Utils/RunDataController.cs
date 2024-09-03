@@ -80,11 +80,11 @@ namespace RunLogger.Utils
             prices.Add(key, price);
         }
 
-        public static void AddListItem2Obj<T>(ref Dictionary<string, object> dict, string key, T listItem)
+        public static void AddListItem2Obj<T>(string key, T listItem)
         {
             key += "s";
-            if (!dict.ContainsKey(key)) dict[key] = new List<T>();
-            (dict[key] as List<T>).Add(listItem);
+            if (!RunDataController.CurrentStation.Rewards.ContainsKey(key)) RunDataController.CurrentStation.Rewards[key] = new List<T>();
+            (RunDataController.CurrentStation.Rewards[key] as List<T>).Add(listItem);
         }
 
         public static void AddCardChange(Card[] cards, ChangeType Type)
