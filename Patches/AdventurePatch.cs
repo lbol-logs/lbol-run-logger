@@ -9,6 +9,7 @@ using LBoL.Core.Randoms;
 using LBoL.Core.Stations;
 using LBoL.EntityLib.Adventures;
 using LBoL.EntityLib.Adventures.FirstPlace;
+using LBoL.EntityLib.Adventures.Shared12;
 using LBoL.EntityLib.Adventures.Shared23;
 using LBoL.EntityLib.Exhibits.Adventure;
 using LBoL.Presentation.UI.Panels;
@@ -347,6 +348,26 @@ namespace RunLogger.Patches
                 if (!(exhibit is IdolTshirt)) return;
                 int counter = exhibit.Counter;
                 if (counter > 2) RunDataController.AddExhibitChange(exhibit, ChangeType.Upgrade, counter);
+            }
+        }
+
+        [HarmonyPatch(typeof(KeineSales))]
+        public static class KeineSalesPatch
+        {
+            [HarmonyPatch(nameof(KeineSales.InitVariables))]
+            public static void Postfix(KeineSales __instance)
+            {
+                List<int> questions = new List<int>();
+                __instance.Storage.TryGetValue("$stageNo", out float stageNo);
+                int k = stageNo < 2 ? 1 : 2;
+
+                float no;
+                for (int i = 1; i <= k; i++)
+                {
+                    __instance.Storage.TryGetValue($"$question{i}No", out no);
+                    questions.Add((int)no);
+                }
+                RunDataController.AddData("Questions", questions);
             }
         }
     }

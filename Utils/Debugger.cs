@@ -136,10 +136,10 @@ namespace RunLogger.Utils
                     //stationTypes.Add(StationType.Trade);
                     //stationTypes.Add(StationType.Entry);
 
-                    stationTypes.Add(StationType.Enemy);
-                    //stationTypes.Add(StationType.BattleAdvTest);
-                    //stationTypes.Add(StationType.BattleAdvTest);
-                    //stationTypes.Add(StationType.BattleAdvTest);
+                    //stationTypes.Add(StationType.Enemy);
+                    stationTypes.Add(StationType.BattleAdvTest);
+                    stationTypes.Add(StationType.BattleAdvTest);
+                    stationTypes.Add(StationType.BattleAdvTest);
                 }
                 __result = GameMap.CreateSingleRoute(__instance.Boss.Id, stationTypes.ToArray());
                 return false;
