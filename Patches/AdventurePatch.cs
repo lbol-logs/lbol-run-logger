@@ -7,6 +7,7 @@ using LBoL.Core.Cards;
 using LBoL.Core.Dialogs;
 using LBoL.Core.Randoms;
 using LBoL.Core.Stations;
+using LBoL.Core.Units;
 using LBoL.EntityLib.Adventures;
 using LBoL.EntityLib.Adventures.FirstPlace;
 using LBoL.EntityLib.Adventures.Shared12;
@@ -403,6 +404,26 @@ namespace RunLogger.Patches
                     List<string> cards = RunDataController.GetList<string>(storage, new[] { 1, 2, 3 }, "$tool");
                     RunDataController.AddData("Cards", cards);
                 }
+            }
+        }
+
+        [HarmonyPatch(typeof(YachieOppression))]
+        public static class YachieOppressionPatch
+        {
+            private static string exhibit;
+
+            [HarmonyPatch(nameof(YachieOppression.InitVariables))]
+            public static void Postfix(YachieOppression __instance)
+            {
+                __instance.Storage.TryGetValue("$enemyExhibit", out string enemyExhibit);
+                if (RunDataController.ShowRandom) RunDataController.AddData("Exhibit", enemyExhibit);
+                else exhibit = enemyExhibit;
+            }
+
+            public static void HandleBattle(EnemyGroup enemyGroup)
+            {
+                if (enemyGroup.Id != "YachieBattle") return;
+                if (exhibit != null) RunDataController.AddData("Exhibit", exhibit);
             }
         }
     }

@@ -1,7 +1,6 @@
 ﻿using LBoL.Core.Cards;
 using LBoL.Core.Stations;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace RunLogger.Utils
 {

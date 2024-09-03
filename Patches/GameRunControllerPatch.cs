@@ -184,6 +184,7 @@ namespace RunLogger.Patches
             if (RunDataController.GetAdventureId(__instance.CurrentStation) != null)
             {
                 RunDataController.AddData("Id", enemyGroup.Id);
+                AdventurePatch.YachieOppressionPatch.HandleBattle(enemyGroup);
             }
             RunDataController.Save();
         }
