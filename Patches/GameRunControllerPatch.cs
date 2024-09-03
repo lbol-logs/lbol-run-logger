@@ -4,7 +4,6 @@ using LBoL.Core.Cards;
 using LBoL.Core.Stations;
 using LBoL.Core.Stats;
 using LBoL.Core.Units;
-using LBoL.EntityLib.Exhibits.Adventure;
 using RunLogger.Utils;
 using System.Collections.Generic;
 using System.Linq;
@@ -165,7 +164,7 @@ namespace RunLogger.Patches
             RunDataController.AddCardChange(cards.ToArray<Card>(), ChangeType.Upgrade);
         }
 
-        [HarmonyPatch(nameof(GameRunController.GainExhibitRunner)), HarmonyPostfix]
+        [HarmonyPatch(nameof(GameRunController.GainExhibitRunner)), HarmonyPostfix, HarmonyPriority(2)]
         static void GainExhibitRunnerPatch(Exhibit exhibit)
         {
             RunDataController.AddExhibitChange(exhibit, ChangeType.Add);

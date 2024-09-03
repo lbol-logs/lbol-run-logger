@@ -328,6 +328,7 @@ namespace RunLogger.Patches
             }
         }
 
+        [HarmonyPatch]
         public static class NazrinDetectPatch
         {
             [HarmonyPatch(typeof(NazrinDetectPanel), nameof(NazrinDetectPanel.Roll)), HarmonyPostfix]
@@ -337,17 +338,15 @@ namespace RunLogger.Patches
             }
         }
 
+        [HarmonyPatch]
         public static class HecatiaTshirtPatch
         {
-            [HarmonyPatch(typeof(Adventure), nameof(Adventure.GainExhibitRunner)), HarmonyPostfix]
-            static void GainExhibitRunnerPatch(string name)
+            [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.GainExhibitRunner)), HarmonyPostfix, HarmonyPriority(1)]
+            static void GainExhibitRunnerPatch(Exhibit exhibit)
             {
-
-                Debugger.Write("name: " + name);
-                //if (name != nameof(IdolTshirt)) return;
-                //int counter = exhibit.Counter;
-                //Debugger.Write(counter.ToString());
-                //if (counter > 2) RunDataController.AddExhibitChange(exhibit, ChangeType.Upgrade, counter);
+                if (!(exhibit is IdolTshirt)) return;
+                int counter = exhibit.Counter;
+                if (counter > 2) RunDataController.AddExhibitChange(exhibit, ChangeType.Upgrade, counter);
             }
         }
     }
