@@ -12,6 +12,7 @@ using LBoL.EntityLib.Adventures;
 using LBoL.EntityLib.Adventures.FirstPlace;
 using LBoL.EntityLib.Adventures.Shared12;
 using LBoL.EntityLib.Adventures.Shared23;
+using LBoL.EntityLib.Adventures.Stage1;
 using LBoL.EntityLib.Adventures.Stage2;
 using LBoL.EntityLib.Exhibits.Adventure;
 using LBoL.Presentation.UI.Panels;
@@ -424,6 +425,20 @@ namespace RunLogger.Patches
             {
                 if (enemyGroup.Id != "YachieBattle") return;
                 if (exhibit != null) RunDataController.AddData("Exhibit", exhibit);
+            }
+        }
+
+        [HarmonyPatch(typeof(AssistKagerou))]
+        public static class AssistKagerouPatch
+        {
+            [HarmonyPatch(nameof(AssistKagerou.InitVariables))]
+            public static void Postfix(AssistKagerou __instance)
+            {
+                if (RunDataController.ShowRandom)
+                {
+                    __instance.Storage.TryGetValue("$exhibitReward", out string exhibitReward);
+                    RunDataController.AddData("Exhibit", exhibitReward);
+                }
             }
         }
     }
