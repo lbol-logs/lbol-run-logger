@@ -467,5 +467,30 @@ namespace RunLogger.Patches
                 RunDataController.AddData("Hps", new[] { (int)hpLose, (int)hpLoseLow });
             }
         }
+
+        [HarmonyPatch(typeof(ParseeJealousy))]
+        public static class ParseeJealousyPatch
+        {
+            [HarmonyPatch(nameof(ParseeJealousy.InitVariables))]
+            public static void Postfix(ParseeJealousy __instance)
+            {
+                if (RunDataController.ShowRandom)
+                {
+                    __instance.Storage.TryGetValue("$exhibitPassBy", out string exhibitPassBy);
+                    RunDataController.AddData("Exhibit", exhibitPassBy);
+                }
+            }
+
+            [HarmonyPatch(nameof(ParseeJealousy.GetExhibit)), HarmonyPostfix]
+            public static void GetExhibitPatch(ParseeJealousy __instance)
+            {
+                if (RunDataController.ShowRandom)
+                {
+                    __instance.Storage.TryGetValue("$exhibit", out string exhibit);
+                    __instance.Storage.TryGetValue("$exhibit2", out string exhibit2);
+                    RunDataController.AddData("Exhibits", new[] { exhibit, exhibit2 });
+                }
+            }
+        }
     }
 }
