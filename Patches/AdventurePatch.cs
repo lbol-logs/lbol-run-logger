@@ -455,5 +455,17 @@ namespace RunLogger.Patches
                 }
             }
         }
+
+        [HarmonyPatch(typeof(KaguyaVersusMokou))]
+        public static class KaguyaVersusMokouPatch
+        {
+            [HarmonyPatch(nameof(KaguyaVersusMokou.InitVariables))]
+            public static void Postfix(KaguyaVersusMokou __instance)
+            {
+                __instance.Storage.TryGetValue("$hpLose", out float hpLose);
+                __instance.Storage.TryGetValue("$hpLoseLow", out float hpLoseLow);
+                RunDataController.AddData("Hps", new[] { (int)hpLose, (int)hpLoseLow });
+            }
+        }
     }
 }
