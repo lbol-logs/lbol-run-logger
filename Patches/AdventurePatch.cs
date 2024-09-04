@@ -441,5 +441,19 @@ namespace RunLogger.Patches
                 }
             }
         }
+
+        [HarmonyPatch(typeof(EternityAscension))]
+        public static class EternityAscensionPatch
+        {
+            [HarmonyPatch(nameof(EternityAscension.InitVariables))]
+            public static void Postfix(EternityAscension __instance)
+            {
+                if (RunDataController.ShowRandom)
+                {
+                    __instance.Storage.TryGetValue("$transformCard", out string transformCard);
+                    RunDataController.AddData("Card", transformCard);
+                }
+            }
+        }
     }
 }
