@@ -8,6 +8,7 @@ using LBoL.EntityLib.EnemyUnits.Character;
 using LBoL.EntityLib.StatusEffects.Enemy.SeijaItems;
 using RunLogger.Utils;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace RunLogger.Patches

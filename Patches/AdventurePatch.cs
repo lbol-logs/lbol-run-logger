@@ -90,7 +90,7 @@ namespace RunLogger.Patches
                 DialogStorage storage = __instance.Storage;
                 storage.TryGetValue("$exhibitA", out string exhibitA);
                 storage.TryGetValue("$exhibitB", out string exhibitB);
-                RunDataController.AddData("Exhibits", new List<string>() { exhibitA, exhibitB });
+                RunDataController.AddData("Exhibits", new[] { exhibitA, exhibitB });
 
                 storage.TryGetValue("$bothFlag", out bool bothFlag);
                 RunDataController.AddData("Both", bothFlag);

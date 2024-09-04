@@ -28,7 +28,7 @@ namespace RunLogger.Utils
         public static List<CardObj> Cards;
         public static List<string> Exhibits;
 
-        public static List<string> enemiesShowDetails = new List<string>() { "Seija" };
+        public static string[] enemiesShowDetails = new [] { "Seija" };
 
         public static StationObj CurrentStation
         {
