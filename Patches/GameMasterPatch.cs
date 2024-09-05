@@ -42,8 +42,11 @@ namespace RunLogger.Patches
             string ts = Timestamp.Replace(":", "-");
             string character = record.Player;
             string type = record.PlayerType.ToString().Replace("Type", "");
+            Settings settings = RunDataController.RunData.Settings;
+            char difficulty = settings.Difficulty[0];
+            int requests = settings.Requests.Count;
 
-            string name = $"{ts}_{character}_{type}_{Type}";
+            string name = $"{ts}_{character}_{type}_{difficulty}{requests}_{Type}";
             RunDataController.Copy(name);
 
         }
