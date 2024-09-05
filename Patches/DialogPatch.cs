@@ -50,6 +50,7 @@ namespace RunLogger.Patches
             {
                 if (!Debugger.isDebug) return;
                 Debugger.Write(__instance.Id.ToString() + ": " + ____lineId);
+                if (____lineId == "line:033d1fd") AdventurePatch.BackgroundDancersPatch.HandleOptions();
             }
         }
     }

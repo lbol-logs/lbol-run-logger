@@ -14,6 +14,7 @@ using LBoL.EntityLib.Adventures.Shared12;
 using LBoL.EntityLib.Adventures.Shared23;
 using LBoL.EntityLib.Adventures.Stage1;
 using LBoL.EntityLib.Adventures.Stage2;
+using LBoL.EntityLib.Adventures.Stage3;
 using LBoL.EntityLib.Exhibits.Adventure;
 using LBoL.Presentation.UI.Panels;
 using RunLogger.Utils;
@@ -489,6 +490,69 @@ namespace RunLogger.Patches
                     __instance.Storage.TryGetValue("$exhibit", out string exhibit);
                     __instance.Storage.TryGetValue("$exhibit2", out string exhibit2);
                     RunDataController.AddData("Exhibits", new[] { exhibit, exhibit2 });
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(BackgroundDancers))]
+        public static class BackgroundDancersPatch
+        {
+            private static BackgroundDancers instance;
+            private static int i = -1;
+
+            [HarmonyPatch(nameof(BackgroundDancers.InitVariables))]
+            public static void Postfix(BackgroundDancers __instance)
+            {
+                __instance.Storage.TryGetValue("$hpLose", out float hpLose);
+                RunDataController.AddData("Hp", (int)hpLose);
+            }
+
+            [HarmonyPatch(nameof(BackgroundDancers.RollOptions)), HarmonyPostfix]
+            public static void RollOptionsPatch(BackgroundDancers __instance, int[] ____optionIndices)
+            {
+                RunDataController.AddData("Options", ____optionIndices.ToList());
+                foreach (int option in ____optionIndices) HandleRandom(__instance, option);
+            }
+
+            [HarmonyPatch(nameof(BackgroundDancers.SelectOption)), HarmonyPostfix]
+            public static void SelectOptionPatch(BackgroundDancers __instance, int[] ____optionIndices, int index)
+            {
+                i = index - 1;
+                instance = __instance;
+            }
+
+            public static void HandleOptions()
+            {
+                if (i == -1) return;
+                int option = instance._optionIndices[i];
+                RunDataController.AddDataItem("Options", option);
+                HandleRandom(instance, option);
+                i = -1;
+            }
+
+            private static void HandleRandom(BackgroundDancers __instance, int option)
+            {
+                if (!RunDataController.ShowRandom) return;
+                DialogStorage storage = __instance.Storage;
+                switch (option)
+                {
+                    case 0:
+                    case 2:
+                    case 3:
+                        break;
+                    case 1:
+                        storage.TryGetValue("$reward2Rare", out string reward2Rare);
+                        storage.TryGetValue("$reward2Rare2", out string reward2Rare2);
+                        RunDataController.AddDataItem("Tools", new[] { reward2Rare, reward2Rare2 });
+                        break;
+                    case 4:
+                        storage.TryGetValue("$reward5Exhibit", out string reward5Exhibit);
+                        RunDataController.AddDataItem("Exhibits", reward5Exhibit);
+                        break;
+                    case 5:
+                        storage.TryGetValue("$reward6Ability", out string reward6Ability);
+                        RunDataController.AddDataItem("Abilities", reward6Ability);
+                        break;
                 }
             }
         }
