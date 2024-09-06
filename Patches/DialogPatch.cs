@@ -44,6 +44,15 @@ namespace RunLogger.Patches
                     case AdventurePatch.SatoriCounselingPatch.lineInvalid:
                         RunDataController.AddData("HasMoney", false);
                         break;
+                    case AdventurePatch.BuduSuanmingPatch.lineBoss:
+                        RunDataController.AddData("Boss", AdventurePatch.BuduSuanmingPatch.boss);
+                        break;
+                    case AdventurePatch.BuduSuanmingPatch.lineEvent:
+                        RunDataController.AddData("Host", AdventurePatch.BuduSuanmingPatch.host);
+                        break;
+                    case AdventurePatch.BuduSuanmingPatch.lineExhibit:
+                        RunDataController.AddData("Exhibit", AdventurePatch.BuduSuanmingPatch.exhibit);
+                        break;
                 }
             }
         }

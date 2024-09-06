@@ -6,6 +6,7 @@ using LBoL.Core.Dialogs;
 using LBoL.Core.Randoms;
 using LBoL.Core.Stations;
 using LBoL.Core.Units;
+using LBoL.EntityLib.Adventures.Stage2;
 using LBoL.EntityLib.Adventures.Stage3;
 using LBoL.EntityLib.Exhibits.Shining;
 using LBoL.EntityLib.Stages;
@@ -57,13 +58,14 @@ namespace RunLogger.Debug
         {
             //private static Type adv = typeof(YachieOppression);
             //private static Type adv = typeof(MiyoiBartender);
-            private static Type adv = typeof(SatoriCounseling);
+            //private static Type adv = typeof(SatoriCounseling);
+            private static Type adv = typeof(BuduSuanming);
 
-            //[HarmonyPatch(nameof(Stage.CreateStation)), HarmonyPrefix]
+            [HarmonyPatch(nameof(Stage.CreateStation)), HarmonyPrefix]
             static bool CreateStationPatch(MapNode node, ref Station __result, Stage __instance)
             {
                 if (!isDebug) return true;
-                if (!(__instance is WindGodLake)) return true;
+                //if (!(__instance is WindGodLake)) return true;
 
                 UniqueRandomPool<Type> pool = new UniqueRandomPool<Type>(true);
                 for (int i = 0; i < 10; i++) pool.Add(adv);
@@ -72,7 +74,7 @@ namespace RunLogger.Debug
                 return false;
             }
 
-            //[HarmonyPatch(nameof(Stage.GetAdventure)), HarmonyPrefix]
+            [HarmonyPatch(nameof(Stage.GetAdventure)), HarmonyPrefix]
             static bool GetAdventurePatch(ref Type __result)
             {
                 if (!isDebug) return true;
