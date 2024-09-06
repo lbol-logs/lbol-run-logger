@@ -557,5 +557,27 @@ namespace RunLogger.Patches
                 }
             }
         }
+
+        [HarmonyPatch(typeof(SatoriCounseling))]
+        public static class SatoriCounselingPatch
+        {
+            public const string lineValid = "line:0f753ad";
+            public const string lineInvalid = "line:02f3a36";
+            public static bool isMini;
+
+            [HarmonyPatch(nameof(SatoriCounseling.Library)), HarmonyPostfix]
+            public static void LibraryPatch()
+            {
+                RunDataController.Listener = nameof(SatoriCounseling);
+                isMini = false;
+            }
+
+            [HarmonyPatch(nameof(SatoriCounseling.Analyse)), HarmonyPostfix]
+            public static void AnalysePatch()
+            {
+                RunDataController.Listener = nameof(SatoriCounseling);
+                isMini = true;
+            }
+        }
     }
 }

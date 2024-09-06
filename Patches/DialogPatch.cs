@@ -30,13 +30,37 @@ namespace RunLogger.Patches
         }
 
         [HarmonyDebug]
+        [HarmonyPatch(typeof(DialogLinePhase))]
+        class DialogLinePhasePatch
+        {
+            [HarmonyPatch(nameof(DialogLinePhase.GetLocalizedText)), HarmonyPostfix]
+            static void GetLocalizedTextPatch(string ____lineId)
+            {
+                switch (____lineId)
+                {
+                    case AdventurePatch.SatoriCounselingPatch.lineValid:
+                        RunDataController.AddData("HasMoney", true);
+                        break;
+                    case AdventurePatch.SatoriCounselingPatch.lineInvalid:
+                        RunDataController.AddData("HasMoney", false);
+                        break;
+                }
+            }
+        }
+
+        [HarmonyDebug]
         [HarmonyPatch(typeof(DialogOption))]
         class DialogPatchPatch
         {
             [HarmonyPatch(nameof(DialogOption.GetLocalizedText)), HarmonyPostfix]
             static void GetLocalizedTextPatch(string ____lineId)
             {
-                if (____lineId == AdventurePatch.BackgroundDancersPatch.line) AdventurePatch.BackgroundDancersPatch.HandleOptions();
+                switch (____lineId)
+                {
+                    case AdventurePatch.BackgroundDancersPatch.line:
+                        AdventurePatch.BackgroundDancersPatch.HandleOptions();
+                        break;
+                }
             }
         }
     }
