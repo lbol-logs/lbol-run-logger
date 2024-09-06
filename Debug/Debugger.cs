@@ -21,7 +21,7 @@ namespace RunLogger.Debug
 {
     public static class Debugger
     {
-        public static bool isDebug = true;
+        public static bool isDebug = false;
 
         private const string _dir = "runLogger";
         private static bool _initialized;
