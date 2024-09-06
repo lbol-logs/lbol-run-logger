@@ -18,10 +18,11 @@ namespace RunLogger.Utils
 {
     public static class Debugger
     {
+        public static bool isDebug = true;
+
         private const string _dir = "runLogger";
         private static bool _initialized;
         private static StreamWriter _streamWriter;
-        public static bool isDebug = true;
 
         public static void Initialize()
         {
@@ -176,7 +177,6 @@ namespace RunLogger.Utils
             {
                 if (!Debugger.isDebug) return;
                 Debugger.Write(__instance.Id.ToString() + ": " + ____lineId);
-                if (____lineId == "line:033d1fd") AdventurePatch.BackgroundDancersPatch.HandleOptions();
             }
         }
     }

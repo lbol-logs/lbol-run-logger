@@ -28,5 +28,16 @@ namespace RunLogger.Patches
                 RunDataController.AddDataItem("Values", __result);
             }
         }
+
+        [HarmonyDebug]
+        [HarmonyPatch(typeof(DialogOption))]
+        class DialogPatchPatch
+        {
+            [HarmonyPatch(nameof(DialogOption.GetLocalizedText)), HarmonyPostfix]
+            static void GetLocalizedTextPatch(string ____lineId)
+            {
+                if (____lineId == AdventurePatch.BackgroundDancersPatch.line) AdventurePatch.BackgroundDancersPatch.HandleOptions();
+            }
+        }
     }
 }

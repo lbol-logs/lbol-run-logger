@@ -497,6 +497,7 @@ namespace RunLogger.Patches
         [HarmonyPatch(typeof(BackgroundDancers))]
         public static class BackgroundDancersPatch
         {
+            public const string line = "line:033d1fd";
             private static BackgroundDancers instance;
             private static int i = -1;
 
