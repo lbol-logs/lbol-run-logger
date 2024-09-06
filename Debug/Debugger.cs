@@ -9,12 +9,13 @@ using LBoL.EntityLib.Adventures.FirstPlace;
 using LBoL.EntityLib.Exhibits.Shining;
 using LBoL.EntityLib.Stages;
 using LBoL.EntityLib.Stages.NormalStages;
+using RunLogger.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace RunLogger.Utils
+namespace RunLogger.Debug
 {
     public static class Debugger
     {
@@ -124,7 +125,7 @@ namespace RunLogger.Utils
                 if (!isDebug) return true;
 
                 __instance.Level = 3;
-                __instance.EnemyPoolAct1 = new UniqueRandomPool<string>(true) 
+                __instance.EnemyPoolAct1 = new UniqueRandomPool<string>(true)
                 {
                     { "33", 1f }
                 };
@@ -163,8 +164,8 @@ namespace RunLogger.Utils
             [HarmonyPatch(nameof(DialogLinePhase.GetLocalizedText)), HarmonyPostfix]
             static void GetLocalizedTextPatch(string ____lineId)
             {
-                if (!Debugger.isDebug) return;
-                Debugger.Write(____lineId);
+                if (!isDebug) return;
+                Write(____lineId);
             }
         }
 
@@ -175,7 +176,7 @@ namespace RunLogger.Utils
             [HarmonyPatch(nameof(DialogOption.GetLocalizedText)), HarmonyPostfix]
             static void GetLocalizedTextPatch(string ____lineId, DialogOption __instance)
             {
-                if (!Debugger.isDebug) return;
+                if (!isDebug) return;
                 Debugger.Write(__instance.Id.ToString() + ": " + ____lineId);
             }
         }
