@@ -497,6 +497,7 @@ namespace RunLogger.Patches
         [HarmonyPatch(typeof(BackgroundDancers))]
         public static class BackgroundDancersPatch
         {
+            public const string line = "line:033d1fd";
             private static BackgroundDancers instance;
             private static int i = -1;
 
@@ -554,6 +555,48 @@ namespace RunLogger.Patches
                         RunDataController.AddDataItem("Abilities", reward6Ability);
                         break;
                 }
+            }
+        }
+
+        [HarmonyPatch(typeof(SatoriCounseling))]
+        public static class SatoriCounselingPatch
+        {
+            public const string lineValid = "line:0f753ad";
+            public const string lineInvalid = "line:02f3a36";
+            public static bool isMini;
+
+            [HarmonyPatch(nameof(SatoriCounseling.Library)), HarmonyPostfix]
+            public static void LibraryPatch()
+            {
+                RunDataController.Listener = nameof(SatoriCounseling);
+                isMini = false;
+            }
+
+            [HarmonyPatch(nameof(SatoriCounseling.Analyse)), HarmonyPostfix]
+            public static void AnalysePatch()
+            {
+                RunDataController.Listener = nameof(SatoriCounseling);
+                isMini = true;
+            }
+        }
+
+        [HarmonyPatch(typeof(BuduSuanming))]
+        public static class BuduSuanmingPatch
+        {
+            public const string lineBoss = "line:0b5f8ae";
+            public const string lineEvent = "line:0607cc8";
+            public const string lineExhibit = "line:02c2c1f";
+            public static string boss;
+            public static string host;
+            public static string exhibit;
+
+            [HarmonyPatch(nameof(BuduSuanming.InitVariables))]
+            public static void Postfix(BuduSuanming __instance)
+            {
+                DialogStorage storage = __instance.Storage;
+                storage.TryGetValue("$bossId", out boss);
+                storage.TryGetValue("$hostId", out host);
+                storage.TryGetValue("$seijaItem", out exhibit);
             }
         }
     }

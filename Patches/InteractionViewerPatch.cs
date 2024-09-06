@@ -9,12 +9,13 @@ using LBoL.EntityLib.Adventures;
 using LBoL.EntityLib.Exhibits.Shining;
 using LBoL.EntityLib.Exhibits.Common;
 using LBoL.EntityLib.Exhibits.Adventure;
+using LBoL.EntityLib.Adventures.Stage3;
 
 namespace RunLogger.Patches
 {
     [HarmonyDebug]
     [HarmonyPatch(typeof(InteractionViewer))]
-    public class InteractionViewerPatch
+    public static class InteractionViewerPatch
     {
         [HarmonyPatch(nameof(InteractionViewer.View)), HarmonyPrefix]
         public static void ViewPatch(Interaction interaction)
@@ -32,6 +33,11 @@ namespace RunLogger.Patches
             {
                 AddMiniSelectCardInteractionRewards(interaction);
                 return;
+            }
+            else if (RunDataController.Listener == nameof(SatoriCounseling))
+            {
+                if (AdventurePatch.SatoriCounselingPatch.isMini) AddMiniSelectCardInteractionRewards(interaction);
+                else AddSelectCardInteractionRewards(interaction);
             }
 
             if (interaction.Source == null) return;
@@ -90,6 +96,18 @@ namespace RunLogger.Patches
         {
             MiniSelectCardInteraction miniSelectCardInteraction = interaction as MiniSelectCardInteraction;
             IReadOnlyList<Card> pendingCards = miniSelectCardInteraction.PendingCards;
+            HandleCardRewards(pendingCards);
+        }
+
+        private static void AddSelectCardInteractionRewards(Interaction interaction)
+        {
+            SelectCardInteraction selectCardInteraction = interaction as SelectCardInteraction;
+            IReadOnlyList<Card> pendingCards = selectCardInteraction.PendingCards;
+            HandleCardRewards(pendingCards);
+        }
+
+        private static void HandleCardRewards(IReadOnlyList<Card> pendingCards)
+        {
             List<CardObj> cards = RunDataController.GetCards(pendingCards);
             Dictionary<string, object> Rewards = new Dictionary<string, object>
             {

@@ -2,26 +2,30 @@
 using LBoL.Base;
 using LBoL.Core;
 using LBoL.Core.Adventures;
+using LBoL.Core.Dialogs;
 using LBoL.Core.Randoms;
 using LBoL.Core.Stations;
 using LBoL.Core.Units;
-using LBoL.EntityLib.Adventures.FirstPlace;
+using LBoL.EntityLib.Adventures.Stage2;
+using LBoL.EntityLib.Adventures.Stage3;
 using LBoL.EntityLib.Exhibits.Shining;
 using LBoL.EntityLib.Stages;
 using LBoL.EntityLib.Stages.NormalStages;
+using RunLogger.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace RunLogger.Utils
+namespace RunLogger.Debug
 {
     public static class Debugger
     {
+        public static bool isDebug = false;
+
         private const string _dir = "runLogger";
         private static bool _initialized;
         private static StreamWriter _streamWriter;
-        public static bool isDebug = true;
 
         public static void Initialize()
         {
@@ -53,13 +57,15 @@ namespace RunLogger.Utils
         class StagePatch
         {
             //private static Type adv = typeof(YachieOppression);
-            private static Type adv = typeof(MiyoiBartender);
+            //private static Type adv = typeof(MiyoiBartender);
+            //private static Type adv = typeof(SatoriCounseling);
+            private static Type adv = typeof(BuduSuanming);
 
             [HarmonyPatch(nameof(Stage.CreateStation)), HarmonyPrefix]
             static bool CreateStationPatch(MapNode node, ref Station __result, Stage __instance)
             {
                 if (!isDebug) return true;
-                if (!(__instance is WindGodLake)) return true;
+                //if (!(__instance is WindGodLake)) return true;
 
                 UniqueRandomPool<Type> pool = new UniqueRandomPool<Type>(true);
                 for (int i = 0; i < 10; i++) pool.Add(adv);
@@ -123,23 +129,32 @@ namespace RunLogger.Utils
                 if (!isDebug) return true;
 
                 __instance.Level = 3;
-                __instance.EnemyPoolAct1 = new UniqueRandomPool<string>(true) 
+                __instance.EnemyPoolAct1 = new UniqueRandomPool<string>(true)
                 {
                     { "33", 1f }
+                };
+                __instance.AdventurePool = new UniqueRandomPool<Type>(true)
+                {
+                    { typeof(SatoriCounseling), 1f }
                 };
 
                 //__instance.TradeAdventureType = typeof(RinnosukeTrade);
                 List<StationType> stationTypes = new List<StationType>();
+
                 //stationTypes.Add(StationType.Boss);
+                stationTypes.Add(StationType.Shop);
+
                 for (int i = 0; i < 10; i++)
                 {
                     //stationTypes.Add(StationType.Trade);
                     //stationTypes.Add(StationType.Entry);
 
                     //stationTypes.Add(StationType.Enemy);
-                    stationTypes.Add(StationType.BattleAdvTest);
-                    stationTypes.Add(StationType.BattleAdvTest);
-                    stationTypes.Add(StationType.BattleAdvTest);
+                    //stationTypes.Add(StationType.BattleAdvTest);
+                    //stationTypes.Add(StationType.BattleAdvTest);
+                    //stationTypes.Add(StationType.BattleAdvTest);
+
+                    stationTypes.Add(StationType.Adventure);
                 }
                 __result = GameMap.CreateSingleRoute(__instance.Boss.Id, stationTypes.ToArray());
                 return false;
@@ -162,8 +177,8 @@ namespace RunLogger.Utils
             [HarmonyPatch(nameof(DialogLinePhase.GetLocalizedText)), HarmonyPostfix]
             static void GetLocalizedTextPatch(string ____lineId)
             {
-                if (!Debugger.isDebug) return;
-                Debugger.Write(____lineId);
+                if (!isDebug) return;
+                Write(____lineId);
             }
         }
 
@@ -174,9 +189,8 @@ namespace RunLogger.Utils
             [HarmonyPatch(nameof(DialogOption.GetLocalizedText)), HarmonyPostfix]
             static void GetLocalizedTextPatch(string ____lineId, DialogOption __instance)
             {
-                if (!Debugger.isDebug) return;
+                if (!isDebug) return;
                 Debugger.Write(__instance.Id.ToString() + ": " + ____lineId);
-                if (____lineId == "line:033d1fd") AdventurePatch.BackgroundDancersPatch.HandleOptions();
             }
         }
     }
