@@ -9,6 +9,5 @@ namespace RunLogger
         public const string Name = "Run Logger";
         public const string version = "0.9.2";
         public static readonly Harmony harmony = new Harmony(GUID);
-
     }
 }
