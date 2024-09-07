@@ -2,6 +2,7 @@
 using LBoL.Core.SaveData;
 using LBoL.Presentation;
 using RunLogger.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -42,11 +43,21 @@ namespace RunLogger.Patches
             string ts = Timestamp.Replace(":", "-");
             string character = record.Player;
             string type = record.PlayerType.ToString().Replace("Type", "");
+            string shining = Exhibits[0];
             Settings settings = RunDataController.RunData.Settings;
             char difficulty = settings.Difficulty[0];
             int requests = settings.Requests.Count;
 
-            string name = $"{ts}_{character}_{type}_{difficulty}{requests}_{Type}";
+            string name = String.Join("_", new string[]
+            {
+                ts,
+                character,
+                type,
+                shining,
+                difficulty.ToString(),
+                requests.ToString(),
+                Type
+            });
             RunDataController.Copy(name);
 
         }
