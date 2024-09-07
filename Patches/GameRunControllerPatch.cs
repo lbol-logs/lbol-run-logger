@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using BepInEx;
+using HarmonyLib;
 using LBoL.Core;
 using LBoL.Core.Cards;
 using LBoL.Core.Stations;
@@ -24,9 +25,26 @@ namespace RunLogger.Patches
             bool HasClearBonus = __result.HasClearBonus;
             bool ShowRandomResult = parameters.ShowRandomResult;
             bool IsAutoSeed = __result.IsAutoSeed;
+            string Difficulty = parameters.Difficulty.ToString();
             IEnumerable<PuzzleFlag> AllPuzzleFlags = PuzzleFlags.EnumerateComponents(parameters.Puzzles);
             List<string> Requests = AllPuzzleFlags.Select(puzzleFlag => puzzleFlag.ToString()).ToList();
-            string Difficulty = parameters.Difficulty.ToString();
+            Dictionary<string, PluginInfo> PluginInfos = BepInEx.Bootstrap.Chainloader.PluginInfos;
+            List<Mod> Mods = new List<Mod>();
+            foreach (PluginInfo PluginInfo in PluginInfos.Values)
+            {
+                string GUID = PluginInfo.Metadata.GUID;
+                string Name = PluginInfo.Metadata.Name;
+                string Version = PluginInfo.Metadata.Version.ToString();
+                Mod Mod = new Mod()
+                {
+                    GUID = GUID,
+                    Name = Name,
+                    Version = Version
+                };
+                if (GUID == PInfo.GUID) Mods.Insert(0, Mod);
+                else Mods.Add(Mod);
+            }
+
             RunDataController.Create();
             RunDataController.RunData.Version = VersionInfo.Current.Version;
             Settings Settings = new Settings()
@@ -37,7 +55,8 @@ namespace RunLogger.Patches
                 ShowRandomResult = ShowRandomResult,
                 IsAutoSeed = IsAutoSeed,
                 Difficulty = Difficulty,
-                Requests = Requests
+                Requests = Requests,
+                Mods = Mods
             };
             RunDataController.RunData.Settings = Settings;
             RunDataController.Save();

@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using LBoL.Base;
 using LBoL.Core.SaveData;
 using LBoL.Presentation;
 using RunLogger.Utils;
@@ -29,13 +30,17 @@ namespace RunLogger.Patches
             }).ToList();
             List<string> Exhibits = record.Exhibits.ToList();
             string BaseMana = RunDataController.GetBaseMana(record.BaseMana, Exhibits);
+            int ReloadTimes = record.ReloadTimes;
+            string Seed = RandomGen.SeedToString(record.Seed);
             Result Result = new Result()
             {
                 Type = Type,
                 Timestamp = Timestamp,
                 Cards = Cards,
                 Exhibits = Exhibits,
-                BaseMana = BaseMana
+                BaseMana = BaseMana,
+                ReloadTimes = ReloadTimes,
+                Seed = Seed
             };
             RunDataController.RunData.Result = Result;
             RunDataController.Save();
