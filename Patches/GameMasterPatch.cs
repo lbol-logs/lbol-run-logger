@@ -15,7 +15,7 @@ namespace RunLogger.Patches
         [HarmonyPatch(nameof(GameMaster.AppendGameRunHistory)), HarmonyPostfix]
         static void AppendGameRunHistoryPatch(GameRunRecordSaveData record)
         {
-            RunDataController.Restore();
+            if (!RunDataController.Restore()) return;
             string Type = record.ResultType.ToString();
             string Timestamp = record.SaveTimestamp;
             List<CardObj> Cards = record.Cards.Select(card =>

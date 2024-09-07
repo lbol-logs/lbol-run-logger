@@ -18,7 +18,7 @@ namespace RunLogger.Utils
     public static class RunDataController
     {
         private const string _dir = "runLogger";
-        private static readonly string _path = $"{_dir}/temp.json";
+        private static readonly string _path = Path.Join(_dir, "temp.json");
         private static bool _initialized;
 
         public static RunData RunData;
@@ -223,12 +223,13 @@ namespace RunLogger.Utils
             _Write(jsonString);
         }
 
-        public static void Restore()
+        public static bool Restore()
         {
+            _CheckDirectory();
             if (!File.Exists(_path))
             {
                 _initialized = false;
-                return;
+                return false;
             }
             using (FileStream fileStream = File.Open(_path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
@@ -238,18 +239,20 @@ namespace RunLogger.Utils
                     _Decode(jsonString);
                 }
             }
+            return _initialized;
         }
 
         public static void Copy(string name)
         {
             if (!_initialized) return;
             Save(false);
-            File.Copy(_path, $"{_dir}/{name}.json");
+            File.Copy(_path, Path.Join(_dir, $"{name}.json"));
             _initialized = false;
         }
 
         private static void _Write(string line)
         {
+            _CheckDirectory();
             if (!_initialized) return;
             using (FileStream fileStream = File.Open(_path, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
             {
@@ -258,6 +261,11 @@ namespace RunLogger.Utils
                     streamWriter.WriteLine(line);
                 }
             }
+        }
+
+        private static void _CheckDirectory()
+        {
+            if (!Directory.Exists(_dir)) Directory.CreateDirectory(_dir);
         }
 
         private static string _Encode(bool indent = true)
