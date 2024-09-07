@@ -10,6 +10,7 @@ using LBoL.EntityLib.Exhibits.Shining;
 using LBoL.EntityLib.Exhibits.Common;
 using LBoL.EntityLib.Exhibits.Adventure;
 using LBoL.EntityLib.Adventures.Stage3;
+using LBoL.Core.Stations;
 
 namespace RunLogger.Patches
 {
@@ -22,7 +23,7 @@ namespace RunLogger.Patches
         {
             if (interaction is MiniSelectCardInteraction)
             {
-                if (RunDataController.CurrentStationIndex == 0 && interaction.Source == null)
+                if (RunDataController.CurrentStation.Type == StationType.Entry.ToString() && RunDataController.CurrentStation.Data.ContainsKey("Options"))
                 {
                     AddMiniSelectCardInteractionRewards(interaction);
                     return;
@@ -32,13 +33,13 @@ namespace RunLogger.Patches
             if (RunDataController.Listener == nameof(SumirekoGathering))
             {
                 AddMiniSelectCardInteractionRewards(interaction);
-                return;
             }
             else if (RunDataController.Listener == nameof(SatoriCounseling))
             {
                 if (AdventurePatch.SatoriCounselingPatch.isMini) AddMiniSelectCardInteractionRewards(interaction);
                 else AddSelectCardInteractionRewards(interaction);
             }
+            RunDataController.Listener = null;
 
             if (interaction.Source == null) return;
             string source = interaction.Source.Id;
