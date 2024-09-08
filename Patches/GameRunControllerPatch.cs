@@ -33,7 +33,7 @@ namespace RunLogger.Patches
             Dictionary<string, PluginInfo> PluginInfos = BepInEx.Bootstrap.Chainloader.PluginInfos;
             List<Mod> Mods = new List<Mod>();
             string[] priorities = new string[] { PInfo.GUID, "neo.lbol.fix.rngFix" };
-            string[] excludes = new string[] { "com.bepis.bepinex.scriptengine", "neo.lbol.frameworks.entitySideloader", "neo.lbol.tools.watermark", "neo.lbol.debugMode" };
+            string[] excludes = new string[] { "com.bepis.bepinex.scriptengine", "neo.lbol.tools.watermark" };
 
             foreach (string GUID in priorities)
             {
@@ -48,6 +48,7 @@ namespace RunLogger.Patches
 
             RunDataController.Create();
             RunDataController.RunData.Version = VersionInfo.Current.Version;
+            RunDataController.RunData.Name = parameters.UserProfile.Name;
             Settings Settings = new Settings()
             {
                 Character = Character,
