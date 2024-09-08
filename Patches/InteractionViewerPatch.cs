@@ -30,14 +30,15 @@ namespace RunLogger.Patches
                 }
             }
 
-            if (RunDataController.Listener == nameof(SumirekoGathering))
+            switch (RunDataController.Listener)
             {
-                AddMiniSelectCardInteractionRewards(interaction);
-            }
-            else if (RunDataController.Listener == nameof(SatoriCounseling))
-            {
-                if (AdventurePatch.SatoriCounselingPatch.isMini) AddMiniSelectCardInteractionRewards(interaction);
-                else AddSelectCardInteractionRewards(interaction);
+                case nameof(SumirekoGathering):
+                    AddMiniSelectCardInteractionRewards(interaction);
+                    break;
+                case nameof(SatoriCounseling):
+                    if (AdventurePatch.SatoriCounselingPatch.isMini) AddMiniSelectCardInteractionRewards(interaction);
+                    else AddSelectCardInteractionRewards(interaction);
+                    break;
             }
             RunDataController.Listener = null;
 

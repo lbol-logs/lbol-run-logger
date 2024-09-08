@@ -6,6 +6,7 @@ using LBoL.Core.Stations;
 using LBoL.Core.Stats;
 using LBoL.Core.Units;
 using RunLogger.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -28,21 +29,21 @@ namespace RunLogger.Patches
             string Difficulty = parameters.Difficulty.ToString();
             IEnumerable<PuzzleFlag> AllPuzzleFlags = PuzzleFlags.EnumerateComponents(parameters.Puzzles);
             List<string> Requests = AllPuzzleFlags.Select(puzzleFlag => puzzleFlag.ToString()).ToList();
+
             Dictionary<string, PluginInfo> PluginInfos = BepInEx.Bootstrap.Chainloader.PluginInfos;
             List<Mod> Mods = new List<Mod>();
-            foreach (PluginInfo PluginInfo in PluginInfos.Values)
+            string[] priorities = new string[] { PInfo.GUID, "neo.lbol.fix.rngFix" };
+            string[] excludes = new string[] { "com.bepis.bepinex.scriptengine", "neo.lbol.frameworks.entitySideloader", "neo.lbol.tools.watermark", "neo.lbol.debugMode" };
+
+            foreach (string GUID in priorities)
             {
-                string GUID = PluginInfo.Metadata.GUID;
-                string Name = PluginInfo.Metadata.Name;
-                string Version = PluginInfo.Metadata.Version.ToString();
-                Mod Mod = new Mod()
-                {
-                    GUID = GUID,
-                    Name = Name,
-                    Version = Version
-                };
-                if (GUID == PInfo.GUID) Mods.Insert(0, Mod);
-                else Mods.Add(Mod);
+                if (PluginInfos.TryGetValue(GUID, out PluginInfo PluginInfo)) Mods.Add(HandleMod(PluginInfo));
+            }
+            foreach ((string GUID, PluginInfo PluginInfo) in PluginInfos)
+            {
+                if (priorities.Contains(GUID) || excludes.Contains(GUID)) continue;
+                Mod Mod = HandleMod(PluginInfo);
+                Mods.Add(Mod);
             }
 
             RunDataController.Create();
@@ -60,6 +61,20 @@ namespace RunLogger.Patches
             };
             RunDataController.RunData.Settings = Settings;
             RunDataController.Save();
+        }
+
+        private static Mod HandleMod(PluginInfo PluginInfo)
+        {
+            string GUID = PluginInfo.Metadata.GUID;
+            string Name = PluginInfo.Metadata.Name;
+            string Version = PluginInfo.Metadata.Version.ToString();
+            Mod Mod = new Mod()
+            {
+                GUID = GUID,
+                Name = Name,
+                Version = Version
+            };
+            return Mod;
         }
 
         [HarmonyDebug]
