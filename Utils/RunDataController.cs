@@ -18,7 +18,7 @@ namespace RunLogger.Utils
     public static class RunDataController
     {
         private const string _dir = "runLogger";
-        private static readonly string _path = Path.Join(_dir, "temp.json");
+        private static readonly string _path = Path.Join(_dir, "temp.txt");
         private static bool _initialized;
 
         public static RunData RunData;

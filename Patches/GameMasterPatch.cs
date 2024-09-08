@@ -59,8 +59,7 @@ namespace RunLogger.Patches
                 character,
                 type,
                 shining,
-                difficulty.ToString(),
-                requests.ToString(),
+                $"{difficulty}{requests}",
                 Type
             });
             RunDataController.Copy(name);

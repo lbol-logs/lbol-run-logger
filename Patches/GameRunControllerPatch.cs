@@ -42,6 +42,7 @@ namespace RunLogger.Patches
             foreach ((string GUID, PluginInfo PluginInfo) in PluginInfos)
             {
                 if (priorities.Contains(GUID) || excludes.Contains(GUID)) continue;
+                if (GUID == "neo.lbol.qol.helpMeEirin") HasClearBonus = true;
                 Mod Mod = HandleMod(PluginInfo);
                 Mods.Add(Mod);
             }
