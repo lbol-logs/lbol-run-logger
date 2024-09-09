@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using LBoL.Base;
 using LBoL.Core.SaveData;
 using LBoL.Presentation;
 using RunLogger.Utils;
@@ -15,7 +16,7 @@ namespace RunLogger.Patches
         [HarmonyPatch(nameof(GameMaster.AppendGameRunHistory)), HarmonyPostfix]
         static void AppendGameRunHistoryPatch(GameRunRecordSaveData record)
         {
-            RunDataController.Restore();
+            if (!RunDataController.Restore()) return;
             string Type = record.ResultType.ToString();
             string Timestamp = record.SaveTimestamp;
             List<CardObj> Cards = record.Cards.Select(card =>
@@ -29,13 +30,17 @@ namespace RunLogger.Patches
             }).ToList();
             List<string> Exhibits = record.Exhibits.ToList();
             string BaseMana = RunDataController.GetBaseMana(record.BaseMana, Exhibits);
+            int ReloadTimes = record.ReloadTimes;
+            string Seed = RandomGen.SeedToString(record.Seed);
             Result Result = new Result()
             {
                 Type = Type,
                 Timestamp = Timestamp,
                 Cards = Cards,
                 Exhibits = Exhibits,
-                BaseMana = BaseMana
+                BaseMana = BaseMana,
+                ReloadTimes = ReloadTimes,
+                Seed = Seed
             };
             RunDataController.RunData.Result = Result;
             RunDataController.Save();
@@ -54,8 +59,7 @@ namespace RunLogger.Patches
                 character,
                 type,
                 shining,
-                difficulty.ToString(),
-                requests.ToString(),
+                $"{difficulty}{requests}",
                 Type
             });
             RunDataController.Copy(name);

@@ -295,23 +295,25 @@ namespace RunLogger.Patches
         [HarmonyPatch(typeof(NarumiOfferCard))]
         public static class NarumiOfferCardPatch
         {
+            private static bool isNarumi;
+
             [HarmonyPatch(nameof(NarumiOfferCard.OfferDeckCard))]
-            public static void Prefix(string description)
+            public static void Prefix()
             {
-                RunDataController.Listener = nameof(NarumiOfferCard);
+                isNarumi = true;
             }
 
             [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.RemoveDeckCards), new Type[] { typeof(IEnumerable<Card>), typeof(bool) }), HarmonyPostfix]
             public static void RemoveDeckCardsPatch(IEnumerable<Card> cards)
             {
-                if (RunDataController.Listener != nameof(NarumiOfferCard)) return;
+                if (!isNarumi) return;
 
                 string type;
                 Card card = cards.First();
                 if (card.CardType == CardType.Misfortune) type = CardType.Misfortune.ToString();
                 else type = card.Config.Rarity.ToString();
                 RunDataController.AddData("Type", type);
-                RunDataController.Listener = null;
+                isNarumi = false;
             }
         }
 

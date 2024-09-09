@@ -5,6 +5,7 @@ namespace RunLogger.Utils
     public class RunData
     {
         public string Version { get; set; }
+        public string Name { get; set; }
         public Settings Settings { get; set; }
         public List<StationObj> Stations { get; set; } = new List<StationObj>();
         public List<ActObj> Acts { get; set; } = new List<ActObj>();
@@ -20,9 +21,17 @@ namespace RunLogger.Utils
         public bool HasClearBonus { get; set; }
         public bool ShowRandomResult { get; set; }
         public bool IsAutoSeed { get; set; }
-        public List<string> Requests { get; set; }
         public string Difficulty { get; set; }
+        public List<string> Requests { get; set; }
+        public List<Mod> Mods { get; set; }
         public Status Status { get; set; }
+    }
+
+    public class Mod
+    {
+        public string GUID { get; set; }
+        public string Name { get; set; }
+        public string Version { get; set; }
     }
 
     public class StationObj
@@ -110,5 +119,7 @@ namespace RunLogger.Utils
         public List<CardObj> Cards { get; set; }
         public List<string> Exhibits { get; set; }
         public string BaseMana { get; set; }
+        public int ReloadTimes { get; set; }
+        public string Seed { get; set; }
     }
 }

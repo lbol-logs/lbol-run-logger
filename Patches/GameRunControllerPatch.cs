@@ -1,10 +1,12 @@
-﻿using HarmonyLib;
+﻿using BepInEx;
+using HarmonyLib;
 using LBoL.Core;
 using LBoL.Core.Cards;
 using LBoL.Core.Stations;
 using LBoL.Core.Stats;
 using LBoL.Core.Units;
 using RunLogger.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -24,11 +26,30 @@ namespace RunLogger.Patches
             bool HasClearBonus = __result.HasClearBonus;
             bool ShowRandomResult = parameters.ShowRandomResult;
             bool IsAutoSeed = __result.IsAutoSeed;
+            string Difficulty = parameters.Difficulty.ToString();
             IEnumerable<PuzzleFlag> AllPuzzleFlags = PuzzleFlags.EnumerateComponents(parameters.Puzzles);
             List<string> Requests = AllPuzzleFlags.Select(puzzleFlag => puzzleFlag.ToString()).ToList();
-            string Difficulty = parameters.Difficulty.ToString();
+
+            Dictionary<string, PluginInfo> PluginInfos = BepInEx.Bootstrap.Chainloader.PluginInfos;
+            List<Mod> Mods = new List<Mod>();
+            string[] priorities = new string[] { PInfo.GUID, "neo.lbol.fix.rngFix" };
+            string[] excludes = new string[] { "com.bepis.bepinex.scriptengine", "neo.lbol.tools.watermark" };
+
+            foreach (string GUID in priorities)
+            {
+                if (PluginInfos.TryGetValue(GUID, out PluginInfo PluginInfo)) Mods.Add(HandleMod(PluginInfo));
+            }
+            foreach ((string GUID, PluginInfo PluginInfo) in PluginInfos)
+            {
+                if (priorities.Contains(GUID) || excludes.Contains(GUID)) continue;
+                if (GUID == "neo.lbol.qol.helpMeEirin") HasClearBonus = true;
+                Mod Mod = HandleMod(PluginInfo);
+                Mods.Add(Mod);
+            }
+
             RunDataController.Create();
             RunDataController.RunData.Version = VersionInfo.Current.Version;
+            RunDataController.RunData.Name = parameters.UserProfile.Name;
             Settings Settings = new Settings()
             {
                 Character = Character,
@@ -37,10 +58,25 @@ namespace RunLogger.Patches
                 ShowRandomResult = ShowRandomResult,
                 IsAutoSeed = IsAutoSeed,
                 Difficulty = Difficulty,
-                Requests = Requests
+                Requests = Requests,
+                Mods = Mods
             };
             RunDataController.RunData.Settings = Settings;
             RunDataController.Save();
+        }
+
+        private static Mod HandleMod(PluginInfo PluginInfo)
+        {
+            string GUID = PluginInfo.Metadata.GUID;
+            string Name = PluginInfo.Metadata.Name;
+            string Version = PluginInfo.Metadata.Version.ToString();
+            Mod Mod = new Mod()
+            {
+                GUID = GUID,
+                Name = Name,
+                Version = Version
+            };
+            return Mod;
         }
 
         [HarmonyDebug]
