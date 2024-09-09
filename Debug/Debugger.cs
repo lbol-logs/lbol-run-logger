@@ -22,6 +22,10 @@ namespace RunLogger.Debug
     {
         private const bool isDebug = true;
         private const bool logLine = false;
+        //private static Type fixAdv = typeof(BuduSuanming);
+        private static Type fixAdv;
+        private static Type fixShining;
+        //private static Type fixShining = typeof(Gongjuxiang);
 
         private const string _dir = "runLogger";
         private static bool _initialized;
@@ -56,21 +60,15 @@ namespace RunLogger.Debug
         [HarmonyPatch(typeof(Stage))]
         class StagePatch
         {
-            //private static Type adv = typeof(YachieOppression);
-            //private static Type adv = typeof(MiyoiBartender);
-            //private static Type adv = typeof(SatoriCounseling);
-            //private static Type adv = typeof(BuduSuanming);
-            private static Type adv;
-
             [HarmonyPatch(nameof(Stage.CreateStation)), HarmonyPrefix]
             static bool CreateStationPatch(MapNode node, ref Station __result, Stage __instance)
             {
                 if (!isDebug) return true;
-                if (adv == null) return true;
+                if (fixAdv == null) return true;
                 //if (!(__instance is WindGodLake)) return true;
 
                 UniqueRandomPool<Type> pool = new UniqueRandomPool<Type>(true);
-                for (int i = 0; i < 10; i++) pool.Add(adv);
+                for (int i = 0; i < 10; i++) pool.Add(fixAdv);
                 __instance.AdventurePool = pool;
                 __result = __instance.CreateStationFromType(node, StationType.Adventure);
                 return false;
@@ -80,9 +78,9 @@ namespace RunLogger.Debug
             static bool GetAdventurePatch(ref Type __result)
             {
                 if (!isDebug) return true;
-                if (adv == null) return true;
+                if (fixAdv == null) return true;
 
-                __result = adv;
+                __result = fixAdv;
                 return false;
             }
         }
@@ -167,8 +165,9 @@ namespace RunLogger.Debug
             static bool RollShiningExhibitPatch(ref Exhibit __result)
             {
                 if (!isDebug) return true;
+                if (fixShining == null) return true;
 
-                __result = Library.CreateExhibit(typeof(Gongjuxiang));
+                __result = Library.CreateExhibit(fixShining);
                 return false;
             }
         }
