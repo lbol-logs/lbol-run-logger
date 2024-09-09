@@ -24,7 +24,6 @@ namespace RunLogger.Patches
             RewardsUtil.AddReward(reward);
         }
 
-        [HarmonyDebug]
         [HarmonyPatch(typeof(Station))]
         class AddRewarsdPatchPatch
         {
