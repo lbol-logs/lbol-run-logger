@@ -11,7 +11,6 @@ using System.Linq;
 
 namespace RunLogger.Patches
 {
-    [HarmonyDebug]
     [HarmonyPatch(typeof(Station))]
     class StationPatch
     {
@@ -45,7 +44,6 @@ namespace RunLogger.Patches
         }
     }
 
-    [HarmonyDebug]
     [HarmonyPatch(typeof(BossStation))]
     class BossStationPatch
     {
@@ -62,7 +60,6 @@ namespace RunLogger.Patches
         }
     }
 
-    [HarmonyDebug]
     [HarmonyPatch(typeof(GapStation))]
     class GapStationPatch
     {
@@ -97,7 +94,6 @@ namespace RunLogger.Patches
         }
     }
 
-    [HarmonyDebug]
     [HarmonyPatch(typeof(SelectStation))]
     class SelectStationPatch
     {
@@ -109,7 +105,6 @@ namespace RunLogger.Patches
         }
     }
 
-    [HarmonyDebug]
     [HarmonyPatch(typeof(ShopStation))]
     class ShopStationPatch
     {
@@ -163,7 +158,6 @@ namespace RunLogger.Patches
             RunDataController.AddData("Upgrade", RunDataController.GetCard(card));
         }
 
-        [HarmonyDebug]
         [HarmonyPatch(typeof(ShopStation))]
         class BuyCardPatch
         {
@@ -191,7 +185,6 @@ namespace RunLogger.Patches
             }
         }
 
-        [HarmonyDebug]
         [HarmonyPatch(typeof(ShopStation))]
         class BuyExhibitRunnerPatch
         {

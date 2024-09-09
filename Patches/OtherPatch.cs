@@ -9,7 +9,6 @@ using System.Linq;
 
 namespace RunLogger.Patches
 {
-    [HarmonyDebug]
     [HarmonyPatch(typeof(Exhibit), nameof(Exhibit.Counter), MethodType.Setter)]
     class ExihibitCounterSetterPatch
     {
@@ -32,7 +31,6 @@ namespace RunLogger.Patches
         }
     }
 
-    [HarmonyDebug]
     [HarmonyPatch(typeof(Exhibit), nameof(Exhibit.Initialize))]
     class ExihibitInitializePatch
     {
@@ -47,7 +45,6 @@ namespace RunLogger.Patches
         }
     }
 
-    [HarmonyDebug]
     [HarmonyPatch(typeof(Stage))]
     public static class StagePatch
     {

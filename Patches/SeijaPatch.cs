@@ -13,7 +13,6 @@ using System.Reflection;
 
 namespace RunLogger.Patches
 {
-    [HarmonyDebug]
     [HarmonyPatch(typeof(Seija))]
     public static class SeijaPatch
     {
@@ -50,7 +49,6 @@ namespace RunLogger.Patches
         }
     }
 
-    [HarmonyDebug]
     [HarmonyPatch(typeof(DragonBallSe))]
     class DragonBallSePatch
     {
@@ -61,7 +59,6 @@ namespace RunLogger.Patches
         }
     }
 
-    [HarmonyDebug]
     [HarmonyPatch(typeof(BattleAction))]
     class BattleActionPatch
     {

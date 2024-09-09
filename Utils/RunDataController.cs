@@ -186,6 +186,11 @@ namespace RunLogger.Utils
                 adventure = adventureStation.Adventure;
                 return adventure.Id;
             }
+            if (station is TradeStation tradeStation)
+            {
+                adventure = tradeStation.Adventure;
+                return adventure.Id;
+            }
             else if (station is BattleAdvTestStation battleAdvTestStation)
             {
                 adventure = battleAdvTestStation.Adventure;

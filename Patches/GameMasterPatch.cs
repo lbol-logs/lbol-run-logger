@@ -9,7 +9,6 @@ using System.Linq;
 
 namespace RunLogger.Patches
 {
-    [HarmonyDebug]
     [HarmonyPatch(typeof(GameMaster))]
     class GameMasterPatch
     {

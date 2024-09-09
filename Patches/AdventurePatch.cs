@@ -24,7 +24,6 @@ using System.Linq;
 
 namespace RunLogger.Patches
 {
-    [HarmonyDebug]
     [HarmonyPatch(typeof(Adventure))]
     public static class AdventurePatch
     {
