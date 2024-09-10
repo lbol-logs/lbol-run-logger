@@ -348,7 +348,7 @@ namespace RunLogger.Patches
                 storage.TryGetValue("$stageNo", out float stageNo);
                 List<int> keys = new List<int>() { 1 };
                 if (stageNo > 1) keys.Add(2);
-                List<int> questions = RunDataController.GetList<int>(storage, keys, "$question", "No");
+                List<int> questions = RunDataController.GetList<float>(storage, keys, "$question", "No").Select(question => (int)question).ToList();
                 RunDataController.AddData("Questions", questions);
             }
         }
