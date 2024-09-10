@@ -5,8 +5,6 @@ using LBoL.Core.Cards;
 using LBoL.Core.Stations;
 using LBoL.Core.Stats;
 using LBoL.Core.Units;
-using Newtonsoft.Json;
-using RunLogger.Debug;
 using RunLogger.Utils;
 using System;
 using System.Collections.Generic;
@@ -17,11 +15,13 @@ namespace RunLogger.Patches
     [HarmonyPatch(typeof(GameRunController))]
     static class GameRunControllerPatch
     {
-        private static bool isAfterBossReward = false;
+        public static bool isAfterBossReward = false;
 
         [HarmonyPatch(nameof(GameRunController.Create)), HarmonyPostfix]
         static void CreatePatch(GameRunStartupParameters parameters, GameRunController __result)
         {
+            RunDataController.Reset();
+
             string Character = parameters.Player.Id;
             string PlayerType = parameters.PlayerType.ToString().Replace("Type", "");
             bool HasClearBonus = __result.HasClearBonus;
@@ -84,25 +84,17 @@ namespace RunLogger.Patches
         static void SavePatch(GameRunController __instance)
         {
             StationObj station = RunDataController.CurrentStation;
-Debugger.Write($"runData station is null: {station == null}");
             Station s = __instance.CurrentStation;
-Debugger.Write($"gameRun station is null: {s == null}");
             int Hp = __instance.Player.Hp;
-Debugger.Write($"hp: {Hp}");
             if (s != null)
             {
-Debugger.Write($"isStageEnd: {s.IsStageEnd}");
                 if (s.IsStageEnd) isAfterBossReward = true;
             }
-
             if (s == null && isAfterBossReward)
             {
-Debugger.Write($"station.Status: {JsonConvert.SerializeObject(station.Status)}");
                 Hp = station.Status.Hp;
-Debugger.Write($"Hp: {Hp}");
                 isAfterBossReward = false;
             }
-
             Status Status = new Status
             {
                 Money = __instance.Money,
@@ -111,12 +103,9 @@ Debugger.Write($"Hp: {Hp}");
                 Power = __instance.Player.Power,
                 MaxPower = __instance.Player.MaxPower
             };
-
             if (station == null) RunDataController.RunData.Settings.Status = Status; 
             else station.Status = Status;
-
             StagePatch.waitForSave = false;
-
             RunDataController.Save();
         }
 
@@ -233,10 +222,10 @@ Debugger.Write($"Hp: {Hp}");
         [HarmonyPatch(nameof(GameRunController.RollNormalExhibit)), HarmonyPostfix]
         static void RollNormalExhibitPatch(Exhibit __result)
         {
-            if (RunDataController.Listener != StationPatch.Listener) return;
+            if (StationPatch.RewardListener != StationPatch.Listener) return;
             string exhibit = __result.Id;
             RunDataController.Exhibits.Add(exhibit);
-            RunDataController.Listener = null;
+            StationPatch.RewardListener = null;
         }
     }
 }
