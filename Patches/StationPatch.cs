@@ -111,7 +111,7 @@ namespace RunLogger.Patches
         private static int index = -1;
 
         [HarmonyPatch(nameof(ShopStation.OnEnter)), HarmonyPrefix]
-        static void OnEnterPatch(ShopStation __instance)
+        static void OnEnterPatch()
         {
             Listener = null;
             index = -1;
@@ -170,7 +170,7 @@ namespace RunLogger.Patches
             private const string BuyCard = nameof(ShopStation.BuyCard);
 
             [HarmonyPatch(nameof(ShopStation.BuyCard))]
-            static void Prefix(ShopItem<Card> cardItem, ShopStation __instance)
+            static void Prefix()
             {
                 Listener = BuyCard;
             }
@@ -197,7 +197,7 @@ namespace RunLogger.Patches
             private const string BuyExhibit = nameof(ShopStation.BuyExhibitRunner);
 
             [HarmonyPatch(nameof(ShopStation.BuyExhibitRunner))]
-            static void Prefix(ShopItem<Exhibit> exhibitItem, ShopStation __instance)
+            static void Prefix()
             {
                 Listener = BuyExhibit;
             }

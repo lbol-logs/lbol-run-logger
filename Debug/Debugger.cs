@@ -6,6 +6,7 @@ using LBoL.Core.Dialogs;
 using LBoL.Core.Randoms;
 using LBoL.Core.Stations;
 using LBoL.Core.Units;
+using LBoL.EntityLib.Adventures.Shared12;
 using LBoL.EntityLib.Adventures.Stage2;
 using LBoL.EntityLib.Adventures.Stage3;
 using LBoL.EntityLib.Exhibits.Shining;
@@ -20,10 +21,10 @@ namespace RunLogger.Debug
 {
     public static class Debugger
     {
-        private const bool isDebug = false;
+        private const bool isDebug = true;
         private const bool logLine = false;
-        //private static Type fixAdv = typeof(BuduSuanming);
-        private static Type fixAdv;
+        private static Type fixAdv = typeof(KeineSales);
+        //private static Type fixAdv;
         private static Type fixShining;
         //private static Type fixShining = typeof(Gongjuxiang);
 

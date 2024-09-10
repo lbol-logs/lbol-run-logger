@@ -517,7 +517,7 @@ namespace RunLogger.Patches
             }
 
             [HarmonyPatch(nameof(BackgroundDancers.SelectOption)), HarmonyPostfix]
-            public static void SelectOptionPatch(BackgroundDancers __instance, int[] ____optionIndices, int index)
+            public static void SelectOptionPatch(BackgroundDancers __instance, int index)
             {
                 i = index - 1;
                 instance = __instance;
