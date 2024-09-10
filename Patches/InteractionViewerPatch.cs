@@ -14,7 +14,6 @@ using LBoL.Core.Stations;
 
 namespace RunLogger.Patches
 {
-    [HarmonyDebug]
     [HarmonyPatch(typeof(InteractionViewer))]
     public static class InteractionViewerPatch
     {

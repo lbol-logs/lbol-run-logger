@@ -14,7 +14,6 @@ using System.Linq;
 
 namespace RunLogger.Patches
 {
-    [HarmonyDebug]
     [HarmonyPatch(typeof(GameRunController))]
     static class GameRunControllerPatch
     {
@@ -81,7 +80,6 @@ namespace RunLogger.Patches
             return Mod;
         }
 
-        [HarmonyDebug]
         [HarmonyPatch(nameof(GameRunController.Save)), HarmonyPostfix]
         static void SavePatch(GameRunController __instance)
         {

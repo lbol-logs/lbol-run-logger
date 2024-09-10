@@ -4,10 +4,8 @@ using RunLogger.Utils;
 
 namespace RunLogger.Patches
 {
-    [HarmonyDebug]
     class DialogPatch
     {
-        [HarmonyDebug]
         [HarmonyPatch(typeof(DialogRunner))]
         class DialogRunnerPatch
         {
@@ -18,7 +16,6 @@ namespace RunLogger.Patches
             }
         }
 
-        [HarmonyDebug]
         [HarmonyPatch(typeof(DialogFunctions))]
         class DialogFunctionsPatch
         {
@@ -29,7 +26,6 @@ namespace RunLogger.Patches
             }
         }
 
-        [HarmonyDebug]
         [HarmonyPatch(typeof(DialogLinePhase))]
         class DialogLinePhasePatch
         {
@@ -57,7 +53,6 @@ namespace RunLogger.Patches
             }
         }
 
-        [HarmonyDebug]
         [HarmonyPatch(typeof(DialogOption))]
         class DialogPatchPatch
         {
