@@ -84,22 +84,16 @@ namespace RunLogger.Patches
         static void SavePatch(GameRunController __instance)
         {
             StationObj station = RunDataController.CurrentStation;
-Debugger.Write($"runData station is null: {station == null}");
             Station s = __instance.CurrentStation;
-Debugger.Write($"gameRun station is null: {s == null}");
             int Hp = __instance.Player.Hp;
-Debugger.Write($"hp: {Hp}");
             if (s != null)
             {
-Debugger.Write($"isStageEnd: {s.IsStageEnd}");
                 if (s.IsStageEnd) isAfterBossReward = true;
             }
 
             if (s == null && isAfterBossReward)
             {
-Debugger.Write($"station.Status: {JsonConvert.SerializeObject(station.Status)}");
                 Hp = station.Status.Hp;
-Debugger.Write($"Hp: {Hp}");
                 isAfterBossReward = false;
             }
 
