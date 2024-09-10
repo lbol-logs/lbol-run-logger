@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
+#pragma warning disable IDE0044, CS0162, CS0649, IDE0060
 namespace RunLogger.Debug
 {
     public static class Debugger
