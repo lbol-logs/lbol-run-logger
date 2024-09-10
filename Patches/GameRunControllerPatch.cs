@@ -5,8 +5,6 @@ using LBoL.Core.Cards;
 using LBoL.Core.Stations;
 using LBoL.Core.Stats;
 using LBoL.Core.Units;
-using Newtonsoft.Json;
-using RunLogger.Debug;
 using RunLogger.Utils;
 using System;
 using System.Collections.Generic;
