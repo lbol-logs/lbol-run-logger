@@ -10,7 +10,7 @@ namespace RunLogger.Patches
         class DialogRunnerPatch
         {
             [HarmonyPatch(nameof(DialogRunner.SelectOption)), HarmonyPostfix]
-            static void SelectOptionPatch(int id, string ____name)
+            static void SelectOptionPatch(int id)
             {
                 RunDataController.AddDataItem("Choices", id);
             }

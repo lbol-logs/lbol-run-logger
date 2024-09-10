@@ -17,6 +17,8 @@ namespace RunLogger.Patches
     [HarmonyPatch(typeof(InteractionViewer))]
     public static class InteractionViewerPatch
     {
+        public static string Listener;
+
         [HarmonyPatch(nameof(InteractionViewer.View)), HarmonyPrefix]
         public static void ViewPatch(Interaction interaction)
         {
@@ -29,7 +31,7 @@ namespace RunLogger.Patches
                 }
             }
 
-            switch (RunDataController.Listener)
+            switch (Listener)
             {
                 case nameof(SumirekoGathering):
                     AddMiniSelectCardInteractionRewards(interaction);
@@ -39,7 +41,7 @@ namespace RunLogger.Patches
                     else AddSelectCardInteractionRewards(interaction);
                     break;
             }
-            RunDataController.Listener = null;
+            Listener = null;
 
             if (interaction.Source == null) return;
             string source = interaction.Source.Id;

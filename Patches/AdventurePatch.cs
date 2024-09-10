@@ -202,7 +202,7 @@ namespace RunLogger.Patches
                 RunDataController.AddData("Card", card);
                 RunDataController.AddData("Cards", rareCards);
 
-                RunDataController.Listener = nameof(SumirekoGathering);
+                InteractionViewerPatch.Listener = nameof(SumirekoGathering);
             }
 
             [HarmonyPatch(typeof(DialogFunctions), nameof(DialogFunctions.HasMoney)), HarmonyPostfix]
@@ -348,7 +348,7 @@ namespace RunLogger.Patches
                 storage.TryGetValue("$stageNo", out float stageNo);
                 List<int> keys = new List<int>() { 1 };
                 if (stageNo > 1) keys.Add(2);
-                List<int> questions = RunDataController.GetList<int>(storage, keys, "$question", "No");
+                List<int> questions = RunDataController.GetList<float>(storage, keys, "$question", "No").Select(question => (int)question).ToList();
                 RunDataController.AddData("Questions", questions);
             }
         }
@@ -517,7 +517,7 @@ namespace RunLogger.Patches
             }
 
             [HarmonyPatch(nameof(BackgroundDancers.SelectOption)), HarmonyPostfix]
-            public static void SelectOptionPatch(BackgroundDancers __instance, int[] ____optionIndices, int index)
+            public static void SelectOptionPatch(BackgroundDancers __instance, int index)
             {
                 i = index - 1;
                 instance = __instance;
@@ -569,14 +569,14 @@ namespace RunLogger.Patches
             [HarmonyPatch(nameof(SatoriCounseling.Library)), HarmonyPostfix]
             public static void LibraryPatch()
             {
-                RunDataController.Listener = nameof(SatoriCounseling);
+                InteractionViewerPatch.Listener = nameof(SatoriCounseling);
                 isMini = false;
             }
 
             [HarmonyPatch(nameof(SatoriCounseling.Analyse)), HarmonyPostfix]
             public static void AnalysePatch()
             {
-                RunDataController.Listener = nameof(SatoriCounseling);
+                InteractionViewerPatch.Listener = nameof(SatoriCounseling);
                 isMini = true;
             }
         }

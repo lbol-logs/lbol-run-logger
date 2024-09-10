@@ -208,7 +208,8 @@ namespace RunLogger.Utils
             List<T> ids = new List<T>();
             foreach (int key in keys)
             {
-                storage.TryGetValue($"{prefix}{key}{suffix}", out object id);
+                string _key = $"{prefix}{key}{suffix}";
+                storage.TryGetValue(_key, out object id);
                 ids.Add((T)id);
             }
             return ids;
