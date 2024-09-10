@@ -58,7 +58,6 @@ namespace RunLogger.Debug
             _streamWriter.Flush();
         }
 
-        [HarmonyDebug]
         [HarmonyPatch(typeof(Stage))]
         class StagePatch
         {
@@ -87,7 +86,6 @@ namespace RunLogger.Debug
             }
         }
 
-        [HarmonyDebug]
         [HarmonyPatch(typeof(BattleAdvTest))]
         class BattleAdvTestPatch
         {
@@ -99,7 +97,6 @@ namespace RunLogger.Debug
             }
         }
 
-        [HarmonyDebug]
         [HarmonyPatch(typeof(BattleAdvTestStation))]
         class BattleAdvTestStationPatch
         {
@@ -122,7 +119,6 @@ namespace RunLogger.Debug
             }
         }
 
-        [HarmonyDebug]
         [HarmonyPatch(typeof(AllStations))]
         class AllStationsPatch
         {
@@ -174,7 +170,6 @@ namespace RunLogger.Debug
             }
         }
 
-        [HarmonyDebug]
         [HarmonyPatch(typeof(DialogLinePhase))]
         class DialogLinePhasePatch
         {
@@ -187,7 +182,6 @@ namespace RunLogger.Debug
             }
         }
 
-        [HarmonyDebug]
         [HarmonyPatch(typeof(DialogOption))]
         class DialogPatchPatch
         {
