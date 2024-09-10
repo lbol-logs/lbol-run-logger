@@ -202,7 +202,7 @@ namespace RunLogger.Patches
                 RunDataController.AddData("Card", card);
                 RunDataController.AddData("Cards", rareCards);
 
-                RunDataController.Listener = nameof(SumirekoGathering);
+                InteractionViewerPatch.Listener = nameof(SumirekoGathering);
             }
 
             [HarmonyPatch(typeof(DialogFunctions), nameof(DialogFunctions.HasMoney)), HarmonyPostfix]
@@ -569,14 +569,14 @@ namespace RunLogger.Patches
             [HarmonyPatch(nameof(SatoriCounseling.Library)), HarmonyPostfix]
             public static void LibraryPatch()
             {
-                RunDataController.Listener = nameof(SatoriCounseling);
+                InteractionViewerPatch.Listener = nameof(SatoriCounseling);
                 isMini = false;
             }
 
             [HarmonyPatch(nameof(SatoriCounseling.Analyse)), HarmonyPostfix]
             public static void AnalysePatch()
             {
-                RunDataController.Listener = nameof(SatoriCounseling);
+                InteractionViewerPatch.Listener = nameof(SatoriCounseling);
                 isMini = true;
             }
         }

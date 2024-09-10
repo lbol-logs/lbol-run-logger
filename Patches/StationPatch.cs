@@ -4,12 +4,10 @@ using LBoL.Core.Cards;
 using LBoL.Core.GapOptions;
 using LBoL.Core.Stations;
 using LBoL.Presentation.UI.Panels;
-using RunLogger.Debug;
 using RunLogger.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static System.Collections.Specialized.BitVector32;
 
 namespace RunLogger.Patches
 {
@@ -112,52 +110,44 @@ namespace RunLogger.Patches
         private static string Listener;
         private static int index = -1;
 
-        private static void Reset()
+        [HarmonyPatch(nameof(ShopStation.OnEnter)), HarmonyPrefix]
+        static void OnEnterPatch(ShopStation __instance)
         {
-            Debugger.Write("Reset");
             Listener = null;
             index = -1;
         }
 
-        [HarmonyPatch(typeof(ShopStation), nameof(ShopStation.OnEnter))]
-        class OnEnterPatch
+        [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.EnterMapNode)), HarmonyPostfix, HarmonyPriority(1)]
+        static void EnterMapNodePatch(GameRunController __instance)
         {
-            static void Prefix(ShopStation __instance)
+            Station CurrentStation = __instance.CurrentStation;
+            if (!(CurrentStation is ShopStation station)) return;
+
+            List<ShopItem<Card>> cardsList = station.ShopCards;
+            List<CardWithPrice> cards = cardsList.Select(item =>
             {
-                Debugger.Write("Pre OnEnter");
-                Reset();
-            }
+                int price = item.Price;
+                return RunDataController.GetCardWithPrice(item.Content, price);
+            }).ToList();
+            cards[station.DiscountCardNo].IsDiscounted = true;
 
-            static void Postfix(ShopStation __instance)
+            List<ShopItem<Exhibit>> exhibitsList = station.ShopExhibits;
+            List<string> exhibits = exhibitsList.Select(item => item.Content.Id).ToList();
+            Dictionary<string, int> prices = new Dictionary<string, int>()
             {
-                Debugger.Write("Post OnEnter");
+                { "Remove", station.RemoveDeckCardPrice },
+                { "Upgrade", station.UpgradeDeckCardPrice }
+            };
+            foreach (ShopItem<Exhibit> item in exhibitsList) prices[item.Content.Id] = item.Price;
 
-                List<ShopItem<Card>> cardsList = __instance.ShopCards;
-                List<CardWithPrice> cards = cardsList.Select(item =>
-                {
-                    int price = item.Price;
-                    return RunDataController.GetCardWithPrice(item.Content, price);
-                }).ToList();
-                cards[__instance.DiscountCardNo].IsDiscounted = true;
+            Dictionary<string, object> rewards = new Dictionary<string, object>()
+            {
+                { "Cards", new List<List<CardWithPrice>>() { cards } },
+                { "Exhibits", exhibits }
+            };
 
-                List<ShopItem<Exhibit>> exhibitsList = __instance.ShopExhibits;
-                List<string> exhibits = exhibitsList.Select(item => item.Content.Id).ToList();
-                Dictionary<string, int> prices = new Dictionary<string, int>()
-                {
-                    { "Remove", __instance.RemoveDeckCardPrice },
-                    { "Upgrade", __instance.UpgradeDeckCardPrice }
-                };
-                foreach (ShopItem<Exhibit> item in exhibitsList) prices[item.Content.Id] = item.Price;
-
-                Dictionary<string, object> rewards = new Dictionary<string, object>()
-                {
-                    { "Cards", new List<List<CardWithPrice>>() { cards } },
-                    { "Exhibits", exhibits }
-                };
-
-                RunDataController.CurrentStation.Rewards = rewards;
-                RunDataController.AddData("Prices", prices);
-            }
+            RunDataController.CurrentStation.Rewards = rewards;
+            RunDataController.AddData("Prices", prices);
         }
 
         [HarmonyPatch(nameof(ShopStation.RemoveDeckCard)), HarmonyPrefix]
@@ -197,7 +187,7 @@ namespace RunLogger.Patches
                     cards.Add(new List<CardWithPrice>());
                 }
                 cards[index].Add(RunDataController.GetCardWithPrice(card, __result));
-                Reset();
+                Listener = null;
             }
         }
 
@@ -209,27 +199,17 @@ namespace RunLogger.Patches
             [HarmonyPatch(nameof(ShopStation.BuyExhibitRunner))]
             static void Prefix(ShopItem<Exhibit> exhibitItem, ShopStation __instance)
             {
-                Debugger.Write($"BuyExhibit");
-                Debugger.Write($"Item is null: {exhibitItem==null}");
-                Debugger.Write($"Content is null: {exhibitItem.Content == null}");
-                Debugger.Write($"Id: {exhibitItem.Content.Id}");
                 Listener = BuyExhibit;
             }
 
             [HarmonyPatch(nameof(ShopStation.GetPrice), new Type[] { typeof(Exhibit) }), HarmonyPostfix]
             static void GetPricePatch(Exhibit exhibit, int __result)
             {
-                Debugger.Write($"Listener: {Listener}");
                 if (Listener != BuyExhibit) return;
-                Debugger.Write("A");
                 RunDataController.CurrentStation.Rewards.TryGetValue("Exhibits", out object exhibits);
-                Debugger.Write("B");
                 RunDataController.AddPrice(exhibit.Id, __result);
-                Debugger.Write("C");
                 (exhibits as List<string>).Add(exhibit.Id);
-                Debugger.Write("D");
-                Reset();
-                Debugger.Write("E");
+                Listener = null;
             }
         }
     }
