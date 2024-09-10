@@ -189,12 +189,12 @@ namespace RunLogger.Utils
             else if (station is EntryStation entryStation)
             {
                 adventure = entryStation.DebutAdventure;
+                if (adventure == null) return null;
                 return adventure.Id;
             }
             else if (station is TradeStation tradeStation)
             {
                 adventure = tradeStation.Adventure;
-                if (adventure == null) return null;
                 return adventure.Id;
             }
             else if (station is BattleAdvTestStation battleAdvTestStation)
