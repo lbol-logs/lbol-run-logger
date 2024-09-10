@@ -20,7 +20,7 @@ namespace RunLogger.Debug
 {
     public static class Debugger
     {
-        private const bool isDebug = true;
+        private const bool isDebug = false;
         private const bool logLine = false;
         //private static Type fixAdv = typeof(BuduSuanming);
         private static Type fixAdv;
