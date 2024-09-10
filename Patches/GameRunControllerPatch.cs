@@ -15,11 +15,13 @@ namespace RunLogger.Patches
     [HarmonyPatch(typeof(GameRunController))]
     static class GameRunControllerPatch
     {
-        private static bool isAfterBossReward = false;
+        public static bool isAfterBossReward = false;
 
         [HarmonyPatch(nameof(GameRunController.Create)), HarmonyPostfix]
         static void CreatePatch(GameRunStartupParameters parameters, GameRunController __result)
         {
+            RunDataController.Reset();
+
             string Character = parameters.Player.Id;
             string PlayerType = parameters.PlayerType.ToString().Replace("Type", "");
             bool HasClearBonus = __result.HasClearBonus;
@@ -88,13 +90,11 @@ namespace RunLogger.Patches
             {
                 if (s.IsStageEnd) isAfterBossReward = true;
             }
-
             if (s == null && isAfterBossReward)
             {
                 Hp = station.Status.Hp;
                 isAfterBossReward = false;
             }
-
             Status Status = new Status
             {
                 Money = __instance.Money,
@@ -103,12 +103,9 @@ namespace RunLogger.Patches
                 Power = __instance.Player.Power,
                 MaxPower = __instance.Player.MaxPower
             };
-
             if (station == null) RunDataController.RunData.Settings.Status = Status; 
             else station.Status = Status;
-
             StagePatch.waitForSave = false;
-
             RunDataController.Save();
         }
 
@@ -225,10 +222,10 @@ namespace RunLogger.Patches
         [HarmonyPatch(nameof(GameRunController.RollNormalExhibit)), HarmonyPostfix]
         static void RollNormalExhibitPatch(Exhibit __result)
         {
-            if (RunDataController.Listener != StationPatch.Listener) return;
+            if (StationPatch.RewardListener != StationPatch.Listener) return;
             string exhibit = __result.Id;
             RunDataController.Exhibits.Add(exhibit);
-            RunDataController.Listener = null;
+            StationPatch.RewardListener = null;
         }
     }
 }

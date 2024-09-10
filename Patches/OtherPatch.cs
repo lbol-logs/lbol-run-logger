@@ -12,9 +12,10 @@ namespace RunLogger.Patches
     [HarmonyPatch(typeof(Exhibit), nameof(Exhibit.Counter), MethodType.Setter)]
     class ExihibitCounterSetterPatch
     {
+        public static bool isInitialize;
         static void Prefix(int value, Exhibit __instance)
         {
-            if (RunDataController.isInitialize) return;
+            if (isInitialize) return;
 
             string[] exhibits = { nameof(GanzhuYao), nameof(ChuRenou), nameof(TiangouYuyi), nameof(Moping), nameof(Baota) };
             if (!exhibits.Contains(__instance.Id)) return;
@@ -36,12 +37,12 @@ namespace RunLogger.Patches
     {
         static void Prefix()
         {
-            RunDataController.isInitialize = true;
+            ExihibitCounterSetterPatch.isInitialize = true;
         }
 
         static void Postfix()
         {
-            RunDataController.isInitialize = false;
+            ExihibitCounterSetterPatch.isInitialize = false;
         }
     }
 
@@ -67,7 +68,7 @@ namespace RunLogger.Patches
         [HarmonyPatch(typeof(StationReward), nameof(StationReward.CreateToolCard)), HarmonyPostfix]
         static void GetShopToolCardsPatch(StationReward __result)
         {
-            if (RunDataController.Listener != null) return;
+            if (StationPatch.RewardListener != null) return;
             RewardsUtil.AddReward(__result);
         }
     }

@@ -12,6 +12,7 @@ using LBoL.Core.Stations;
 using LBoL.Core.Adventures;
 using LBoL.Core.Units;
 using LBoL.Core.Dialogs;
+using RunLogger.Patches;
 
 namespace RunLogger.Utils
 {
@@ -22,9 +23,7 @@ namespace RunLogger.Utils
         private static bool _initialized;
 
         public static RunData RunData;
-        public static bool isInitialize;
 
-        public static string Listener;
         public static List<CardObj> Cards;
         public static List<string> Exhibits;
 
@@ -219,6 +218,14 @@ namespace RunLogger.Utils
                 ids.Add((T)id);
             }
             return ids;
+        }
+
+        public static void Reset()
+        {
+            InteractionViewerPatch.Listener = null;
+            StationPatch.RewardListener = null;
+            StagePatch.waitForSave = false;
+            GameRunControllerPatch.isAfterBossReward = false;
         }
 
         public static void Create()

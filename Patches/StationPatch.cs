@@ -12,15 +12,16 @@ using System.Linq;
 namespace RunLogger.Patches
 {
     [HarmonyPatch(typeof(Station))]
-    class StationPatch
+    public static class StationPatch
     {
+        public static string RewardListener;
         public const string Listener = nameof(Station.AddReward);
 
         [HarmonyPatch(nameof(Station.AddReward)), HarmonyPrefix]
         static void AddRewardPatch(StationReward reward)
         {
-            if (RunDataController.Listener != null) return;
-            RunDataController.Listener = Listener;
+            if (StationPatch.RewardListener != null) return;
+            StationPatch.RewardListener = Listener;
             RewardsUtil.AddReward(reward);
         }
 
@@ -30,14 +31,14 @@ namespace RunLogger.Patches
             [HarmonyPatch(nameof(Station.AddRewards), new Type[] { typeof(IEnumerable<StationReward>) })]
             static void Prefix(IEnumerable<StationReward> rewards)
             {
-                RunDataController.Listener = Listener;
+                StationPatch.RewardListener = Listener;
                 RewardsUtil.AddRewards(rewards.ToList());
             }
 
             [HarmonyPatch(nameof(Station.AddRewards), new Type[] { typeof(IEnumerable<StationReward>) })]
             static void Postfix()
             {
-                RunDataController.Listener = null;
+                StationPatch.RewardListener = null;
                 StagePatch.waitForSave = true;
             }
         }
@@ -76,20 +77,20 @@ namespace RunLogger.Patches
         [HarmonyPatch(typeof(GapOptionsPanel), nameof(GapOptionsPanel.InternalGerRareCard)), HarmonyPrefix]
         static void InternalGerRareCardPatch()
         {
-            RunDataController.Listener = Listener;
+            StationPatch.RewardListener = Listener;
         }
 
         [HarmonyPatch(typeof(SelectCardPanel), nameof(SelectCardPanel.ShowMiniSelect)), HarmonyPrefix]
         static void ShowMiniSelectPatch(SelectCardPayload payload)
         {
-            switch (RunDataController.Listener)
+            switch (StationPatch.RewardListener)
             {
                 case Listener:
                     List<CardObj> cards = RunDataController.GetCards(payload.Cards);
                     RunDataController.AddData("ShanliangDengpao", cards);
                     break;
             }
-            RunDataController.Listener = null;
+            StationPatch.RewardListener = null;
         }
     }
 
