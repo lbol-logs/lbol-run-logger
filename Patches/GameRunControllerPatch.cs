@@ -151,6 +151,7 @@ namespace RunLogger.Patches
         [HarmonyPatch(nameof(GameRunController.EnterMapNode)), HarmonyPostfix, HarmonyPriority(2)]
         static void EnterMapNodePatch(MapNode node, GameRunController __instance)
         {
+            //InteractionViewerPatch.Listener = null;
             int Act = __instance.CurrentStage.Level;
             Station currentStation = __instance.CurrentStation;
             int Level = currentStation.Level;
