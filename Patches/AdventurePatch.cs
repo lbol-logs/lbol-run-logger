@@ -44,9 +44,13 @@ namespace RunLogger.Patches
         [HarmonyPatch(typeof(Debut))]
         public static class DebutPatch
         {
+            public static int uncommonCardListener = 0;
+
             [HarmonyPatch(nameof(Debut.RollBonus))]
             public static void Postfix(Exhibit ____exhibit, int[] ____bonusNos, Debut __instance)
             {
+                uncommonCardListener = 0;
+
                 if (!RunDataController.RunData.Settings.HasClearBonus) return;
                 Exhibit _exhibit = ____exhibit;
                 int[] _bonusNos = ____bonusNos;
@@ -63,6 +67,7 @@ namespace RunLogger.Patches
                         case 0:
                             List<string> uncommonCards = RunDataController.GetList<string>(storage, new[] { 1, 2, 3 }, "$uncommonCard");
                             RunDataController.AddData("UncommonCards", uncommonCards);
+                            uncommonCardListener = 1;
                             break;
                         case 1:
                             storage.TryGetValue("$rareCard", out string rareCard);
@@ -77,6 +82,20 @@ namespace RunLogger.Patches
                             RunDataController.AddData("TransformCard", transformCard);
                             break;
                     }
+                }
+            }
+
+            [HarmonyPatch(typeof(DialogRunner), nameof(DialogRunner.SelectOption))]
+            public static class SelectOptionPatch
+            {
+                public static void Prefix(int id)
+                {
+                    if (uncommonCardListener == 1 && id == 0) uncommonCardListener = 2;
+                }
+
+                public static void Postfix(int id)
+                {
+                    uncommonCardListener = 0;
                 }
             }
         }
