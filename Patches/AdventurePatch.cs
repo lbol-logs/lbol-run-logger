@@ -237,6 +237,8 @@ namespace RunLogger.Patches
                 {
                     if (RunDataController.CurrentStation.Data.TryGetValue("Cards", out object cards)) return;
                     RunDataController.AddData("Cards", rareCards);
+
+                    InteractionViewerPatch.Listener = nameof(SumirekoGathering);
                 }
             }
         }

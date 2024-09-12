@@ -22,6 +22,8 @@ namespace RunLogger.Patches
         [HarmonyPatch(nameof(InteractionViewer.View)), HarmonyPrefix]
         public static void ViewPatch(Interaction interaction)
         {
+            if (Listener != null) BepinexPlugin.log.LogDebug($"InteractionViewerPatch.Listener: {Listener}");
+
             if (interaction is MiniSelectCardInteraction)
             {
                 if (RunDataController.CurrentStation.Type == StationType.Entry.ToString() && AdventurePatch.DebutPatch.uncommonCardListener == 2)
