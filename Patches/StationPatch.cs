@@ -65,13 +65,18 @@ namespace RunLogger.Patches
     {
         private const string Listener = nameof(GapOptionsPanel.InternalGerRareCard);
 
+        [HarmonyPatch(typeof(GapOptionsPanel), nameof(GapOptionsPanel.OnShowing)), HarmonyPostfix]
+        static void OnShowingPatch(GapStation gapStation)
+        {
+            List<string> Options = gapStation.GapOptions.Select(gapOption => gapOption.Type.ToString()).ToList();
+            RunDataController.AddData("Options", Options);
+        }
+
         [HarmonyPatch(typeof(GapOptionsPanel), nameof(GapOptionsPanel.OptionClicked)), HarmonyPostfix]
         static void OptionClickedPatch(GapOption option, GapOptionsPanel __instance)
         {
             string Choice = option.Type.ToString();
-            List<string> Options = __instance.GapStation.GapOptions.Select(gapOption => gapOption.Type.ToString()).ToList();
-            RunDataController.AddData("Choice", Choice);
-            RunDataController.AddData("Options", Options);
+            RunDataController.CurrentStation.Data["Choice"] = Choice;
         }
 
         [HarmonyPatch(typeof(GapOptionsPanel), nameof(GapOptionsPanel.InternalGerRareCard)), HarmonyPrefix]
