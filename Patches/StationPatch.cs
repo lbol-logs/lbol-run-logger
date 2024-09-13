@@ -27,8 +27,10 @@ namespace RunLogger.Patches
         }
 
         [HarmonyPatch(typeof(Station))]
-        class AddRewarsdPatchPatch
+        public static class AddRewardsPatch
         {
+            public static bool isAfterAddRewards;
+
             [HarmonyPatch(nameof(Station.AddRewards), new Type[] { typeof(IEnumerable<StationReward>) })]
             static void Prefix(IEnumerable<StationReward> rewards)
             {
@@ -40,7 +42,7 @@ namespace RunLogger.Patches
             static void Postfix()
             {
                 StationPatch.RewardListener = null;
-                StagePatch.waitForSave = true;
+                isAfterAddRewards = true;
             }
         }
     }

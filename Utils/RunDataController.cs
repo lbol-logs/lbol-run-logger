@@ -224,7 +224,7 @@ namespace RunLogger.Utils
         {
             InteractionViewerPatch.Listener = null;
             StationPatch.RewardListener = null;
-            StagePatch.waitForSave = false;
+            StationPatch.AddRewardsPatch.isAfterAddRewards = false;
             GameRunControllerPatch.isAfterBossReward = false;
         }
 

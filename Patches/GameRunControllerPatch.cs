@@ -106,7 +106,7 @@ namespace RunLogger.Patches
             };
             if (station == null) RunDataController.RunData.Settings.Status = Status; 
             else station.Status = Status;
-            StagePatch.waitForSave = false;
+
             RunDataController.Save();
         }
 
@@ -120,6 +120,7 @@ namespace RunLogger.Patches
         static void EnterStagePatch(GameRunController __instance)
         {
             isAfterBossReward = false;
+
             int Act = __instance.CurrentStage.Level;
             GameMap gameMap = __instance.CurrentMap;
             string bossId = gameMap.BossId;
@@ -155,6 +156,7 @@ namespace RunLogger.Patches
         {
             InteractionViewerPatch.Listener = null;
             StationPatch.RewardListener = null;
+            StationPatch.AddRewardsPatch.isAfterAddRewards = false;
 
             int Act = __instance.CurrentStage.Level;
             Station currentStation = __instance.CurrentStation;
