@@ -69,7 +69,9 @@ namespace RunLogger.Patches
         [HarmonyPatch(typeof(StationReward), nameof(StationReward.CreateToolCard)), HarmonyPostfix]
         static void GetShopToolCardsPatch(StationReward __result)
         {
-            if (StationPatch.RewardListener != null) return;
+            string RewardListener = StationPatch.RewardListener;
+            BepinexPlugin.log.LogDebug($"RewardListener in {System.Reflection.MethodBase.GetCurrentMethod().Name}: {RewardListener}");
+            if (RewardListener != null) return;
             RewardsUtil.AddReward(__result);
         }
     }

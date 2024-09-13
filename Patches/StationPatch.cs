@@ -21,8 +21,8 @@ namespace RunLogger.Patches
         static void AddRewardPatch(StationReward reward)
         {
             BepinexPlugin.log.LogDebug($"RewardListener in {System.Reflection.MethodBase.GetCurrentMethod().Name}: {RewardListener}");
-            if (StationPatch.RewardListener != null) return;
-            StationPatch.RewardListener = Listener;
+            if (RewardListener != null) return;
+            RewardListener = Listener;
             RewardsUtil.AddReward(reward);
         }
 
@@ -34,14 +34,14 @@ namespace RunLogger.Patches
             [HarmonyPatch(nameof(Station.AddRewards), new Type[] { typeof(IEnumerable<StationReward>) })]
             static void Prefix(IEnumerable<StationReward> rewards)
             {
-                StationPatch.RewardListener = Listener;
+                RewardListener = Listener;
                 RewardsUtil.AddRewards(rewards.ToList());
             }
 
             [HarmonyPatch(nameof(Station.AddRewards), new Type[] { typeof(IEnumerable<StationReward>) })]
             static void Postfix()
             {
-                StationPatch.RewardListener = null;
+                RewardListener = null;
                 isAfterAddRewards = true;
             }
         }
@@ -91,7 +91,9 @@ namespace RunLogger.Patches
         [HarmonyPatch(typeof(SelectCardPanel), nameof(SelectCardPanel.ShowMiniSelect)), HarmonyPrefix]
         static void ShowMiniSelectPatch(SelectCardPayload payload)
         {
-            switch (StationPatch.RewardListener)
+            string RewardListener = StationPatch.RewardListener;
+            BepinexPlugin.log.LogDebug($"RewardListener in {System.Reflection.MethodBase.GetCurrentMethod().Name}: {RewardListener}");
+            switch (RewardListener)
             {
                 case Listener:
                     List<CardObj> cards = RunDataController.GetCards(payload.Cards);
