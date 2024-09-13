@@ -93,7 +93,7 @@ namespace RunLogger.Patches
                     if (uncommonCardListener == 1 && id == 0) uncommonCardListener = 2;
                 }
 
-                public static void Postfix(int id)
+                public static void Postfix()
                 {
                     uncommonCardListener = 0;
                 }
@@ -507,12 +507,9 @@ namespace RunLogger.Patches
             [HarmonyPatch(nameof(ParseeJealousy.GetExhibit)), HarmonyPostfix]
             public static void GetExhibitPatch(ParseeJealousy __instance)
             {
-                if (RunDataController.ShowRandom)
-                {
-                    __instance.Storage.TryGetValue("$exhibit", out string exhibit);
-                    __instance.Storage.TryGetValue("$exhibit2", out string exhibit2);
-                    RunDataController.AddData("Exhibits", new[] { exhibit, exhibit2 });
-                }
+                __instance.Storage.TryGetValue("$exhibit", out string exhibit);
+                __instance.Storage.TryGetValue("$exhibit2", out string exhibit2);
+                RunDataController.AddData("Exhibits", new[] { exhibit, exhibit2 });
             }
         }
 
@@ -521,11 +518,12 @@ namespace RunLogger.Patches
         {
             public const string line = "line:033d1fd";
             private static BackgroundDancers instance;
-            private static int i = -1;
+            private static int i;
 
             [HarmonyPatch(nameof(BackgroundDancers.InitVariables))]
             public static void Postfix(BackgroundDancers __instance)
             {
+                i = -1;
                 __instance.Storage.TryGetValue("$hpLose", out float hpLose);
                 RunDataController.AddData("Hp", (int)hpLose);
             }

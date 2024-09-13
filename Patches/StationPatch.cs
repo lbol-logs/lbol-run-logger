@@ -73,7 +73,7 @@ namespace RunLogger.Patches
         }
 
         [HarmonyPatch(typeof(GapOptionsPanel), nameof(GapOptionsPanel.OptionClicked)), HarmonyPostfix]
-        static void OptionClickedPatch(GapOption option, GapOptionsPanel __instance)
+        static void OptionClickedPatch(GapOption option)
         {
             string Choice = option.Type.ToString();
             RunDataController.CurrentStation.Data["Choice"] = Choice;
@@ -114,7 +114,7 @@ namespace RunLogger.Patches
     class ShopStationPatch
     {
         private static string Listener;
-        private static int index = -1;
+        private static int index;
 
         [HarmonyPatch(nameof(ShopStation.OnEnter)), HarmonyPrefix]
         static void OnEnterPatch()
