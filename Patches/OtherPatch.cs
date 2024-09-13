@@ -6,6 +6,7 @@ using RunLogger.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static RunLogger.Patches.StationPatch;
 
 namespace RunLogger.Patches
 {
@@ -49,8 +50,6 @@ namespace RunLogger.Patches
     [HarmonyPatch(typeof(Stage))]
     public static class StagePatch
     {
-        public static bool waitForSave = false;
-
         [HarmonyPatch(nameof(Stage.SetBoss)), HarmonyPostfix]
         static void SetBossPatch(string enemyGroupName)
         {
@@ -61,7 +60,9 @@ namespace RunLogger.Patches
         [HarmonyPatch(nameof(Stage.GetEnemyCardReward)), HarmonyPostfix]
         static void GetEnemyCardRewardPatch(StationReward __result)
         {
-            if (!StationPatch.AddRewardsPatch.isAfterAddRewards) return;
+            bool isAfterAddRewards = StationPatch.AddRewardsPatch.isAfterAddRewards;
+            BepinexPlugin.log.LogDebug($"isAfterAddRewards: {isAfterAddRewards}");
+            if (!isAfterAddRewards) return;
             RewardsUtil.AddReward(__result);
         }
 
