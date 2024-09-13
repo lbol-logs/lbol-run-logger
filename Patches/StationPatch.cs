@@ -20,6 +20,7 @@ namespace RunLogger.Patches
         [HarmonyPatch(nameof(Station.AddReward)), HarmonyPrefix]
         static void AddRewardPatch(StationReward reward)
         {
+            BepinexPlugin.log.LogDebug($"RewardListener in {System.Reflection.MethodBase.GetCurrentMethod().Name}: {RewardListener}");
             if (StationPatch.RewardListener != null) return;
             StationPatch.RewardListener = Listener;
             RewardsUtil.AddReward(reward);

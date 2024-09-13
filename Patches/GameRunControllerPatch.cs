@@ -5,6 +5,7 @@ using LBoL.Core.Cards;
 using LBoL.Core.Stations;
 using LBoL.Core.Stats;
 using LBoL.Core.Units;
+using MonoMod.Utils;
 using RunLogger.Utils;
 using System;
 using System.Collections.Generic;
@@ -153,6 +154,8 @@ namespace RunLogger.Patches
         static void EnterMapNodePatch(MapNode node, GameRunController __instance)
         {
             InteractionViewerPatch.Listener = null;
+            StationPatch.RewardListener = null;
+
             int Act = __instance.CurrentStage.Level;
             Station currentStation = __instance.CurrentStation;
             int Level = currentStation.Level;
@@ -224,7 +227,9 @@ namespace RunLogger.Patches
         [HarmonyPatch(nameof(GameRunController.RollNormalExhibit)), HarmonyPostfix]
         static void RollNormalExhibitPatch(Exhibit __result)
         {
-            if (StationPatch.RewardListener != StationPatch.Listener) return;
+            string RewardListener = StationPatch.RewardListener;
+            BepinexPlugin.log.LogDebug($"RewardListener in {System.Reflection.MethodBase.GetCurrentMethod().Name}: {RewardListener}");
+            if (RewardListener != StationPatch.Listener) return;
             string exhibit = __result.Id;
             RunDataController.Exhibits.Add(exhibit);
             StationPatch.RewardListener = null;
