@@ -15,7 +15,7 @@ namespace RunLogger.Patches
     [HarmonyPatch(typeof(GameRunController))]
     static class GameRunControllerPatch
     {
-        public static bool isAfterBossReward = false;
+        public static bool isAfterBossReward;
 
         [HarmonyPatch(nameof(GameRunController.Create)), HarmonyPostfix]
         static void CreatePatch(GameRunStartupParameters parameters, GameRunController __result)
@@ -118,6 +118,7 @@ namespace RunLogger.Patches
         [HarmonyPatch(nameof(GameRunController.EnterStage)), HarmonyPostfix]
         static void EnterStagePatch(GameRunController __instance)
         {
+            isAfterBossReward = false;
             int Act = __instance.CurrentStage.Level;
             GameMap gameMap = __instance.CurrentMap;
             string bossId = gameMap.BossId;
