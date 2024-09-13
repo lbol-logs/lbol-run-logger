@@ -54,7 +54,7 @@ namespace RunLogger.Patches
         }
 
         [HarmonyPatch(typeof(DialogOption))]
-        class DialogPatchPatch
+        class DialogOptionPatch
         {
             [HarmonyPatch(nameof(DialogOption.GetLocalizedText)), HarmonyPostfix]
             static void GetLocalizedTextPatch(string ____lineId)
