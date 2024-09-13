@@ -10,6 +10,7 @@ using RunLogger.Utils;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System;
 
 namespace RunLogger.Patches
 {
@@ -62,54 +63,75 @@ namespace RunLogger.Patches
     [HarmonyPatch(typeof(BattleAction))]
     class BattleActionPatch
     {
-        static MethodBase TargetMethod()
+        private static bool isPlayerTrunStarted;
+        private static Dictionary<string, object> details;
+
+        [HarmonyPatch]
+        class CreateEventPhasePatch
         {
-            return AccessTools.Method(typeof(BattleAction), nameof(BattleAction.CreateEventPhase)).MakeGenericMethod(typeof(UnitEventArgs));
+            static MethodBase TargetMethod()
+            {
+                return AccessTools.Method(typeof(BattleAction), nameof(BattleAction.CreateEventPhase)).MakeGenericMethod(typeof(UnitEventArgs));
+            }
+            static void Prefix(BattleAction __instance, string name, UnitEventArgs args)
+            {
+                if (name != "TurnStarted") return;
+                if (__instance is StartPlayerTurnAction startPlayerTurnAction)
+                {
+                    BattleController battleController = __instance.Battle;
+                    if (battleController.EnemyGroup.Id != nameof(Seija)) return;
+                    bool isExtra = startPlayerTurnAction.IsExtra;
+                    if (isExtra) return;
+
+                    int round = battleController.RoundCounter;
+                    PlayerUnit player = args.Unit as PlayerUnit;
+                    string id = "Player";
+                    int hp = player.Hp;
+
+                    details = new Dictionary<string, object>()
+                    {
+                        { "Round", round },
+                        { "Id", id },
+                        { "Hp", hp }
+                    };
+
+                    isPlayerTrunStarted = true;
+                }
+                else if (__instance is StartEnemyTurnAction startEnemyTurnAction)
+                {
+                    EnemyUnit enemy = args.Unit as EnemyUnit;
+                    string id = enemy.Id;
+                    if (!RunDataController.enemiesShowDetails.Contains(id)) return;
+                    BattleController battleController = __instance.Battle;
+                    int round = battleController.RoundCounter;
+                    int hp = enemy.Hp;
+
+                    Dictionary<string, object> details = new Dictionary<string, object>()
+                    {
+                        { "Round", round },
+                        { "Id", id },
+                        { "Hp", hp }
+                    };
+                    RunDataController.AddDataItem("Details", details);
+                }
+            }
         }
-        static void Prefix(BattleAction __instance, string name, UnitEventArgs args)
+
+
+        [HarmonyPatch(nameof(BattleAction.CreatePhase), new Type[] { typeof(string), typeof(Action), typeof(bool) }), HarmonyPrefix]
+        static void CreatePhasePatch(BattleAction __instance, string name)
         {
-            if (name != "TurnStarted") return;
-            if (__instance is StartPlayerTurnAction startPlayerTurnAction)
-            {
-                BattleController battleController = __instance.Battle;
-                if (battleController.EnemyGroup.Id != nameof(Seija)) return;
+            if (!isPlayerTrunStarted) return;
+            if (name != "InTurn") return;
+            BattleController battleController = __instance.Battle;
+            IReadOnlyList<Card> hands = battleController.HandZone;
+            List<CardObj> cards = RunDataController.GetCards(hands);
 
-                bool isExtra = startPlayerTurnAction.IsExtra;
-                if (isExtra) return;
+            details.Add("Cards", cards);
+            RunDataController.AddDataItem("Details", details);
 
-                int round = battleController.RoundCounter;
-                PlayerUnit player = args.Unit as PlayerUnit;
-                string id = "Player";
-                int hp = player.Hp;
-                IReadOnlyList<Card> hands = battleController.HandZone;
-                List<CardObj> cards = RunDataController.GetCards(hands);
-
-                Dictionary<string, object> details = new Dictionary<string, object>()
-                {
-                    { "Round", round },
-                    { "Id", id },
-                    { "Hp", hp },
-                    { "Cards", cards }
-                };
-                RunDataController.AddDataItem("Details", details);
-            }
-            else if (__instance is StartEnemyTurnAction startEnemyTurnAction)
-            {
-                EnemyUnit enemy = args.Unit as EnemyUnit;
-                string id = enemy.Id;
-                if (!RunDataController.enemiesShowDetails.Contains(id)) return;
-                BattleController battleController = __instance.Battle;
-                int round = battleController.RoundCounter;
-                int hp = enemy.Hp;
-
-                Dictionary<string, object> details = new Dictionary<string, object>()
-                {
-                    { "Round", round },
-                    { "Id", id },
-                    { "Hp", hp }
-                };
-                RunDataController.AddDataItem("Details", details);
-            }
+            isPlayerTrunStarted = false;
+            details = null;
         }
     }
 }
