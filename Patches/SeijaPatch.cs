@@ -17,36 +17,46 @@ namespace RunLogger.Patches
     [HarmonyPatch(typeof(Seija))]
     public static class SeijaPatch
     {
+        private static bool isBattleStart;
+
+        [HarmonyPatch(nameof(Seija.OnEnterBattle)), HarmonyPostfix]
+        static void OnEnterBattlePatch(Seija __instance)
+        {
+            int round = 0;
+            string id = __instance.Id;
+
+            Dictionary<string, object> details = new Dictionary<string, object>()
+            {
+                { "Round", round },
+                { "Id", id }
+            };
+            RunDataController.AddDataItem("Details", details);
+            isBattleStart = true;
+        }
+
+        [HarmonyPatch(nameof(Seija.GetTurnMoves)), HarmonyPostfix]
+        static void GetTurnMovesPatch(Seija __instance)
+        {
+            if (!isBattleStart) return;
+            string hp = __instance.Hp.ToString();
+            AddDetails("Hp", hp);
+            isBattleStart = false;
+        }
+
         [HarmonyPatch(nameof(Seija.RandomBuff)), HarmonyPostfix]
         static void RandomBuffPatch(BattleAction __result, Seija __instance)
         {
             ApplyStatusEffectAction applyStatusEffectAction = __result as ApplyStatusEffectAction;
             StatusEffectApplyEventArgs args = applyStatusEffectAction.Args;
             string se = args.Effect.Id;
-            if (RunDataController.CurrentStation.Data == null)
-            {
-                int round = 0;
-                string id = __instance.Id;
-
-                Dictionary<string, object> details = new Dictionary<string, object>()
-                {
-                    { "Round", round },
-                    { "Id", id },
-                    { "Se", se }
-                };
-                RunDataController.AddDataItem("Details", details);
-            }
-            else
-            {
-                AddSe(se);
-            }
+            AddDetails("Se", se);
         }
 
-        public static void AddSe(string se)
+        public static void AddDetails(string key, string value)
         {
             List<Dictionary<string, object>> Details = RunDataController.CurrentStation.Data["Details"] as List<Dictionary<string, object>>;
             Dictionary<string, object> details = Details[^1];
-            details["Se"] = se;
+            details[key] = value;
         }
     }
 
@@ -56,7 +66,7 @@ namespace RunLogger.Patches
         [HarmonyPatch(nameof(DragonBallSe.OnAdded)), HarmonyPostfix]
         static void OnAddedPatch(DragonBallSe __instance)
         {
-            SeijaPatch.AddSe(__instance.Id);
+            SeijaPatch.AddDetails("Se", __instance.Id);
         }
     }
 
