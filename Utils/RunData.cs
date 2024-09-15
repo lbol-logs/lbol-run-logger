@@ -75,6 +75,21 @@ namespace RunLogger.Utils
         public bool? IsDiscounted { get; set; }
     }
 
+    public class ActObj
+    {
+        public int Act { get; set; }
+        public List<Node> Nodes { get; set; } = new List<Node>();
+        public string Boss { get; set; }
+    }
+
+    public class Node
+    {
+        public int X { get; set; }
+        public int Y { get; set; }
+        public List<int> Followers { get; set; } = new List<int>();
+        public string Type { get; set; }
+    }
+
     public class TurnObj
     {
         public int Round { get; set; }
@@ -110,21 +125,6 @@ namespace RunLogger.Utils
         public int? Level { get; set; }
         public int? Duration { get; set; }
         public int? Count { get; set; }
-    }
-
-    public class ActObj
-    {
-        public int Act { get; set; }
-        public List<Node> Nodes { get; set; } = new List<Node>();
-        public string Boss { get; set; }
-    }
-
-    public class Node
-    {
-        public int X { get; set; }
-        public int Y { get; set; }
-        public List<int> Followers { get; set; } = new List<int>();
-        public string Type { get; set; }
     }
 
     public class CardChange : CardObj

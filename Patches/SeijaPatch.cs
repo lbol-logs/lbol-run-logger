@@ -219,6 +219,7 @@ namespace RunLogger.Patches
                 {
                     Round = round,
                     Turn = turn,
+                    Id = "Player",
                     Cards = cards
                 };
                 RunDataController.AddDataItem("Details", details);
