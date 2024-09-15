@@ -24,207 +24,125 @@ namespace RunLogger.Patches
         static void OnEnterBattlePatch(Seija __instance)
         {
             int round = 0;
-            int turn = 0;
             string id = __instance.Id;
 
-            TurnObj details = new TurnObj()
+            Dictionary<string, object> details = new Dictionary<string, object>()
             {
-                Round = round,
-                Turn = turn,
-                Id = id
+                { "Round", round },
+                { "Id", id }
             };
             RunDataController.AddDataItem("Details", details);
             isBattleStart = true;
         }
 
         [HarmonyPatch(nameof(Seija.GetTurnMoves)), HarmonyPostfix]
-        static void GetTurnMovesPatch(Seija __instance, IEnumerable<IEnemyMove> __result)
+        static void GetTurnMovesPatch(Seija __instance)
         {
-            if (isBattleStart)
+            if (!isBattleStart) return;
+            string hp = __instance.Hp.ToString();
+            AddDetails("Hp", hp);
+            isBattleStart = false;
+        }
+
+        [HarmonyPatch(nameof(Seija.RandomBuff)), HarmonyPostfix]
+        static void RandomBuffPatch(BattleAction __result, Seija __instance)
+        {
+            ApplyStatusEffectAction applyStatusEffectAction = __result as ApplyStatusEffectAction;
+            StatusEffectApplyEventArgs args = applyStatusEffectAction.Args;
+            string se = args.Effect.Id;
+            AddDetails("Se", se);
+        }
+
+        public static void AddDetails(string key, string value)
+        {
+            List<Dictionary<string, object>> Details = RunDataController.CurrentStation.Data["Details"] as List<Dictionary<string, object>>;
+            Dictionary<string, object> details = Details[^1];
+            details[key] = value;
+        }
+    }
+
+    [HarmonyPatch(typeof(DragonBallSe))]
+    class DragonBallSePatch
+    {
+        [HarmonyPatch(nameof(DragonBallSe.OnAdded)), HarmonyPostfix]
+        static void OnAddedPatch(DragonBallSe __instance)
+        {
+            SeijaPatch.AddDetails("Se", __instance.Id);
+        }
+    }
+
+    [HarmonyPatch(typeof(BattleAction))]
+    class BattleActionPatch
+    {
+        private static bool isPlayerTrunStarted;
+        private static Dictionary<string, object> details;
+
+        [HarmonyPatch]
+        class CreateEventPhasePatch
+        {
+            static MethodBase TargetMethod()
             {
-                AddDetails(__instance);
-                isBattleStart = false;
+                return AccessTools.Method(typeof(BattleAction), nameof(BattleAction.CreateEventPhase)).MakeGenericMethod(typeof(UnitEventArgs));
             }
-
-            AddIntention(__result);
-        }
-
-        private static void AddDetails(Unit unit)
-        {
-            GetDetails(out TurnObj details);
-            BattleStatusObj Status = GetStatus(unit);
-            details.Status = Status;
-            List<StatusEffectObj> StatusEffects = GetStatusEffects(unit);
-            details.StatusEffects = StatusEffects;
-        }
-
-        private static void GetDetails(out TurnObj details)
-        {
-            List<TurnObj> Details = RunDataController.CurrentStation.Data["Details"] as List<TurnObj>;
-            details = Details[^1];
-        }
-
-        private static BattleStatusObj GetStatus(Unit unit)
-        {
-            int hp = unit.Hp;
-            int block = unit.Block;
-            int barrier = unit.Shield;
-            BattleStatusObj Status = new BattleStatusObj()
+            static void Prefix(BattleAction __instance, string name, UnitEventArgs args)
             {
-                Hp = hp,
-                Block = block,
-                Barrier = barrier
-            };
-            if (unit is PlayerUnit playerUnit) Status.Power = playerUnit.Power;
-            return Status;
-        }
-
-        private static List<StatusEffectObj> GetStatusEffects(Unit unit)
-        {
-            List<StatusEffectObj> StatusEffects = unit.StatusEffects.Select((StatusEffect se) =>
-            {
-                StatusEffectObj StatusEffect = new StatusEffectObj() { Id = se.Id };
-                if (se.HasLevel) StatusEffect.Level = se.Level;
-                if (se.HasDuration) StatusEffect.Duration = se.Duration;
-                if (se.HasCount) StatusEffect.Count = se.Count;
-                return StatusEffect;
-            }).ToList();
-            return StatusEffects;
-        }
-
-        private static void AddIntention(IEnumerable<IEnemyMove> moves)
-        {
-            GetDetails(out TurnObj details);
-            List<IntentionObj> Intentions = moves.Select((IEnemyMove m) =>
-            {
-                Intention i = m.Intention;
-                IntentionType Type = i.Type;
-                string type = Type.ToString();
-                IntentionObj Intention;
-
-                switch (Type)
+                if (name != "TurnStarted") return;
+                if (__instance is StartPlayerTurnAction startPlayerTurnAction)
                 {
-                    case IntentionType.Attack:
-                        {
-                            AttackIntention _i = i as AttackIntention;
-                            DamageInfo d = _i.Damage;
+                    BattleController battleController = __instance.Battle;
+                    if (battleController.EnemyGroup.Id != nameof(Seija)) return;
+                    bool isExtra = startPlayerTurnAction.IsExtra;
+                    if (isExtra) return;
 
-                            Intention = new IntentionObj()
-                            {
-                                Type = type,
-                                Damage = (int)d.Damage,
-                                Times = _i.Times,
-                                IsAccuracy = _i.IsAccuracy
-                            };
-                            break;
-                        }
-                    case IntentionType.SpellCard:
-                        {
-                            SpellCardIntention _i = i as SpellCardIntention;
+                    int round = battleController.RoundCounter;
+                    PlayerUnit player = args.Unit as PlayerUnit;
+                    string id = "Player";
+                    int hp = player.Hp;
 
-                            Intention = new IntentionObj()
-                            {
-                                Type = type
-                            };
-                            break;
-                        }
-                    case IntentionType.Clear:
-                        {
-                            ClearIntention _i = i as ClearIntention;
-
-                            Intention = new IntentionObj()
-                            {
-                                Type = type
-                            };
-                            break;
-                        }
-                    default:
-                        {
-                            Intention = new IntentionObj();
-                            break;
-                        }
-                }
-
-                return Intention;
-            }).ToList();
-            details.Intentions = Intentions;
-        }
-
-        [HarmonyPatch(typeof(BattleAction))]
-        public static class BattleActionPatch
-        {
-            public static bool isPlayerTrunStarted;
-
-            [HarmonyPatch]
-            class CreateEventPhasePatch
-            {
-                static MethodBase TargetMethod()
-                {
-                    return AccessTools.Method(typeof(BattleAction), nameof(BattleAction.CreateEventPhase)).MakeGenericMethod(typeof(UnitEventArgs));
-                }
-                static void Prefix(BattleAction __instance, string name, UnitEventArgs args)
-                {
-                    if (name == "TurnStarted")
+                    details = new Dictionary<string, object>()
                     {
-                        if (__instance is StartPlayerTurnAction startPlayerTurnAction)
-                        {
-                            BattleController battleController = __instance.Battle;
-                            string id = battleController.EnemyGroup.Id;
-                            if (!RunDataController.enemiesShowDetails.Contains(id)) return;
+                        { "Round", round },
+                        { "Id", id },
+                        { "Hp", hp }
+                    };
 
-                            isPlayerTrunStarted = true;
-                        }
-                    }
-                    else if (name == "TurnEnded")
+                    isPlayerTrunStarted = true;
+                }
+                else if (__instance is StartEnemyTurnAction startEnemyTurnAction)
+                {
+                    EnemyUnit enemy = args.Unit as EnemyUnit;
+                    string id = enemy.Id;
+                    if (!RunDataController.enemiesShowDetails.Contains(id)) return;
+                    BattleController battleController = __instance.Battle;
+                    int round = battleController.RoundCounter;
+                    int hp = enemy.Hp;
+
+                    Dictionary<string, object> details = new Dictionary<string, object>()
                     {
-                        if (__instance is EndPlayerTurnAction)
-                        {
-                            PlayerUnit player = args.Unit as PlayerUnit;
-                            AddDetails(player);
-                        }
-                        else if (__instance is EndEnemyTurnAction)
-                        {
-                            EnemyUnit enemy = args.Unit as EnemyUnit;
-                            string id = enemy.Id;
-                            if (!RunDataController.enemiesShowDetails.Contains(id)) return;
-                            BattleController battleController = __instance.Battle;
-                            int round = battleController.RoundCounter;
-                            int turn = enemy.TurnCounter;
-
-                            TurnObj details = new TurnObj()
-                            {
-                                Round = round,
-                                Turn = turn,
-                                Id = id
-                            };
-                            RunDataController.AddDataItem("Details", details);
-                            AddDetails(enemy);
-                        }
-                    }
+                        { "Round", round },
+                        { "Id", id },
+                        { "Hp", hp }
+                    };
+                    RunDataController.AddDataItem("Details", details);
                 }
             }
+        }
 
-            [HarmonyPatch(nameof(BattleAction.CreatePhase), new Type[] { typeof(string), typeof(Action), typeof(bool) }), HarmonyPrefix]
-            static void CreatePhasePatch(BattleAction __instance, string name)
-            {
-                if (!isPlayerTrunStarted) return;
-                if (name != "InTurn") return;
-                BattleController battleController = __instance.Battle;
-                int round = battleController.RoundCounter;
-                int turn = battleController.Player.TurnCounter;
-                IReadOnlyList<Card> hands = battleController.HandZone;
-                List<CardObj> cards = RunDataController.GetCards(hands);
 
-                TurnObj details = new TurnObj()
-                {
-                    Round = round,
-                    Turn = turn,
-                    Cards = cards
-                };
-                RunDataController.AddDataItem("Details", details);
+        [HarmonyPatch(nameof(BattleAction.CreatePhase), new Type[] { typeof(string), typeof(Action), typeof(bool) }), HarmonyPrefix]
+        static void CreatePhasePatch(BattleAction __instance, string name)
+        {
+            if (!isPlayerTrunStarted) return;
+            if (name != "InTurn") return;
+            BattleController battleController = __instance.Battle;
+            IReadOnlyList<Card> hands = battleController.HandZone;
+            List<CardObj> cards = RunDataController.GetCards(hands);
 
-                isPlayerTrunStarted = false;
-            }
+            details.Add("Cards", cards);
+            RunDataController.AddDataItem("Details", details);
+
+            isPlayerTrunStarted = false;
+            details = null;
         }
     }
 }

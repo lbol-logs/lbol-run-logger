@@ -69,47 +69,10 @@ namespace RunLogger.Utils
         public int? UpgradeCounter { get; set; }
     }
 
-    public class CardWithPrice : CardObj
+    public class CardWithPrice: CardObj
     {
         public int Price { get; set; }
         public bool? IsDiscounted { get; set; }
-    }
-
-    public class TurnObj
-    {
-        public int Round { get; set; }
-        public int Turn { get; set; }
-        public string Id { get; set; }
-#nullable enable
-        public List<CardObj>? Cards { get; set; }
-        public List<IntentionObj>? Intentions { get; set; }
-#nullable disable
-        public BattleStatusObj Status { get; set; }
-        public List<StatusEffectObj> StatusEffects { get; set; }
-    }
-
-    public class IntentionObj
-    {
-        public string Type { get; set; }
-        public int? Damage { get; set; }
-        public int? Times { get; set; }
-        public bool? IsAccuracy { get; set; }
-    }
-
-    public class BattleStatusObj
-    {
-        public int Hp { get; set; }
-        public int Block { get; set; }
-        public int Barrier { get; set; }
-        public int? Power { get; set; }
-    }
-
-    public class StatusEffectObj
-    {
-        public string Id { get; set; }
-        public int? Level { get; set; }
-        public int? Duration { get; set; }
-        public int? Count { get; set; }
     }
 
     public class ActObj
