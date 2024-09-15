@@ -5,15 +5,12 @@ using LBoL.Core.Battle.BattleActions;
 using LBoL.Core.Cards;
 using LBoL.Core.Units;
 using LBoL.EntityLib.EnemyUnits.Character;
-using LBoL.EntityLib.StatusEffects.Enemy.SeijaItems;
 using RunLogger.Utils;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System;
-using RunLogger.Debug;
 using LBoL.Core.StatusEffects;
-using LBoL.Presentation.UI.Panels;
 using LBoL.Core.Intentions;
 
 namespace RunLogger.Patches
