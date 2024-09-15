@@ -164,14 +164,14 @@ namespace RunLogger.Patches
                 }
                 static void Prefix(BattleAction __instance, string name, UnitEventArgs args)
                 {
+                    BattleController battleController = __instance.Battle;
+                    string enemyGroupid = battleController.EnemyGroup.Id;
+                    if (!RunDataController.enemiesShowDetails.Contains(enemyGroupid)) return;
+
                     if (name == "TurnStarted")
                     {
                         if (__instance is StartPlayerTurnAction startPlayerTurnAction)
                         {
-                            BattleController battleController = __instance.Battle;
-                            string id = battleController.EnemyGroup.Id;
-                            if (!RunDataController.enemiesShowDetails.Contains(id)) return;
-
                             isPlayerTrunStarted = true;
                         }
                     }
@@ -187,7 +187,7 @@ namespace RunLogger.Patches
                             EnemyUnit enemy = args.Unit as EnemyUnit;
                             string id = enemy.Id;
                             if (!RunDataController.enemiesShowDetails.Contains(id)) return;
-                            BattleController battleController = __instance.Battle;
+
                             int round = battleController.RoundCounter;
                             int turn = enemy.TurnCounter;
 
