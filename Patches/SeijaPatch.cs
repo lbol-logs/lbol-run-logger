@@ -101,10 +101,11 @@ namespace RunLogger.Patches
             List<IntentionObj> Intentions = moves.Select((IEnemyMove m) =>
             {
                 Intention i = m.Intention;
-                IntentionType type = i.Type;
+                IntentionType Type = i.Type;
+                string type = Type.ToString();
                 IntentionObj Intention;
-                //TODO
-                switch (type)
+
+                switch (Type)
                 {
                     case IntentionType.Attack:
                         {
@@ -113,10 +114,30 @@ namespace RunLogger.Patches
 
                             Intention = new IntentionObj()
                             {
-                                Type = type.ToString(),
+                                Type = type,
                                 Damage = (int)d.Damage,
                                 Times = _i.Times,
                                 IsAccuracy = _i.IsAccuracy
+                            };
+                            break;
+                        }
+                    case IntentionType.SpellCard:
+                        {
+                            SpellCardIntention _i = i as SpellCardIntention;
+
+                            Intention = new IntentionObj()
+                            {
+                                Type = type
+                            };
+                            break;
+                        }
+                    case IntentionType.Clear:
+                        {
+                            ClearIntention _i = i as ClearIntention;
+
+                            Intention = new IntentionObj()
+                            {
+                                Type = type
                             };
                             break;
                         }
@@ -146,7 +167,6 @@ namespace RunLogger.Patches
                 }
                 static void Prefix(BattleAction __instance, string name, UnitEventArgs args)
                 {
-                    Debugger.Write(name);
                     if (name == "TurnStarted")
                     {
                         if (__instance is StartPlayerTurnAction startPlayerTurnAction)

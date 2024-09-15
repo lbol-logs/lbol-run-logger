@@ -94,9 +94,6 @@ namespace RunLogger.Utils
         public int? Damage { get; set; }
         public int? Times { get; set; }
         public bool? IsAccuracy { get; set; }
-#nullable enable
-        public string? Id { get; set; }
-#nullable disable
     }
 
     public class BattleStatusObj
