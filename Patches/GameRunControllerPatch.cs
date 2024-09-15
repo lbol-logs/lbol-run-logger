@@ -5,7 +5,6 @@ using LBoL.Core.Cards;
 using LBoL.Core.Stations;
 using LBoL.Core.Stats;
 using LBoL.Core.Units;
-using MonoMod.Utils;
 using RunLogger.Utils;
 using System;
 using System.Collections.Generic;
@@ -157,6 +156,7 @@ namespace RunLogger.Patches
             InteractionViewerPatch.Listener = null;
             StationPatch.RewardListener = null;
             StationPatch.AddRewardsPatch.isAfterAddRewards = false;
+            BattleActionPatch.isPlayerTrunStarted = false;
 
             int Act = __instance.CurrentStage.Level;
             Station currentStation = __instance.CurrentStation;
