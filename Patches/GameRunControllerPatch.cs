@@ -156,7 +156,7 @@ namespace RunLogger.Patches
             InteractionViewerPatch.Listener = null;
             StationPatch.RewardListener = null;
             StationPatch.AddRewardsPatch.isAfterAddRewards = false;
-            BattleActionPatch.isPlayerTrunStarted = false;
+            SeijaPatch.BattleActionPatch.isPlayerTrunStarted = false;
 
             int Act = __instance.CurrentStage.Level;
             Station currentStation = __instance.CurrentStation;

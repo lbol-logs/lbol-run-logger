@@ -82,19 +82,21 @@ namespace RunLogger.Utils
         public string Id { get; set; }
 #nullable enable
         public List<CardObj>? Cards { get; set; }
-        public Intention? Intention { get; set; }
+        public List<IntentionObj>? Intentions { get; set; }
 #nullable disable
         public BattleStatusObj Status { get; set; }
         public List<StatusEffectObj> StatusEffects { get; set; }
     }
 
-    public class Intention
+    public class IntentionObj
     {
         public string Type { get; set; }
         public int? Damage { get; set; }
         public int? Times { get; set; }
         public bool? IsAccuracy { get; set; }
+#nullable enable
         public string? Id { get; set; }
+#nullable disable
     }
 
     public class BattleStatusObj
@@ -110,7 +112,6 @@ namespace RunLogger.Utils
         public string Id { get; set; }
         public int? Level { get; set; }
         public int? Duration { get; set; }
-        public int? Limit { get; set; }
         public int? Count { get; set; }
     }
 
