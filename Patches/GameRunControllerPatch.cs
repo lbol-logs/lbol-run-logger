@@ -86,15 +86,20 @@ namespace RunLogger.Patches
             StationObj station = RunDataController.CurrentStation;
             Station s = __instance.CurrentStation;
             int Hp = __instance.Player.Hp;
+
             if (s != null)
             {
                 if (s.IsStageEnd) isAfterBossReward = true;
             }
-            if (s == null && isAfterBossReward)
+            else
             {
-                Hp = station.Status.Hp;
-                isAfterBossReward = false;
+                if (isAfterBossReward)
+                {
+                    Hp = station.Status.Hp;
+                    isAfterBossReward = false;
+                }
             }
+
             Status Status = new Status
             {
                 Money = __instance.Money,
@@ -103,6 +108,7 @@ namespace RunLogger.Patches
                 Power = __instance.Player.Power,
                 MaxPower = __instance.Player.MaxPower
             };
+
             if (station == null) RunDataController.RunData.Settings.Status = Status; 
             else station.Status = Status;
 
@@ -118,8 +124,7 @@ namespace RunLogger.Patches
         [HarmonyPatch(nameof(GameRunController.EnterStage)), HarmonyPostfix]
         static void EnterStagePatch(GameRunController __instance)
         {
-            isAfterBossReward = false;
-
+            if (RunDataController.CurrentStation != null) isAfterBossReward = true;
             int Act = __instance.CurrentStage.Level;
             GameMap gameMap = __instance.CurrentMap;
             string bossId = gameMap.BossId;
