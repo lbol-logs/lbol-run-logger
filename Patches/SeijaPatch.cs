@@ -19,6 +19,7 @@ namespace RunLogger.Patches
     public static class SeijaPatch
     {
         private static bool isBattleStart;
+        private static bool isAttack;
 
         [HarmonyPatch(nameof(Seija.OnEnterBattle)), HarmonyPostfix]
         static void OnEnterBattlePatch(Seija __instance)
@@ -116,6 +117,8 @@ namespace RunLogger.Patches
                                 Times = _i.Times,
                                 IsAccuracy = _i.IsAccuracy
                             };
+
+                            isAttack = true;
                             break;
                         }
                     case IntentionType.SpellCard:
@@ -148,6 +151,15 @@ namespace RunLogger.Patches
                 return Intention;
             }).ToList();
             details.Intentions = Intentions;
+        }
+
+        [HarmonyPatch(typeof(Intention), nameof(Intention.CalculateDamage)), HarmonyPostfix]
+        private static void CalculateDamagePatch(int __result)
+        {
+            if (!isAttack) return;
+            GetDetails(out TurnObj details);
+            details.Intentions[^1].Damage = __result;
+            isAttack = true;
         }
 
         [HarmonyPatch(typeof(BattleAction))]
