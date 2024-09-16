@@ -158,7 +158,7 @@ namespace RunLogger.Patches
         {
             if (!isAttack) return;
             GetDetails(out TurnObj details);
-            details.Intentions[^1].Damage = __result;
+            details.Intentions.ForEach(intention => intention.Damage = __result);
             isAttack = false;
         }
 
