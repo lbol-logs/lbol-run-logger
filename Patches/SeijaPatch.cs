@@ -159,7 +159,7 @@ namespace RunLogger.Patches
             if (!isAttack) return;
             GetDetails(out TurnObj details);
             details.Intentions[^1].Damage = __result;
-            isAttack = true;
+            isAttack = false;
         }
 
         [HarmonyPatch(typeof(BattleAction))]
