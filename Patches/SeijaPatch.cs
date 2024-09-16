@@ -115,7 +115,7 @@ namespace RunLogger.Patches
                                 Type = type,
                                 Damage = (int)d.Damage,
                                 Times = _i.Times,
-                                IsAccuracy = _i.IsAccuracy
+                                IsAccurate = _i.IsAccuracy
                             };
 
                             isAttack = true;

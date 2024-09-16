@@ -108,7 +108,7 @@ namespace RunLogger.Utils
         public string Type { get; set; }
         public int? Damage { get; set; }
         public int? Times { get; set; }
-        public bool? IsAccuracy { get; set; }
+        public bool? IsAccurate { get; set; }
     }
 
     public class BattleStatusObj
