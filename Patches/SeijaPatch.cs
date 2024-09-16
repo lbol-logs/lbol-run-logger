@@ -19,7 +19,7 @@ namespace RunLogger.Patches
     public static class SeijaPatch
     {
         private static bool isBattleStart;
-        private static bool isAttack;
+        public static bool isAttack;
 
         [HarmonyPatch(nameof(Seija.OnEnterBattle)), HarmonyPostfix]
         static void OnEnterBattlePatch(Seija __instance)

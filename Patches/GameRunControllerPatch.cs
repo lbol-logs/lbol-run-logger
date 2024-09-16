@@ -162,6 +162,7 @@ namespace RunLogger.Patches
             StationPatch.RewardListener = null;
             StationPatch.AddRewardsPatch.isAfterAddRewards = false;
             SeijaPatch.BattleActionPatch.isPlayerTrunStarted = false;
+            SeijaPatch.isAttack = false;
 
             int Act = __instance.CurrentStage.Level;
             Station currentStation = __instance.CurrentStation;
