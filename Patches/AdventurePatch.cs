@@ -59,7 +59,7 @@ namespace RunLogger.Patches
                 if (!RunDataController.ShowRandom) return;
 
                 DialogStorage storage = __instance.Storage;
-                RunDataController.AddData("Shinning", _exhibit.Id);
+                RunDataController.AddData("Shining", _exhibit.Id);
                 foreach (int _bonusNo in _bonusNos)
                 {
                     switch (_bonusNo)
