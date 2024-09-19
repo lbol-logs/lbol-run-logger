@@ -163,6 +163,8 @@ namespace RunLogger.Patches
             StationPatch.AddRewardsPatch.isAfterAddRewards = false;
             SeijaPatch.BattleActionPatch.isPlayerTrunStarted = false;
             SeijaPatch.isAttack = false;
+            AdventurePatch.NarumiOfferCardPatch.isNarumi = false;
+            AdventurePatch.HinaCollectPatch.YesPatch.isHina = false;
 
             int Act = __instance.CurrentStage.Level;
             Station currentStation = __instance.CurrentStation;

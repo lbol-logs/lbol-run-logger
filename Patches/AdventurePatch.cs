@@ -15,6 +15,7 @@ using LBoL.EntityLib.Adventures.Shared23;
 using LBoL.EntityLib.Adventures.Stage1;
 using LBoL.EntityLib.Adventures.Stage2;
 using LBoL.EntityLib.Adventures.Stage3;
+using LBoL.EntityLib.EnemyUnits.Lore;
 using LBoL.EntityLib.Exhibits.Adventure;
 using LBoL.Presentation.UI.Panels;
 using RunLogger.Utils;
@@ -282,6 +283,36 @@ namespace RunLogger.Patches
                     RunDataController.AddData("Card", card);
                 }
             }
+
+            [HarmonyPatch(typeof(HinaCollect))]
+            public static class YesPatch
+            {
+                public static bool isHina;
+
+                [HarmonyPatch(nameof(HinaCollect.Yes))]
+                public static void Prefix()
+                {
+                    isHina = true;
+                }
+
+                [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.RemoveDeckCards)), HarmonyPrefix]
+                public static void RemoveDeckCardsPatch(IEnumerable<Card> cards)
+                {
+                    if (!isHina) return;
+
+                    foreach (Card card in cards)
+                    {
+                        CardChange Card = new CardChange
+                        {
+                            Id = card.Id,
+                            Type = ChangeType.Remove.ToString(),
+                            Station = RunDataController.CurrentStationIndex,
+                            IsUpgraded = card.IsUpgraded
+                        };
+                        RunDataController.RunData.Cards.Add(Card);
+                    }
+                }
+            }
         }
 
         [HarmonyPatch(typeof(KosuzuBookstore))]
@@ -315,7 +346,7 @@ namespace RunLogger.Patches
         [HarmonyPatch(typeof(NarumiOfferCard))]
         public static class NarumiOfferCardPatch
         {
-            private static bool isNarumi;
+            public static bool isNarumi;
 
             [HarmonyPatch(nameof(NarumiOfferCard.OfferDeckCard))]
             public static void Prefix()
@@ -323,7 +354,7 @@ namespace RunLogger.Patches
                 isNarumi = true;
             }
 
-            [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.RemoveDeckCards), new Type[] { typeof(IEnumerable<Card>), typeof(bool) }), HarmonyPostfix]
+            [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.RemoveDeckCards)), HarmonyPostfix]
             public static void RemoveDeckCardsPatch(IEnumerable<Card> cards)
             {
                 if (!isNarumi) return;
