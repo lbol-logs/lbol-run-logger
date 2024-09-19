@@ -164,7 +164,6 @@ namespace RunLogger.Patches
             SeijaPatch.BattleActionPatch.isPlayerTrunStarted = false;
             SeijaPatch.isAttack = false;
             AdventurePatch.NarumiOfferCardPatch.isNarumi = false;
-            AdventurePatch.HinaCollectPatch.YesPatch.isHina = false;
 
             int Act = __instance.CurrentStage.Level;
             Station currentStation = __instance.CurrentStation;
@@ -197,7 +196,7 @@ namespace RunLogger.Patches
             RunDataController.AddCardChange(cards, ChangeType.Add);
         }
 
-        [HarmonyPatch(nameof(GameRunController.RemoveDeckCards)), HarmonyPostfix]
+        [HarmonyPatch(nameof(GameRunController.RemoveDeckCards)), HarmonyPrefix]
         static void RemoveDeckCardsPatch(IEnumerable<Card> cards)
         {
             RunDataController.AddCardChange(cards.ToArray<Card>(), ChangeType.Remove);

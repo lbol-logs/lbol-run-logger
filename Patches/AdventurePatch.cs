@@ -283,36 +283,6 @@ namespace RunLogger.Patches
                     RunDataController.AddData("Card", card);
                 }
             }
-
-            [HarmonyPatch(typeof(HinaCollect))]
-            public static class YesPatch
-            {
-                public static bool isHina;
-
-                [HarmonyPatch(nameof(HinaCollect.Yes))]
-                public static void Prefix()
-                {
-                    isHina = true;
-                }
-
-                [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.RemoveDeckCards)), HarmonyPrefix]
-                public static void RemoveDeckCardsPatch(IEnumerable<Card> cards)
-                {
-                    if (!isHina) return;
-
-                    foreach (Card card in cards)
-                    {
-                        CardChange Card = new CardChange
-                        {
-                            Id = card.Id,
-                            Type = ChangeType.Remove.ToString(),
-                            Station = RunDataController.CurrentStationIndex,
-                            IsUpgraded = card.IsUpgraded
-                        };
-                        RunDataController.RunData.Cards.Add(Card);
-                    }
-                }
-            }
         }
 
         [HarmonyPatch(typeof(KosuzuBookstore))]
