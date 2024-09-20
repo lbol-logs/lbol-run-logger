@@ -94,10 +94,10 @@ namespace RunLogger.Utils
                 CardChange Card = new CardChange
                 {
                     Id = card.Id,
-                    Type = Type.ToString(),
-                    Station = CurrentStationIndex,
                     IsUpgraded = card.IsUpgraded,
-                    UpgradeCounter = card.UpgradeCounter
+                    UpgradeCounter = card.UpgradeCounter,
+                    Type = Type.ToString(),
+                    Station = CurrentStationIndex
                 };
                 RunData.Cards.Add(Card);
             }
