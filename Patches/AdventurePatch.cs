@@ -15,7 +15,6 @@ using LBoL.EntityLib.Adventures.Shared23;
 using LBoL.EntityLib.Adventures.Stage1;
 using LBoL.EntityLib.Adventures.Stage2;
 using LBoL.EntityLib.Adventures.Stage3;
-using LBoL.EntityLib.EnemyUnits.Lore;
 using LBoL.EntityLib.Exhibits.Adventure;
 using LBoL.Presentation.UI.Panels;
 using RunLogger.Utils;
