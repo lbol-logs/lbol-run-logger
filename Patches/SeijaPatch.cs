@@ -88,6 +88,8 @@ namespace RunLogger.Patches
                 if (se.HasLevel) StatusEffect.Level = se.Level;
                 if (se.HasDuration) StatusEffect.Duration = se.Duration;
                 if (se.HasCount) StatusEffect.Count = se.Count;
+                int? limit = se.Limit;
+                if (limit != null && limit != 0) StatusEffect.Limit = se.Limit;
                 return StatusEffect;
             }).ToList();
             return StatusEffects;

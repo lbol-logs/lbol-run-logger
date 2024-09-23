@@ -125,6 +125,7 @@ namespace RunLogger.Utils
         public int? Level { get; set; }
         public int? Duration { get; set; }
         public int? Count { get; set; }
+        public int? Limit { get; set; }
     }
 
     public class CardChange : CardObj
