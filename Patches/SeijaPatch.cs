@@ -184,7 +184,7 @@ namespace RunLogger.Patches
 
                     if (name == "TurnStarted")
                     {
-                        if (__instance is StartPlayerTurnAction startPlayerTurnAction)
+                        if (__instance is StartPlayerTurnAction)
                         {
                             isPlayerTrunStarted = true;
                         }
