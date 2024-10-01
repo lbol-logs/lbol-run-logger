@@ -64,15 +64,21 @@ namespace RunLogger.Patches
     }
 
     [HarmonyPatch(typeof(GapStation))]
-    class GapStationPatch
+    public static class GapStationPatch
     {
         private const string Listener = nameof(GapOptionsPanel.InternalGerRareCard);
+        public static Action UpgradeMoping;
 
         [HarmonyPatch(typeof(GapOptionsPanel), nameof(GapOptionsPanel.OnShowing)), HarmonyPostfix]
         static void OnShowingPatch(GapStation gapStation)
         {
             List<string> Options = gapStation.GapOptions.Select(gapOption => gapOption.Type.ToString()).ToList();
             RunDataController.AddData("Options", Options);
+            if (UpgradeMoping != null)
+            {
+                UpgradeMoping();
+                UpgradeMoping = null;
+            }
         }
 
         [HarmonyPatch(typeof(GapOptionsPanel), nameof(GapOptionsPanel.OptionClicked)), HarmonyPostfix]

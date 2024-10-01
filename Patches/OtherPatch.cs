@@ -19,12 +19,18 @@ namespace RunLogger.Patches
             if (isInitialize) return;
 
             string[] exhibits = { nameof(GanzhuYao), nameof(ChuRenou), nameof(TiangouYuyi), nameof(Moping), nameof(Baota) };
-            if (!exhibits.Contains(__instance.Id)) return;
+            string id = __instance.Id;
+            if (!exhibits.Contains(id)) return;
 
             int before = __instance.Counter;
 
             if (before > value) RunDataController.AddExhibitChange(__instance, ChangeType.Use, value);
-            else if (before < value) RunDataController.AddExhibitChange(__instance, ChangeType.Upgrade, value);
+            else if (before < value)
+            {
+                void fn() => RunDataController.AddExhibitChange(__instance, ChangeType.Upgrade, value);
+                if (id == nameof(Moping)) GapStationPatch.UpgradeMoping = fn;
+                else fn();
+            }
         }
 
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
