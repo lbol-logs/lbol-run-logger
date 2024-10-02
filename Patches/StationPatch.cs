@@ -31,6 +31,33 @@ namespace RunLogger.Patches
         {
             public static bool isAfterAddRewards;
 
+            [HarmonyPatch]
+            public static class GenerateRewardsPatch
+            {
+                static void Reset()
+                {
+                    AddRewardsPatch.isAfterAddRewards = false;
+                }
+
+                [HarmonyPatch(typeof(EnemyStation), nameof(EnemyStation.GenerateRewards)), HarmonyPrefix]
+                static void EnemyStationPatch()
+                {
+                    Reset();
+                }
+
+                [HarmonyPatch(typeof(EliteEnemyStation), nameof(EliteEnemyStation.GenerateRewards)), HarmonyPrefix]
+                static void EliteEnemyStationPatch()
+                {
+                    Reset();
+                }
+
+                [HarmonyPatch(typeof(BossStation), nameof(BossStation.GenerateRewards)), HarmonyPrefix]
+                static void BossStationPatch()
+                {
+                    Reset();
+                }
+            }
+
             [HarmonyPatch(nameof(Station.AddRewards), new Type[] { typeof(IEnumerable<StationReward>) })]
             static void Prefix(IEnumerable<StationReward> rewards)
             {
