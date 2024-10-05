@@ -38,7 +38,8 @@ namespace RunLogger.Utils
             }
         }
 
-        public static int CurrentStationIndex {
+        public static int CurrentStationIndex
+        {
             get {
                 return RunData.Stations.Count - 1;
             }
@@ -87,7 +88,7 @@ namespace RunLogger.Utils
             (RunDataController.CurrentStation.Rewards[key] as List<T>).Add(listItem);
         }
 
-        public static void AddCardChange(Card[] cards, ChangeType Type)
+        public static void AddCardChange(IEnumerable<Card> cards, ChangeType Type)
         {
             foreach (Card card in cards)
             {

@@ -23,6 +23,9 @@ namespace RunLogger.Utils
         public bool IsAutoSeed { get; set; }
         public string Difficulty { get; set; }
         public List<string> Requests { get; set; }
+#nullable enable
+        public List<string>? JadeBoxes { get; set; }
+#nullable disable
         public List<Mod> Mods { get; set; }
         public Status Status { get; set; }
     }

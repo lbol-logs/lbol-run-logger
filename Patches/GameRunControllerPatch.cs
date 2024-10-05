@@ -17,6 +17,21 @@ namespace RunLogger.Patches
     {
         public static bool isAfterBossReward;
 
+        public static bool isOverridingStartingDeck;
+        public static IEnumerable<Card> startingDeckOverride;
+
+        private static void resetStartingDeckOverride()
+        {
+            isOverridingStartingDeck = false;
+            startingDeckOverride = null;
+        }
+
+        [HarmonyPatch(nameof(GameRunController.Create)), HarmonyPrefix]
+        static void PreCreatePatch()
+        {
+            resetStartingDeckOverride();
+        }
+
         [HarmonyPatch(nameof(GameRunController.Create)), HarmonyPostfix]
         static void CreatePatch(GameRunStartupParameters parameters, GameRunController __result)
         {
@@ -30,6 +45,7 @@ namespace RunLogger.Patches
             string Difficulty = parameters.Difficulty.ToString();
             IEnumerable<PuzzleFlag> AllPuzzleFlags = PuzzleFlags.EnumerateComponents(parameters.Puzzles);
             List<string> Requests = AllPuzzleFlags.Select(puzzleFlag => puzzleFlag.ToString()).ToList();
+            List<string> JadeBoxes = parameters.JadeBoxes.Select(JadeBox => JadeBox.Id).ToList();
 
             Dictionary<string, PluginInfo> PluginInfos = BepInEx.Bootstrap.Chainloader.PluginInfos;
             List<Mod> Mods = new List<Mod>();
@@ -62,7 +78,9 @@ namespace RunLogger.Patches
                 Requests = Requests,
                 Mods = Mods
             };
+            if (JadeBoxes.Count > 0) Settings.JadeBoxes = JadeBoxes;
             RunDataController.RunData.Settings = Settings;
+
             RunDataController.Save();
         }
 
@@ -188,24 +206,32 @@ namespace RunLogger.Patches
                 if (Id != null) station.Id = Id;
             }
             RunDataController.RunData.Stations.Add(station);
+
+            if (isOverridingStartingDeck)
+            {
+                RunDataController.AddCardChange(startingDeckOverride, ChangeType.Add);
+                resetStartingDeckOverride();
+            }
         }
 
         [HarmonyPatch(nameof(GameRunController.InternalAddDeckCards)), HarmonyPostfix]
         static void InternalAddDeckCardsPatch(Card[] cards)
         {
+            if (isOverridingStartingDeck) return;
             RunDataController.AddCardChange(cards, ChangeType.Add);
         }
 
         [HarmonyPatch(nameof(GameRunController.RemoveDeckCards)), HarmonyPrefix]
         static void RemoveDeckCardsPatch(IEnumerable<Card> cards)
         {
-            RunDataController.AddCardChange(cards.ToArray<Card>(), ChangeType.Remove);
+            if (isOverridingStartingDeck) return;
+            RunDataController.AddCardChange(cards, ChangeType.Remove);
         }
 
         [HarmonyPatch(nameof(GameRunController.UpgradeDeckCards)), HarmonyPostfix]
         static void UpgradeDeckCardsPatch(IEnumerable<Card> cards)
         {
-            RunDataController.AddCardChange(cards.ToArray<Card>(), ChangeType.Upgrade);
+            RunDataController.AddCardChange(cards, ChangeType.Upgrade);
         }
 
         [HarmonyPatch(nameof(GameRunController.GainExhibitRunner)), HarmonyPostfix, HarmonyPriority(2)]

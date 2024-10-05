@@ -101,8 +101,6 @@ using LBoL.Presentation.UI.Panels;
 using LBoL.Presentation.UI.Transitions;
 using LBoL.Presentation.UI.Widgets;
 using LBoL.Presentation.Units;
-using LBoLEntitySideloader;
-using LBoLEntitySideloader.Resource;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -120,7 +118,6 @@ using Debug = UnityEngine.Debug;
 namespace RunLogger
 {
     [BepInPlugin(RunLogger.PInfo.GUID, RunLogger.PInfo.Name, RunLogger.PInfo.version)]
-    [BepInDependency(LBoLEntitySideloader.PluginInfo.GUID, BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency(AddWatermark.API.GUID, BepInDependency.DependencyFlags.SoftDependency)]
     [BepInProcess("LBoL.exe")]
     public class BepinexPlugin : BaseUnityPlugin
@@ -130,14 +127,6 @@ namespace RunLogger
 
         internal static BepInEx.Logging.ManualLogSource log;
 
-        internal static TemplateSequenceTable sequenceTable = new TemplateSequenceTable();
-
-        internal static IResourceSource embeddedSource = new EmbeddedSource(Assembly.GetExecutingAssembly());
-
-        // add this for audio loading
-        internal static DirectorySource directorySource = new DirectorySource(RunLogger.PInfo.GUID, "");
-
-
         private void Awake()
         {
             log = Logger;
@@ -145,8 +134,6 @@ namespace RunLogger
             // very important. Without this the entry point MonoBehaviour gets destroyed
             DontDestroyOnLoad(gameObject);
             gameObject.hideFlags = HideFlags.HideAndDontSave;
-
-            EntityManager.RegisterSelf();
 
             harmony.PatchAll();
 
