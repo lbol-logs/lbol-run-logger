@@ -133,7 +133,7 @@ namespace RunLogger.Utils
             return cards.Select(card => GetCard(card)).ToList();
         }
 
-        public static CardWithPrice GetCardWithPrice(Card card, int price)
+        public static CardWithPrice GetCardWithPrice(Card card, int? price = null)
         {
             CardWithPrice Card = new CardWithPrice
             {

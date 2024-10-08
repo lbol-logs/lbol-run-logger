@@ -11,6 +11,7 @@ using LBoL.EntityLib.Exhibits.Common;
 using LBoL.EntityLib.Exhibits.Adventure;
 using LBoL.EntityLib.Adventures.Stage3;
 using LBoL.Core.Stations;
+using System.Linq;
 
 namespace RunLogger.Patches
 {
@@ -72,16 +73,22 @@ namespace RunLogger.Patches
                 if (source == nameof(Modaoshu))
                 {
                     IReadOnlyList<Card> cards = miniSelectCardInteraction.PendingCards;
-
                     if (RunDataController.CurrentStation.Rewards == null)
                         RunDataController.CurrentStation.Rewards = new Dictionary<string, object>();
                     if (!RunDataController.CurrentStation.Rewards.TryGetValue("Cards", out object value))
                         RunDataController.CurrentStation.Rewards["Cards"] = new List<List<CardObj>>();
 
-                    RunDataController.CurrentStation.Rewards.TryGetValue("Cards", out value);
-                    List<List<CardObj>> currentCards = value as List<List<CardObj>>;
-                    currentCards.Add(new List<CardObj>());
-                    currentCards[^1] = RunDataController.GetCards(cards);
+                    var cardsRewards = RunDataController.CurrentStation.Rewards["Cards"];
+                    if (cardsRewards is List<List<CardObj>> cardsWithoutPrice)
+                    {
+                        cardsWithoutPrice.Add(new List<CardObj>());
+                        cardsWithoutPrice[^1] = RunDataController.GetCards(cards);
+                    }
+                    else if (cardsRewards is List<List<CardWithPrice>> cardsWithPrice)
+                    {
+                        cardsWithPrice.Add(new List<CardWithPrice>());
+                        cardsWithPrice[^1] = cards.Select(card => RunDataController.GetCardWithPrice(card)).ToList();
+                    }
                 }
                 else if (source == nameof(FixBook))
                 {
