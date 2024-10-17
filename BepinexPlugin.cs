@@ -127,6 +127,8 @@ namespace RunLogger
 
         internal static BepInEx.Logging.ManualLogSource log;
 
+        internal static ConfigEntry<bool> saveProfileName;
+
         private void Awake()
         {
             log = Logger;
@@ -134,6 +136,8 @@ namespace RunLogger
             // very important. Without this the entry point MonoBehaviour gets destroyed
             DontDestroyOnLoad(gameObject);
             gameObject.hideFlags = HideFlags.HideAndDontSave;
+
+            saveProfileName = Config.Bind("General", "Save Profile Name", true, "Save and show profile name when uploaded to LBoL Logs.");
 
             harmony.PatchAll();
 

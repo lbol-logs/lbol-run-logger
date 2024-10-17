@@ -5,7 +5,9 @@ namespace RunLogger.Utils
     public class RunData
     {
         public string Version { get; set; }
-        public string Name { get; set; }
+#nullable enable
+        public string? Name { get; set; }
+#nullable disable
         public Settings Settings { get; set; }
         public List<StationObj> Stations { get; set; } = new List<StationObj>();
         public List<ActObj> Acts { get; set; } = new List<ActObj>();

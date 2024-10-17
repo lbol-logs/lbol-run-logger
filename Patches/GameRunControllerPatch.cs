@@ -66,7 +66,7 @@ namespace RunLogger.Patches
 
             RunDataController.Create();
             RunDataController.RunData.Version = VersionInfo.Current.Version;
-            RunDataController.RunData.Name = parameters.UserProfile.Name;
+            if (BepinexPlugin.saveProfileName.Value) RunDataController.RunData.Name = parameters.UserProfile.Name;
             Settings Settings = new Settings()
             {
                 Character = Character,
