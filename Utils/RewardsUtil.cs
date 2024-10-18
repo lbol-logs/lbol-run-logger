@@ -15,7 +15,7 @@ namespace RunLogger.Utils
         {
             if (RunDataController.CurrentStation.Rewards == null) RunDataController.CurrentStation.Rewards = new Dictionary<string, object>();
 
-            List<CardObj> Cards = null;
+            List<CardObj> Cards;
             foreach (StationReward reward in rewards)
             {
                 StationRewardType Type = reward.Type;

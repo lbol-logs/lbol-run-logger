@@ -6,7 +6,6 @@ using RunLogger.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static RunLogger.Patches.StationPatch;
 
 namespace RunLogger.Patches
 {
@@ -70,6 +69,20 @@ namespace RunLogger.Patches
             BepinexPlugin.log.LogDebug($"isAfterAddRewards: {isAfterAddRewards}");
             if (!isAfterAddRewards) return;
             RewardsUtil.AddReward(__result);
+        }
+
+        [HarmonyPatch(nameof(Stage.GetEliteEnemyExhibit)), HarmonyPostfix]
+        static void GetEliteEnemyExhibitPatch(Exhibit __result)
+        {
+            bool isAfterAddRewards = StationPatch.AddRewardsPatch.isAfterAddRewards;
+            BepinexPlugin.log.LogDebug($"isAfterAddRewards: {isAfterAddRewards}");
+            if (!isAfterAddRewards) return;
+            StationReward reward = new StationReward()
+            {
+                Type = StationRewardType.Exhibit,
+                Exhibit = __result
+            };
+            RewardsUtil.AddReward(reward);
         }
 
         [HarmonyPatch(typeof(StationReward), nameof(StationReward.CreateToolCard)), HarmonyPostfix]
