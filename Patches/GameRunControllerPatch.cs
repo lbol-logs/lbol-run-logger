@@ -19,8 +19,10 @@ namespace RunLogger.Patches
 
         public static bool isOverridingStartingDeck;
         public static IEnumerable<Card> startingDeckOverride;
+        public static IEnumerable<Card> startingCards;
+        public static List<Exhibit> startingExhibits = new List<Exhibit>();
 
-        private static void resetStartingDeckOverride()
+        private static void ResetStartingDeckOverride()
         {
             isOverridingStartingDeck = false;
             startingDeckOverride = null;
@@ -29,7 +31,7 @@ namespace RunLogger.Patches
         [HarmonyPatch(nameof(GameRunController.Create)), HarmonyPrefix]
         static void PreCreatePatch()
         {
-            resetStartingDeckOverride();
+            ResetStartingDeckOverride();
         }
 
         [HarmonyPatch(nameof(GameRunController.Create)), HarmonyPostfix]
@@ -210,7 +212,22 @@ namespace RunLogger.Patches
             if (isOverridingStartingDeck)
             {
                 RunDataController.AddCardChange(startingDeckOverride, ChangeType.Add);
-                resetStartingDeckOverride();
+                ResetStartingDeckOverride();
+            }
+
+            if (startingCards != null)
+            {
+                RunDataController.AddCardChange(startingCards, ChangeType.Add);
+                startingCards = null;
+            }
+
+            if (!startingExhibits.Any())
+            {
+                foreach (Exhibit exhibit in startingExhibits)
+                {
+                    RunDataController.AddExhibitChange(exhibit, ChangeType.Upgrade);
+                }
+                startingExhibits.Clear();
             }
         }
 
@@ -218,6 +235,11 @@ namespace RunLogger.Patches
         static void InternalAddDeckCardsPatch(Card[] cards)
         {
             if (isOverridingStartingDeck) return;
+            if (RunDataController.RunData == null)
+            {
+                startingCards = cards;
+                return;
+            }
             RunDataController.AddCardChange(cards, ChangeType.Add);
         }
 
@@ -237,6 +259,11 @@ namespace RunLogger.Patches
         [HarmonyPatch(nameof(GameRunController.GainExhibitRunner)), HarmonyPostfix, HarmonyPriority(2)]
         static void GainExhibitRunnerPatch(Exhibit exhibit)
         {
+            if (RunDataController.RunData == null)
+            {
+                startingExhibits.Add(exhibit);
+                return;
+            }
             RunDataController.AddExhibitChange(exhibit, ChangeType.Add);
         }
 

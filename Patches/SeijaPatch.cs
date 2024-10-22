@@ -47,7 +47,7 @@ namespace RunLogger.Patches
                 isBattleStart = false;
             }
 
-            AddIntention(__result);
+            AddIntentions(__result);
         }
 
         private static void AddDetails(Unit unit)
@@ -95,7 +95,7 @@ namespace RunLogger.Patches
             return StatusEffects;
         }
 
-        private static void AddIntention(IEnumerable<IEnemyMove> moves)
+        private static void AddIntentions(IEnumerable<IEnemyMove> moves)
         {
             GetDetails(out TurnObj details);
             List<IntentionObj> Intentions = moves.Select((IEnemyMove m) =>
