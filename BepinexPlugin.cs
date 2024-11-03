@@ -128,6 +128,7 @@ namespace RunLogger
         internal static BepInEx.Logging.ManualLogSource log;
 
         internal static ConfigEntry<bool> saveProfileName;
+        internal static ConfigEntry<bool> saveFailure;
 
         private void Awake()
         {
@@ -138,6 +139,7 @@ namespace RunLogger
             gameObject.hideFlags = HideFlags.HideAndDontSave;
 
             saveProfileName = Config.Bind("General", "Save Profile Name", true, "Save and show profile name when uploaded to LBoL Logs.");
+            saveFailure = Config.Bind("General", "Save Failed Run", true, "Save log for the current run even it failed.");
 
             harmony.PatchAll();
 

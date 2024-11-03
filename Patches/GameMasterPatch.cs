@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using LBoL.Base;
+using LBoL.Core;
 using LBoL.Core.SaveData;
 using LBoL.Presentation;
 using RunLogger.Utils;
@@ -61,8 +62,11 @@ namespace RunLogger.Patches
                 $"{difficulty}{requests}",
                 Type
             });
-            RunDataController.Copy(name);
 
+            bool saveFailure = BepinexPlugin.saveFailure.Value;
+            bool isFailure = Type == GameResultType.Failure.ToString();
+            bool toSave = saveFailure || !isFailure;
+            if (toSave) RunDataController.Copy(name);
         }
     }
 }
