@@ -179,6 +179,8 @@ namespace RunLogger.Patches
         [HarmonyPatch(typeof(MiyoiBartender))]
         public static class MiyoiBartenderPatch
         {
+            private static string exhibit;
+
             [HarmonyPatch(nameof(MiyoiBartender.InitVariables))]
             public static void Prefix(MiyoiBartender __instance)
             {
@@ -190,11 +192,16 @@ namespace RunLogger.Patches
             [HarmonyPatch(nameof(MiyoiBartender.InitVariables))]
             public static void Postfix(MiyoiBartender __instance)
             {
-                if (RunDataController.ShowRandom)
-                {
-                    __instance.Storage.TryGetValue("$randomExhibit", out string randomExhibit);
-                    RunDataController.AddData("Exhibit", randomExhibit);
-                }
+                __instance.Storage.TryGetValue("$randomExhibit", out string randomExhibit);
+                if (RunDataController.ShowRandom) RunDataController.AddData("Exhibit", randomExhibit);
+                else exhibit = randomExhibit;
+            }
+
+            public static void HandleBattle()
+            {
+                if (exhibit == null) return;
+                RunDataController.AddData("Exhibit", exhibit);
+                exhibit = null;
             }
         }
 
@@ -444,10 +451,11 @@ namespace RunLogger.Patches
                 else exhibit = enemyExhibit;
             }
 
-            public static void HandleBattle(EnemyGroup enemyGroup)
+            public static void HandleBattle()
             {
-                if (enemyGroup.Id != "YachieBattle") return;
-                if (exhibit != null) RunDataController.AddData("Exhibit", exhibit);
+                if (exhibit == null) return;
+                RunDataController.AddData("Exhibit", exhibit);
+                exhibit = null;
             }
         }
 

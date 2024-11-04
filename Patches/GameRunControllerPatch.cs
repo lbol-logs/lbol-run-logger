@@ -5,6 +5,8 @@ using LBoL.Core.Cards;
 using LBoL.Core.Stations;
 using LBoL.Core.Stats;
 using LBoL.Core.Units;
+using LBoL.EntityLib.Adventures.FirstPlace;
+using LBoL.EntityLib.Adventures.Stage2;
 using RunLogger.Utils;
 using System;
 using System.Collections.Generic;
@@ -278,10 +280,19 @@ namespace RunLogger.Patches
         {
             int Rounds = __result.TotalRounds;
             RunDataController.AddData("Rounds", Rounds);
-            if (RunDataController.GetAdventureId(__instance.CurrentStation) != null)
+            string id = RunDataController.GetAdventureId(__instance.CurrentStation);
+            if (id != null)
             {
                 RunDataController.AddData("Id", enemyGroup.Id);
-                AdventurePatch.YachieOppressionPatch.HandleBattle(enemyGroup);
+                switch (id)
+                {
+                    case nameof(YachieOppression):
+                        AdventurePatch.YachieOppressionPatch.HandleBattle();
+                        break;
+                    case nameof(MiyoiBartender):
+                        AdventurePatch.MiyoiBartenderPatch.HandleBattle();
+                        break;
+                }
             }
             RunDataController.Save();
         }
