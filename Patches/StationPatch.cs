@@ -220,7 +220,7 @@ namespace RunLogger.Patches
             }
 
             [HarmonyPatch(nameof(ShopStation.GetPrice), new Type[] { typeof(Card), typeof(bool) }), HarmonyPostfix]
-            static void GetPricePatch(Card card, int __result)
+            static void GetPricePatch(Card card, int __result, ShopStation __instance)
             {
                 if (Listener != BuyCard) return;
                 RunDataController.CurrentStation.Rewards.TryGetValue("Cards", out object value);
@@ -230,7 +230,8 @@ namespace RunLogger.Patches
                     index = cards.Count;
                     cards.Add(new List<CardWithPrice>());
                 }
-                cards[index].Add(RunDataController.GetCardWithPrice(card, __result));
+                int price = (int)(__instance.GameRun.FinalShopPriceMultiplier * (float)__result);
+                cards[index].Add(RunDataController.GetCardWithPrice(card, price));
                 Listener = null;
             }
         }
@@ -247,11 +248,12 @@ namespace RunLogger.Patches
             }
 
             [HarmonyPatch(nameof(ShopStation.GetPrice), new Type[] { typeof(Exhibit) }), HarmonyPostfix]
-            static void GetPricePatch(Exhibit exhibit, int __result)
+            static void GetPricePatch(Exhibit exhibit, int __result, ShopStation __instance)
             {
                 if (Listener != BuyExhibit) return;
                 RunDataController.CurrentStation.Rewards.TryGetValue("Exhibits", out object exhibits);
-                RunDataController.AddPrice(exhibit.Id, __result);
+                int price = (int)(__instance.GameRun.FinalShopPriceMultiplier * (float)__result);
+                RunDataController.AddPrice(exhibit.Id, price);
                 (exhibits as List<string>).Add(exhibit.Id);
                 Listener = null;
             }
