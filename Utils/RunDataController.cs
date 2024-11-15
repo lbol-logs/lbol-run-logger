@@ -166,12 +166,6 @@ namespace RunLogger.Utils
                 enemyGroup = battleStation.EnemyGroup;
                 return enemyGroup.Id;
             }
-            else if (station is BattleAdvTestStation battleAdvTestStation)
-            {
-                enemyGroup = battleAdvTestStation.EnemyGroup;
-                if (enemyGroup == null) return null;
-                return enemyGroup.Id;
-            }
             else
             {
                 return null;
@@ -195,12 +189,6 @@ namespace RunLogger.Utils
             else if (station is TradeStation tradeStation)
             {
                 adventure = tradeStation.Adventure;
-                return adventure.Id;
-            }
-            else if (station is BattleAdvTestStation battleAdvTestStation)
-            {
-                adventure = battleAdvTestStation.Adventure;
-                if (adventure == null) return null;
                 return adventure.Id;
             }
             else

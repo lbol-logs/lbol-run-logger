@@ -76,7 +76,7 @@ using LBoL.EntityLib.Stages.NormalStages;
 using LBoL.EntityLib.StatusEffects.Basic;
 using LBoL.EntityLib.StatusEffects.Cirno;
 using LBoL.EntityLib.StatusEffects.Enemy;
-using LBoL.EntityLib.StatusEffects.Enemy.SeijaItems;
+using LBoL.EntityLib.StatusEffects.Enemy.Seija;
 using LBoL.EntityLib.StatusEffects.Marisa;
 using LBoL.EntityLib.StatusEffects.Neutral;
 using LBoL.EntityLib.StatusEffects.Neutral.Black;
