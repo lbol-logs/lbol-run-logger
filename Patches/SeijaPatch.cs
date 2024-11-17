@@ -46,7 +46,7 @@ namespace RunLogger.Patches
                 isBattleStart = false;
             }
 
-            AddIntentions(__result);
+            AddIntentions(__result, __instance);
         }
 
         private static void AddDetails(Unit unit)
@@ -94,7 +94,7 @@ namespace RunLogger.Patches
             return StatusEffects;
         }
 
-        private static void AddIntentions(IEnumerable<IEnemyMove> moves)
+        private static void AddIntentions(IEnumerable<IEnemyMove> moves, Seija enemy)
         {
             GetDetails(out TurnObj details);
             List<IntentionObj> Intentions = moves.Select((IEnemyMove m) =>
@@ -110,7 +110,7 @@ namespace RunLogger.Patches
                         {
                             AttackIntention _i = i as AttackIntention;
                             DamageInfo damageInfo = _i.Damage;
-                            int damage = _i.CalculateDamage(damageInfo);
+                            int damage = enemy.Battle.CalculateDamage(enemy, enemy, enemy.Battle.Player, damageInfo);
                             Intention = new IntentionObj()
                             {
                                 Type = type,
