@@ -19,7 +19,6 @@ namespace RunLogger.Patches
     public static class SeijaPatch
     {
         private static bool isBattleStart;
-        public static bool isAttack;
 
         [HarmonyPatch(nameof(Seija.OnEnterBattle)), HarmonyPostfix]
         static void OnEnterBattlePatch(Seija __instance)
@@ -47,7 +46,7 @@ namespace RunLogger.Patches
                 isBattleStart = false;
             }
 
-            AddIntentions(__result);
+            AddIntentions(__result, __instance);
         }
 
         private static void AddDetails(Unit unit)
@@ -95,7 +94,7 @@ namespace RunLogger.Patches
             return StatusEffects;
         }
 
-        private static void AddIntentions(IEnumerable<IEnemyMove> moves)
+        private static void AddIntentions(IEnumerable<IEnemyMove> moves, Seija enemy)
         {
             GetDetails(out TurnObj details);
             List<IntentionObj> Intentions = moves.Select((IEnemyMove m) =>
@@ -110,17 +109,15 @@ namespace RunLogger.Patches
                     case IntentionType.Attack:
                         {
                             AttackIntention _i = i as AttackIntention;
-                            DamageInfo d = _i.Damage;
-
+                            DamageInfo damageInfo = _i.Damage;
+                            int damage = enemy.Battle.CalculateDamage(enemy, enemy, enemy.Battle.Player, damageInfo);
                             Intention = new IntentionObj()
                             {
                                 Type = type,
-                                Damage = (int)d.Damage,
+                                Damage = damage,
                                 Times = _i.Times,
                                 IsAccurate = _i.IsAccuracy
                             };
-
-                            isAttack = true;
                             break;
                         }
                     case IntentionType.SpellCard:
@@ -153,15 +150,6 @@ namespace RunLogger.Patches
                 return Intention;
             }).ToList();
             details.Intentions = Intentions;
-        }
-
-        [HarmonyPatch(typeof(Intention), nameof(Intention.CalculateDamage)), HarmonyPostfix]
-        private static void CalculateDamagePatch(int __result)
-        {
-            if (!isAttack) return;
-            GetDetails(out TurnObj details);
-            details.Intentions.ForEach(intention => intention.Damage = __result);
-            isAttack = false;
         }
 
         [HarmonyPatch(typeof(BattleAction))]
