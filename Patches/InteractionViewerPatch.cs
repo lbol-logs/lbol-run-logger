@@ -27,9 +27,10 @@ namespace RunLogger.Patches
 
             if (interaction is MiniSelectCardInteraction)
             {
-                if (RunDataController.CurrentStation.Type == StationType.Entry.ToString() && AdventurePatch.DebutPatch.uncommonCardListener == 2)
+                if (RunDataController.CurrentStation.Type == StationType.Entry.ToString() && AdventurePatch.DebutPatch.uncommonCardListener)
                 {
                     AddMiniSelectCardInteractionRewards(interaction);
+                    AdventurePatch.DebutPatch.uncommonCardListener = false;
                     return;
                 }
             }

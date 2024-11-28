@@ -131,7 +131,7 @@ namespace RunLogger.Patches
                 MaxPower = __instance.Player.MaxPower
             };
 
-            if (station == null) RunDataController.RunData.Settings.Status = Status; 
+            if (station == null) RunDataController.RunData.Settings.Status = Status;
             else station.Status = Status;
 
             RunDataController.Save();

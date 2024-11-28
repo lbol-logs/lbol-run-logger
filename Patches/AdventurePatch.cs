@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using LBoL.Base;
+using LBoL.Base.Extensions;
 using LBoL.Core;
 using LBoL.Core.Adventures;
 using LBoL.Core.Battle.Interactions;
@@ -44,17 +45,19 @@ namespace RunLogger.Patches
         [HarmonyPatch(typeof(Debut))]
         public static class DebutPatch
         {
-            public static int uncommonCardListener = 0;
+            public static int uncommonCardsIndex;
+            public static bool uncommonCardListener;
 
             [HarmonyPatch(nameof(Debut.RollBonus))]
             public static void Postfix(Exhibit ____exhibit, int[] ____bonusNos, Debut __instance)
             {
-                uncommonCardListener = 0;
-
                 if (!RunDataController.RunData.Settings.HasClearBonus) return;
                 Exhibit _exhibit = ____exhibit;
                 int[] _bonusNos = ____bonusNos;
                 RunDataController.AddData("Options", _bonusNos);
+
+                int i = Array.FindIndex(_bonusNos, _bonusNo => _bonusNo == 0);
+                if (i != -1) uncommonCardsIndex = i + 2;
 
                 if (!RunDataController.ShowRandom) return;
 
@@ -67,7 +70,6 @@ namespace RunLogger.Patches
                         case 0:
                             List<string> uncommonCards = RunDataController.GetList<string>(storage, new[] { 1, 2, 3 }, "$uncommonCard");
                             RunDataController.AddData("UncommonCards", uncommonCards);
-                            uncommonCardListener = 1;
                             break;
                         case 1:
                             storage.TryGetValue("$rareCard", out string rareCard);
@@ -90,12 +92,12 @@ namespace RunLogger.Patches
             {
                 public static void Prefix(int id)
                 {
-                    if (uncommonCardListener == 1 && id == 0) uncommonCardListener = 2;
+                    if (uncommonCardsIndex != 0 && id == uncommonCardsIndex) uncommonCardListener = true;
                 }
 
                 public static void Postfix()
                 {
-                    uncommonCardListener = 0;
+                    uncommonCardsIndex = 0;
                 }
             }
         }
