@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using LBoL.Base;
 using LBoL.Base.Extensions;
 using LBoL.Core;
@@ -45,7 +45,7 @@ namespace RunLogger.Patches
         [HarmonyPatch(typeof(Debut))]
         public static class DebutPatch
         {
-            public static int uncommonCardsIndex;
+            private static int uncommonCardsIndex;
             public static bool uncommonCardListener;
 
             [HarmonyPatch(nameof(Debut.RollBonus))]
