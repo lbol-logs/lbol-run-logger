@@ -119,6 +119,7 @@ namespace RunLogger
 {
     [BepInPlugin(RunLogger.PInfo.GUID, RunLogger.PInfo.Name, RunLogger.PInfo.version)]
     [BepInDependency(AddWatermark.API.GUID, BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency(PatchouliCharacterMod.PInfo.GUID, BepInDependency.DependencyFlags.SoftDependency)]
     [BepInProcess("LBoL.exe")]
     public class BepinexPlugin : BaseUnityPlugin
     {
@@ -129,6 +130,8 @@ namespace RunLogger
 
         internal static ConfigEntry<bool> saveProfileName;
         internal static ConfigEntry<bool> saveFailure;
+
+        internal static bool hasPatchouliMod;
 
         private void Awake()
         {
@@ -145,6 +148,8 @@ namespace RunLogger
 
             if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(AddWatermark.API.GUID))
                 WatermarkWrapper.ActivateWatermark();
+
+            hasPatchouliMod = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(PatchouliCharacterMod.PInfo.GUID);
         }
 
         private void OnDestroy()

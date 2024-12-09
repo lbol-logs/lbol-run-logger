@@ -37,6 +37,7 @@ namespace RunLogger.Utils
         public string GUID { get; set; }
         public string Name { get; set; }
         public string Version { get; set; }
+        public Dictionary<string, dynamic> Configs { get; set; }
     }
 
     public class StationObj

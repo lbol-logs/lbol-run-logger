@@ -7,7 +7,8 @@
 
     <PropertyGroup>
         <GameFolder>C:\Program Files (x86)\Steam\steamapps\common\LBoL</GameFolder>
-        <BepInExFolder>$(GameFolder)\BepInEx</BepInExFolder>
+        <r2modmanProfile>C:\Users\{username}\AppData\Roaming\r2modmanPlus-local\TouhouLostBranchOfLegend\profiles\Default</r2modmanProfile>
+        <BepInExFolder>$(r2modmanProfile)\BepInEx</BepInExFolder>
     </PropertyGroup>
 
     <ItemGroup>
@@ -28,7 +29,7 @@
         <PublicizerLogFilePath>.\Krafs.publicizer.log</PublicizerLogFilePath>
         <PublicizerRuntimeStrategies>IgnoresAccessChecksTo</PublicizerRuntimeStrategies>
     </PropertyGroup>
-    
+
     <!--Don't publicize virtual members which are meant to be overwritten in concrete entity logic types-->
     <ItemGroup>
         <Publicize Include="LBoL.Base;LBoL.ConfigData;LBoL.Core;LBoL.EntityLib;LBoL.Presentation;Untitled.ConfigDataBuilder.Base" IncludeCompilerGeneratedMembers="false" IncludeVirtualMembers="true" />
@@ -281,11 +282,11 @@
         <Reference Include="UnityEngine.UIModule">
             <HintPath>$(GameFolder)\LBoL_Data\Managed\UnityEngine.UIModule.dll</HintPath>
         </Reference>
-        <Reference Include="LBoL-Entity-Sideloader">
-            <HintPath>$(BepInExFolder)\plugins\LBoL-Entity-Sideloader\LBoL-Entity-Sideloader.dll</HintPath>
-        </Reference>
         <Reference Include="LBoL-AddWatermark">
-            <HintPath>$(BepInExFolder)\plugins\LBoL-AddWatermark.dll</HintPath>
+            <HintPath>$(BepInExFolder)\plugins\TeamNeo-Watermark\LBoL-AddWatermark.dll</HintPath>
+        </Reference>
+        <Reference Include="PatchouliCharacterMod">
+            <HintPath>$(BepInExFolder)\plugins\rmrfmaxx-Patchouli_Knowledge\PatchouliCharacterMod.dll</HintPath>
         </Reference>
         <Reference Include="UnityEngine.AudioModule">
             <HintPath>$(GameFolder)\LBoL_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
@@ -328,7 +329,7 @@
 
 
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-        <Exec Command="copy /Y &quot;$(TargetPath)&quot; &quot;$(ProjectDir)&quot;&#xD;&#xA;IF exist &quot;$(BepInExFolder)\scripts\$(AssemblyName)&quot; goto skipDir&#xD;&#xA;mkdir &quot;$(BepInExFolder)\scripts\$(AssemblyName)&quot;&#xD;&#xA;:skipDir&#xD;&#xA;copy /Y &quot;$(TargetPath)&quot; &quot;$(BepInExFolder)\scripts\$(AssemblyName)&quot;&#xD;&#xA;xcopy /Y /E &quot;$(ProjectDir)DirResources\*&quot; &quot;$(BepInExFolder)\scripts\$(AssemblyName)&quot; 1&gt; NUL&#xD;&#xA;powershell -command &quot;Compress-Archive -Path '$(TargetPath)', '$(ProjectDir)DirResources\*', '$(ProjectDir)manifest.json', '$(ProjectDir)icon.png', '$(ProjectDir)README.md'   -DestinationPath  '$(ProjectDir)$(AssemblyName)-thunderstore.zip' -Force&quot;" />
+        <Exec Command="copy /Y &quot;$(TargetPath)&quot; &quot;$(ProjectDir)&quot;&#xD;&#xA;IF exist &quot;$(BepInExFolder)\scripts\$(AssemblyName)&quot; goto skipDir&#xD;&#xA;mkdir &quot;$(BepInExFolder)\scripts\$(AssemblyName)&quot;&#xD;&#xA;:skipDir&#xD;&#xA;copy /Y &quot;$(TargetPath)&quot; &quot;$(BepInExFolder)\scripts\$(AssemblyName)&quot;&#xD;&#xA;xcopy /Y /E &quot;$(ProjectDir)DirResources\*&quot; &quot;$(BepInExFolder)\scripts\$(AssemblyName)&quot; 1&gt; NUL&#xD;&#xA;powershell -command &quot;Compress-Archive -Path '$(TargetPath)', '$(ProjectDir)DirResources\*', '$(ProjectDir)manifest.json', '$(ProjectDir)icon.png', '$(ProjectDir)README.md', '$(ProjectDir)CHANGELOG.md'   -DestinationPath  '$(ProjectDir)$(AssemblyName)-thunderstore.zip' -Force&quot;" />
     </Target>
 
 

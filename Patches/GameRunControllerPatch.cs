@@ -65,6 +65,7 @@ namespace RunLogger.Patches
                 if (priorities.Contains(GUID) || excludes.Contains(GUID)) continue;
                 if (GUID == "neo.lbol.qol.helpMeEirin") HasClearBonus = true;
                 Mod Mod = HandleMod(PluginInfo);
+                if (GUID == "rmrfmaxx.lbol.PatchouliCharacterMod") Mod.Configs = PatchouliModWrapper.GetConfigs();
                 Mods.Add(Mod);
             }
 
