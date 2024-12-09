@@ -8,6 +8,10 @@ Changelog: https://github.com/lbol-logs/lbol-run-logger/commits/main/
 
 # Configs
 
+```
+BepInEx\config\ev.lbol.utils.runLogger.cfg
+```
+
 | Config | Default | Description |
 | --- | --- | --- |
 | Save Profile Name | `true` | Save and show profile name when uploaded to LBoL Logs. |
