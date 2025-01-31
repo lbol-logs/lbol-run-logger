@@ -223,11 +223,11 @@ namespace RunLogger.Patches
                 startingCards = null;
             }
 
-            if (!startingExhibits.Any())
+            if (startingExhibits.Any())
             {
                 foreach (Exhibit exhibit in startingExhibits)
                 {
-                    RunDataController.AddExhibitChange(exhibit, ChangeType.Upgrade);
+                    RunDataController.AddExhibitChange(exhibit, ChangeType.Add);
                 }
                 startingExhibits.Clear();
             }
