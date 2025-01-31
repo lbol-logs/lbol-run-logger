@@ -7,6 +7,7 @@ using LBoL.Core.Stats;
 using LBoL.Core.Units;
 using LBoL.EntityLib.Adventures.FirstPlace;
 using LBoL.EntityLib.Adventures.Stage2;
+using Newtonsoft.Json;
 using RunLogger.Utils;
 using System;
 using System.Collections.Generic;
@@ -39,6 +40,7 @@ namespace RunLogger.Patches
         [HarmonyPatch(nameof(GameRunController.Create)), HarmonyPostfix]
         static void CreatePatch(GameRunStartupParameters parameters, GameRunController __result)
         {
+            BepinexPlugin.log.LogDebug("Reset");
             RunDataController.Reset();
 
             string Character = parameters.Player.Id;
@@ -69,6 +71,7 @@ namespace RunLogger.Patches
                 Mods.Add(Mod);
             }
 
+            BepinexPlugin.log.LogDebug("Create");
             RunDataController.Create();
             RunDataController.RunData.Version = VersionInfo.Current.Version;
             if (BepinexPlugin.saveProfileName.Value) RunDataController.RunData.Name = parameters.UserProfile.Name;
@@ -85,6 +88,8 @@ namespace RunLogger.Patches
             };
             if (JadeBoxes.Count > 0) Settings.JadeBoxes = JadeBoxes;
             RunDataController.RunData.Settings = Settings;
+
+            CallbackUtil.Execute();
 
             RunDataController.Save();
         }
@@ -248,8 +253,15 @@ namespace RunLogger.Patches
         [HarmonyPatch(nameof(GameRunController.RemoveDeckCards)), HarmonyPrefix]
         static void RemoveDeckCardsPatch(IEnumerable<Card> cards)
         {
+            //BepinexPlugin.log.LogDebug("RemoveDeckCardsPatch");
+            //BepinexPlugin.log.LogDebug($"isOverridingStartingDeck: {isOverridingStartingDeck}");
+            //BepinexPlugin.log.LogDebug($"RunData: {RunDataController.RunData != null}");
+            //BepinexPlugin.log.LogDebug($"Stations: {JsonConvert.SerializeObject(RunDataController.RunData.Stations)}");
+            //BepinexPlugin.log.LogDebug($"CurrentStationIndex: {RunDataController.CurrentStationIndex}");
             if (isOverridingStartingDeck) return;
-            RunDataController.AddCardChange(cards, ChangeType.Remove);
+            //RunDataController.AddCardChange(cards, ChangeType.Remove);
+            void fn() => RunDataController.AddCardChange(cards, ChangeType.Remove);
+            CallbackUtil.AddCallback(fn);
         }
 
         [HarmonyPatch(nameof(GameRunController.UpgradeDeckCards)), HarmonyPostfix]

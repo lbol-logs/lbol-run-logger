@@ -41,6 +41,7 @@ namespace RunLogger.Utils
         public static int CurrentStationIndex
         {
             get {
+                //if (RunData == null) return 0;
                 return RunData.Stations.Count - 1;
             }
         }
@@ -92,6 +93,7 @@ namespace RunLogger.Utils
         {
             foreach (Card card in cards)
             {
+                BepinexPlugin.log.LogDebug($"Id: {card.Id}, Type: {Type}, Station: {CurrentStationIndex}");
                 CardChange Card = new CardChange
                 {
                     Id = card.Id,
