@@ -195,15 +195,21 @@ namespace RunLogger.Patches
             public static void Postfix(MiyoiBartender __instance)
             {
                 __instance.Storage.TryGetValue("$randomExhibit", out string randomExhibit);
-                if (RunDataController.ShowRandom) RunDataController.AddData("Exhibit", randomExhibit);
-                else exhibit = randomExhibit;
+                if (RunDataController.ShowRandom)
+                {
+                    RunDataController.AddData("Exhibit", randomExhibit);
+                    exhibit = null;
+                }
+                else
+                {
+                    exhibit = randomExhibit;
+                }
             }
 
             public static void HandleBattle()
             {
                 if (exhibit == null) return;
                 RunDataController.AddData("Exhibit", exhibit);
-                exhibit = null;
             }
         }
 
