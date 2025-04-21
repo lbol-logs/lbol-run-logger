@@ -296,16 +296,5 @@ namespace RunLogger.Patches
             }
             RunDataController.Save();
         }
-
-        [HarmonyPatch(nameof(GameRunController.RollNormalExhibit)), HarmonyPostfix]
-        static void RollNormalExhibitPatch(Exhibit __result)
-        {
-            string RewardListener = StationPatch.RewardListener;
-            BepinexPlugin.log.LogDebug($"RewardListener in {System.Reflection.MethodBase.GetCurrentMethod().Name}: {RewardListener}");
-            if (RewardListener != StationPatch.Listener) return;
-            string exhibit = __result.Id;
-            RunDataController.Exhibits.Add(exhibit);
-            StationPatch.RewardListener = null;
-        }
     }
 }
