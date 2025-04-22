@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-namespace RunLogger
+namespace RunLogger.Wrappers
 {
     internal class PatchouliModWrapper
     {

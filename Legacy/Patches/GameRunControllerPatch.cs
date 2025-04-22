@@ -7,12 +7,13 @@ using LBoL.Core.Stats;
 using LBoL.Core.Units;
 using LBoL.EntityLib.Adventures.FirstPlace;
 using LBoL.EntityLib.Adventures.Stage2;
-using RunLogger.Utils;
+using RunLogger.Legacy.Utils;
+using RunLogger.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace RunLogger.Patches
+namespace RunLogger.Legacy.Patches
 {
     [HarmonyPatch(typeof(GameRunController))]
     static class GameRunControllerPatch

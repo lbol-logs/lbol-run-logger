@@ -3,12 +3,12 @@ using LBoL.Base;
 using LBoL.Core;
 using LBoL.Core.SaveData;
 using LBoL.Presentation;
-using RunLogger.Utils;
+using RunLogger.Legacy.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace RunLogger.Patches
+namespace RunLogger.Legacy.Patches
 {
     [HarmonyPatch(typeof(GameMaster))]
     class GameMasterPatch
@@ -53,7 +53,7 @@ namespace RunLogger.Patches
             char difficulty = settings.Difficulty[0];
             int requests = settings.Requests.Count;
 
-            string name = String.Join("_", new string[]
+            string name = string.Join("_", new string[]
             {
                 ts,
                 character,

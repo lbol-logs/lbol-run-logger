@@ -5,15 +5,15 @@ using LBoL.Core.Battle.BattleActions;
 using LBoL.Core.Cards;
 using LBoL.Core.Units;
 using LBoL.EntityLib.EnemyUnits.Character;
-using RunLogger.Utils;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System;
 using LBoL.Core.StatusEffects;
 using LBoL.Core.Intentions;
+using RunLogger.Legacy.Utils;
 
-namespace RunLogger.Patches
+namespace RunLogger.Legacy.Patches
 {
     [HarmonyPatch(typeof(Seija))]
     public static class SeijaPatch
@@ -81,7 +81,7 @@ namespace RunLogger.Patches
 
         private static List<StatusEffectObj> GetStatusEffects(Unit unit)
         {
-            List<StatusEffectObj> StatusEffects = unit.StatusEffects.Select((StatusEffect se) =>
+            List<StatusEffectObj> StatusEffects = unit.StatusEffects.Select((se) =>
             {
                 StatusEffectObj StatusEffect = new StatusEffectObj() { Id = se.Id };
                 if (se.HasLevel) StatusEffect.Level = se.Level;
@@ -97,7 +97,7 @@ namespace RunLogger.Patches
         private static void AddIntentions(IEnumerable<IEnemyMove> moves, Seija enemy)
         {
             GetDetails(out TurnObj details);
-            List<IntentionObj> Intentions = moves.Select((IEnemyMove m) =>
+            List<IntentionObj> Intentions = moves.Select((m) =>
             {
                 Intention i = m.Intention;
                 IntentionType Type = i.Type;

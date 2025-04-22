@@ -4,12 +4,12 @@ using LBoL.Core.Cards;
 using LBoL.Core.GapOptions;
 using LBoL.Core.Stations;
 using LBoL.Presentation.UI.Panels;
-using RunLogger.Utils;
+using RunLogger.Legacy.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace RunLogger.Patches
+namespace RunLogger.Legacy.Patches
 {
     [HarmonyPatch(typeof(Station))]
     public static class StationPatch
@@ -36,7 +36,7 @@ namespace RunLogger.Patches
             {
                 static void Reset()
                 {
-                    AddRewardsPatch.isAfterAddRewards = false;
+                    isAfterAddRewards = false;
                 }
 
                 [HarmonyPatch(typeof(EnemyStation), nameof(EnemyStation.GenerateRewards)), HarmonyPrefix]
@@ -230,7 +230,7 @@ namespace RunLogger.Patches
                     index = cards.Count;
                     cards.Add(new List<CardWithPrice>());
                 }
-                int price = (int)(__instance.GameRun.FinalShopPriceMultiplier * (float)__result);
+                int price = (int)(__instance.GameRun.FinalShopPriceMultiplier * __result);
                 cards[index].Add(RunDataController.GetCardWithPrice(card, price));
                 Listener = null;
             }
@@ -252,7 +252,7 @@ namespace RunLogger.Patches
             {
                 if (Listener != BuyExhibit) return;
                 RunDataController.CurrentStation.Rewards.TryGetValue("Exhibits", out object exhibits);
-                int price = (int)(__instance.GameRun.FinalShopPriceMultiplier * (float)__result);
+                int price = (int)(__instance.GameRun.FinalShopPriceMultiplier * __result);
                 RunDataController.AddPrice(exhibit.Id, price);
                 (exhibits as List<string>).Add(exhibit.Id);
                 Listener = null;

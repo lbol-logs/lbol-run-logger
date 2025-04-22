@@ -18,12 +18,12 @@ using LBoL.EntityLib.Adventures.Stage2;
 using LBoL.EntityLib.Adventures.Stage3;
 using LBoL.EntityLib.Exhibits.Adventure;
 using LBoL.Presentation.UI.Panels;
-using RunLogger.Utils;
+using RunLogger.Legacy.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace RunLogger.Patches
+namespace RunLogger.Legacy.Patches
 {
     [HarmonyPatch(typeof(Adventure))]
     public static class AdventurePatch
@@ -187,7 +187,7 @@ namespace RunLogger.Patches
             public static void Prefix(MiyoiBartender __instance)
             {
                 UniqueRandomPool<string> uniqueRandomPool = __instance.Stage.EnemyPoolAct3;
-                List<string> ids = uniqueRandomPool.Select((RandomPoolEntry<string> e) => e.Elem).ToList();
+                List<string> ids = uniqueRandomPool.Select((e) => e.Elem).ToList();
                 RunDataController.AddData("Ids", ids);
             }
 

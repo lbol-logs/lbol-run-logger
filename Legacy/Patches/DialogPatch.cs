@@ -1,8 +1,8 @@
 ﻿using HarmonyLib;
 using LBoL.Core.Dialogs;
-using RunLogger.Utils;
+using RunLogger.Legacy.Utils;
 
-namespace RunLogger.Patches
+namespace RunLogger.Legacy.Patches
 {
     class DialogPatch
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace RunLogger.Utils
+namespace RunLogger.Legacy.Utils
 {
     public class RunData
     {

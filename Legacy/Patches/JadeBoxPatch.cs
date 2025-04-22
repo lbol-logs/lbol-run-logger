@@ -2,7 +2,7 @@
 using LBoL.Core;
 using LBoL.EntityLib.JadeBoxes;
 
-namespace RunLogger.Patches
+namespace RunLogger.Legacy.Patches
 {
     [HarmonyPatch]
     public static class JadeBoxPatch

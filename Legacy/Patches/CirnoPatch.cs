@@ -1,9 +1,9 @@
 ﻿using HarmonyLib;
-using RunLogger.Utils;
 using LBoL.EntityLib.EnemyUnits.Opponent;
 using System;
+using RunLogger.Legacy.Utils;
 
-namespace RunLogger.Patches
+namespace RunLogger.Legacy.Patches
 {
     [HarmonyPatch(typeof(Cirno))]
     public static class CirnoPatch

@@ -2,7 +2,7 @@
 using LBoL.Core.Stations;
 using System.Collections.Generic;
 
-namespace RunLogger.Utils
+namespace RunLogger.Legacy.Utils
 {
     public static class RewardsUtil
     {

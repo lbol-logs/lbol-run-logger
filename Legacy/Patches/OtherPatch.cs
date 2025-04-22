@@ -2,12 +2,12 @@
 using LBoL.Core;
 using LBoL.Core.Stations;
 using LBoL.EntityLib.Exhibits.Common;
-using RunLogger.Utils;
+using RunLogger.Legacy.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace RunLogger.Patches
+namespace RunLogger.Legacy.Patches
 {
     [HarmonyPatch(typeof(Exhibit), nameof(Exhibit.Counter), MethodType.Setter)]
     class ExihibitCounterSetterPatch

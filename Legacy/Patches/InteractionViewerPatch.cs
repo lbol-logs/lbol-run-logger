@@ -3,7 +3,6 @@ using LBoL.Core.Battle.Interactions;
 using LBoL.Core.Battle;
 using LBoL.Core.Cards;
 using LBoL.Core;
-using RunLogger.Utils;
 using System.Collections.Generic;
 using LBoL.EntityLib.Adventures;
 using LBoL.EntityLib.Exhibits.Shining;
@@ -12,8 +11,9 @@ using LBoL.EntityLib.Exhibits.Adventure;
 using LBoL.EntityLib.Adventures.Stage3;
 using LBoL.Core.Stations;
 using System.Linq;
+using RunLogger.Legacy.Utils;
 
-namespace RunLogger.Patches
+namespace RunLogger.Legacy.Patches
 {
     [HarmonyPatch(typeof(InteractionViewer))]
     public static class InteractionViewerPatch

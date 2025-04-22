@@ -12,9 +12,9 @@ using LBoL.Core.Stations;
 using LBoL.Core.Adventures;
 using LBoL.Core.Units;
 using LBoL.Core.Dialogs;
-using RunLogger.Patches;
+using RunLogger.Legacy.Patches;
 
-namespace RunLogger.Utils
+namespace RunLogger.Legacy.Utils
 {
     public static class RunDataController
     {
@@ -53,7 +53,7 @@ namespace RunLogger.Utils
         public static void GetData(out Dictionary<string, object> Data)
         {
             Data = CurrentStation.Data;
-            if (Data == null) Data = (CurrentStation.Data = new Dictionary<string, object>());
+            if (Data == null) Data = CurrentStation.Data = new Dictionary<string, object>();
         }
 
         public static void AddData<T>(string key, T value)
@@ -81,8 +81,8 @@ namespace RunLogger.Utils
         public static void AddListItem2Obj<T>(string key, T listItem)
         {
             key += "s";
-            if (!RunDataController.CurrentStation.Rewards.ContainsKey(key)) RunDataController.CurrentStation.Rewards[key] = new List<T>();
-            (RunDataController.CurrentStation.Rewards[key] as List<T>).Add(listItem);
+            if (!CurrentStation.Rewards.ContainsKey(key)) CurrentStation.Rewards[key] = new List<T>();
+            (CurrentStation.Rewards[key] as List<T>).Add(listItem);
         }
 
         public static void AddCardChange(IEnumerable<Card> cards, ChangeType Type)
@@ -287,7 +287,7 @@ namespace RunLogger.Utils
         {
             try
             {
-                if (!String.IsNullOrEmpty(jsonString))
+                if (!string.IsNullOrEmpty(jsonString))
                 {
                     RunData = JsonConvert.DeserializeObject<RunData>(jsonString);
                     _initialized = true;
