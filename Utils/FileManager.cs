@@ -1,8 +1,6 @@
 ﻿using LBoL.Base.Extensions;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace RunLogger.Utils
 {
