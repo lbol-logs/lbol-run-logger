@@ -1,4 +1,4 @@
-﻿namespace RunLogger.Utils.RunLog
+﻿namespace RunLogger.Utils.RunLogLib
 {
     public class Status
     {

@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using RunLogger.Utils.RunLogLib;
+using System.Collections.Generic;
 
-namespace RunLogger.Utils.RunLog
+namespace RunLogger.Utils.RunLogLib
 {
     public class Settings
     {

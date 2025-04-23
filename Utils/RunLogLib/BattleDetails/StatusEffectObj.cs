@@ -1,4 +1,4 @@
-﻿namespace RunLogger.Utils.RunLog.BattleDetails
+﻿namespace RunLogger.Utils.RunLogLib.BattleDetails
 {
     public class StatusEffectObj
     {

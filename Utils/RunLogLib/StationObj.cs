@@ -1,7 +1,8 @@
-﻿using RunLogger.Utils.RunLog.Nodes;
+﻿using RunLogger.Utils.RunLogLib.Nodes;
+using RunLogger.Utils.RunLogLib;
 using System.Collections.Generic;
 
-namespace RunLogger.Utils.RunLog
+namespace RunLogger.Utils.RunLogLib
 {
     public class StationObj
     {

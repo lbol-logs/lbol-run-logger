@@ -1,4 +1,4 @@
-﻿namespace RunLogger.Utils.RunLog.Entities
+﻿namespace RunLogger.Utils.RunLogLib.Entities
 {
     public class CardChange : CardObj
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using RunLogger.Utils.RunLog.Nodes;
+using RunLogger.Utils.RunLogLib.Nodes;
 
-namespace RunLogger.Utils.RunLog
+namespace RunLogger.Utils.RunLogLib
 {
     public class ActObj
     {

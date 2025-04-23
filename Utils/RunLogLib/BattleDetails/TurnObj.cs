@@ -1,7 +1,7 @@
-﻿using RunLogger.Utils.RunLog.Entities;
+﻿using RunLogger.Utils.RunLogLib.Entities;
 using System.Collections.Generic;
 
-namespace RunLogger.Utils.RunLog.BattleDetails
+namespace RunLogger.Utils.RunLogLib.BattleDetails
 {
     public class TurnObj
     {

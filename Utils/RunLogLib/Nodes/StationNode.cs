@@ -1,4 +1,4 @@
-﻿namespace RunLogger.Utils.RunLog.Nodes
+﻿namespace RunLogger.Utils.RunLogLib.Nodes
 {
     public class StationNode
     {

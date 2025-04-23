@@ -1,7 +1,7 @@
-﻿using RunLogger.Utils.RunLog.Entities;
+﻿using RunLogger.Utils.RunLogLib.Entities;
 using System.Collections.Generic;
 
-namespace RunLogger.Utils.RunLog
+namespace RunLogger.Utils.RunLogLib
 {
     public class RunLog
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace RunLogger.Utils.RunLog.Nodes
+namespace RunLogger.Utils.RunLogLib.Nodes
 {
     public class ActNode
     {
