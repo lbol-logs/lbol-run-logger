@@ -42,6 +42,7 @@ namespace RunLogger.Utils
         private static void Write(string path, bool addIndent)
         {
             RunLog runLog = Controller.Instance.RunLog;
+            if (runLog == null) return;
             string jsonString = Logger.Encode(runLog, addIndent);
             FileManager.WriteFile(path, jsonString);
         }
@@ -69,11 +70,11 @@ namespace RunLogger.Utils
             Write(path, true);
         }
 
-        public static void LoadTemp()
+        public static RunLog LoadTemp()
         {
             string path = GetTempPath();
             RunLog runLog = Logger.Read(path);
-            Controller.Instance.RunLog = runLog;
+            return runLog;
         }
 
         public static void DeleteTemp()
