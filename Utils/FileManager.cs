@@ -15,24 +15,22 @@ namespace RunLogger.Utils
             if (!Directory.Exists(path)) Directory.CreateDirectory(path);
             return path;
         }
-        private static string GetFilePath(string filename, string subDir)
+        public static string GetFilePath(string filename, string subDir)
         {
             string dir = GetDirectory(subDir);
             string path = Path.Combine(dir, filename);
             return path;
         }
 
-        public static string ReadFile(string filename, string subDir)
+        public static string ReadFile(string path)
         {
-            string path = FileManager.GetFilePath(filename, subDir);
             if (!File.Exists(path)) return null;
             string text = File.ReadAllText(path);
             return text;
         }
 
-        public static void WriteFile(string filename, string text, string subDir)
+        public static void WriteFile(string path, string text)
         {
-            string path = FileManager.GetFilePath(filename, subDir);
             File.WriteAllText(path, text);
         }
     }
