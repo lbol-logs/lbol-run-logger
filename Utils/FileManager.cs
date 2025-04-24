@@ -4,7 +4,7 @@ using System.IO;
 
 namespace RunLogger.Utils
 {
-    public static class FileManager
+    internal static class FileManager
     {
         private static string GetDirectory(string subDir)
         {
@@ -15,21 +15,21 @@ namespace RunLogger.Utils
             if (!Directory.Exists(path)) Directory.CreateDirectory(path);
             return path;
         }
-        public static string GetFilePath(string filename, string subDir)
+        internal static string GetFilePath(string filename, string subDir)
         {
             string dir = GetDirectory(subDir);
             string path = Path.Combine(dir, filename);
             return path;
         }
 
-        public static string ReadFile(string path)
+        internal static string ReadFile(string path)
         {
             if (!File.Exists(path)) return null;
             string text = File.ReadAllText(path);
             return text;
         }
 
-        public static void WriteFile(string path, string text)
+        internal static void WriteFile(string path, string text)
         {
             File.WriteAllText(path, text);
         }

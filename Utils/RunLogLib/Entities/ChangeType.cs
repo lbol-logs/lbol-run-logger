@@ -1,6 +1,6 @@
 ﻿namespace RunLogger.Utils.RunLogLib.Entities
 {
-    public enum ChangeType
+    internal enum ChangeType
     {
         Add,
         Remove,

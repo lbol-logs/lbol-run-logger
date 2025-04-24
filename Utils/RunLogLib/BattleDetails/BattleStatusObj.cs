@@ -1,10 +1,10 @@
 ﻿namespace RunLogger.Utils.RunLogLib.BattleDetails
 {
-    public class BattleStatusObj
+    internal class BattleStatusObj
     {
-        public int Hp { get; set; }
-        public int Block { get; set; }
-        public int Barrier { get; set; }
-        public int? Power { get; set; }
+        internal int Hp { get; set; }
+        internal int Block { get; set; }
+        internal int Barrier { get; set; }
+        internal int? Power { get; set; }
     }
 }

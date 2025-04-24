@@ -1,11 +1,11 @@
 ﻿namespace RunLogger.Utils.RunLogLib
 {
-    public class Status
+    internal class Status
     {
-        public int Money { get; set; }
-        public int Hp { get; set; }
-        public int MaxHp { get; set; }
-        public int Power { get; set; }
-        public int MaxPower { get; set; }
+        internal int Money { get; set; }
+        internal int Hp { get; set; }
+        internal int MaxHp { get; set; }
+        internal int Power { get; set; }
+        internal int MaxPower { get; set; }
     }
 }

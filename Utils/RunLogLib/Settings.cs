@@ -1,21 +1,20 @@
-﻿using RunLogger.Utils.RunLogLib;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace RunLogger.Utils.RunLogLib
 {
-    public class Settings
+    internal class Settings
     {
-        public string Character { get; set; }
-        public string PlayerType { get; set; }
-        public bool HasClearBonus { get; set; }
-        public bool ShowRandomResult { get; set; }
-        public bool IsAutoSeed { get; set; }
-        public string Difficulty { get; set; }
-        public List<string> Requests { get; set; }
+        internal string Character { get; set; }
+        internal string PlayerType { get; set; }
+        internal bool HasClearBonus { get; set; }
+        internal bool ShowRandomResult { get; set; }
+        internal bool IsAutoSeed { get; set; }
+        internal string Difficulty { get; set; }
+        internal List<string> Requests { get; set; }
 #nullable enable
-        public List<string>? JadeBoxes { get; set; }
+        internal List<string>? JadeBoxes { get; set; }
 #nullable disable
-        public List<Mod> Mods { get; set; }
-        public Status Status { get; set; }
+        internal List<Mod> Mods { get; set; }
+        internal Status Status { get; set; }
     }
 }

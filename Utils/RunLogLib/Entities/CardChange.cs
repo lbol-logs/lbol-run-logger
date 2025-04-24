@@ -1,8 +1,8 @@
 ﻿namespace RunLogger.Utils.RunLogLib.Entities
 {
-    public class CardChange : CardObj
+    internal class CardChange : CardObj
     {
-        public string Type { get; set; }
-        public int Station { get; set; }
+        internal string Type { get; set; }
+        internal int Station { get; set; }
     }
 }

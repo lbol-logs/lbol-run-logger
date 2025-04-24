@@ -1,10 +1,10 @@
 ﻿namespace RunLogger.Utils.RunLogLib.BattleDetails
 {
-    public class IntentionObj
+    internal class IntentionObj
     {
-        public string Type { get; set; }
-        public int? Damage { get; set; }
-        public int? Times { get; set; }
-        public bool? IsAccurate { get; set; }
+        internal string Type { get; set; }
+        internal int? Damage { get; set; }
+        internal int? Times { get; set; }
+        internal bool? IsAccurate { get; set; }
     }
 }

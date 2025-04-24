@@ -2,7 +2,7 @@
 
 namespace RunLogger.Utils
 {
-    public class Controller
+    internal static class Controller
     {
         private Controller(RunLog runLog)
         {
@@ -13,12 +13,12 @@ namespace RunLogger.Utils
         public bool IsTempLoaded { get; private set; }
         public RunLog RunLog { get; private set; }
 
-        public static void CreateInstance(RunLog runLog)
+        internal static void CreateInstance(RunLog runLog)
         {
             Controller.Instance = new Controller(runLog);
         }
 
-        public static void DestroyInstance()
+        internal static void DestroyInstance()
         {
             Controller.Instance = null;
         }

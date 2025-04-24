@@ -1,11 +1,11 @@
 ﻿namespace RunLogger.Utils.RunLogLib.BattleDetails
 {
-    public class StatusEffectObj
+    internal class StatusEffectObj
     {
-        public string Id { get; set; }
-        public int? Level { get; set; }
-        public int? Duration { get; set; }
-        public int? Count { get; set; }
-        public int? Limit { get; set; }
+        internal string Id { get; set; }
+        internal int? Level { get; set; }
+        internal int? Duration { get; set; }
+        internal int? Count { get; set; }
+        internal int? Limit { get; set; }
     }
 }

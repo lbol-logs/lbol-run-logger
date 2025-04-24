@@ -1,9 +1,9 @@
 ﻿namespace RunLogger.Utils
 {
-    public static class Configs
+    internal static class Configs
     {
 //TODO
-        public const string RunLoggerDirName = "runLogger2";
-        public const string TempDirName = "temp2";
+        internal const string RunLoggerDirName = "runLogger2";
+        internal const string TempDirName = "temp2";
     }
 }

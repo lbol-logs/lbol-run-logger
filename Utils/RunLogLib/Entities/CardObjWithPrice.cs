@@ -1,8 +1,8 @@
 ﻿namespace RunLogger.Utils.RunLogLib.Entities
 {
-    public class CardObjWithPrice : CardObj
+    internal class CardObjWithPrice : CardObj
     {
-        public int? Price { get; set; }
-        public bool? IsDiscounted { get; set; }
+        internal int? Price { get; set; }
+        internal bool? IsDiscounted { get; set; }
     }
 }

@@ -1,10 +1,10 @@
 ﻿namespace RunLogger.Utils.RunLogLib.Entities
 {
-    public class ExhibitChange
+    internal class ExhibitChange
     {
-        public string Id { get; set; }
-        public int? Counter { get; set; }
-        public string Type { get; set; }
-        public int Station { get; set; }
+        internal string Id { get; set; }
+        internal int? Counter { get; set; }
+        internal string Type { get; set; }
+        internal int Station { get; set; }
     }
 }

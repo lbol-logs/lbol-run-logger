@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace RunLogger.Utils.RunLogLib.BattleDetails
 {
-    public class TurnObj
+    internal class TurnObj
     {
-        public int Round { get; set; }
-        public int Turn { get; set; }
-        public string Id { get; set; }
+        internal int Round { get; set; }
+        internal int Turn { get; set; }
+        internal string Id { get; set; }
 #nullable enable
-        public List<CardObj>? Cards { get; set; }
-        public List<IntentionObj>? Intentions { get; set; }
+        internal List<CardObj>? Cards { get; set; }
+        internal List<IntentionObj>? Intentions { get; set; }
 #nullable disable
-        public BattleStatusObj Status { get; set; }
-        public List<StatusEffectObj> StatusEffects { get; set; }
+        internal BattleStatusObj Status { get; set; }
+        internal List<StatusEffectObj> StatusEffects { get; set; }
     }
 }

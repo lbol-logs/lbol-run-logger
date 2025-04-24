@@ -4,7 +4,7 @@ using System.IO;
 
 namespace RunLogger.Utils
 {
-    public static class Logger
+    internal static class Logger
     {
         private static string Encode(RunLog runLog, bool addIndent)
         {
@@ -64,26 +64,26 @@ namespace RunLogger.Utils
             return path;
         }
 
-        public static void SaveTemp()
+        internal static void SaveTemp()
         {
             string path = GetTempPath();
             Write(path, true);
         }
 
-        public static RunLog LoadTemp()
+        internal static RunLog LoadTemp()
         {
             string path = GetTempPath();
             RunLog runLog = Logger.Read(path);
             return runLog;
         }
 
-        public static void DeleteTemp()
+        internal static void DeleteTemp()
         {
             string path = GetTempPath();
             File.Delete(path);
         }
 
-        public static void SaveLog(string filename)
+        internal static void SaveLog(string filename)
         {
             string path = GetLogPath(filename);
             Write(path, false);
