@@ -2,11 +2,11 @@
 
 namespace RunLogger.Utils.RunLogLib.Nodes
 {
-    internal class ActNode
+    public class ActNode
     {
-        internal int X { get; set; }
-        internal int Y { get; set; }
-        internal List<int> Followers { get; set; } = new List<int>();
-        internal string Type { get; set; }
+        public int X { get; set; }
+        public int Y { get; set; }
+        public List<int> Followers { get; set; } = new List<int>();
+        public string Type { get; set; }
     }
 }

@@ -1,9 +1,9 @@
 ﻿namespace RunLogger.Utils.RunLogLib.Nodes
 {
-    internal class StationNode
+    public class StationNode
     {
-        internal int Act { get; set; }
-        internal int Level { get; set; }
-        internal int Y { get; set; }
+        public int Act { get; set; }
+        public int Level { get; set; }
+        public int Y { get; set; }
     }
 }

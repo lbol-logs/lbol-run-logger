@@ -1,9 +1,9 @@
 ﻿namespace RunLogger.Utils.RunLogLib.Entities
 {
-    internal class CardObj
+    public class CardObj
     {
-        internal string Id { get; set; }
-        internal bool IsUpgraded { get; set; }
-        internal int? UpgradeCounter { get; set; }
+        public string Id { get; set; }
+        public bool IsUpgraded { get; set; }
+        public int? UpgradeCounter { get; set; }
     }
 }

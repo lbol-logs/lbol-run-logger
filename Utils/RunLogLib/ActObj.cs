@@ -3,10 +3,10 @@ using RunLogger.Utils.RunLogLib.Nodes;
 
 namespace RunLogger.Utils.RunLogLib
 {
-    internal class ActObj
+    public class ActObj
     {
-        internal int Act { get; set; }
-        internal List<ActNode> Nodes { get; set; } = new List<ActNode>();
-        internal string Boss { get; set; }
+        public int Act { get; set; }
+        public List<ActNode> Nodes { get; set; } = new List<ActNode>();
+        public string Boss { get; set; }
     }
 }

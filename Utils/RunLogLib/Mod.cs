@@ -2,11 +2,11 @@
 
 namespace RunLogger.Utils.RunLogLib
 {
-    internal class Mod
+    public class Mod
     {
-        internal string GUID { get; set; }
-        internal string Name { get; set; }
-        internal string Version { get; set; }
-        internal Dictionary<string, dynamic> Configs { get; set; }
+        public string GUID { get; set; }
+        public string Name { get; set; }
+        public string Version { get; set; }
+        public Dictionary<string, dynamic> Configs { get; set; }
     }
 }
