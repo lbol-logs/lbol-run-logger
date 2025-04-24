@@ -85,7 +85,7 @@ namespace RunLogger.Utils
 
         internal static void SaveLog(string filename)
         {
-            string path = GetLogPath(filename);
+            string path = GetLogPath(filename + ".json");
             Write(path, false);
         }
     }

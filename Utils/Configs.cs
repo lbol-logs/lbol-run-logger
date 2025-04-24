@@ -5,5 +5,7 @@
 //TODO
         internal const string RunLoggerDirName = "runLogger2";
         internal const string TempDirName = "temp2";
+
+        internal const string RandomMana = "A";
     }
 }
