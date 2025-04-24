@@ -6,9 +6,10 @@ namespace RunLogger.Utils
     {
         internal Instance(RunLog runLog)
         {
-            this.RunLog = runLog ?? new RunLog();
+            this.RunLog = runLog;
         }
 
         internal RunLog RunLog { get; private set; }
+        internal static bool IsInitialized;
     }
 }
