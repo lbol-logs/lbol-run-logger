@@ -22,13 +22,16 @@ namespace RunLogger.Utils
             Controller.Instance = null;
         }
 
-        //internal static StationObj CurrentStation
-        //{
-        //    get {
-        //        StationObj station = Controller.Instance.RunLog.Stations.LastOrDefault();
-        //        return station;
-        //    }
-        //}
+        //TODO
+
+        internal static StationObj CurrentStation
+        {
+            get
+            {
+                StationObj station = Controller.Instance.RunLog.Stations.LastOrDefault();
+                return station;
+            }
+        }
 
         //internal static int CurrentStationIndex
         //{

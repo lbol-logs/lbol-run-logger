@@ -8,7 +8,6 @@ using RunLogger.Utils;
 using System.Collections.Generic;
 using RunLogger.Utils.RunLogLib.Entities;
 using System.Linq;
-using System.Reflection;
 
 namespace RunLogger.Patches.SaveData
 {
@@ -18,10 +17,8 @@ namespace RunLogger.Patches.SaveData
         [HarmonyPatch(typeof(GameMaster), nameof(GameMaster.AppendGameRunHistory)), HarmonyPostfix]
         private static void AppendGameRunHistoryPatch(GameRunRecordSaveData record)
         {
-            BepinexPlugin.log.LogDebug($"{MethodBase.GetCurrentMethod().DeclaringType} - START");
             SaveLog.SaveLogInternal(record);
             Logger.DeleteTemp();
-            BepinexPlugin.log.LogDebug($"{MethodBase.GetCurrentMethod().DeclaringType} - END");
         }
 
         private static void SaveLogInternal(GameRunRecordSaveData record)
