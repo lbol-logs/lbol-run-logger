@@ -15,16 +15,19 @@ namespace RunLogger.Patches.SaveData
     public static class SaveLog
     {
         [HarmonyPatch(typeof(GameMaster), nameof(GameMaster.AppendGameRunHistory)), HarmonyPostfix]
-        private static void EndRun(GameRunRecordSaveData record)
+        private static void EndRun(GameRunRecordSaveData record, GameMaster __instance)
         {
             BepinexPlugin.log.LogDebug("End run");
-            SaveLog.EndRunInternal(record);
+            GameRunController gameRun = __instance.CurrentGameRun;
+            SaveLog.EndRunInternal(record, gameRun);
             Logger.DeleteTemp();
         }
 
-        private static void EndRunInternal(GameRunRecordSaveData record)
+        private static void EndRunInternal(GameRunRecordSaveData record, GameRunController gameRun)
         {
             if (!Instance.IsInitialized) return;
+
+            Helpers.AddStatus(gameRun, Controller.CurrentStation, null);
 
             string resultType = record.ResultType.ToString();
 
