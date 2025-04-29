@@ -10,6 +10,7 @@ namespace RunLogger.Utils
         }
 
         internal RunLog RunLog { get; private set; }
+        internal int? PreHealHp;
         internal static bool IsInitialized;
     }
 }
