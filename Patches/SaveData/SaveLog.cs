@@ -82,6 +82,7 @@ namespace RunLogger.Patches.SaveData
             });
 
             Logger.SaveLog(name);
+            Controller.DestroyInstance();
         }
     }
 }

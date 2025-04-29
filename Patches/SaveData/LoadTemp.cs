@@ -13,7 +13,11 @@ namespace RunLogger.Patches.SaveData
         {
             BepinexPlugin.log.LogDebug("Trying to restore run...");
             RunLog runLog = Logger.LoadTemp();
-            if (runLog == null) return;
+            if (runLog == null)
+            {
+                BepinexPlugin.log.LogDebug("Run restore failed");
+                return;
+            }
             Controller.CreateInstance(runLog);
             BepinexPlugin.log.LogDebug("Run restored");
         }
