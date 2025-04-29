@@ -46,8 +46,6 @@ namespace RunLogger.Patches.StationObjPatches
                 station.Id = id;
             }
             Controller.Instance.RunLog.Stations.Add(station);
-
-            StationObjPatch.AddStartingEntities();
         }
 
         private static string GetEnemyGroupId(Station station)
@@ -87,31 +85,6 @@ namespace RunLogger.Patches.StationObjPatches
             {
                 return null;
             }
-        }
-
-        private static void AddStartingEntities()
-        {
-            if (Controller.Instance.IsOverridingStartingDeck)
-            {
-                EntitiesManager.AddCardChange(Controller.Instance.StartingDeckOverride, ChangeType.Add);
-                Controller.Instance.IsOverridingStartingDeck = false;
-                Controller.Instance.StartingDeckOverride = null;
-            }
-
-            //if (startingCards != null)
-            //{
-            //    RunDataController.AddCardChange(startingCards, ChangeType.Add);
-            //    startingCards = null;
-            //}
-
-            //if (startingExhibits.Any())
-            //{
-            //    foreach (Exhibit exhibit in startingExhibits)
-            //    {
-            //        RunDataController.AddExhibitChange(exhibit, ChangeType.Add);
-            //    }
-            //    startingExhibits.Clear();
-            //}
         }
     }
 }
