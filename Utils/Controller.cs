@@ -1,7 +1,6 @@
 ﻿using LBoL.Base;
 using LBoL.ConfigData;
 using RunLogger.Utils.RunLogLib;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -38,7 +37,7 @@ namespace RunLogger.Utils
         {
             get
             {
-                int index = Math.Max(0, Controller.Instance.RunLog.Stations.Count - 1);
+                int index = Controller.Instance.RunLog.Stations.Count - 1;
                 return index;
             }
         }
