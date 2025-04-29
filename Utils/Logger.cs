@@ -1,5 +1,4 @@
-﻿using LBoL.Core.SaveData;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using RunLogger.Utils.RunLogLib;
 using System.IO;
 
@@ -65,9 +64,8 @@ namespace RunLogger.Utils
             return path;
         }
 
-        internal static void SaveTemp(SaveTiming saveTiming)
+        internal static void SaveTemp()
         {
-            BepinexPlugin.log.LogDebug($"SaveTiming: {saveTiming}");
             string path = GetTempPath();
             Write(path, true);
         }

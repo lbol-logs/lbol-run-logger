@@ -15,14 +15,17 @@ namespace RunLogger.Patches.SaveData
     public static class SaveLog
     {
         [HarmonyPatch(typeof(GameMaster), nameof(GameMaster.AppendGameRunHistory)), HarmonyPostfix]
-        private static void AppendGameRunHistoryPatch(GameRunRecordSaveData record)
+        private static void EndRun(GameRunRecordSaveData record)
         {
-            SaveLog.SaveLogInternal(record);
+            BepinexPlugin.log.LogDebug("End run");
+            SaveLog.EndRunInternal(record);
             Logger.DeleteTemp();
         }
 
-        private static void SaveLogInternal(GameRunRecordSaveData record)
+        private static void EndRunInternal(GameRunRecordSaveData record)
         {
+            if (!Instance.IsInitialized) return;
+
             string resultType = record.ResultType.ToString();
 
             bool saveFailure = BepinexPlugin.saveFailure.Value;
@@ -30,13 +33,6 @@ namespace RunLogger.Patches.SaveData
             bool toSave = saveFailure || !isFailure;
 
             if (!toSave) return;
-
-            if (!Instance.IsInitialized)
-            {
-                RunLog runLog = Logger.LoadTemp();
-                if (runLog == null) return;
-                Controller.CreateInstance(runLog);
-            }
 
             string timestamp = record.SaveTimestamp;
             List<CardObj> cards = record.Cards.Select(card =>
