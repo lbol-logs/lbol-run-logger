@@ -64,10 +64,11 @@ namespace RunLogger.Utils
             return path;
         }
 
-        internal static void SaveTemp()
+        internal static void SaveTemp(TempSaveTiming tempSaveTiming)
         {
             string path = GetTempPath();
             Write(path, true);
+            BepinexPlugin.log.LogDebug($"Temp save timing: {tempSaveTiming}");
         }
 
         internal static RunLog LoadTemp()

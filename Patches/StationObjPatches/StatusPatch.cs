@@ -44,7 +44,7 @@ namespace RunLogger.Patches.StationObjPatches
             if (currentStation == null) Controller.Instance.RunLog.Settings.Status = status;
             else currentStation.Status = status;
 
-            Logger.SaveTemp();
+            Logger.SaveTemp(TempSaveTiming.EnterMapNode);
         }
 
         [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.EnterNextStage)), HarmonyPrefix]
