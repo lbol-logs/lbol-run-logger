@@ -15,8 +15,5 @@ namespace RunLogger.Utils
         internal static bool IsInitialized;
 
         internal int? PreHealHp;
-
-        internal bool IsOverridingStartingDeck;
-        internal IEnumerable<Card> StartingDeckOverride;
     }
 }

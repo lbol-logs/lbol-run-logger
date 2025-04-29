@@ -29,19 +29,5 @@ namespace RunLogger.Patches
         {
             EntitiesManager.AddCardChange(cards, ChangeType.Upgrade);
         }
-
-        [HarmonyPatch(typeof(Start50), nameof(Start50.OnGain))]
-        public static class StartingDeckOverridePatch
-        {
-            static void Prefix()
-            {
-                Controller.Instance.IsOverridingStartingDeck = true;
-            }
-
-            static void Postfix(GameRunController gameRun)
-            {
-                Controller.Instance.StartingDeckOverride = gameRun._baseDeck;
-            }
-        }
     }
 }
