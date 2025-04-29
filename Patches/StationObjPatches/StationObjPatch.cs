@@ -4,9 +4,6 @@ using LBoL.Core;
 using RunLogger.Utils.RunLogLib.Nodes;
 using RunLogger.Utils.RunLogLib;
 using RunLogger.Utils;
-using LBoL.Core.Adventures;
-using LBoL.Core.Units;
-using RunLogger.Utils.RunLogLib.Entities;
 
 namespace RunLogger.Patches.StationObjPatches
 {
@@ -35,56 +32,17 @@ namespace RunLogger.Patches.StationObjPatches
                 Node = stationNode
             };
 
-            string id = StationObjPatch.GetAdventureId(currentStation);
+            string id = Helpers.GetAdventureId(currentStation);
             if (id != null)
             {
                 station.Id = id;
             }
             else
             {
-                id = StationObjPatch.GetEnemyGroupId(currentStation);
+                id = Helpers.GetEnemyGroupId(currentStation);
                 station.Id = id;
             }
             Controller.Instance.RunLog.Stations.Add(station);
-        }
-
-        private static string GetEnemyGroupId(Station station)
-        {
-            EnemyGroup enemyGroup;
-            if (station is BattleStation battleStation)
-            {
-                enemyGroup = battleStation.EnemyGroup;
-                return enemyGroup.Id;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        private static string GetAdventureId(Station station)
-        {
-            Adventure adventure;
-            if (station is AdventureStation adventureStation)
-            {
-                adventure = adventureStation.Adventure;
-                return adventure.Id;
-            }
-            else if (station is EntryStation entryStation)
-            {
-                adventure = entryStation.DebutAdventure;
-                if (adventure == null) return null;
-                return adventure.Id;
-            }
-            else if (station is TradeStation tradeStation)
-            {
-                adventure = tradeStation.Adventure;
-                return adventure.Id;
-            }
-            else
-            {
-                return null;
-            }
         }
     }
 }
