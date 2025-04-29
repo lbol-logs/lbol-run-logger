@@ -2,8 +2,10 @@
 using LBoL.Core;
 using LBoL.Core.Cards;
 using LBoL.EntityLib.JadeBoxes;
+using RunLogger.Legacy.Utils;
 using RunLogger.Utils;
 using RunLogger.Utils.RunLogLib.Entities;
+using System.Collections.Generic;
 
 namespace RunLogger.Patches
 {
@@ -11,7 +13,7 @@ namespace RunLogger.Patches
     public static class CardChangePatch
     {
         [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.InternalAddDeckCards)), HarmonyPostfix]
-        static void AddCardPatch(Card[] cards)
+        private static void AddCardPatch(Card[] cards)
         {
             EntitiesManager.AddCardChange(cards, ChangeType.Add);
         }
