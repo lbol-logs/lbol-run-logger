@@ -66,5 +66,25 @@ namespace RunLogger.Utils
                 return null;
             }
         }
+
+        public static void GetData(out Dictionary<string, object> Data)
+        {
+            Data = Controller.CurrentStation.Data;
+            if (Data == null) Data = Controller.CurrentStation.Data = new Dictionary<string, object>();
+        }
+
+        public static void AddDataValue<T>(string key, T value)
+        {
+            GetData(out Dictionary<string, object> Data);
+            Data.Add(key, value);
+        }
+
+        public static void AddDataListItem<T>(string key, T item)
+        {
+            GetData(out Dictionary<string, object> Data);
+            List<T> list = Data.TryGetValue(key, out object value) ? (List<T>)value : new List<T>();
+            list.Add(item);
+            Data[key] = list;
+        }
     }
 }
