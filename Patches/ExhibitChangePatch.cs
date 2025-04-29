@@ -13,5 +13,11 @@ namespace RunLogger.Patches
         {
             EntitiesManager.AddExhibitChange(exhibit, ChangeType.Add);
         }
+
+        [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.LoseExhibit)), HarmonyPostfix]
+        static void RemoveExhibitPatch(Exhibit exhibit)
+        {
+            EntitiesManager.AddExhibitChange(exhibit, ChangeType.Remove);
+        }
     }
 }
