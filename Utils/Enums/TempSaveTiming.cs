@@ -1,4 +1,4 @@
-﻿namespace RunLogger.Utils
+﻿namespace RunLogger.Utils.Enums
 {
     internal enum TempSaveTiming
     {

@@ -5,6 +5,7 @@ using RunLogger.Utils;
 using RunLogger.Utils.RunLogLib;
 using LBoL.Presentation;
 using LBoL.Core.SaveData;
+using RunLogger.Utils.Enums;
 
 namespace RunLogger.Patches.StationObjPatches
 {

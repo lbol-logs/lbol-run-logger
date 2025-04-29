@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using LBoL.Core;
 using RunLogger.Utils;
+using RunLogger.Utils.Enums;
 using RunLogger.Utils.RunLogLib;
 using RunLogger.Utils.RunLogLib.Nodes;
 using System.Collections.Generic;
