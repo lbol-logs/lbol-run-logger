@@ -1,4 +1,5 @@
 ﻿using LBoL.Base.Extensions;
+using RunLogger.Utils.Enums;
 using System.Collections.Generic;
 using System.IO;
 
@@ -15,9 +16,10 @@ namespace RunLogger.Utils
             if (!Directory.Exists(path)) Directory.CreateDirectory(path);
             return path;
         }
-        internal static string GetFilePath(string filename, string subDir)
+        internal static string GetFilePath(string name, string extension, string subDir)
         {
             string dir = GetDirectory(subDir);
+            string filename = $"{name}.{extension}";
             string path = Path.Combine(dir, filename);
             return path;
         }

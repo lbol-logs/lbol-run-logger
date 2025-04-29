@@ -68,7 +68,7 @@ namespace RunLogger.Patches.SaveData
             char difficulty = settings.Difficulty[0];
             int requests = settings.Requests.Count;
 
-            string filename = string.Join("_", new string[]
+            string name = string.Join("_", new string[]
             {
                 parsedTimestamp,
                 character,
@@ -78,7 +78,7 @@ namespace RunLogger.Patches.SaveData
                 resultType
             });
 
-            Logger.SaveLog(filename);
+            Logger.SaveLog(name);
         }
     }
 }

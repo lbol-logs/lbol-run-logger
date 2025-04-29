@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using RunLogger.Utils.Enums;
 using RunLogger.Utils.RunLogLib;
 using System.IO;
 
@@ -50,17 +51,17 @@ namespace RunLogger.Utils
         private static string GetTempPath()
         {
             //TODO
-            string filename = "temp.txt";
+            string name = "temp";
             string subDir = null;
-            string path = FileManager.GetFilePath(filename, subDir);
+            string path = FileManager.GetFilePath(name, FilenameExtension.Temp, subDir);
             return path;
         }
 
-        private static string GetLogPath(string filename)
+        private static string GetLogPath(string name)
         {
             //TODO
             string subDir = null;
-            string path = FileManager.GetFilePath(filename, subDir);
+            string path = FileManager.GetFilePath(name, FilenameExtension.Log, subDir);
             return path;
         }
 
@@ -84,9 +85,9 @@ namespace RunLogger.Utils
             File.Delete(path);
         }
 
-        internal static void SaveLog(string filename)
+        internal static void SaveLog(string name)
         {
-            string path = GetLogPath(filename + ".json");
+            string path = GetLogPath(name);
             Write(path, false);
         }
     }
