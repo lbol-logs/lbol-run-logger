@@ -6,8 +6,9 @@ using RunLogger.Utils.RunLogLib;
 using RunLogger.Utils;
 using LBoL.Core.Adventures;
 using LBoL.Core.Units;
+using RunLogger.Utils.RunLogLib.Entities;
 
-namespace RunLogger.Patches
+namespace RunLogger.Patches.StationObjPatches
 {
     [HarmonyPatch]
     public static class StationObjPatch
@@ -35,7 +36,6 @@ namespace RunLogger.Patches
             };
 
             string id = StationObjPatch.GetAdventureId(currentStation);
-            BepinexPlugin.log.LogDebug($"AdventureId: {id}");
             if (id != null)
             {
                 station.Id = id;
@@ -43,31 +43,11 @@ namespace RunLogger.Patches
             else
             {
                 id = StationObjPatch.GetEnemyGroupId(currentStation);
-                BepinexPlugin.log.LogDebug($"EnemyGroupId: {id}");
                 station.Id = id;
             }
             Controller.Instance.RunLog.Stations.Add(station);
 
-            //if (isOverridingStartingDeck)
-            //{
-            //    RunDataController.AddCardChange(startingDeckOverride, ChangeType.Add);
-            //    ResetStartingDeckOverride();
-            //}
-
-            //if (startingCards != null)
-            //{
-            //    RunDataController.AddCardChange(startingCards, ChangeType.Add);
-            //    startingCards = null;
-            //}
-
-            //if (startingExhibits.Any())
-            //{
-            //    foreach (Exhibit exhibit in startingExhibits)
-            //    {
-            //        RunDataController.AddExhibitChange(exhibit, ChangeType.Add);
-            //    }
-            //    startingExhibits.Clear();
-            //}
+            StationObjPatch.AddStartingEntities();
         }
 
         private static string GetEnemyGroupId(Station station)
@@ -107,6 +87,31 @@ namespace RunLogger.Patches
             {
                 return null;
             }
+        }
+
+        private static void AddStartingEntities()
+        {
+            if (Controller.Instance.IsOverridingStartingDeck)
+            {
+                EntitiesManager.AddCardChange(Controller.Instance.StartingDeckOverride, ChangeType.Add);
+                Controller.Instance.IsOverridingStartingDeck = false;
+                Controller.Instance.StartingDeckOverride = null;
+            }
+
+            //if (startingCards != null)
+            //{
+            //    RunDataController.AddCardChange(startingCards, ChangeType.Add);
+            //    startingCards = null;
+            //}
+
+            //if (startingExhibits.Any())
+            //{
+            //    foreach (Exhibit exhibit in startingExhibits)
+            //    {
+            //        RunDataController.AddExhibitChange(exhibit, ChangeType.Add);
+            //    }
+            //    startingExhibits.Clear();
+            //}
         }
     }
 }

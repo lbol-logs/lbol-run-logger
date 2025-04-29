@@ -33,6 +33,15 @@ namespace RunLogger.Utils
             }
         }
 
+        internal static int CurrentStationIndex
+        {
+            get
+            {
+                int index = Controller.Instance.RunLog.Stations.Count - 1;
+                return index;
+            }
+        }
+
         //internal static int CurrentStationIndex
         //{
         //    get

@@ -1,4 +1,6 @@
-﻿using RunLogger.Utils.RunLogLib;
+﻿using LBoL.Core.Cards;
+using RunLogger.Utils.RunLogLib;
+using System.Collections.Generic;
 
 namespace RunLogger.Utils
 {
@@ -10,7 +12,11 @@ namespace RunLogger.Utils
         }
 
         internal RunLog RunLog { get; private set; }
-        internal int? PreHealHp;
         internal static bool IsInitialized;
+
+        internal int? PreHealHp;
+
+        internal bool IsOverridingStartingDeck;
+        internal IEnumerable<Card> StartingDeckOverride;
     }
 }
