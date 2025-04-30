@@ -8,10 +8,10 @@ using RunLogger.Utils;
 namespace RunLogger.Patches.StationObjPatches
 {
     [HarmonyPatch]
-    public static class StationObjPatch
+    internal static class StationObjPatch
     {
         [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.EnterMapNode)), HarmonyPostfix]
-        static void NewStation(MapNode node, GameRunController __instance)
+        private static void NewStation(MapNode node, GameRunController __instance)
         {
             GameRunController gameRun = __instance;
             int act = gameRun.CurrentStage.Level;

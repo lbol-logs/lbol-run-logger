@@ -2,7 +2,6 @@
 using LBoL.Core.Units;
 using LBoL.Core;
 using RunLogger.Utils;
-using RunLogger.Utils.RunLogLib;
 using LBoL.Presentation;
 using LBoL.Core.SaveData;
 using RunLogger.Utils.Enums;
@@ -10,7 +9,7 @@ using RunLogger.Utils.Enums;
 namespace RunLogger.Patches.StationObjPatches
 {
     [HarmonyPatch]
-    public static class StatusPatch
+    internal static class StatusPatch
     {
         [HarmonyPatch(typeof(GameMaster), nameof(GameMaster.SaveGameRun)), HarmonyPrefix]
         private static void AddStatus(GameRunSaveData data, bool normalSave, GameMaster __instance)

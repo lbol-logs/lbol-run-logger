@@ -9,11 +9,10 @@ using System.Linq;
 
 namespace RunLogger.Patches.SaveData
 {
-    [HarmonyPatch]
-    public static class CreateTemp
+    internal static class CreateTemp
     {
         [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.Create))]
-        public static class StartRun
+        private static class StartRun
         {
             private static void Prefix()
             {
@@ -23,12 +22,6 @@ namespace RunLogger.Patches.SaveData
 
             private static void Postfix(GameRunStartupParameters parameters, GameRunController __result)
             {
-
-                //InteractionViewerPatch.Listener = null;
-                //StationPatch.RewardListener = null;
-                //StationPatch.AddRewardsPatch.isAfterAddRewards = false;
-                //GameRunControllerPatch.isAfterBossReward = false;
-
                 string character = parameters.Player.Id;
                 string playerType = parameters.PlayerType.ToString().Replace("Type", "");
                 bool hasClearBonus = __result.HasClearBonus;
@@ -71,8 +64,6 @@ namespace RunLogger.Patches.SaveData
                 };
                 if (jadeBoxes.Count > 0) settings.JadeBoxes = jadeBoxes;
                 Controller.Instance.RunLog.Settings = settings;
-
-                //Logger.CreateTemp();
             }
 
             private static Mod ParseMod(PluginInfo pluginInfo)

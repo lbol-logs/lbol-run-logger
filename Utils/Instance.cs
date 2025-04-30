@@ -1,6 +1,4 @@
-﻿using LBoL.Core.Cards;
-using RunLogger.Utils.RunLogLib;
-using System.Collections.Generic;
+﻿using RunLogger.Utils.RunLogLib;
 
 namespace RunLogger.Utils
 {

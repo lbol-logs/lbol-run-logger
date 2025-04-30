@@ -9,10 +9,10 @@ using System.Collections.Generic;
 namespace RunLogger.Patches
 {
     [HarmonyPatch]
-    public static class ActObjPatch
+    internal static class ActObjPatch
     {
         [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.EnterStage)), HarmonyPostfix]
-        static void NewAct(GameRunController __instance)
+        private static void NewAct(GameRunController __instance)
         {
             GameRunController gameRun = __instance;
             int act = gameRun.CurrentStage.Level;

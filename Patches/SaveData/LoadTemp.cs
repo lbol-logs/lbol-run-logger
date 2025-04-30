@@ -6,7 +6,7 @@ using RunLogger.Utils;
 namespace RunLogger.Patches.SaveData
 {
     [HarmonyPatch]
-    public static class LoadTemp
+    internal static class LoadTemp
     {
         [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.Restore)), HarmonyPostfix]
         private static void RestoreRun()

@@ -1,5 +1,4 @@
 ﻿using HarmonyLib;
-using LBoL.Core.Stats;
 using LBoL.Core.Units;
 using LBoL.Core;
 using LBoL.EntityLib.Adventures.FirstPlace;
@@ -9,7 +8,7 @@ using RunLogger.Utils;
 namespace RunLogger.Patches.StationObjPatches
 {
     [HarmonyPatch]
-    public static class EnemyGroupIdPatch
+    internal static class EnemyGroupIdPatch
     {
         [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.LeaveBattle)), HarmonyPostfix]
         private static void AddEnemyGroupId(EnemyGroup enemyGroup, GameRunController __instance)
@@ -29,7 +28,6 @@ namespace RunLogger.Patches.StationObjPatches
                         break;
                 }
             }
-            //RunDataController.Save();
         }
     }
 }

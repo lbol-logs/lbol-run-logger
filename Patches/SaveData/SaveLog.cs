@@ -12,7 +12,7 @@ using System.Linq;
 namespace RunLogger.Patches.SaveData
 {
     [HarmonyPatch]
-    public static class SaveLog
+    internal static class SaveLog
     {
         [HarmonyPatch(typeof(GameMaster), nameof(GameMaster.AppendGameRunHistory)), HarmonyPostfix]
         private static void EndRun(GameRunRecordSaveData record, GameMaster __instance)

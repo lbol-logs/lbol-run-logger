@@ -1,6 +1,5 @@
 ﻿using HarmonyLib;
 using LBoL.Core.Stats;
-using LBoL.Core.Units;
 using LBoL.Core;
 using RunLogger.Utils;
 using LBoL.Core.SaveData;
@@ -10,7 +9,7 @@ using RunLogger.Utils.Enums;
 namespace RunLogger.Patches.StationObjPatches.DataPatches
 {
     [HarmonyPatch]
-    public static class RoundsPatch
+    internal static class RoundsPatch
     {
         [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.LeaveBattle)), HarmonyPostfix]
         private static void AddRounds(BattleStats __result)

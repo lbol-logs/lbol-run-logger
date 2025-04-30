@@ -7,7 +7,7 @@ using System;
 namespace RunLogger.Patches.StationObjPatches.DataPatches
 {
     [HarmonyPatch]
-    public static class TeammatesPatch
+    internal static class TeammatesPatch
     {
         [HarmonyPatch(typeof(Cirno), nameof(Cirno.SetNextBuff)), HarmonyPrefix]
         private static void AddTeammates(Cirno __instance)
