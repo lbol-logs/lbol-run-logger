@@ -51,14 +51,6 @@ namespace RunLogger.Utils
             }
         }
 
-        //internal static int CurrentStationIndex
-        //{
-        //    get
-        //    {
-        //        return Controller.Instance.RunLog.Stations.Count - 1;
-        //    }
-        //}
-
         //internal static bool ShowRandom
         //{
         //    get
@@ -66,26 +58,6 @@ namespace RunLogger.Utils
         //        bool ShowRandomResult = Controller.Instance.RunLog.Settings.ShowRandomResult;
         //        return ShowRandomResult;
         //    }
-        //}
-
-        //public static void GetData(out Dictionary<string, object> Data)
-        //{
-        //    Data = CurrentStation.Data;
-        //    if (Data == null) Data = CurrentStation.Data = new Dictionary<string, object>();
-        //}
-
-        //public static void AddData<T>(string key, T value)
-        //{
-        //    GetData(out Dictionary<string, object> Data);
-        //    Data.Add(key, value);
-        //}
-
-        //public static void AddDataItem<T>(string key, T item)
-        //{
-        //    GetData(out Dictionary<string, object> Data);
-        //    List<T> list = Data.TryGetValue(key, out object value) ? (List<T>)value : new List<T>();
-        //    list.Add(item);
-        //    Data[key] = list;
         //}
 
         //public static void AddPrice(string key, int price)
