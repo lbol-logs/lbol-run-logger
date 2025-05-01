@@ -22,10 +22,8 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches
         [HarmonyPatch(typeof(GameMaster), nameof(GameMaster.SaveGameRun)), HarmonyPrefix]
         private static void SaveTemp(GameRunSaveData data, bool normalSave)
         {
-            BepinexPlugin.log.LogDebug($"timing: {data.Timing}, normalSave: {normalSave}");
             bool toSave = Instance.IsInitialized && data.Timing == SaveTiming.BattleFinish && normalSave;
             if (!toSave) return;
-
             Logger.SaveTemp(TempSaveTiming.BattleFinish);
         }
     }
