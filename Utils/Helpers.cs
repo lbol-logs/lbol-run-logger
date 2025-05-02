@@ -84,14 +84,12 @@ namespace RunLogger.Utils
 
         internal static void GetRewards(out Dictionary<string, object> rewards)
         {
-            rewards = Controller.CurrentStation.Rewards;
-            if (rewards == null) rewards = Controller.CurrentStation.Rewards = new Dictionary<string, object>();
+            rewards = Controller.CurrentStation.Rewards ??= new Dictionary<string, object>();
         }
 
         internal static void GetData(out Dictionary<string, object> data)
         {
-            data = Controller.CurrentStation.Data;
-            if (data == null) data = Controller.CurrentStation.Data = new Dictionary<string, object>();
+            data = Controller.CurrentStation.Data ??= new Dictionary<string, object>();
         }
 
         internal static void AddDataValue<T>(string key, T value)
