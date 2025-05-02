@@ -48,7 +48,7 @@ namespace RunLogger.Patches.SaveData
                 };
             }).ToList();
             List<string> exhibits = record.Exhibits.ToList();
-            string baseMana = Controller.GetBaseMana(record.BaseMana, exhibits);
+            string baseMana = Helpers.GetBaseMana(record.BaseMana, exhibits);
             int reloadTimes = record.ReloadTimes;
             string seed = RandomGen.SeedToString(record.Seed);
             Result result = new Result()

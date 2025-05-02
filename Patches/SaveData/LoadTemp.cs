@@ -8,7 +8,7 @@ namespace RunLogger.Patches.SaveData
     [HarmonyPatch]
     internal static class LoadTemp
     {
-        [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.Restore)), HarmonyPostfix]
+        [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.Restore)), HarmonyPrefix]
         private static void RestoreRun()
         {
             BepinexPlugin.log.LogDebug("Trying to restore run...");
