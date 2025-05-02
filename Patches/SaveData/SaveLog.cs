@@ -14,22 +14,21 @@ namespace RunLogger.Patches.SaveData
     [HarmonyPatch]
     internal static class SaveLog
     {
-        [HarmonyPatch(typeof(GameMaster), nameof(GameMaster.AppendGameRunHistory)), HarmonyPostfix]
-        private static void EndRun(GameRunRecordSaveData record, GameMaster __instance)
+        [HarmonyPatch(typeof(GameMaster), nameof(GameMaster.SaveProfileWithEndingGameRun)), HarmonyPostfix]
+        private static void EndRun(GameRunController gameRun, GameRunRecordSaveData gameRunRecord)
         {
             BepinexPlugin.log.LogDebug("End run");
-            GameRunController gameRun = __instance.CurrentGameRun;
-            SaveLog.EndRunInternal(record, gameRun);
+            SaveLog.EndRunInternal(gameRun, gameRunRecord);
             Logger.DeleteTemp();
         }
 
-        private static void EndRunInternal(GameRunRecordSaveData record, GameRunController gameRun)
+        private static void EndRunInternal(GameRunController gameRun, GameRunRecordSaveData gameRunRecord)
         {
             if (!Instance.IsInitialized) return;
 
             Helpers.AddStatus(gameRun, Controller.CurrentStation, null);
 
-            string resultType = record.ResultType.ToString();
+            string resultType = gameRunRecord.ResultType.ToString();
 
             bool saveFailure = BepinexPlugin.saveFailure.Value;
             bool isFailure = resultType == GameResultType.Failure.ToString();
@@ -37,8 +36,8 @@ namespace RunLogger.Patches.SaveData
 
             if (!toSave) return;
 
-            string timestamp = record.SaveTimestamp;
-            List<CardObj> cards = record.Cards.Select(card =>
+            string timestamp = gameRunRecord.SaveTimestamp;
+            List<CardObj> cards = gameRunRecord.Cards.Select(card =>
             {
                 return new CardObj()
                 {
@@ -47,10 +46,10 @@ namespace RunLogger.Patches.SaveData
                     UpgradeCounter = card.UpgradeCounter
                 };
             }).ToList();
-            List<string> exhibits = record.Exhibits.ToList();
-            string baseMana = Helpers.GetBaseMana(record.BaseMana, exhibits);
-            int reloadTimes = record.ReloadTimes;
-            string seed = RandomGen.SeedToString(record.Seed);
+            List<string> exhibits = gameRunRecord.Exhibits.ToList();
+            string baseMana = Helpers.GetBaseMana(gameRunRecord.BaseMana, exhibits);
+            int reloadTimes = gameRunRecord.ReloadTimes;
+            string seed = RandomGen.SeedToString(gameRunRecord.Seed);
             Result result = new Result()
             {
                 Type = resultType,
@@ -64,8 +63,8 @@ namespace RunLogger.Patches.SaveData
             Controller.Instance.RunLog.Result = result;
 
             string parsedTimestamp = timestamp.Replace(":", "-");
-            string character = record.Player;
-            string parsedType = record.PlayerType.ToString().Replace("Type", "");
+            string character = gameRunRecord.Player;
+            string parsedType = gameRunRecord.PlayerType.ToString().Replace("Type", "");
             string shining = exhibits[0];
             Settings settings = Controller.Instance.RunLog.Settings;
             char difficulty = settings.Difficulty[0];
