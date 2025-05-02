@@ -1,7 +1,4 @@
-﻿using LBoL.Base;
-using LBoL.ConfigData;
-using RunLogger.Utils.RunLogLib;
-using System.Collections.Generic;
+﻿using RunLogger.Utils.RunLogLib;
 using System.Linq;
 
 namespace RunLogger.Utils
@@ -104,22 +101,6 @@ namespace RunLogger.Utils
         //    RunData.Exhibits.Add(Exhibit);
         //}
 
-        //public static CardObj GetCard(Card card)
-        //{
-        //    CardObj Card = new CardObj
-        //    {
-        //        Id = card.Id,
-        //        IsUpgraded = card.IsUpgraded,
-        //        UpgradeCounter = card.UpgradeCounter
-        //    };
-        //    return Card;
-        //}
-
-        //public static List<CardObj> GetCards(IEnumerable<Card> cards)
-        //{
-        //    return cards.Select(card => GetCard(card)).ToList();
-        //}
-
         //public static CardWithPrice GetCardWithPrice(Card card, int? price = null)
         //{
         //    CardWithPrice Card = new CardWithPrice
@@ -131,20 +112,6 @@ namespace RunLogger.Utils
         //    };
         //    return Card;
         //}
-
-        internal static string GetBaseMana(string oldBaseMana, IEnumerable<string> exhibits)
-        {
-            string newBaseMana = oldBaseMana;
-            foreach (string exhibit in exhibits)
-            {
-                ExhibitConfig config = ExhibitConfig.FromId(exhibit);
-                Rarity rarity = config.Rarity;
-                if (rarity != Rarity.Shining) continue;
-                ManaColor? manaColor = config.BaseManaColor;
-                if (manaColor == null) newBaseMana += "A";
-            }
-            return newBaseMana;
-        }
 
         //public static string GetEnemyGroupId(Station station)
         //{
