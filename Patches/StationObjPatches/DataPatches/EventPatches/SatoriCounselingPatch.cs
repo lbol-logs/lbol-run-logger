@@ -1,13 +1,10 @@
 ﻿using HarmonyLib;
 using LBoL.Core;
-using LBoL.Core.Adventures;
+using LBoL.Core.Battle;
 using LBoL.Core.Dialogs;
-using LBoL.Core.Stations;
-using LBoL.Core.Units;
 using LBoL.EntityLib.Adventures.Stage3;
 using LBoL.EntityLib.PlayerUnits;
-using RunLogger.Legacy.Patches;
-using RunLogger.Legacy.Utils;
+using LBoL.Presentation;
 using RunLogger.Utils;
 
 namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
@@ -29,18 +26,11 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
             BepinexPlugin.log.LogDebug($"money: {money}, price: {__result}, hasMoney: {hasMoney}");
         }
 
-        //[HarmonyPatch(typeof(SatoriCounseling), nameof(SatoriCounseling.Library)), HarmonyPostfix]
-        //public static void LibraryPatch()
-        //{
-        //    InteractionViewerPatch.Listener = nameof(SatoriCounseling);
-        //    isMini = false;
-        //}
-
-        //[HarmonyPatch(typeof(SatoriCounseling), nameof(SatoriCounseling.Analyse)), HarmonyPostfix]
-        //public static void AnalysePatch()
-        //{
-        //    InteractionViewerPatch.Listener = nameof(SatoriCounseling);
-        //    isMini = true;
-        //}
+        [HarmonyPatch(typeof(InteractionViewer), nameof(InteractionViewer.View)), HarmonyPrefix]
+        private static void AddCardsRewards(Interaction interaction)
+        {
+            if (Helpers.GetAdventureId(Singleton<GameMaster>.Instance.CurrentGameRun.CurrentStation) != nameof(SatoriCounseling)) return;
+            Helpers.AddCardsRewards(interaction);
+        }
     }
 }
