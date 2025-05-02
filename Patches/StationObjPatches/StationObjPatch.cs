@@ -4,6 +4,8 @@ using LBoL.Core;
 using RunLogger.Utils.RunLogLib.Nodes;
 using RunLogger.Utils.RunLogLib;
 using RunLogger.Utils;
+using LBoL.Core.Units;
+using LBoL.Core.Adventures;
 
 namespace RunLogger.Patches.StationObjPatches
 {
@@ -43,6 +45,18 @@ namespace RunLogger.Patches.StationObjPatches
                 station.Id = id;
             }
             Controller.Instance.RunLog.Stations.Add(station);
+        }
+
+        [HarmonyPatch(typeof(BattleAdvTestStation), nameof(BattleAdvTestStation.SetEnemy)), HarmonyPostfix]
+        private static void AddEnemyGroupId(EnemyGroupEntry entry)
+        {
+            Controller.CurrentStation.Id = entry.Id;
+        }
+
+        [HarmonyPatch(typeof(BattleAdvTestStation), nameof(BattleAdvTestStation.SetAdventure)), HarmonyPostfix]
+        private static void AddAdventureId(Adventure adventure)
+        {
+            Controller.CurrentStation.Id = adventure.Id;
         }
     }
 }

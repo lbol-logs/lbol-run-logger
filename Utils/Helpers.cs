@@ -36,41 +36,20 @@ namespace RunLogger.Utils
 
         internal static string GetEnemyGroupId(Station station)
         {
-            EnemyGroup enemyGroup;
-            if (station is BattleStation battleStation)
-            {
-                enemyGroup = battleStation.EnemyGroup;
-                return enemyGroup.Id;
-            }
-            else
-            {
-                return null;
-            }
+            EnemyGroup enemyGroup = null;
+            if (station is BattleAdvTestStation battleAdvTestStation) enemyGroup = battleAdvTestStation.EnemyGroup;
+            else if (station is BattleStation battleStation) enemyGroup = battleStation.EnemyGroup;
+            return enemyGroup?.Id;
         }
 
         internal static string GetAdventureId(Station station)
         {
-            Adventure adventure;
-            if (station is AdventureStation adventureStation)
-            {
-                adventure = adventureStation.Adventure;
-                return adventure.Id;
-            }
-            else if (station is EntryStation entryStation)
-            {
-                adventure = entryStation.DebutAdventure;
-                if (adventure == null) return null;
-                return adventure.Id;
-            }
-            else if (station is TradeStation tradeStation)
-            {
-                adventure = tradeStation.Adventure;
-                return adventure.Id;
-            }
-            else
-            {
-                return null;
-            }
+            Adventure adventure = null;
+            if (station is BattleAdvTestStation battleAdvTestStation) adventure = battleAdvTestStation.Adventure;
+            else if (station is AdventureStation adventureStation) adventure = adventureStation.Adventure;
+            else if (station is EntryStation entryStation) adventure = entryStation.DebutAdventure;
+            else if (station is TradeStation tradeStation) adventure = tradeStation.Adventure;
+            return adventure?.Id;
         }
 
         internal static CardObj ParseCard(Card card)
