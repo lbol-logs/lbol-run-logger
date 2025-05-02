@@ -12,12 +12,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
         //{
         //    switch (____lineId)
         //    {
-        //        case AdventurePatch.SatoriCounselingPatch.lineValid:
-        //            RunDataController.AddData("HasMoney", true);
-        //            break;
-        //        case AdventurePatch.SatoriCounselingPatch.lineInvalid:
-        //            RunDataController.AddData("HasMoney", false);
-        //            break;
         //        case AdventurePatch.BuduSuanmingPatch.lineBoss:
         //            RunDataController.AddData("Boss", AdventurePatch.BuduSuanmingPatch.boss);
         //            break;
