@@ -13,8 +13,10 @@ namespace RunLogger.Patches.StationObjPatches
     internal static class StationObjPatch
     {
         [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.EnterMapNode)), HarmonyPostfix]
-        private static void NewStation(MapNode node, GameRunController __instance)
+        private static void NewStation(MapNode node, bool forced, GameRunController __instance)
         {
+            if (forced) return;
+
             GameRunController gameRun = __instance;
             int act = gameRun.CurrentStage.Level;
             Station currentStation = gameRun.CurrentStation;
