@@ -14,5 +14,6 @@ namespace RunLogger.Utils
 
         internal int? PreHealHp;
         internal int? BackgroundDancersIndex;
+        internal string MiyoiBartenderExhibit;
     }
 }

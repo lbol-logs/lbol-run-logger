@@ -164,41 +164,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
         //    }
         //}
 
-        //[HarmonyPatch(typeof(MiyoiBartender))]
-        //public static class MiyoiBartenderPatch
-        //{
-        //    private static string exhibit;
-
-        //    [HarmonyPatch(nameof(MiyoiBartender.InitVariables))]
-        //    public static void Prefix(MiyoiBartender __instance)
-        //    {
-        //        UniqueRandomPool<string> uniqueRandomPool = __instance.Stage.EnemyPoolAct3;
-        //        List<string> ids = uniqueRandomPool.Select((e) => e.Elem).ToList();
-        //        RunDataController.AddData("Ids", ids);
-        //    }
-
-        //    [HarmonyPatch(nameof(MiyoiBartender.InitVariables))]
-        //    public static void Postfix(MiyoiBartender __instance)
-        //    {
-        //        __instance.Storage.TryGetValue("$randomExhibit", out string randomExhibit);
-        //        if (RunDataController.ShowRandom)
-        //        {
-        //            RunDataController.AddData("Exhibit", randomExhibit);
-        //            exhibit = null;
-        //        }
-        //        else
-        //        {
-        //            exhibit = randomExhibit;
-        //        }
-        //    }
-
-        //    public static void HandleBattle()
-        //    {
-        //        if (exhibit == null) return;
-        //        RunDataController.AddData("Exhibit", exhibit);
-        //    }
-        //}
-
         //[HarmonyPatch(typeof(SumirekoGathering))]
         //public static class SumirekoGatheringPatch
         //{
