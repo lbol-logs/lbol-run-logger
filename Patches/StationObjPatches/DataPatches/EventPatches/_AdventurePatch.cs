@@ -397,27 +397,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
         //    }
         //}
 
-        //[HarmonyPatch(typeof(YachieOppression))]
-        //public static class YachieOppressionPatch
-        //{
-        //    private static string exhibit;
-
-        //    [HarmonyPatch(nameof(YachieOppression.InitVariables))]
-        //    public static void Postfix(YachieOppression __instance)
-        //    {
-        //        __instance.Storage.TryGetValue("$enemyExhibit", out string enemyExhibit);
-        //        if (RunDataController.ShowRandom) RunDataController.AddData("Exhibit", enemyExhibit);
-        //        else exhibit = enemyExhibit;
-        //    }
-
-        //    public static void HandleBattle()
-        //    {
-        //        if (exhibit == null) return;
-        //        RunDataController.AddData("Exhibit", exhibit);
-        //        exhibit = null;
-        //    }
-        //}
-
         //[HarmonyPatch(typeof(AssistKagerou))]
         //public static class AssistKagerouPatch
         //{
