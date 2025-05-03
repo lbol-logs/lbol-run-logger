@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using RunLogger.Utils.Enums;
 using RunLogger.Utils.RunLogLib;
+using System;
 using System.IO;
 
 namespace RunLogger.Utils
@@ -27,8 +28,10 @@ namespace RunLogger.Utils
                     return runLog;
                 }
             }
-            finally
+            catch(Exception e)
             {
+                BepinexPlugin.log.LogDebug(e);
+                Logger.DeleteTemp();
             }
             return null;
         }
