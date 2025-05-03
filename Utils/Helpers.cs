@@ -133,14 +133,14 @@ namespace RunLogger.Utils
             rewards.Add("Cards", new List<List<CardObj>>() { cardObjs });
         }
 
-        internal static List<T> GetStorageList<T>(DialogStorage storage, IEnumerable<int> keys, string prefix, string suffix = "")
+        internal static List<T1> GetStorageList<T1, T2>(DialogStorage storage, IEnumerable<T2> keys, string prefix, string suffix = "")
         {
-            List<T> values = new List<T>();
-            foreach (int key in keys)
+            List<T1> values = new List<T1>();
+            foreach (T2 key in keys)
             {
                 string name = $"{prefix}{key}{suffix}";
                 storage.TryGetValue(name, out object value);
-                values.Add((T)value);
+                values.Add((T1)value);
             }
             return values;
         }

@@ -33,7 +33,7 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
                 switch (bonusNo)
                 {
                     case 0:
-                        List<string> uncommonCards = Helpers.GetStorageList<string>(storage, new[] { 1, 2, 3 }, "$uncommonCard");
+                        List<string> uncommonCards = Helpers.GetStorageList<string, int>(storage, new[] { 1, 2, 3 }, "$uncommonCard");
                         Helpers.AddDataValue("UncommonCards", uncommonCards);
                         break;
                     case 1:
