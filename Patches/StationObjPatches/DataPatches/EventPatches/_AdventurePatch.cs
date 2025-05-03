@@ -28,22 +28,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
     [HarmonyPatch(typeof(Adventure))]
     public static class AdventurePatch
     {
-        //[HarmonyPatch(typeof(Supply))]
-        //public static class SupplyPatch
-        //{
-        //    [HarmonyPatch(nameof(Supply.InitVariables))]
-        //    public static void Postfix(Supply __instance)
-        //    {
-        //        DialogStorage storage = __instance.Storage;
-        //        storage.TryGetValue("$exhibitA", out string exhibitA);
-        //        storage.TryGetValue("$exhibitB", out string exhibitB);
-        //        RunDataController.AddData("Exhibits", new[] { exhibitA, exhibitB });
-
-        //        storage.TryGetValue("$bothFlag", out bool bothFlag);
-        //        RunDataController.AddData("Both", bothFlag);
-        //    }
-        //}
-
         //[HarmonyPatch(typeof(RinnosukeTrade))]
         //public static class RinnosukeTradePatch
         //{
