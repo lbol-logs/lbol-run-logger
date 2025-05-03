@@ -12,7 +12,5 @@
         internal static readonly string[] ExcludedMods = new string[] { "com.bepis.bepinex.scriptengine", "neo.lbol.tools.watermark" };
         internal const string HelpMeEirinMod = "neo.lbol.qol.helpMeEirin";
         internal const string PatchouliMod = "rmrfmaxx.lbol.PatchouliCharacterMod";
-
-        internal const int SatoriCounselingMinimumPrice = 50;
     }
 }

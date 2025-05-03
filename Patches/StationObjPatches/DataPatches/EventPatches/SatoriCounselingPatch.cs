@@ -14,7 +14,7 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
         [HarmonyPatch(typeof(DialogFunctions), nameof(DialogFunctions.AdventureRand)), HarmonyPostfix]
         private static void AddHasMoney(int a, int __result, GameRunController ____gameRun)
         {
-            if (a != Configs.SatoriCounselingMinimumPrice) return;
+            if (a != 50) return;
             GameRunController gameRun = ____gameRun;
             if (gameRun.Player is Koishi) return;
             if (Helpers.GetAdventureId(gameRun.CurrentStation) != nameof(SatoriCounseling)) return;
