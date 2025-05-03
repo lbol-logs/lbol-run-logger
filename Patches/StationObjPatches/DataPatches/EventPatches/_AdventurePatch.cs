@@ -28,20 +28,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
     [HarmonyPatch(typeof(Adventure))]
     public static class AdventurePatch
     {
-        //[HarmonyPatch(typeof(DoremyPortal))]
-        //public static class DoremyPortalPatch
-        //{
-        //    [HarmonyPatch(nameof(DoremyPortal.InitVariables))]
-        //    public static void Postfix(DoremyPortal __instance)
-        //    {
-        //        if (RunDataController.ShowRandom)
-        //        {
-        //            __instance.Storage.TryGetValue("$randomExhibit", out string randomExhibit);
-        //            RunDataController.AddData("Exhibit", randomExhibit);
-        //        }
-        //    }
-        //}
-
         //[HarmonyPatch(typeof(SelectBaseManaInteraction), nameof(SelectBaseManaInteraction.SelectedMana), MethodType.Setter)]
         //public static class SelectBaseManaInteractionPatch
         //{
