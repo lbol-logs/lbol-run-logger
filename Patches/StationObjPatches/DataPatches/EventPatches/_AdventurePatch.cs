@@ -28,20 +28,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
     [HarmonyPatch(typeof(Adventure))]
     public static class AdventurePatch
     {
-        //[HarmonyPatch("InitVariables")]
-        //public static void Postfix(Adventure __instance)
-        //{
-        //    string Id = __instance.Id;
-        //    string[] manaEvents = new[] { "JunkoColorless", "PatchouliPhilosophy" };
-        //    if (manaEvents.Contains(Id))
-        //    {
-        //        GameRunController gameRun = __instance.GameRun;
-        //        string[] exhibits = gameRun.ExhibitRecord.ToArray();
-        //        string baseMana = RunDataController.GetBaseMana(gameRun.BaseMana.ToString(), exhibits);
-        //        RunDataController.AddData("BaseMana", baseMana);
-        //    }
-        //}
-
         //[HarmonyPatch(typeof(Debut))]
         //public static class DebutPatch
         //{
