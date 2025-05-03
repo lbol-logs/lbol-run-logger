@@ -7,6 +7,7 @@ using LBoL.Core.Battle.Interactions;
 using LBoL.Core.Cards;
 using LBoL.Core.Stations;
 using LBoL.Core.Units;
+using LBoL.Presentation;
 using RunLogger.Utils.RunLogLib;
 using RunLogger.Utils.RunLogLib.Entities;
 using System.Collections.Generic;
@@ -50,6 +51,11 @@ namespace RunLogger.Utils
             else if (station is EntryStation entryStation) adventure = entryStation.DebutAdventure;
             else if (station is TradeStation tradeStation) adventure = tradeStation.Adventure;
             return adventure?.Id;
+        }
+
+        internal static bool IsAdventure<T>() where T : Adventure
+        {
+            return Helpers.GetAdventureId(Singleton<GameMaster>.Instance.CurrentGameRun.CurrentStation) == typeof(T).Name;
         }
 
         internal static CardObj ParseCard(Card card)

@@ -4,7 +4,6 @@ using LBoL.Core.Battle;
 using LBoL.Core.Dialogs;
 using LBoL.EntityLib.Adventures.Stage3;
 using LBoL.EntityLib.PlayerUnits;
-using LBoL.Presentation;
 using RunLogger.Utils;
 
 namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
@@ -29,7 +28,7 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
         [HarmonyPatch(typeof(InteractionViewer), nameof(InteractionViewer.View)), HarmonyPrefix]
         private static void AddCardsRewards(Interaction interaction)
         {
-            if (Helpers.GetAdventureId(Singleton<GameMaster>.Instance.CurrentGameRun.CurrentStation) != nameof(SatoriCounseling)) return;
+            if (!Helpers.IsAdventure<SatoriCounseling>()) return;
             Helpers.AddCardsRewards(interaction);
         }
     }
