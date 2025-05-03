@@ -13,5 +13,6 @@ namespace RunLogger.Utils
         internal static bool IsInitialized;
 
         internal int? PreHealHp;
+        internal int? BackgroundDancersIndex;
     }
 }
