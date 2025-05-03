@@ -16,5 +16,7 @@ namespace RunLogger.Utils
         internal int? BackgroundDancersIndex;
         internal string MiyoiBartenderExhibit;
         internal string YachieOppressionExhibit;
+        internal int? DebutUncommonCardsIndex;
+        internal bool DebutUncommonCardsChosen;
     }
 }

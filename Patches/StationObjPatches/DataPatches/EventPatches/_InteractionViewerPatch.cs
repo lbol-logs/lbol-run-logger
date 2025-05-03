@@ -25,16 +25,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
         //{
         //    if (Listener != null) BepinexPlugin.log.LogDebug($"InteractionViewerPatch.Listener: {Listener}");
 
-        //    if (interaction is MiniSelectCardInteraction)
-        //    {
-        //        if (RunDataController.CurrentStation.Type == StationType.Entry.ToString() && AdventurePatch.DebutPatch.uncommonCardListener)
-        //        {
-        //            AddMiniSelectCardInteractionRewards(interaction);
-        //            AdventurePatch.DebutPatch.uncommonCardListener = false;
-        //            return;
-        //        }
-        //    }
-
         //    switch (Listener)
         //    {
         //        case nameof(SumirekoGathering):

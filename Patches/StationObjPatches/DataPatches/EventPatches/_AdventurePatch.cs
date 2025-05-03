@@ -28,66 +28,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
     [HarmonyPatch(typeof(Adventure))]
     public static class AdventurePatch
     {
-        //[HarmonyPatch(typeof(Debut))]
-        //public static class DebutPatch
-        //{
-        //    private static int uncommonCardsIndex;
-        //    public static bool uncommonCardListener;
-
-        //    [HarmonyPatch(nameof(Debut.RollBonus))]
-        //    public static void Postfix(Exhibit ____exhibit, int[] ____bonusNos, Debut __instance)
-        //    {
-        //        if (!RunDataController.RunData.Settings.HasClearBonus) return;
-        //        Exhibit _exhibit = ____exhibit;
-        //        int[] _bonusNos = ____bonusNos;
-        //        RunDataController.AddData("Options", _bonusNos);
-
-        //        int i = Array.FindIndex(_bonusNos, _bonusNo => _bonusNo == 0);
-        //        if (i != -1) uncommonCardsIndex = i + 2;
-
-        //        if (!RunDataController.ShowRandom) return;
-
-        //        DialogStorage storage = __instance.Storage;
-        //        RunDataController.AddData("Shining", _exhibit.Id);
-        //        foreach (int _bonusNo in _bonusNos)
-        //        {
-        //            switch (_bonusNo)
-        //            {
-        //                case 0:
-        //                    List<string> uncommonCards = RunDataController.GetList<string>(storage, new[] { 1, 2, 3 }, "$uncommonCard");
-        //                    RunDataController.AddData("UncommonCards", uncommonCards);
-        //                    break;
-        //                case 1:
-        //                    storage.TryGetValue("$rareCard", out string rareCard);
-        //                    RunDataController.AddData("RareCard", rareCard);
-        //                    break;
-        //                case 2:
-        //                    storage.TryGetValue("$rareExhibit", out string rareExhibit);
-        //                    RunDataController.AddData("RareExhibit", rareExhibit);
-        //                    break;
-        //                case 5:
-        //                    storage.TryGetValue("$transformCard", out string transformCard);
-        //                    RunDataController.AddData("TransformCard", transformCard);
-        //                    break;
-        //            }
-        //        }
-        //    }
-
-        //    [HarmonyPatch(typeof(DialogRunner), nameof(DialogRunner.SelectOption))]
-        //    public static class SelectOptionPatch
-        //    {
-        //        public static void Prefix(int id)
-        //        {
-        //            if (uncommonCardsIndex != 0 && id == uncommonCardsIndex) uncommonCardListener = true;
-        //        }
-
-        //        public static void Postfix()
-        //        {
-        //            uncommonCardsIndex = 0;
-        //        }
-        //    }
-        //}
-
         //[HarmonyPatch(typeof(Supply))]
         //public static class SupplyPatch
         //{
