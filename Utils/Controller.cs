@@ -113,18 +113,6 @@ namespace RunLogger.Utils
         //    return Card;
         //}
 
-        //public static List<T> GetList<T>(DialogStorage storage, IEnumerable<int> keys, string prefix, string suffix = "")
-        //{
-        //    List<T> ids = new List<T>();
-        //    foreach (int key in keys)
-        //    {
-        //        string _key = $"{prefix}{key}{suffix}";
-        //        storage.TryGetValue(_key, out object id);
-        //        ids.Add((T)id);
-        //    }
-        //    return ids;
-        //}
-
         //public static void Reset()
         //{
         //    InteractionViewerPatch.Listener = null;

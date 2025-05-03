@@ -132,5 +132,17 @@ namespace RunLogger.Utils
             Helpers.GetRewards(out Dictionary<string, object> rewards);
             rewards.Add("Cards", new List<List<CardObj>>() { cardObjs });
         }
+
+        internal static List<T> GetStorageList<T>(DialogStorage storage, IEnumerable<int> keys, string prefix, string suffix = "")
+        {
+            List<T> values = new List<T>();
+            foreach (int key in keys)
+            {
+                string name = $"{prefix}{key}{suffix}";
+                storage.TryGetValue(name, out object value);
+                values.Add((T)value);
+            }
+            return values;
+        }
     }
 }
