@@ -48,14 +48,14 @@ namespace RunLogger.Utils
             }
         }
 
-        //internal static bool ShowRandom
-        //{
-        //    get
-        //    {
-        //        bool ShowRandomResult = Controller.Instance.RunLog.Settings.ShowRandomResult;
-        //        return ShowRandomResult;
-        //    }
-        //}
+        internal static bool ShowRandomResult
+        {
+            get
+            {
+                bool showRandomResult = Controller.Instance.RunLog.Settings.ShowRandomResult;
+                return showRandomResult;
+            }
+        }
 
         //public static void AddPrice(string key, int price)
         //{
