@@ -28,36 +28,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
     [HarmonyPatch(typeof(Adventure))]
     public static class AdventurePatch
     {
-        //[HarmonyPatch(typeof(RinnosukeTrade))]
-        //public static class RinnosukeTradePatch
-        //{
-        //    [HarmonyPatch(nameof(RinnosukeTrade.InitVariables))]
-        //    public static void Postfix(Supply __instance)
-        //    {
-        //        DialogStorage storage = __instance.Storage;
-        //        storage.TryGetValue("$canSell1", out bool canSell1);
-        //        storage.TryGetValue("$canSell2", out bool canSell2);
-
-        //        if (canSell1)
-        //        {
-        //            Dictionary<string, int> prices = new Dictionary<string, int>();
-
-        //            storage.TryGetValue("$exhibit1", out string exhibit1);
-        //            storage.TryGetValue("$exhibit1Price", out float exhibit1Price);
-        //            prices.Add(exhibit1, (int)exhibit1Price);
-
-        //            if (canSell2)
-        //            {
-        //                storage.TryGetValue("$exhibit2", out string exhibit2);
-        //                storage.TryGetValue("$exhibit2Price", out float exhibit2Price);
-        //                prices.Add(exhibit2, (int)exhibit2Price);
-        //            }
-
-        //            RunDataController.AddData("Prices", prices);
-        //        }
-        //    }
-        //}
-
         //[HarmonyPatch(typeof(DoremyPortal))]
         //public static class DoremyPortalPatch
         //{
