@@ -2,7 +2,7 @@
 {
     internal static class FilenameExtension
     {
-        public const string Temp = "txt";
-        public const string Log = "json";
+        internal const string Temp = "txt";
+        internal const string Log = "json";
     }
 }

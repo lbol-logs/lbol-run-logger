@@ -46,7 +46,7 @@ namespace RunLogger.Utils
 
         internal static Adventure GetAdventure(Station station)
         {
-            if (station == null) station = Singleton<GameMaster>.Instance.CurrentGameRun.CurrentStation;
+            station ??= Singleton<GameMaster>.Instance.CurrentGameRun.CurrentStation;
             Adventure adventure = null;
             if (station is BattleAdvTestStation battleAdvTestStation) adventure = battleAdvTestStation.Adventure;
             else if (station is AdventureStation adventureStation) adventure = adventureStation.Adventure;
@@ -94,10 +94,7 @@ namespace RunLogger.Utils
             foreach (string exhibit in exhibits)
             {
                 ExhibitConfig config = ExhibitConfig.FromId(exhibit);
-                Rarity rarity = config.Rarity;
-                if (rarity != Rarity.Shining) continue;
-                ManaColor? manaColor = config.BaseManaColor;
-                if (manaColor == null) newBaseMana += Configs.RandomMana;
+                if (config.Rarity == Rarity.Shining && config.BaseManaColor == null) newBaseMana += Configs.RandomMana;
             }
             return newBaseMana;
         }

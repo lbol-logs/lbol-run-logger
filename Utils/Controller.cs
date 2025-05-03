@@ -113,45 +113,6 @@ namespace RunLogger.Utils
         //    return Card;
         //}
 
-        //public static string GetEnemyGroupId(Station station)
-        //{
-        //    EnemyGroup enemyGroup;
-        //    if (station is BattleStation battleStation)
-        //    {
-        //        enemyGroup = battleStation.EnemyGroup;
-        //        return enemyGroup.Id;
-        //    }
-        //    else
-        //    {
-        //        return null;
-        //    }
-        //}
-
-        //public static string GetAdventureId(Station station)
-        //{
-        //    Adventure adventure;
-        //    if (station is AdventureStation adventureStation)
-        //    {
-        //        adventure = adventureStation.Adventure;
-        //        return adventure.Id;
-        //    }
-        //    else if (station is EntryStation entryStation)
-        //    {
-        //        adventure = entryStation.DebutAdventure;
-        //        if (adventure == null) return null;
-        //        return adventure.Id;
-        //    }
-        //    else if (station is TradeStation tradeStation)
-        //    {
-        //        adventure = tradeStation.Adventure;
-        //        return adventure.Id;
-        //    }
-        //    else
-        //    {
-        //        return null;
-        //    }
-        //}
-
         //public static List<T> GetList<T>(DialogStorage storage, IEnumerable<int> keys, string prefix, string suffix = "")
         //{
         //    List<T> ids = new List<T>();
