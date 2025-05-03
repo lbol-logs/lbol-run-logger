@@ -5,6 +5,7 @@ using LBoL.Core.Adventures;
 using LBoL.Core.Battle;
 using LBoL.Core.Battle.Interactions;
 using LBoL.Core.Cards;
+using LBoL.Core.Dialogs;
 using LBoL.Core.Stations;
 using LBoL.Core.Units;
 using LBoL.Presentation;
@@ -43,19 +44,32 @@ namespace RunLogger.Utils
             return enemyGroup?.Id;
         }
 
-        internal static string GetAdventureId(Station station)
+        private static Adventure GetAdventure(Station station)
         {
             Adventure adventure = null;
             if (station is BattleAdvTestStation battleAdvTestStation) adventure = battleAdvTestStation.Adventure;
             else if (station is AdventureStation adventureStation) adventure = adventureStation.Adventure;
             else if (station is EntryStation entryStation) adventure = entryStation.DebutAdventure;
             else if (station is TradeStation tradeStation) adventure = tradeStation.Adventure;
-            return adventure?.Id;
+            return adventure;
+        }
+
+        internal static string GetAdventureId(Station station)
+        {
+            return Helpers.GetAdventure(station)?.Id;
         }
 
         internal static bool IsAdventure<T>() where T : Adventure
         {
-            return Helpers.GetAdventureId(Singleton<GameMaster>.Instance.CurrentGameRun.CurrentStation) == typeof(T).Name;
+            return Helpers.IsAdventure<T>(out _);
+        }
+
+        internal static bool IsAdventure<T>(out DialogStorage storage) where T : Adventure
+        {
+            Station station = Singleton<GameMaster>.Instance.CurrentGameRun.CurrentStation;
+            Adventure adventure = Helpers.GetAdventure(station);
+            storage = adventure.Storage;
+            return adventure is T;
         }
 
         internal static CardObj ParseCard(Card card)

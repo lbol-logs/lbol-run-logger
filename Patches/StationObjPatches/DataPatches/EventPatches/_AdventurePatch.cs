@@ -593,25 +593,5 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
         //        }
         //    }
         //}
-
-        //[HarmonyPatch(typeof(BuduSuanming))]
-        //public static class BuduSuanmingPatch
-        //{
-        //    public const string lineBoss = "line:0b5f8ae";
-        //    public const string lineEvent = "line:0607cc8";
-        //    public const string lineExhibit = "line:02c2c1f";
-        //    public static string boss;
-        //    public static string host;
-        //    public static string exhibit;
-
-        //    [HarmonyPatch(nameof(BuduSuanming.InitVariables))]
-        //    public static void Postfix(BuduSuanming __instance)
-        //    {
-        //        DialogStorage storage = __instance.Storage;
-        //        storage.TryGetValue("$bossId", out boss);
-        //        storage.TryGetValue("$hostId", out host);
-        //        storage.TryGetValue("$seijaItem", out exhibit);
-        //    }
-        //}
     }
 }
