@@ -3,6 +3,7 @@ using LBoL.Core.Dialogs;
 using LBoL.EntityLib.Adventures.Stage3;
 using RunLogger.Utils;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
@@ -56,17 +57,16 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
                 case 3:
                     break;
                 case 1:
-                    storage.TryGetValue("$reward2Rare", out string reward2Rare);
-                    storage.TryGetValue("$reward2Rare2", out string reward2Rare2);
-                    Helpers.AddDataListItem("Tools", new[] { reward2Rare, reward2Rare2 });
+                    List<string> tools = Helpers.GetStorageList<string, string>(storage, new[] { "", "2" }, "$reward2Rare");
+                    Helpers.AddDataListItem("Tools", tools);
                     break;
                 case 4:
-                    storage.TryGetValue("$reward5Exhibit", out string reward5Exhibit);
-                    Helpers.AddDataListItem("Exhibits", reward5Exhibit);
+                    storage.TryGetValue("$reward5Exhibit", out string exhibit);
+                    Helpers.AddDataListItem("Exhibits", exhibit);
                     break;
                 case 5:
-                    storage.TryGetValue("$reward6Ability", out string reward6Ability);
-                    Helpers.AddDataListItem("Abilities", reward6Ability);
+                    storage.TryGetValue("$reward6Ability", out string ability);
+                    Helpers.AddDataListItem("Abilities", ability);
                     break;
             }
         }
