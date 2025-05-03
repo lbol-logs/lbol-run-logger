@@ -44,8 +44,9 @@ namespace RunLogger.Utils
             return enemyGroup?.Id;
         }
 
-        private static Adventure GetAdventure(Station station)
+        internal static Adventure GetAdventure(Station station)
         {
+            if (station == null) station = Singleton<GameMaster>.Instance.CurrentGameRun.CurrentStation;
             Adventure adventure = null;
             if (station is BattleAdvTestStation battleAdvTestStation) adventure = battleAdvTestStation.Adventure;
             else if (station is AdventureStation adventureStation) adventure = adventureStation.Adventure;
@@ -66,8 +67,7 @@ namespace RunLogger.Utils
 
         internal static bool IsAdventure<T>(out DialogStorage storage) where T : Adventure
         {
-            Station station = Singleton<GameMaster>.Instance.CurrentGameRun.CurrentStation;
-            Adventure adventure = Helpers.GetAdventure(station);
+            Adventure adventure = Helpers.GetAdventure(null);
             storage = adventure.Storage;
             return adventure is T;
         }
