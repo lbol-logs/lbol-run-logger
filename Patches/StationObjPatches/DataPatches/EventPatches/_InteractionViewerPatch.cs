@@ -40,10 +40,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
         //        case nameof(SumirekoGathering):
         //            AddMiniSelectCardInteractionRewards(interaction);
         //            break;
-        //        case nameof(SatoriCounseling):
-        //            if (AdventurePatch.SatoriCounselingPatch.isMini) AddMiniSelectCardInteractionRewards(interaction);
-        //            else AddSelectCardInteractionRewards(interaction);
-        //            break;
         //    }
         //    Listener = null;
 
