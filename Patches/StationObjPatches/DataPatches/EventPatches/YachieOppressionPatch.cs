@@ -9,7 +9,7 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
     internal static class YachieOppressionPatch
     {
         [HarmonyPatch(typeof(YachieOppression), nameof(YachieOppression.InitVariables))]
-        private static void Postfix(YachieOppression __instance)
+        private static void AddExhibit(YachieOppression __instance)
         {
             __instance.Storage.TryGetValue("$enemyExhibit", out string exhibit);
             if (Controller.ShowRandomResult) Helpers.AddDataValue("Exhibit", exhibit);

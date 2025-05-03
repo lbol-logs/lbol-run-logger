@@ -4,8 +4,6 @@ using LBoL.Core;
 using LBoL.EntityLib.Adventures;
 using LBoL.EntityLib.Adventures.FirstPlace;
 using RunLogger.Utils;
-using System.Reflection;
-using System;
 
 namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
 {
