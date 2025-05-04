@@ -29,16 +29,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
     public static class AdventurePatch
     {
         //[HarmonyPatch]
-        //public static class NazrinDetectPatch
-        //{
-        //    [HarmonyPatch(typeof(NazrinDetectPanel), nameof(NazrinDetectPanel.Roll)), HarmonyPostfix]
-        //    public static void RollPatch(int resultIndex)
-        //    {
-        //        RunDataController.AddData("Result", resultIndex);
-        //    }
-        //}
-
-        //[HarmonyPatch]
         //public static class HecatiaTshirtPatch
         //{
         //    [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.GainExhibitRunner)), HarmonyPostfix, HarmonyPriority(1)]
