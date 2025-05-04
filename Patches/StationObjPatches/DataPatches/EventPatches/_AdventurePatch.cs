@@ -28,17 +28,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
     [HarmonyPatch(typeof(Adventure))]
     public static class AdventurePatch
     {
-        //[HarmonyPatch(typeof(RemiliaMeet))]
-        //public static class RemiliaMeetPatch
-        //{
-        //    [HarmonyPatch(nameof(RemiliaMeet.InitVariables))]
-        //    public static void Postfix(RemiliaMeet __instance)
-        //    {
-        //        __instance.Storage.TryGetValue("$hasExhibit", out bool hasExhibit);
-        //        RunDataController.AddData("HasExhibit", hasExhibit);
-        //    }
-        //}
-
         //[HarmonyPatch(typeof(RingoEmp))]
         //public static class RingoEmpPatch
         //{
