@@ -28,22 +28,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
     [HarmonyPatch(typeof(Adventure))]
     public static class AdventurePatch
     {
-        //[HarmonyPatch(typeof(ShinmyoumaruForge))]
-        //public static class ShinmyoumaruForgePatch
-        //{
-        //    [HarmonyPatch(nameof(ShinmyoumaruForge.InitVariables))]
-        //    public static void Postfix(ShinmyoumaruForge __instance)
-        //    {
-        //        DialogStorage storage = __instance.Storage;
-        //        storage.TryGetValue("$hasUpgradableBasics", out bool hasUpgradableBasics);
-        //        RunDataController.AddData("HasUpgradableBasics", hasUpgradableBasics);
-        //        storage.TryGetValue("$hasNonBasics", out bool hasNonBasics);
-        //        RunDataController.AddData("HasNonBasics", hasNonBasics);
-        //        storage.TryGetValue("$loseMax", out float loseMax);
-        //        RunDataController.AddData("LoseMax", (int)loseMax);
-        //    }
-        //}
-
         //[HarmonyPatch(typeof(WatatsukiPurify))]
         //public static class WatatsukiPurifyPatch
         //{
