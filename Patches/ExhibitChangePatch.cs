@@ -8,7 +8,7 @@ namespace RunLogger.Patches
     [HarmonyPatch]
     internal static class ExhibitChangePatch
     {
-        [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.GainExhibitRunner)), HarmonyPostfix]
+        [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.GainExhibitRunner)), HarmonyPostfix, HarmonyPriority(Priority.Normal)]
         private static void AddExhibitPatch(Exhibit exhibit)
         {
             EntitiesManager.AddExhibitChange(exhibit, ChangeType.Add);

@@ -28,18 +28,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
     [HarmonyPatch(typeof(Adventure))]
     public static class AdventurePatch
     {
-        //[HarmonyPatch]
-        //public static class HecatiaTshirtPatch
-        //{
-        //    [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.GainExhibitRunner)), HarmonyPostfix, HarmonyPriority(1)]
-        //    static void GainExhibitRunnerPatch(Exhibit exhibit)
-        //    {
-        //        if (!(exhibit is IdolTshirt)) return;
-        //        int counter = exhibit.Counter;
-        //        if (counter > 2) RunDataController.AddExhibitChange(exhibit, ChangeType.Upgrade, counter);
-        //    }
-        //}
-
         //[HarmonyPatch(typeof(KeineSales))]
         //public static class KeineSalesPatch
         //{
