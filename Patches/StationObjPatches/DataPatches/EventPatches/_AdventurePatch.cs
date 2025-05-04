@@ -28,20 +28,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
     [HarmonyPatch(typeof(Adventure))]
     public static class AdventurePatch
     {
-        //[HarmonyPatch(typeof(EternityAscension))]
-        //public static class EternityAscensionPatch
-        //{
-        //    [HarmonyPatch(nameof(EternityAscension.InitVariables))]
-        //    public static void Postfix(EternityAscension __instance)
-        //    {
-        //        if (RunDataController.ShowRandom)
-        //        {
-        //            __instance.Storage.TryGetValue("$transformCard", out string transformCard);
-        //            RunDataController.AddData("Card", transformCard);
-        //        }
-        //    }
-        //}
-
         //[HarmonyPatch(typeof(KaguyaVersusMokou))]
         //public static class KaguyaVersusMokouPatch
         //{
