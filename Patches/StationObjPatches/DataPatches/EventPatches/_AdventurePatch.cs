@@ -28,21 +28,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
     [HarmonyPatch(typeof(Adventure))]
     public static class AdventurePatch
     {
-        //[HarmonyPatch(typeof(RingoEmp))]
-        //public static class RingoEmpPatch
-        //{
-        //    [HarmonyPatch(nameof(RingoEmp.InitVariables))]
-        //    public static void Postfix(RingoEmp __instance)
-        //    {
-        //        if (RunDataController.ShowRandom)
-        //        {
-        //            DialogStorage storage = __instance.Storage;
-        //            List<string> cards = RunDataController.GetList<string>(storage, new[] { 1, 2, 3 }, "$tool");
-        //            RunDataController.AddData("Cards", cards);
-        //        }
-        //    }
-        //}
-
         //[HarmonyPatch(typeof(AssistKagerou))]
         //public static class AssistKagerouPatch
         //{
