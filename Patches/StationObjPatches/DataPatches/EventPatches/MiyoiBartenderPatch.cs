@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using LBoL.Core;
+using LBoL.Core.Dialogs;
 using LBoL.Core.Randoms;
 using LBoL.EntityLib.Adventures.FirstPlace;
 using RunLogger.Utils;
@@ -20,22 +21,24 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
         }
 
         [HarmonyPatch(typeof(MiyoiBartender), nameof(MiyoiBartender.InitVariables)), HarmonyPostfix]
-        private static void AddExhibit(MiyoiBartender __instance)
+        private static void AddExhibitBeforeBattle(MiyoiBartender __instance)
         {
-            __instance.Storage.TryGetValue("$randomExhibit", out string exhibit);
-            if (Controller.ShowRandomResult) Helpers.AddDataValue("Exhibit", exhibit);
-            else Controller.Instance.MiyoiBartenderExhibit = exhibit;
+            if (!Controller.ShowRandomResult) return;
+            MiyoiBartenderPatch.AddExhibit(__instance.Storage);
         }
 
         [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.LeaveBattle)), HarmonyPostfix]
         private static void AddExhibitAfterBattle(GameRunController __instance)
         {
-            GameRunController gameRun = __instance;
-            string adventureId = Helpers.GetAdventureId(gameRun.CurrentStation);
-            if (adventureId != nameof(MiyoiBartender)) return;
             if (Controller.ShowRandomResult) return;
-            Helpers.AddDataValue("Exhibit", Controller.Instance.MiyoiBartenderExhibit);
-            Controller.Instance.MiyoiBartenderExhibit = null;
+            if (!Helpers.IsAdventure<MiyoiBartender>(out DialogStorage storage)) return;
+            MiyoiBartenderPatch.AddExhibit(storage);
+        }
+
+        private static void AddExhibit(DialogStorage storage)
+        {
+            storage.TryGetValue("$randomExhibit", out string exhibit);
+            Helpers.AddDataValue("Exhibit", exhibit);
         }
     }
 }
