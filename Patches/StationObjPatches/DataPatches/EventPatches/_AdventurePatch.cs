@@ -28,51 +28,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
     [HarmonyPatch(typeof(Adventure))]
     public static class AdventurePatch
     {
-        //[HarmonyPatch(typeof(SumirekoGathering))]
-        //public static class SumirekoGatheringPatch
-        //{
-        //    private static List<string> rareCards;
-
-        //    [HarmonyPatch(nameof(SumirekoGathering.InitVariables))]
-        //    public static void Postfix(SumirekoGathering __instance)
-        //    {
-        //        DialogStorage storage = __instance.Storage;
-        //        rareCards = RunDataController.GetList<string>(storage, new[] { 1, 2, 3 }, "$rareTrade");
-
-        //        storage.TryGetValue("$rareCard1", out string rareCard1);
-        //        if (rareCard1 == null) return;
-
-        //        storage.TryGetValue("$isUpgraded", out bool isUpgraded);
-        //        CardObj card = new CardObj()
-        //        {
-        //            Id = rareCard1,
-        //            IsUpgraded = isUpgraded
-        //        };
-        //        RunDataController.AddData("Card", card);
-        //        RunDataController.AddData("Cards", rareCards);
-
-        //        InteractionViewerPatch.Listener = nameof(SumirekoGathering);
-        //    }
-
-        //    [HarmonyPatch(typeof(DialogFunctions), nameof(DialogFunctions.HasMoney)), HarmonyPostfix]
-        //    public static void HasMoneyPatch(bool __result, GameRunController ____gameRun)
-        //    {
-        //        Station station = ____gameRun.CurrentStation;
-        //        string Id = RunDataController.GetAdventureId(station);
-        //        if (Id == null) return;
-        //        else if (Id != nameof(SumirekoGathering)) return;
-
-        //        RunDataController.AddData("HasMoney", __result);
-        //        if (__result)
-        //        {
-        //            if (RunDataController.CurrentStation.Data.TryGetValue("Cards", out object cards)) return;
-        //            RunDataController.AddData("Cards", rareCards);
-
-        //            InteractionViewerPatch.Listener = nameof(SumirekoGathering);
-        //        }
-        //    }
-        //}
-
         //[HarmonyPatch(typeof(ShinmyoumaruForge))]
         //public static class ShinmyoumaruForgePatch
         //{

@@ -25,14 +25,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
         //{
         //    if (Listener != null) BepinexPlugin.log.LogDebug($"InteractionViewerPatch.Listener: {Listener}");
 
-        //    switch (Listener)
-        //    {
-        //        case nameof(SumirekoGathering):
-        //            AddMiniSelectCardInteractionRewards(interaction);
-        //            break;
-        //    }
-        //    Listener = null;
-
         //    if (interaction.Source == null) return;
         //    string source = interaction.Source.Id;
 
