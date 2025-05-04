@@ -28,19 +28,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
     [HarmonyPatch(typeof(Adventure))]
     public static class AdventurePatch
     {
-        //[HarmonyPatch(typeof(ParseeJealousy))]
-        //public static class ParseeJealousyPatch
-        //{
-        //    [HarmonyPatch(nameof(ParseeJealousy.InitVariables))]
-        //    public static void Postfix(ParseeJealousy __instance)
-        //    {
-        //        if (RunDataController.ShowRandom)
-        //        {
-        //            __instance.Storage.TryGetValue("$exhibitPassBy", out string exhibitPassBy);
-        //            RunDataController.AddData("Exhibit", exhibitPassBy);
-        //        }
-        //    }
-
         //    [HarmonyPatch(nameof(ParseeJealousy.GetExhibit)), HarmonyPostfix]
         //    public static void GetExhibitPatch(ParseeJealousy __instance)
         //    {
