@@ -28,20 +28,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
     [HarmonyPatch(typeof(Adventure))]
     public static class AdventurePatch
     {
-        //[HarmonyPatch(typeof(HinaCollect))]
-        //public static class HinaCollectPatch
-        //{
-        //    [HarmonyPatch(nameof(HinaCollect.InitVariables))]
-        //    public static void Postfix(HinaCollect __instance)
-        //    {
-        //        if (RunDataController.ShowRandom)
-        //        {
-        //            __instance.Storage.TryGetValue("$card", out string card);
-        //            RunDataController.AddData("Card", card);
-        //        }
-        //    }
-        //}
-
         //[HarmonyPatch(typeof(KosuzuBookstore))]
         //public static class KosuzuBookstorePatch
         //{
