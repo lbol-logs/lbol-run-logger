@@ -12,7 +12,7 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
         private static readonly int[] Keys = new[] { 1, 2 };
 
         [HarmonyPatch(typeof(RinnosukeTrade), nameof(RinnosukeTrade.InitVariables)), HarmonyPostfix]
-        private static void AddPrices(Supply __instance)
+        private static void AddPrices(RinnosukeTrade __instance)
         {
             DialogStorage storage = __instance.Storage;
             List<string> exhibits = Helpers.GetStorageList<string, int>(storage, RinnosukeTradePatch.Keys, "$exhibit");
