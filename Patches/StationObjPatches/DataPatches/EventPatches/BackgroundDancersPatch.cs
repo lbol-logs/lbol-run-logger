@@ -19,14 +19,14 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
         }
 
         [HarmonyPatch(typeof(BackgroundDancers), nameof(BackgroundDancers.RollOptions)), HarmonyPostfix]
-        private static void AddOptions(BackgroundDancers __instance, int[] ____optionIndices)
+        private static void AddOptionsAndData(BackgroundDancers __instance, int[] ____optionIndices)
         {
             Helpers.AddDataValue("Options", ____optionIndices.ToList());
             foreach (int option in ____optionIndices) BackgroundDancersPatch.HandleRandom(__instance, option);
         }
 
         [HarmonyPatch(typeof(BackgroundDancers), nameof(BackgroundDancers.SelectOption)), HarmonyPostfix]
-        static void AddData(int index, ref IEnumerator __result)
+        private static void AddData(int index, ref IEnumerator __result)
         {
             static void postfixAction()
             {

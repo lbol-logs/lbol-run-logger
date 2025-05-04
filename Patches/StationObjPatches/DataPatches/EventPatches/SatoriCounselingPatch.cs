@@ -22,7 +22,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
             int money = gameRun.Money;
             bool hasMoney = money >= __result;
             Helpers.AddDataValue("HasMoney", hasMoney);
-            BepinexPlugin.log.LogDebug($"money: {money}, price: {__result}, hasMoney: {hasMoney}");
         }
 
         [HarmonyPatch(typeof(InteractionViewer), nameof(InteractionViewer.View)), HarmonyPrefix]
