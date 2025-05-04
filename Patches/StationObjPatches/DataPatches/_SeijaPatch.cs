@@ -20,35 +20,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches
     {
         //private static bool isBattleStart;
 
-        //[HarmonyPatch(nameof(Seija.OnEnterBattle)), HarmonyPostfix]
-        //static void OnEnterBattlePatch(Seija __instance)
-        //{
-        //    int round = 0;
-        //    int turn = 0;
-        //    string id = __instance.Id;
-
-        //    TurnObj details = new TurnObj()
-        //    {
-        //        Round = round,
-        //        Turn = turn,
-        //        Id = id
-        //    };
-        //    RunDataController.AddDataItem("Details", details);
-        //    isBattleStart = true;
-        //}
-
-        //[HarmonyPatch(nameof(Seija.GetTurnMoves)), HarmonyPostfix]
-        //static void GetTurnMovesPatch(Seija __instance, IEnumerable<IEnemyMove> __result)
-        //{
-        //    if (isBattleStart)
-        //    {
-        //        AddDetails(__instance);
-        //        isBattleStart = false;
-        //    }
-
-        //    AddIntentions(__result, __instance);
-        //}
-
         //private static void AddDetails(Unit unit)
         //{
         //    GetDetails(out TurnObj details);
@@ -56,12 +27,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches
         //    details.Status = Status;
         //    List<StatusEffectObj> StatusEffects = GetStatusEffects(unit);
         //    details.StatusEffects = StatusEffects;
-        //}
-
-        //private static void GetDetails(out TurnObj details)
-        //{
-        //    List<TurnObj> Details = RunDataController.CurrentStation.Data["Details"] as List<TurnObj>;
-        //    details = Details[^1];
         //}
 
         //private static BattleStatusObj GetStatus(Unit unit)
@@ -92,64 +57,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches
         //        return StatusEffect;
         //    }).ToList();
         //    return StatusEffects;
-        //}
-
-        //private static void AddIntentions(IEnumerable<IEnemyMove> moves, Seija enemy)
-        //{
-        //    GetDetails(out TurnObj details);
-        //    List<IntentionObj> Intentions = moves.Select((m) =>
-        //    {
-        //        Intention i = m.Intention;
-        //        IntentionType Type = i.Type;
-        //        string type = Type.ToString();
-        //        IntentionObj Intention;
-
-        //        switch (Type)
-        //        {
-        //            case IntentionType.Attack:
-        //                {
-        //                    AttackIntention _i = i as AttackIntention;
-        //                    DamageInfo damageInfo = _i.Damage;
-        //                    int damage = enemy.Battle.CalculateDamage(enemy, enemy, enemy.Battle.Player, damageInfo);
-        //                    Intention = new IntentionObj()
-        //                    {
-        //                        Type = type,
-        //                        Damage = damage,
-        //                        Times = _i.Times,
-        //                        IsAccurate = _i.IsAccuracy
-        //                    };
-        //                    break;
-        //                }
-        //            case IntentionType.SpellCard:
-        //                {
-        //                    SpellCardIntention _i = i as SpellCardIntention;
-
-        //                    Intention = new IntentionObj()
-        //                    {
-        //                        Type = type
-        //                    };
-        //                    break;
-        //                }
-        //            case IntentionType.Clear:
-        //                {
-        //                    ClearIntention _i = i as ClearIntention;
-
-        //                    Intention = new IntentionObj()
-        //                    {
-        //                        Type = type
-        //                    };
-        //                    break;
-        //                }
-        //            default:
-        //                {
-        //                    Intention = new IntentionObj();
-        //                    break;
-        //                }
-        //        }
-
-        //        return Intention;
-        //    }).ToList();
-        //    details.Intentions = Intentions;
         //}
 
         //[HarmonyPatch(typeof(BattleAction))]
