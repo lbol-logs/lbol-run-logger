@@ -28,31 +28,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
     [HarmonyPatch(typeof(Adventure))]
     public static class AdventurePatch
     {
-        //[HarmonyPatch(typeof(NarumiOfferCard))]
-        //public static class NarumiOfferCardPatch
-        //{
-        //    public static bool isNarumi;
-
-        //    [HarmonyPatch(nameof(NarumiOfferCard.OfferDeckCard))]
-        //    public static void Prefix()
-        //    {
-        //        isNarumi = true;
-        //    }
-
-        //    [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.RemoveDeckCards)), HarmonyPostfix]
-        //    public static void RemoveDeckCardsPatch(IEnumerable<Card> cards)
-        //    {
-        //        if (!isNarumi) return;
-
-        //        string type;
-        //        Card card = cards.First();
-        //        if (card.CardType == CardType.Misfortune) type = CardType.Misfortune.ToString();
-        //        else type = card.Config.Rarity.ToString();
-        //        RunDataController.AddData("Type", type);
-        //        isNarumi = false;
-        //    }
-        //}
-
         //[HarmonyPatch]
         //public static class NazrinDetectPatch
         //{
