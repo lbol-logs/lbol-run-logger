@@ -28,21 +28,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
     [HarmonyPatch(typeof(Adventure))]
     public static class AdventurePatch
     {
-        //[HarmonyPatch(typeof(KeineSales))]
-        //public static class KeineSalesPatch
-        //{
-        //    [HarmonyPatch(nameof(KeineSales.InitVariables))]
-        //    public static void Postfix(KeineSales __instance)
-        //    {
-        //        DialogStorage storage = __instance.Storage;
-        //        storage.TryGetValue("$stageNo", out float stageNo);
-        //        List<int> keys = new List<int>() { 1 };
-        //        if (stageNo > 1) keys.Add(2);
-        //        List<int> questions = RunDataController.GetList<float>(storage, keys, "$question", "No").Select(question => (int)question).ToList();
-        //        RunDataController.AddData("Questions", questions);
-        //    }
-        //}
-
         //[HarmonyPatch(typeof(MikeInvest))]
         //public static class MikeInvestPatch
         //{
