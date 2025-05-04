@@ -16,7 +16,7 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
         private static void AddIds(MiyoiBartender __instance)
         {
             UniqueRandomPool<string> uniqueRandomPool = __instance.Stage.EnemyPoolAct3;
-            List<string> ids = uniqueRandomPool.Select((e) => e.Elem).ToList();
+            List<string> ids = uniqueRandomPool.Select(e => e.Elem).ToList();
             Helpers.AddDataValue("Ids", ids);
         }
 
