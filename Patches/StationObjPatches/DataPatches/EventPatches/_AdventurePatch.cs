@@ -28,20 +28,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
     [HarmonyPatch(typeof(Adventure))]
     public static class AdventurePatch
     {
-        //[HarmonyPatch(typeof(AssistKagerou))]
-        //public static class AssistKagerouPatch
-        //{
-        //    [HarmonyPatch(nameof(AssistKagerou.InitVariables))]
-        //    public static void Postfix(AssistKagerou __instance)
-        //    {
-        //        if (RunDataController.ShowRandom)
-        //        {
-        //            __instance.Storage.TryGetValue("$exhibitReward", out string exhibitReward);
-        //            RunDataController.AddData("Exhibit", exhibitReward);
-        //        }
-        //    }
-        //}
-
         //[HarmonyPatch(typeof(EternityAscension))]
         //public static class EternityAscensionPatch
         //{
