@@ -28,17 +28,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
     [HarmonyPatch(typeof(Adventure))]
     public static class AdventurePatch
     {
-        //[HarmonyPatch(typeof(WatatsukiPurify))]
-        //public static class WatatsukiPurifyPatch
-        //{
-        //    [HarmonyPatch(nameof(WatatsukiPurify.InitVariables))]
-        //    public static void Postfix(WatatsukiPurify __instance)
-        //    {
-        //        __instance.Storage.TryGetValue("$loseMax", out float loseMax);
-        //        RunDataController.AddData("LoseMax", (int)loseMax);
-        //    }
-        //}
-
         //[HarmonyPatch(typeof(HinaCollect))]
         //public static class HinaCollectPatch
         //{
