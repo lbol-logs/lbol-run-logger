@@ -28,34 +28,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
     [HarmonyPatch(typeof(Adventure))]
     public static class AdventurePatch
     {
-        //[HarmonyPatch(typeof(KosuzuBookstore))]
-        //public static class KosuzuBookstorePatch
-        //{
-        //    [HarmonyPatch(nameof(KosuzuBookstore.InitVariables))]
-        //    public static void Postfix(KosuzuBookstore __instance)
-        //    {
-        //        DialogStorage storage = __instance.Storage;
-        //        storage.TryGetValue("$thirdBook", out bool thirdBook);
-        //        storage.TryGetValue("$book0", out string book0);
-        //        storage.TryGetValue("$book1", out string book1);
-        //        List<string> exhibits = new List<string>() { book0, book1 };
-        //        if (thirdBook)
-        //        {
-        //            storage.TryGetValue("$book2", out string book2);
-        //            exhibits.Add(book2);
-        //        }
-        //        RunDataController.AddData("Exhibits", exhibits);
-
-        //        storage.TryGetValue("$returnBookCount", out float returnBookCount);
-        //        int k = (int)returnBookCount;
-        //        if (k > 0)
-        //        {
-        //            List<string> returns = RunDataController.GetList<string>(storage, Enumerable.Range(0, k), "$returnBook");
-        //            RunDataController.AddData("Returns", returns);
-        //        }
-        //    }
-        //}
-
         //[HarmonyPatch(typeof(NarumiOfferCard))]
         //public static class NarumiOfferCardPatch
         //{
