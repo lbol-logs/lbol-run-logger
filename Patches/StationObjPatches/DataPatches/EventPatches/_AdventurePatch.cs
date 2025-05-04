@@ -28,23 +28,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
     [HarmonyPatch(typeof(Adventure))]
     public static class AdventurePatch
     {
-        //[HarmonyPatch(typeof(MikeInvest))]
-        //public static class MikeInvestPatch
-        //{
-        //    [HarmonyPatch(nameof(MikeInvest.InitVariables))]
-        //    public static void Postfix(MikeInvest __instance)
-        //    {
-        //        DialogStorage storage = __instance.Storage;
-        //        storage.TryGetValue("$longMoney", out float longMoney);
-        //        RunDataController.AddData("Money", (int)longMoney);
-        //        if (RunDataController.ShowRandom)
-        //        {
-        //            storage.TryGetValue("$cardReward", out string cardReward);
-        //            RunDataController.AddData("Card", cardReward);
-        //        }
-        //    }
-        //}
-
         //[HarmonyPatch(typeof(YoumuDelivery))]
         //public static class YoumuDeliveryPatch
         //{
