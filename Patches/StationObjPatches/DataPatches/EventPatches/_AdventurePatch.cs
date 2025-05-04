@@ -28,20 +28,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
     [HarmonyPatch(typeof(Adventure))]
     public static class AdventurePatch
     {
-        //[HarmonyPatch(typeof(YoumuDelivery))]
-        //public static class YoumuDeliveryPatch
-        //{
-        //    [HarmonyPatch(nameof(YoumuDelivery.InitVariables))]
-        //    public static void Postfix(YoumuDelivery __instance)
-        //    {
-        //        if (RunDataController.ShowRandom)
-        //        {
-        //            __instance.Storage.TryGetValue("$transformCard", out string transformCard);
-        //            RunDataController.AddData("Card", transformCard);
-        //        }
-        //    }
-        //}
-
         //[HarmonyPatch(typeof(RemiliaMeet))]
         //public static class RemiliaMeetPatch
         //{
