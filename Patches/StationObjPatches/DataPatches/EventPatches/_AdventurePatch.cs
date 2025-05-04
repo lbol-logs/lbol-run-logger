@@ -28,22 +28,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
     [HarmonyPatch(typeof(Adventure))]
     public static class AdventurePatch
     {
-        //[HarmonyPatch(typeof(SelectBaseManaInteraction), nameof(SelectBaseManaInteraction.SelectedMana), MethodType.Setter)]
-        //public static class SelectBaseManaInteractionPatch
-        //{
-        //    static void Prefix(ManaGroup value)
-        //    {
-        //        ManaGroup mana = value;
-        //        string color = mana.MaxColor.ToShortName().ToString();
-        //        RunDataController.AddData("Color", color);
-        //    }
-
-        //    static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
-        //    {
-        //        return instructions;
-        //    }
-        //}
-
         //[HarmonyPatch(typeof(SumirekoGathering))]
         //public static class SumirekoGatheringPatch
         //{

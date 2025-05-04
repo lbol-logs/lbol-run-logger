@@ -5,6 +5,9 @@ using LBoL.EntityLib.Adventures;
 using LBoL.EntityLib.Adventures.FirstPlace;
 using RunLogger.Utils;
 using System.Linq;
+using LBoL.Base;
+using LBoL.Core.Battle.Interactions;
+using System.Collections.Generic;
 
 namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
 {
@@ -21,6 +24,22 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
             string[] exhibits = gameRun.ExhibitRecord.ToArray();
             string baseMana = Helpers.GetBaseMana(gameRun.BaseMana.ToString(), exhibits);
             Helpers.AddDataValue("BaseMana", baseMana);
+        }
+
+        [HarmonyPatch(typeof(SelectBaseManaInteraction), nameof(SelectBaseManaInteraction.SelectedMana), MethodType.Setter)]
+        private static class AddColor
+        {
+            private static void Prefix(ManaGroup value)
+            {
+                ManaGroup mana = value;
+                string color = mana.MaxColor.ToShortName().ToString();
+                Helpers.AddDataValue("Color", color);
+            }
+
+            private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+            {
+                return instructions;
+            }
         }
     }
 }
