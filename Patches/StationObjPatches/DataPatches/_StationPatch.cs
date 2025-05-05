@@ -3,53 +3,6 @@ using LBoL.Core.Stations;
 
 namespace RunLogger.Patches.StationObjPatches.DataPatches
 {
-    [HarmonyPatch(typeof(GapStation))]
-    public static class _GapStationPatch
-    {
-        //private const string Listener = nameof(GapOptionsPanel.InternalGerRareCard);
-        //public static Action UpgradeMoping;
-
-        //[HarmonyPatch(typeof(GapOptionsPanel), nameof(GapOptionsPanel.OnShowing)), HarmonyPostfix]
-        //static void OnShowingPatch(GapStation gapStation)
-        //{
-        //    List<string> Options = gapStation.GapOptions.Select(gapOption => gapOption.Type.ToString()).ToList();
-        //    RunDataController.AddData("Options", Options);
-        //    if (UpgradeMoping != null)
-        //    {
-        //        UpgradeMoping();
-        //        UpgradeMoping = null;
-        //    }
-        //}
-
-        //[HarmonyPatch(typeof(GapOptionsPanel), nameof(GapOptionsPanel.OptionClicked)), HarmonyPostfix]
-        //static void OptionClickedPatch(GapOption option)
-        //{
-        //    string Choice = option.Type.ToString();
-        //    RunDataController.CurrentStation.Data["Choice"] = Choice;
-        //}
-
-        //[HarmonyPatch(typeof(GapOptionsPanel), nameof(GapOptionsPanel.InternalGerRareCard)), HarmonyPrefix]
-        //static void InternalGerRareCardPatch()
-        //{
-        //    StationPatch.RewardListener = Listener;
-        //}
-
-        //[HarmonyPatch(typeof(SelectCardPanel), nameof(SelectCardPanel.ShowMiniSelect)), HarmonyPrefix]
-        //static void ShowMiniSelectPatch(SelectCardPayload payload)
-        //{
-        //    string RewardListener = StationPatch.RewardListener;
-        //    BepinexPlugin.log.LogDebug($"RewardListener in {System.Reflection.MethodBase.GetCurrentMethod().Name}: {RewardListener}");
-        //    switch (RewardListener)
-        //    {
-        //        case Listener:
-        //            List<CardObj> cards = RunDataController.GetCards(payload.Cards);
-        //            RunDataController.AddData("ShanliangDengpao", cards);
-        //            break;
-        //    }
-        //    StationPatch.RewardListener = null;
-        //}
-    }
-
     [HarmonyPatch(typeof(SelectStation))]
     class _SelectStationPatch
     {
