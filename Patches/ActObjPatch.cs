@@ -1,9 +1,12 @@
 ﻿using HarmonyLib;
 using LBoL.Core;
+using LBoL.Core.Stations;
+using LBoL.Presentation;
 using RunLogger.Utils;
 using RunLogger.Utils.Enums;
 using RunLogger.Utils.RunLogLib;
 using RunLogger.Utils.RunLogLib.Nodes;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace RunLogger.Patches
@@ -43,6 +46,25 @@ namespace RunLogger.Patches
             };
             Controller.Instance.RunLog.Acts.Add(actObj);
             Logger.SaveTemp(TempSaveTiming.EnterStage);
+        }
+
+        [HarmonyPatch(typeof(GameMaster), nameof(GameMaster.SelectStationFlow)), HarmonyPostfix]
+        private static void AddBoss(ref IEnumerator __result)
+        {
+            static void postfixAction()
+            {
+                SelectStation selectStation = Singleton<GameMaster>.Instance.CurrentGameRun.CurrentStation as SelectStation;
+                string boss = selectStation.Stage.SelectedBoss;
+                Controller.Instance.RunLog.Acts[0].Boss = boss;
+            }
+
+            EnumeratorHook enumeratorHook = new EnumeratorHook()
+            {
+                enumerator = __result,
+                postfixAction = postfixAction
+            };
+
+            __result = enumeratorHook.GetEnumerator();
         }
     }
 }
