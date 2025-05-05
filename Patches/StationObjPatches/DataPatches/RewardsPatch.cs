@@ -25,7 +25,7 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches
                 Type = StationRewardType.Exhibit,
                 Exhibit = exhibit
             };
-            RewardsUtil.AddReward(reward);
+            RewardsManager.AddReward(reward);
         }
     }
 }
