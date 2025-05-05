@@ -12,7 +12,7 @@ namespace RunLogger.Patches.StationObjPatches
     [HarmonyPatch]
     internal static class StationObjPatch
     {
-        [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.EnterMapNode)), HarmonyPostfix]
+        [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.EnterMapNode)), HarmonyPostfix, HarmonyPriority(Priority.Normal)]
         private static void NewStation(MapNode node, bool forced, GameRunController __instance)
         {
             if (forced) return;
