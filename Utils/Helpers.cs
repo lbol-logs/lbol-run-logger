@@ -16,6 +16,14 @@ namespace RunLogger.Utils
 {
     internal static class Helpers
     {
+        internal static Station CurrentStation
+        {
+            get
+            {
+                return Singleton<GameMaster>.Instance.CurrentGameRun.CurrentStation;
+            }
+        }
+
         internal static void AddStatus(GameRunController gameRun, StationObj stationObj, int? overrideHp)
         {
             PlayerUnit character = gameRun.Player;
@@ -44,7 +52,7 @@ namespace RunLogger.Utils
 
         internal static Adventure GetAdventure(Station station)
         {
-            station ??= Singleton<GameMaster>.Instance.CurrentGameRun.CurrentStation;
+            station ??= Helpers.CurrentStation;
             Adventure adventure = null;
             if (station is BattleAdvTestStation battleAdvTestStation) adventure = battleAdvTestStation.Adventure;
             else if (station is AdventureStation adventureStation) adventure = adventureStation.Adventure;

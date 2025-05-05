@@ -53,7 +53,7 @@ namespace RunLogger.Patches
         {
             static void postfixAction()
             {
-                SelectStation selectStation = Singleton<GameMaster>.Instance.CurrentGameRun.CurrentStation as SelectStation;
+                SelectStation selectStation = Helpers.CurrentStation as SelectStation;
                 string boss = selectStation.Stage.SelectedBoss;
                 Controller.Instance.RunLog.Acts[0].Boss = boss;
             }
