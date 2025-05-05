@@ -68,7 +68,7 @@ namespace RunLogger.Utils
         internal static bool IsAdventure<T>(out DialogStorage storage) where T : Adventure
         {
             Adventure adventure = Helpers.GetAdventure(null);
-            storage = adventure.Storage;
+            storage = adventure?.Storage;
             return adventure is T;
         }
 

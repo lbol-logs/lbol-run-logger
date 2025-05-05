@@ -44,7 +44,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.BattleDetailsPatches
                             AttackIntention _i = intention as AttackIntention;
                             DamageInfo damageInfo = _i.Damage;
                             int damage = enemy.Battle.CalculateDamage(enemy, enemy, enemy.Battle.Player, damageInfo);
-                            BepinexPlugin.log.LogDebug($"damage: {damage}");
                             intentionObj = new IntentionObj()
                             {
                                 Type = type,
@@ -82,7 +81,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.BattleDetailsPatches
                 return intentionObj;
             }).ToList();
             turnObj.Intentions = intentions;
-            BepinexPlugin.log.LogDebug(Newtonsoft.Json.JsonConvert.SerializeObject(turnObj));
         }
     }
 }
