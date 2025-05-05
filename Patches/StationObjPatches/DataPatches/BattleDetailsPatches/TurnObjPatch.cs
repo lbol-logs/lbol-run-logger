@@ -11,7 +11,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.BattleDetailsPatches
         private static void AppendOnEnterBattle(Seija __instance)
         {
             TurnObjManager.AppendTurnObj(0, 0, __instance.Id);
-            //isBattleStart = true;
         }
     }
 }

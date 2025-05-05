@@ -18,12 +18,7 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.BattleDetailsPatches
         {
             BepinexPlugin.log.LogDebug("GetTurnMoves");
             Seija seija = __instance;
-            //if (isBattleStart)
-            //{
-            //    AddDetails(seija);
-            //    isBattleStart = false;
-            //}
-
+            if (seija.TurnCounter == 0) TurnObjManager.UpdateTurnObj(seija);
             IntentionsPatch.AddIntentionsInternal(seija, __result);
         }
 

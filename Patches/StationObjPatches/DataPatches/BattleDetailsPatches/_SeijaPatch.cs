@@ -18,8 +18,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.BattleDetailsPatches
     [HarmonyPatch(typeof(Seija))]
     public static class _SeijaPatch
     {
-        //private static bool isBattleStart;
-
         //[HarmonyPatch(typeof(BattleAction))]
         //public static class BattleActionPatch
         //{
