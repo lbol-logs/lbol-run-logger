@@ -1,32 +1,8 @@
 ﻿using HarmonyLib;
-using LBoL.Core;
-using LBoL.Core.Cards;
-using LBoL.Core.GapOptions;
 using LBoL.Core.Stations;
-using LBoL.Presentation.UI.Panels;
-using RunLogger.Legacy.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace RunLogger.Legacy.Patches
+namespace RunLogger.Patches.StationObjPatches.DataPatches
 {
-    [HarmonyPatch(typeof(BossStation))]
-    class _BossStationPatch
-    {
-        //[HarmonyPatch(nameof(BossStation.GenerateBossRewards)), HarmonyPostfix]
-        //static void GenerateBossRewardsPatch(BossStation __instance)
-        //{
-        //    Exhibit[] BossRewards = __instance.BossRewards;
-        //    List<string> Exhibits = BossRewards.Select(exhibit => exhibit.Id).ToList();
-        //    Dictionary<string, object> Rewards = new Dictionary<string, object>
-        //    {
-        //        { "Exhibits", Exhibits }
-        //    };
-        //    RunDataController.CurrentStation.Rewards = Rewards;
-        //}
-    }
-
     [HarmonyPatch(typeof(GapStation))]
     public static class _GapStationPatch
     {

@@ -17,6 +17,12 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches
             RewardsManager.AddRewards(rewards);
         }
 
+        [HarmonyPatch(typeof(BossStation), nameof(BossStation.GenerateBossRewards)), HarmonyPostfix]
+        private static void AddBossExhibits(BossStation __instance)
+        {
+            foreach (Exhibit exhibit in __instance.BossRewards) RewardsManager.AddExhibitRewards(exhibit);
+        }
+
         //JimuWanju
         [HarmonyPatch(typeof(Stage), nameof(Stage.GetEnemyCardReward)), HarmonyPostfix]
         private static void AddExtraCardsReward(StationReward __result)
