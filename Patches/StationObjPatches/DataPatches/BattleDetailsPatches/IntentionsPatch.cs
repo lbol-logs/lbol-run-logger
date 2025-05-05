@@ -29,7 +29,7 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.BattleDetailsPatches
 
         private static void AddIntentionsInternal(Seija enemy, IEnumerable<IEnemyMove> moves)
         {
-            Helpers.GetLastTurnObj(out TurnObj turnObj);
+            TurnObjManager.GetLastTurnObj(out TurnObj turnObj);
             List<IntentionObj> intentions = moves.Select(m =>
             {
                 Intention intention = m.Intention;

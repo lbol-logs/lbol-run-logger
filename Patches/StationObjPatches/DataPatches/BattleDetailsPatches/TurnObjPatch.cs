@@ -10,7 +10,7 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.BattleDetailsPatches
         [HarmonyPatch(typeof(Seija), nameof(Seija.OnEnterBattle)), HarmonyPostfix]
         private static void AppendOnEnterBattle(Seija __instance)
         {
-            Helpers.AppendTurnObj(0, 0, __instance.Id);
+            TurnObjManager.AppendTurnObj(0, 0, __instance.Id);
             //isBattleStart = true;
         }
     }
