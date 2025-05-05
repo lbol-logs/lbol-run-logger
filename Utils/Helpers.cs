@@ -88,6 +88,18 @@ namespace RunLogger.Utils
             return cards.Select(card => Helpers.ParseCard(card)).ToList();
         }
 
+        internal static CardObjWithPrice ParseCardWithPrice(Card card, int? price = null)
+        {
+            CardObjWithPrice cardObjWithPrice = new CardObjWithPrice
+            {
+                Id = card.Id,
+                IsUpgraded = card.IsUpgraded,
+                UpgradeCounter = card.UpgradeCounter,
+                Price = price
+            };
+            return cardObjWithPrice;
+        }
+
         internal static string GetBaseMana(string oldBaseMana, IEnumerable<string> exhibits)
         {
             string newBaseMana = oldBaseMana;

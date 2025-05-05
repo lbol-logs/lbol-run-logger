@@ -101,18 +101,6 @@ namespace RunLogger.Utils
         //    RunData.Exhibits.Add(Exhibit);
         //}
 
-        //public static CardWithPrice GetCardWithPrice(Card card, int? price = null)
-        //{
-        //    CardWithPrice Card = new CardWithPrice
-        //    {
-        //        Id = card.Id,
-        //        IsUpgraded = card.IsUpgraded,
-        //        UpgradeCounter = card.UpgradeCounter,
-        //        Price = price
-        //    };
-        //    return Card;
-        //}
-
         //public static void Reset()
         //{
         //    InteractionViewerPatch.Listener = null;
