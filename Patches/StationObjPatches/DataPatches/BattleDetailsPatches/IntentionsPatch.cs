@@ -3,39 +3,33 @@ using LBoL.Core;
 using LBoL.Core.Intentions;
 using LBoL.Core.Units;
 using LBoL.EntityLib.EnemyUnits.Character;
-using RunLogger.Legacy.Utils;
 using RunLogger.Utils;
+using RunLogger.Utils.RunLogLib.BattleDetails;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace RunLogger.Patches.StationObjPatches.DataPatches
+namespace RunLogger.Patches.StationObjPatches.DataPatches.BattleDetailsPatches
 {
     [HarmonyPatch]
-    internal static class BattleDetailsPatch
+    internal static class IntentionsPatch
     {
-        [HarmonyPatch(typeof(Seija), nameof(Seija.OnEnterBattle)), HarmonyPostfix]
-        private static void AppendDetailsOnEnterBattle(Seija __instance)
-        {
-            BattleDetailsPatch.AppendTurnObj(0, 0, __instance.Id);
-            //isBattleStart = true;
-        }
-
         [HarmonyPatch(typeof(Seija), nameof(Seija.GetTurnMoves)), HarmonyPostfix]
-        private static void GetTurnMovesPatch(Seija __instance, IEnumerable<IEnemyMove> __result)
+        private static void AddIntentions(Seija __instance, IEnumerable<IEnemyMove> __result)
         {
             BepinexPlugin.log.LogDebug("GetTurnMoves");
+            Seija seija = __instance;
             //if (isBattleStart)
             //{
-            //    AddDetails(__instance);
+            //    AddDetails(seija);
             //    isBattleStart = false;
             //}
 
-            BattleDetailsPatch.AddIntentions(__result, __instance);
+            IntentionsPatch.AddIntentionsInternal(seija, __result);
         }
 
-        private static void AddIntentions(IEnumerable<IEnemyMove> moves, Seija enemy)
+        private static void AddIntentionsInternal(Seija enemy, IEnumerable<IEnemyMove> moves)
         {
-            BattleDetailsPatch.GetLastTurnObj(out TurnObj turnObj);
+            Helpers.GetLastTurnObj(out TurnObj turnObj);
             List<IntentionObj> intentions = moves.Select(m =>
             {
                 Intention intention = m.Intention;
@@ -50,6 +44,7 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches
                             AttackIntention _i = intention as AttackIntention;
                             DamageInfo damageInfo = _i.Damage;
                             int damage = enemy.Battle.CalculateDamage(enemy, enemy, enemy.Battle.Player, damageInfo);
+                            BepinexPlugin.log.LogDebug($"damage: {damage}");
                             intentionObj = new IntentionObj()
                             {
                                 Type = type,
@@ -88,23 +83,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches
             }).ToList();
             turnObj.Intentions = intentions;
             BepinexPlugin.log.LogDebug(Newtonsoft.Json.JsonConvert.SerializeObject(turnObj));
-        }
-
-        private static void GetLastTurnObj(out TurnObj turnObj)
-        {
-            List<TurnObj> details = Controller.CurrentStation.Data["Details"] as List<TurnObj>;
-            turnObj = details[^1];
-        }
-
-        private static void AppendTurnObj(int round, int turn, string id)
-        {
-            TurnObj turnObj = new TurnObj()
-            {
-                Round = round,
-                Turn = turn,
-                Id = id
-            };
-            Helpers.AddDataListItem("Details", turnObj);
         }
     }
 }

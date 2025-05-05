@@ -10,6 +10,7 @@ using LBoL.Core.Stations;
 using LBoL.Core.Units;
 using LBoL.Presentation;
 using RunLogger.Utils.RunLogLib;
+using RunLogger.Utils.RunLogLib.BattleDetails;
 using RunLogger.Utils.RunLogLib.Entities;
 using System.Collections.Generic;
 using System.Linq;
@@ -143,6 +144,23 @@ namespace RunLogger.Utils
                 values.Add((T1)value);
             }
             return values;
+        }
+
+        internal static void GetLastTurnObj(out TurnObj turnObj)
+        {
+            List<TurnObj> details = Controller.CurrentStation.Data["Details"] as List<TurnObj>;
+            turnObj = details[^1];
+        }
+
+        internal static void AppendTurnObj(int round, int turn, string id)
+        {
+            TurnObj turnObj = new TurnObj()
+            {
+                Round = round,
+                Turn = turn,
+                Id = id
+            };
+            Helpers.AddDataListItem("Details", turnObj);
         }
     }
 }

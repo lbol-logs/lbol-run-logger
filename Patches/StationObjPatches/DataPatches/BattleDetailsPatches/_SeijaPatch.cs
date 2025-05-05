@@ -13,7 +13,7 @@ using LBoL.Core.StatusEffects;
 using LBoL.Core.Intentions;
 using RunLogger.Legacy.Utils;
 
-namespace RunLogger.Patches.StationObjPatches.DataPatches
+namespace RunLogger.Patches.StationObjPatches.DataPatches.BattleDetailsPatches
 {
     [HarmonyPatch(typeof(Seija))]
     public static class _SeijaPatch
