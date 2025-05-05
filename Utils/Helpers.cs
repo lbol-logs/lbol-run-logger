@@ -24,6 +24,14 @@ namespace RunLogger.Utils
             }
         }
 
+        internal static string CurrentSaveIndex
+        {
+            get
+            {
+                return (Singleton<GameMaster>.Instance.CurrentSaveIndex ?? default).ToString();
+            }
+        }
+
         internal static void AddStatus(GameRunController gameRun, StationObj stationObj, int? overrideHp)
         {
             PlayerUnit character = gameRun.Player;

@@ -9,7 +9,7 @@ namespace RunLogger.Utils
         private static string GetDirectory(string subDir)
         {
             List<string> dirs = new List<string>() { Configs.RunLoggerDirName };
-            if (!subDir.IsNullOrEmpty()) dirs.Add(Configs.TempDirName);
+            if (!subDir.IsNullOrEmpty()) dirs.Add(subDir);
             string[] paths = dirs.ToArray();
             string path = Path.Combine(paths);
             if (!Directory.Exists(path)) Directory.CreateDirectory(path);

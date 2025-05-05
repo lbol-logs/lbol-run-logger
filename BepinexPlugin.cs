@@ -131,6 +131,7 @@ namespace RunLogger
 
         internal static ConfigEntry<bool> saveProfileName;
         internal static ConfigEntry<bool> saveFailure;
+        internal static ConfigEntry<bool> saveTogether;
 
         internal static bool hasPatchouliMod;
 
@@ -144,6 +145,7 @@ namespace RunLogger
 
             saveProfileName = Config.Bind("General", "Save Profile Name", true, "Save and show profile name when uploaded to LBoL Logs.");
             saveFailure = Config.Bind("General", "Save Failed Run", true, "Save log for the current run even it failed.");
+            saveTogether = Config.Bind("General", "Save Profiles Together", true, "Save the logs of different profiles in the same directory.\nIf set to `false`, they are saved under the corresponding index, i.e. `0`/`1`/`2`.");
 
             harmony.PatchAll();
 
