@@ -1,5 +1,6 @@
 ﻿using LBoL.Core.Units;
 using RunLogger.Utils.RunLogLib.BattleDetails;
+using RunLogger.Utils.RunLogLib.Entities;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,13 +14,14 @@ namespace RunLogger.Utils
             turnObj = details[^1];
         }
 
-        internal static void AppendTurnObj(int round, int turn, string id)
+        internal static void AppendTurnObj(int round, int turn, string id, List<CardObj> cards = null)
         {
             TurnObj turnObj = new TurnObj()
             {
                 Round = round,
                 Turn = turn,
-                Id = id
+                Id = id,
+                Cards = cards
             };
             Helpers.AddDataListItem("Details", turnObj);
         }

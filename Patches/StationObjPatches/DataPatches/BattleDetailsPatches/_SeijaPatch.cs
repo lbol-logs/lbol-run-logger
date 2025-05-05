@@ -71,29 +71,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.BattleDetailsPatches
         //            }
         //        }
         //    }
-
-        //    [HarmonyPatch(nameof(BattleAction.CreatePhase), new Type[] { typeof(string), typeof(Action), typeof(bool) }), HarmonyPrefix]
-        //    static void CreatePhasePatch(BattleAction __instance, string name)
-        //    {
-        //        if (!isPlayerTrunStarted) return;
-        //        if (name != "InTurn") return;
-        //        BattleController battleController = __instance.Battle;
-        //        int round = battleController.RoundCounter;
-        //        int turn = battleController.Player.TurnCounter;
-        //        IReadOnlyList<Card> hands = battleController.HandZone;
-        //        List<CardObj> cards = RunDataController.GetCards(hands);
-
-        //        TurnObj details = new TurnObj()
-        //        {
-        //            Round = round,
-        //            Turn = turn,
-        //            Id = "Player",
-        //            Cards = cards
-        //        };
-        //        RunDataController.AddDataItem("Details", details);
-
-        //        isPlayerTrunStarted = false;
-        //    }
         //}
     }
 }
