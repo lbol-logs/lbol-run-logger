@@ -1,0 +1,53 @@
+﻿using HarmonyLib;
+using LBoL.Core;
+using LBoL.EntityLib.Exhibits.Common;
+using RunLogger.Utils;
+using RunLogger.Utils.RunLogLib.Entities;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace RunLogger.Patches
+{
+    [HarmonyPatch]
+    internal static class ExhibitChangePatch
+    {
+        [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.GainExhibitRunner)), HarmonyPostfix, HarmonyPriority(Priority.Normal)]
+        private static void Add(Exhibit exhibit)
+        {
+            EntitiesManager.AddExhibitChange(exhibit, ChangeType.Add);
+        }
+
+        [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.LoseExhibit)), HarmonyPostfix]
+        private static void Remove(Exhibit exhibit)
+        {
+            EntitiesManager.AddExhibitChange(exhibit, ChangeType.Remove);
+        }
+
+        [HarmonyPatch(typeof(Exhibit), nameof(Exhibit.Counter), MethodType.Setter)]
+        private static class UseAndUpgrade
+        {
+            private static readonly string[] Exhibits = { nameof(GanzhuYao), nameof(ChuRenou), nameof(TiangouYuyi), nameof(Moping), nameof(Baota) };
+
+            private static void Prefix(int value, Exhibit __instance)
+            {
+                Exhibit exhibit = __instance;
+                if (!ExhibitChangePatch.UseAndUpgrade.Exhibits.Contains(exhibit.Id)) return;
+                if (exhibit.GameRun == null) return;
+
+                int before = exhibit.Counter;
+                if (before > value) EntitiesManager.AddExhibitChange(exhibit, ChangeType.Use, value);
+                else if (before < value)
+                {
+                    bool isMopingFirstUpgraded = false;
+                    if (exhibit is Moping) isMopingFirstUpgraded = Controller.CurrentStation.Type != exhibit.GameRun.CurrentStation.Type.ToString();
+                    if (isMopingFirstUpgraded) EntitiesManager.AddExhibitChange(exhibit, ChangeType.Upgrade, value, 1);
+                }
+            }
+
+            private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+            {
+                return instructions;
+            }
+        }
+    }
+}

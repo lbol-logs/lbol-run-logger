@@ -113,6 +113,7 @@ using Untitled;
 using Untitled.ConfigDataBuilder;
 using Untitled.ConfigDataBuilder.Base;
 using Debug = UnityEngine.Debug;
+using RunLogger.Wrappers;
 
 
 namespace RunLogger
