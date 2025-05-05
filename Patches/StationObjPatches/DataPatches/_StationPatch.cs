@@ -11,69 +11,6 @@ using System.Linq;
 
 namespace RunLogger.Legacy.Patches
 {
-    [HarmonyPatch(typeof(Station))]
-    public static class _StationPatch
-    {
-        //public static string RewardListener;
-        //public const string Listener = nameof(Station.AddReward);
-
-        //[HarmonyPatch(nameof(Station.AddReward)), HarmonyPrefix]
-        //static void AddRewardPatch(StationReward reward)
-        //{
-        //    BepinexPlugin.log.LogDebug($"RewardListener in {System.Reflection.MethodBase.GetCurrentMethod().Name}: {RewardListener}");
-        //    if (RewardListener != null) return;
-        //    RewardListener = Listener;
-        //    RewardsUtil.AddReward(reward);
-        //}
-
-        //[HarmonyPatch(typeof(Station))]
-        //public static class AddRewardsPatch
-        //{
-        //    public static bool isAfterAddRewards;
-
-        //    [HarmonyPatch]
-        //    public static class GenerateRewardsPatch
-        //    {
-        //        static void Reset()
-        //        {
-        //            isAfterAddRewards = false;
-        //        }
-
-        //        [HarmonyPatch(typeof(EnemyStation), nameof(EnemyStation.GenerateRewards)), HarmonyPrefix]
-        //        static void EnemyStationPatch()
-        //        {
-        //            Reset();
-        //        }
-
-        //        [HarmonyPatch(typeof(EliteEnemyStation), nameof(EliteEnemyStation.GenerateRewards)), HarmonyPrefix]
-        //        static void EliteEnemyStationPatch()
-        //        {
-        //            Reset();
-        //        }
-
-        //        [HarmonyPatch(typeof(BossStation), nameof(BossStation.GenerateRewards)), HarmonyPrefix]
-        //        static void BossStationPatch()
-        //        {
-        //            Reset();
-        //        }
-        //    }
-
-        //    [HarmonyPatch(nameof(Station.AddRewards), new Type[] { typeof(IEnumerable<StationReward>) })]
-        //    static void Prefix(IEnumerable<StationReward> rewards)
-        //    {
-        //        RewardListener = Listener;
-        //        RewardsUtil.AddRewards(rewards.ToList());
-        //    }
-
-        //    [HarmonyPatch(nameof(Station.AddRewards), new Type[] { typeof(IEnumerable<StationReward>) })]
-        //    static void Postfix()
-        //    {
-        //        RewardListener = null;
-        //        isAfterAddRewards = true;
-        //    }
-        //}
-    }
-
     [HarmonyPatch(typeof(BossStation))]
     class _BossStationPatch
     {

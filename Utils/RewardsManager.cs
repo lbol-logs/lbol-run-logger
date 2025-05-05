@@ -59,7 +59,7 @@ namespace RunLogger.Utils
             }
         }
 
-        internal static void AddRewards(List<StationReward> rewards)
+        internal static void AddRewards(IEnumerable<StationReward> rewards)
         {
             foreach (StationReward reward in rewards) RewardsManager.AddReward(reward);
         }
