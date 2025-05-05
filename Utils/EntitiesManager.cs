@@ -22,14 +22,14 @@ namespace RunLogger.Utils
                 Controller.Instance.RunLog.Cards.Add(cardChange);
             }
         }
-        internal static void AddExhibitChange(Exhibit exhibit, ChangeType changeType, int? counter = null)
+        internal static void AddExhibitChange(Exhibit exhibit, ChangeType changeType, int? counter = null, int offset = 0)
         {
             ExhibitChange exhibitChange = new ExhibitChange
             {
                 Id = exhibit.Id,
                 Counter = counter,
                 Type = changeType.ToString(),
-                Station = Controller.CurrentStationIndex
+                Station = Controller.CurrentStationIndex + offset
             };
             Controller.Instance.RunLog.Exhibits.Add(exhibitChange);
         }
