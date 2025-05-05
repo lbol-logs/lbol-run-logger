@@ -32,5 +32,36 @@ namespace RunLogger.Utils
             List<T> entitiesRewards = (value ?? rewards[key]) as List<T>;
             entitiesRewards.Add(listItem);
         }
+
+        internal static void AddReward(StationReward reward)
+        {
+            RewardsManager.GetRewards(out Dictionary<string, object> rewards);
+            StationRewardType rewardType = reward.Type;
+            string type = rewardType.ToString();
+
+            switch (rewardType)
+            {
+                case StationRewardType.Money:
+                    rewards[type] = reward.Money;
+                    break;
+                case StationRewardType.Card:
+                case StationRewardType.Tool:
+                    List<CardObj> cards = Helpers.ParseCards(reward.Cards);
+                    RewardsManager.AddEntitiesRewardsListItem(StationRewardType.Card.ToString(), cards);
+                    break;
+                case StationRewardType.Exhibit:
+                    string exhibit = reward.Exhibit.Id;
+                    RewardsManager.AddEntitiesRewardsListItem(type, exhibit);
+                    break;
+                default:
+                    BepinexPlugin.log.LogDebug($"Reward of type `{type}` is ignored");
+                    break;
+            }
+        }
+
+        internal static void AddRewards(List<StationReward> rewards)
+        {
+            foreach (StationReward reward in rewards) RewardsManager.AddReward(reward);
+        }
     }
 }
