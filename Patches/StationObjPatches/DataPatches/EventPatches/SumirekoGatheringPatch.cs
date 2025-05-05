@@ -2,10 +2,10 @@
 using LBoL.Core.Dialogs;
 using LBoL.Core;
 using LBoL.EntityLib.Adventures;
-using RunLogger.Legacy.Utils;
 using RunLogger.Utils;
 using System.Collections.Generic;
 using LBoL.Core.Battle;
+using RunLogger.Utils.RunLogLib.Entities;
 
 namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
 {
