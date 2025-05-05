@@ -65,13 +65,6 @@ namespace RunLogger.Utils
         //    prices.Add(key, price);
         //}
 
-        //public static void AddListItem2Obj<T>(string key, T listItem)
-        //{
-        //    key += "s";
-        //    if (!CurrentStation.Rewards.ContainsKey(key)) CurrentStation.Rewards[key] = new List<T>();
-        //    (CurrentStation.Rewards[key] as List<T>).Add(listItem);
-        //}
-
         //public static void AddCardChange(IEnumerable<Card> cards, ChangeType Type)
         //{
         //    foreach (Card card in cards)

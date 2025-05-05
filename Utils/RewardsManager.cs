@@ -23,5 +23,14 @@ namespace RunLogger.Utils
             RewardsManager.GetRewards(out Dictionary<string, object> rewards);
             rewards.Add("Cards", new List<List<CardObj>>() { cardObjs });
         }
+
+        private static void AddEntitiesRewardsListItem<T>(string type, T listItem)
+        {
+            string key = type + "s";
+            RewardsManager.GetRewards(out Dictionary<string, object> rewards);
+            if (!rewards.TryGetValue(key, out object value)) rewards[key] = new List<T>();
+            List<T> entitiesRewards = (value ?? rewards[key]) as List<T>;
+            entitiesRewards.Add(listItem);
+        }
     }
 }
