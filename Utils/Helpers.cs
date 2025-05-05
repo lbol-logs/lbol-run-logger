@@ -111,11 +111,6 @@ namespace RunLogger.Utils
             return newBaseMana;
         }
 
-        internal static void GetRewards(out Dictionary<string, object> rewards)
-        {
-            rewards = Controller.CurrentStation.Rewards ??= new Dictionary<string, object>();
-        }
-
         internal static void GetData(out Dictionary<string, object> data)
         {
             data = Controller.CurrentStation.Data ??= new Dictionary<string, object>();
@@ -133,6 +128,11 @@ namespace RunLogger.Utils
             List<T> list = data.TryGetValue(key, out object value) ? (List<T>)value : new List<T>();
             list.Add(item);
             data[key] = list;
+        }
+
+        internal static void GetRewards(out Dictionary<string, object> rewards)
+        {
+            rewards = Controller.CurrentStation.Rewards ??= new Dictionary<string, object>();
         }
 
         internal static void AddCardsRewards(Interaction interaction)
