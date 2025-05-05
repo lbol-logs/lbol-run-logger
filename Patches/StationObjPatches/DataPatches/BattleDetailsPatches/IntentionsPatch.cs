@@ -16,7 +16,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.BattleDetailsPatches
         [HarmonyPatch(typeof(Seija), nameof(Seija.GetTurnMoves)), HarmonyPostfix]
         private static void AddIntentions(Seija __instance, IEnumerable<IEnemyMove> __result)
         {
-            BepinexPlugin.log.LogDebug("GetTurnMoves");
             Seija seija = __instance;
             if (seija.TurnCounter == 0) TurnObjManager.UpdateTurnObj(seija);
             IntentionsPatch.AddIntentionsInternal(seija, __result);

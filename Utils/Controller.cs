@@ -56,50 +56,5 @@ namespace RunLogger.Utils
                 return showRandomResult;
             }
         }
-
-        //public static void AddPrice(string key, int price)
-        //{
-        //    GetData(out Dictionary<string, object> Data);
-        //    Data.TryGetValue("Prices", out object value);
-        //    Dictionary<string, int> prices = value as Dictionary<string, int>;
-        //    prices.Add(key, price);
-        //}
-
-        //public static void AddCardChange(IEnumerable<Card> cards, ChangeType Type)
-        //{
-        //    foreach (Card card in cards)
-        //    {
-        //        CardChange Card = new CardChange
-        //        {
-        //            Id = card.Id,
-        //            IsUpgraded = card.IsUpgraded,
-        //            UpgradeCounter = card.UpgradeCounter,
-        //            Type = Type.ToString(),
-        //            Station = CurrentStationIndex
-        //        };
-        //        RunData.Cards.Add(Card);
-        //    }
-        //}
-
-        //public static void AddExhibitChange(Exhibit exhibit, ChangeType Type, int? Counter = null)
-        //{
-        //    if (RunData == null) return;
-        //    ExhibitChange Exhibit = new ExhibitChange
-        //    {
-        //        Id = exhibit.Id,
-        //        Type = Type.ToString(),
-        //        Station = CurrentStationIndex
-        //    };
-        //    if (Counter != null) Exhibit.Counter = Counter;
-        //    RunData.Exhibits.Add(Exhibit);
-        //}
-
-        //public static void Reset()
-        //{
-        //    InteractionViewerPatch.Listener = null;
-        //    StationPatch.RewardListener = null;
-        //    StationPatch.AddRewardsPatch.isAfterAddRewards = false;
-        //    GameRunControllerPatch.isAfterBossReward = false;
-        //}
     }
 }
