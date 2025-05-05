@@ -16,6 +16,18 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches
             RewardsManager.AddRewards(rewards);
         }
 
+        //JimuWanju
+        [HarmonyPatch(typeof(Stage), nameof(Stage.GetEnemyCardReward)), HarmonyPostfix]
+        private static void AddExtraCardsReward(StationReward __result)
+        {
+            Station currentStation = Helpers.CurrentStation;
+            if (!(currentStation is EnemyStation)) return;
+            bool isGenerateEnemyRewards = currentStation.Rewards.Count == 0;
+            if (isGenerateEnemyRewards) return;
+
+            RewardsManager.AddReward(__result);
+        }
+
         //YizangnuoWuzhi
         [HarmonyPatch(typeof(Stage), nameof(Stage.GetEliteEnemyExhibit)), HarmonyPostfix]
         private static void AddExtraExhibitReward(Exhibit __result)
@@ -32,6 +44,16 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches
                 Exhibit = exhibit
             };
             RewardsManager.AddReward(reward);
+        }
+
+        //Gongjuxiang
+        [HarmonyPatch(typeof(StationReward), nameof(StationReward.CreateToolCard)), HarmonyPostfix]
+        private static void GetShopToolCardsPatch(StationReward __result)
+        {
+            Station currentStation = Helpers.CurrentStation;
+            if (!(currentStation is BattleStation)) return;
+
+            RewardsManager.AddReward(__result);
         }
     }
 }
