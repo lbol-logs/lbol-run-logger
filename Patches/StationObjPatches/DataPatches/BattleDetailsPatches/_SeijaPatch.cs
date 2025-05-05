@@ -20,45 +20,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.BattleDetailsPatches
     {
         //private static bool isBattleStart;
 
-        //private static void AddDetails(Unit unit)
-        //{
-        //    GetDetails(out TurnObj details);
-        //    BattleStatusObj Status = GetStatus(unit);
-        //    details.Status = Status;
-        //    List<StatusEffectObj> StatusEffects = GetStatusEffects(unit);
-        //    details.StatusEffects = StatusEffects;
-        //}
-
-        //private static BattleStatusObj GetStatus(Unit unit)
-        //{
-        //    int hp = unit.Hp;
-        //    int block = unit.Block;
-        //    int barrier = unit.Shield;
-        //    BattleStatusObj Status = new BattleStatusObj()
-        //    {
-        //        Hp = hp,
-        //        Block = block,
-        //        Barrier = barrier
-        //    };
-        //    if (unit is PlayerUnit playerUnit) Status.Power = playerUnit.Power;
-        //    return Status;
-        //}
-
-        //private static List<StatusEffectObj> GetStatusEffects(Unit unit)
-        //{
-        //    List<StatusEffectObj> StatusEffects = unit.StatusEffects.Select((se) =>
-        //    {
-        //        StatusEffectObj StatusEffect = new StatusEffectObj() { Id = se.Id };
-        //        if (se.HasLevel) StatusEffect.Level = se.Level;
-        //        if (se.HasDuration) StatusEffect.Duration = se.Duration;
-        //        if (se.HasCount) StatusEffect.Count = se.Count;
-        //        int? limit = se.Limit;
-        //        if (limit != null && limit != 0) StatusEffect.Limit = se.Limit;
-        //        return StatusEffect;
-        //    }).ToList();
-        //    return StatusEffects;
-        //}
-
         //[HarmonyPatch(typeof(BattleAction))]
         //public static class BattleActionPatch
         //{
