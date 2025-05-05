@@ -13,10 +13,10 @@ using LBoL.Core.Stations;
 using System.Linq;
 using RunLogger.Legacy.Utils;
 
-namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
+namespace RunLogger.Patches.StationObjPatches.DataPatches
 {
     [HarmonyPatch(typeof(InteractionViewer))]
-    public static class InteractionViewerPatch
+    public static class _InteractionViewerPatch
     {
         //public static string Listener;
 
@@ -81,30 +81,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
         //            RunDataController.CurrentStation.Rewards = Rewards;
         //        }
         //    }
-        //}
-
-        //private static void AddMiniSelectCardInteractionRewards(Interaction interaction)
-        //{
-        //    MiniSelectCardInteraction miniSelectCardInteraction = interaction as MiniSelectCardInteraction;
-        //    IReadOnlyList<Card> pendingCards = miniSelectCardInteraction.PendingCards;
-        //    HandleCardRewards(pendingCards);
-        //}
-
-        //private static void AddSelectCardInteractionRewards(Interaction interaction)
-        //{
-        //    SelectCardInteraction selectCardInteraction = interaction as SelectCardInteraction;
-        //    IReadOnlyList<Card> pendingCards = selectCardInteraction.PendingCards;
-        //    HandleCardRewards(pendingCards);
-        //}
-
-        //private static void HandleCardRewards(IReadOnlyList<Card> pendingCards)
-        //{
-        //    List<CardObj> cards = RunDataController.GetCards(pendingCards);
-        //    Dictionary<string, object> Rewards = new Dictionary<string, object>
-        //    {
-        //        { "Cards", new List<List<CardObj>>() { cards } }
-        //    };
-        //    RunDataController.CurrentStation.Rewards = Rewards;
         //}
     }
 }
