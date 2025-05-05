@@ -3,17 +3,6 @@ using LBoL.Core.Stations;
 
 namespace RunLogger.Patches.StationObjPatches.DataPatches
 {
-    [HarmonyPatch(typeof(SelectStation))]
-    class _SelectStationPatch
-    {
-        //[HarmonyPatch(nameof(SelectStation.GenerateRecord)), HarmonyPostfix]
-        //static void GenerateRecordPatch(SelectStation __instance)
-        //{
-        //    List<string> Opponents = __instance.Opponents.Select(opponent =>  opponent.Id).ToList();
-        //    RunDataController.AddData("Opponents", Opponents);
-        //}
-    }
-
     [HarmonyPatch(typeof(ShopStation))]
     class _ShopStationPatch
     {
