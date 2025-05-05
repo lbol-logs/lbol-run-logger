@@ -28,7 +28,7 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches
                 {
                     IReadOnlyList<Exhibit> exhibits = rewardInteraction.PendingExhibits;
 
-                    Helpers.GetRewards(out Dictionary<string, object> rewards);
+                    RewardsManager.GetRewards(out Dictionary<string, object> rewards);
                     if (!rewards.TryGetValue("Exhibits", out object value)) rewards["Exhibits"] = new List<string>();
                     List<string> exhibitsRewards = (value ?? rewards["Exhibits"]) as List<string>;
                     foreach (Exhibit exhibit in exhibits) exhibitsRewards.Add(exhibit.Id);
@@ -39,7 +39,7 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches
                 if (source == nameof(Modaoshu))
                 {
                     IReadOnlyList<Card> cards = miniSelectCardInteraction.PendingCards;
-                    Helpers.GetRewards(out Dictionary<string, object> rewards);
+                    RewardsManager.GetRewards(out Dictionary<string, object> rewards);
                     if (!rewards.TryGetValue("Cards", out object value)) rewards["Cards"] = new List<List<CardObj>>();
                     object cardsRewards = value ?? rewards["Cards"];
 
@@ -58,7 +58,7 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches
                 {
                     IReadOnlyList<Card> cards = miniSelectCardInteraction.PendingCards;
                     List<List<CardObj>> cardsRewards = new List<List<CardObj>>() { Helpers.ParseCards(cards) };
-                    Helpers.GetRewards(out Dictionary<string, object> rewards);
+                    RewardsManager.GetRewards(out Dictionary<string, object> rewards);
                     rewards["Cards"] = cardsRewards;
                 }
             }

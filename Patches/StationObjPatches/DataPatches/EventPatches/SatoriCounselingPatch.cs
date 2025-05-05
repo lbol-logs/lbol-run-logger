@@ -28,7 +28,7 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
         private static void AddCardsRewards(Interaction interaction)
         {
             if (!Helpers.IsAdventure<SatoriCounseling>()) return;
-            Helpers.AddCardsRewards(interaction);
+            RewardsManager.AddCardsRewards(interaction);
         }
     }
 }

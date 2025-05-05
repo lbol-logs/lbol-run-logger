@@ -48,7 +48,7 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
         private static void AddCardsRewards(Interaction interaction)
         {
             if (!Helpers.IsAdventure<SumirekoGathering>()) return;
-            Helpers.AddCardsRewards(interaction);
+            RewardsManager.AddCardsRewards(interaction);
         }
 
         private static void AddCards(DialogStorage storage)
