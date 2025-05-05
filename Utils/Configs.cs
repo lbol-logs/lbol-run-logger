@@ -2,9 +2,8 @@
 {
     internal static class Configs
     {
-//TODO
-        internal const string RunLoggerDirName = "runLogger2";
-        internal const string TempDirName = "temp2";
+        internal const string RunLoggerDirName = "runLogger";
+        internal const string TempDirName = "temp";
 
         internal const string RandomMana = "A";
 

@@ -53,18 +53,18 @@ namespace RunLogger.Utils
 
         private static string GetTempPath()
         {
-            //TODO
-            string name = "temp";
-            string subDir = null;
+            string name = Helpers.CurrentSaveIndex;
+            string subDir = Configs.TempDirName;
             string path = FileManager.GetFilePath(name, FilenameExtension.Temp, subDir);
             return path;
         }
 
         private static string GetLogPath(string name)
         {
-            //TODO
-            string subDir = null;
+            bool saveTogether = BepinexPlugin.saveTogether.Value;
+            string subDir = saveTogether ? null : Helpers.CurrentSaveIndex;
             string path = FileManager.GetFilePath(name, FilenameExtension.Log, subDir);
+            BepinexPlugin.log.LogDebug($"subDir: {subDir}, path: {path}");
             return path;
         }
 
