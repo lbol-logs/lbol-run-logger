@@ -2,8 +2,6 @@
 using LBoL.ConfigData;
 using LBoL.Core;
 using LBoL.Core.Adventures;
-using LBoL.Core.Battle;
-using LBoL.Core.Battle.Interactions;
 using LBoL.Core.Cards;
 using LBoL.Core.Dialogs;
 using LBoL.Core.Stations;
@@ -128,21 +126,6 @@ namespace RunLogger.Utils
             List<T> list = data.TryGetValue(key, out object value) ? (List<T>)value : new List<T>();
             list.Add(item);
             data[key] = list;
-        }
-
-        internal static void GetRewards(out Dictionary<string, object> rewards)
-        {
-            rewards = Controller.CurrentStation.Rewards ??= new Dictionary<string, object>();
-        }
-
-        internal static void AddCardsRewards(Interaction interaction)
-        {
-            IReadOnlyList<Card> pendingCards;
-            if (interaction is MiniSelectCardInteraction miniSelectCardInteraction) pendingCards = miniSelectCardInteraction.PendingCards;
-            else pendingCards = (interaction as SelectCardInteraction).PendingCards;
-            List<CardObj> cardObjs = Helpers.ParseCards(pendingCards);
-            Helpers.GetRewards(out Dictionary<string, object> rewards);
-            rewards.Add("Cards", new List<List<CardObj>>() { cardObjs });
         }
 
         internal static List<T1> GetStorageList<T1, T2>(DialogStorage storage, T2[] keys, string prefix, string suffix = "")
