@@ -4,6 +4,7 @@ using LBoL.Core.Cards;
 using LBoL.Core.Stations;
 using System.Collections.Generic;
 using RunLogger.Utils.RunLogLib.Entities;
+using LBoL.Core;
 
 namespace RunLogger.Utils
 {
@@ -22,6 +23,16 @@ namespace RunLogger.Utils
             List<CardObj> cardObjs = Helpers.ParseCards(pendingCards);
             RewardsManager.GetRewards(out Dictionary<string, object> rewards);
             rewards.Add("Cards", new List<List<CardObj>>() { cardObjs });
+        }
+
+        internal static void AddExhibitRewards(Exhibit exhibit)
+        {
+            StationReward reward = new StationReward()
+            {
+                Type = StationRewardType.Exhibit,
+                Exhibit = exhibit
+            };
+            RewardsManager.AddReward(reward);
         }
 
         private static void AddEntitiesRewardsListItem<T>(string type, T listItem)

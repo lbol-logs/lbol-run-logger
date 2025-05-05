@@ -4,6 +4,7 @@ using LBoL.Core;
 using System.Collections.Generic;
 using RunLogger.Utils;
 using System;
+using System.Linq;
 
 namespace RunLogger.Patches.StationObjPatches.DataPatches
 {
@@ -38,12 +39,7 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches
             bool isGenerateEliteEnemyRewards = currentStation.Rewards.Count == 0;
             if (isGenerateEliteEnemyRewards) return;
 
-            StationReward reward = new StationReward()
-            {
-                Type = StationRewardType.Exhibit,
-                Exhibit = exhibit
-            };
-            RewardsManager.AddReward(reward);
+            RewardsManager.AddExhibitRewards(exhibit);
         }
 
         //Gongjuxiang
