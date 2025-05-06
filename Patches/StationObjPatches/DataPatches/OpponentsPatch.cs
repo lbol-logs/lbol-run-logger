@@ -13,7 +13,7 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches
         private static void AddOpponents(SelectStation __instance)
         {
             List<string> opponents = __instance.Opponents.Select(opponent => opponent.Id).ToList();
-            Helpers.AddDataValue("opponents", opponents);
+            Helpers.AddDataValue("Opponents", opponents);
         }
     }
 }

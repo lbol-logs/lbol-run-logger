@@ -33,6 +33,7 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
                 BackgroundDancers backgroundDancers = Helpers.GetAdventure(null) as BackgroundDancers;
                 int option = backgroundDancers._optionIndices[(int)Controller.Instance.BackgroundDancersIndex];
                 Controller.Instance.BackgroundDancersIndex = null;
+                Helpers.AddDataListItem("Options", option);
                 BackgroundDancersPatch.HandleRandom(backgroundDancers, option);
             }
 
