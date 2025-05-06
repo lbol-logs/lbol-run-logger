@@ -9,25 +9,29 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches.EventPatches
     [HarmonyPatch]
     internal static class RinnosukeTradePatch
     {
-        private static readonly int[] Keys = new[] { 1, 2 };
-
         [HarmonyPatch(typeof(RinnosukeTrade), nameof(RinnosukeTrade.InitVariables)), HarmonyPostfix]
         private static void AddPrices(RinnosukeTrade __instance)
         {
             DialogStorage storage = __instance.Storage;
-            List<string> exhibits = Helpers.GetStorageList<string, int>(storage, RinnosukeTradePatch.Keys, "$exhibit");
-            List<float> exhibitPrices = Helpers.GetStorageList<float, int>(storage, RinnosukeTradePatch.Keys, "$exhibit", "Price");
-
-            if (exhibits[0] != null)
+            List<int> list = new List<int>();
+            for (int i = 1; i <= 2; i++)
             {
-                Dictionary<string, int> prices = new Dictionary<string, int>();
-                for (int i = 0; i < exhibits.Count; i++)
-                {
-                    if (exhibits[i] != null)
-                    prices.Add(exhibits[i], (int)exhibitPrices[i]);
-                }
-                Helpers.AddDataValue("Prices", prices);
+                storage.TryGetValue($"$canSell{i}", out bool canSell);
+                if (canSell) list.Add(i);
             }
+            if (list.Count == 0) return;
+
+            int[] keys = list.ToArray();
+            List<string> exhibits = Helpers.GetStorageList<string, int>(storage, keys, "$exhibit");
+            List<float> exhibitPrices = Helpers.GetStorageList<float, int>(storage, keys, "$exhibit", "Price");
+
+            Dictionary<string, int> prices = new Dictionary<string, int>();
+            for (int i = 0; i < exhibits.Count; i++)
+            {
+                if (exhibits[i] != null)
+                prices.Add(exhibits[i], (int)exhibitPrices[i]);
+            }
+            Helpers.AddDataValue("Prices", prices);
         }
     }
 }

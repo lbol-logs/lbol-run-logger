@@ -64,7 +64,7 @@ namespace RunLogger.Utils
             bool saveTogether = BepinexPlugin.saveTogether.Value;
             string subDir = saveTogether ? null : Helpers.CurrentSaveIndex;
             string path = FileManager.GetFilePath(name, FilenameExtension.Log, subDir);
-            BepinexPlugin.log.LogDebug($"subDir: {subDir}, path: {path}");
+            BepinexPlugin.log.LogDebug($"Log saved: {path}");
             return path;
         }
 
