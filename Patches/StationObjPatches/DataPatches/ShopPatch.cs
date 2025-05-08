@@ -15,8 +15,9 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches
     internal static class ShopPatch
     {
         [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.EnterMapNode)), HarmonyPostfix, HarmonyPriority(Priority.Low)]
-        private static void AddData(GameRunController __instance)
+        private static void AddData(bool forced, GameRunController __instance)
         {
+            if (forced) return;
             if (!(__instance.CurrentStation is ShopStation station)) return;
 
             List<CardObjWithPrice> cardObjs = station.ShopCards.Select(item => Helpers.ParseCardWithPrice(item.Content, item.Price)).ToList();
