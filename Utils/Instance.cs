@@ -1,4 +1,6 @@
-﻿using RunLogger.Utils.RunLogLib;
+﻿using LBoL.Core.Stations;
+using RunLogger.Utils.RunLogLib;
+using System.Collections.Generic;
 
 namespace RunLogger.Utils
 {
@@ -16,5 +18,6 @@ namespace RunLogger.Utils
         internal int? BackgroundDancersIndex;
         internal int? DebutUncommonCardsIndex;
         internal bool DebutUncommonCardsChosen;
+        internal List<IEnumerable<StationReward>> RewardsBeforeDebut;
     }
 }

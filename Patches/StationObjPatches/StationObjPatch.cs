@@ -6,6 +6,7 @@ using RunLogger.Utils.RunLogLib;
 using RunLogger.Utils;
 using LBoL.Core.Units;
 using LBoL.Core.Adventures;
+using System.Collections.Generic;
 
 namespace RunLogger.Patches.StationObjPatches
 {
@@ -47,6 +48,11 @@ namespace RunLogger.Patches.StationObjPatches
                 station.Id = id;
             }
             Controller.Instance.RunLog.Stations.Add(station);
+
+            List<IEnumerable<StationReward>> rewardsBeforeDebut = Controller.Instance.RewardsBeforeDebut;
+            if (rewardsBeforeDebut == null) return;
+            foreach (IEnumerable<StationReward> rewards in rewardsBeforeDebut) RewardsManager.AddRewards(rewards);
+            rewardsBeforeDebut = null;
         }
 
         [HarmonyPatch(typeof(BattleAdvTestStation), nameof(BattleAdvTestStation.SetEnemy)), HarmonyPostfix]

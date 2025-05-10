@@ -17,7 +17,6 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches
         [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.EnterMapNode)), HarmonyPostfix, HarmonyPriority(Priority.Low)]
         private static void AddData(bool forced, GameRunController __instance)
         {
-            if (forced) return;
             if (!(__instance.CurrentStation is ShopStation station)) return;
 
             List<CardObjWithPrice> cardObjs = station.ShopCards.Select(item => Helpers.ParseCardWithPrice(item.Content, item.Price)).ToList();
@@ -45,7 +44,15 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches
             };
 
             Controller.CurrentStation.Rewards = rewards;
-            Helpers.AddDataValue("Prices", prices);
+            if (forced)
+            {
+                Helpers.GetData(out Dictionary<string, object> data);
+                data["Prices"] = prices;
+            }
+            else
+            {
+                Helpers.AddDataValue("Prices", prices);
+            }
         }
 
         [HarmonyPatch(typeof(ShopStation), nameof(ShopStation.RemoveDeckCard)), HarmonyPrefix]
@@ -70,7 +77,7 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches
             if (isOnEnter) return;
 
             Controller.CurrentStation.Rewards.TryGetValue("Cards", out object value);
-            List<List<CardObjWithPrice>> cards = Helpers.CastList<List<List<CardObjWithPrice>>>(value);
+            List<List<CardObjWithPrice>> cards = value as List<List<CardObjWithPrice>>;
 
             bool isAppended = cards.Count > 1 && cards[1][0].Price != null;
             if (!isAppended) cards.Insert(1, new List<CardObjWithPrice>());
@@ -89,14 +96,14 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches
             if (isOnEnter) return;
 
             Controller.CurrentStation.Rewards.TryGetValue("Exhibits", out object value);
-            List<string> exhibits = Helpers.CastList<List<string>>(value);
+            List<string> exhibits = value as List<string>;
 
             int price = ShopPatch.GetPrice(shopStation, __result);
             string id = exhibit.Id;
             exhibits.Add(id);
             Helpers.GetData(out Dictionary<string, object> data);
             data.TryGetValue("Prices", out object value2);
-            Dictionary<string, int> prices = Helpers.CastDictionary<Dictionary<string, int>>(value2);
+            Dictionary<string, int> prices = value2 as Dictionary<string, int>;
             prices.Add(id, price);
         }
 

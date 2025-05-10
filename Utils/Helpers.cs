@@ -7,7 +7,6 @@ using LBoL.Core.Dialogs;
 using LBoL.Core.Stations;
 using LBoL.Core.Units;
 using LBoL.Presentation;
-using Newtonsoft.Json.Linq;
 using RunLogger.Utils.RunLogLib;
 using RunLogger.Utils.RunLogLib.Entities;
 using System.Collections.Generic;
@@ -155,16 +154,6 @@ namespace RunLogger.Utils
                 values.Add((T1)value);
             }
             return values;
-        }
-
-        internal static T CastList<T>(object value)
-        {
-            return (value as JArray).ToObject<T>();
-        }
-
-        internal static T CastDictionary<T>(object value)
-        {
-            return (value as JObject).ToObject<T>();
         }
     }
 }
