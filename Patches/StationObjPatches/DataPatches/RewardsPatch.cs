@@ -14,13 +14,16 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches
         [HarmonyPatch(typeof(Station), nameof(Station.AddRewards), new Type[] { typeof(IEnumerable<StationReward>) }), HarmonyPrefix]
         private static void AddRewards(IEnumerable<StationReward> rewards)
         {
-            if (Controller.CurrentStation == null)
+            bool isDebut = Helpers.IsAdventure<Debut>();
+            if (isDebut)
             {
-                List<IEnumerable<StationReward>> rewardsBeforeDebut = Controller.Instance.RewardsBeforeDebut ??= new List<IEnumerable<StationReward>>();
-                rewardsBeforeDebut.Add(rewards);
+                if (Controller.CurrentStation == null)
+                {
+                    List<IEnumerable<StationReward>> rewardsBeforeDebut = Controller.Instance.RewardsBeforeDebut ??= new List<IEnumerable<StationReward>>();
+                    rewardsBeforeDebut.Add(rewards);
+                }
                 return;
             }
-            if (Helpers.IsAdventure<Debut>()) return;
 
             RewardsManager.AddRewards(rewards);
         }

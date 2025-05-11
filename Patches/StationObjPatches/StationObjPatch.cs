@@ -13,15 +13,23 @@ namespace RunLogger.Patches.StationObjPatches
     [HarmonyPatch]
     internal static class StationObjPatch
     {
-        [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.EnterMapNode)), HarmonyPostfix, HarmonyPriority(Priority.Normal)]
-        private static void NewStation(MapNode node, bool forced, GameRunController __instance)
+        [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.EnterMapNode)), HarmonyPrefix]
+        private static void GetForced(bool forced)
         {
-            if (forced) return;
+            Controller.Instance.IsForced = forced;
+        }
+
+        [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.EnterStation)), HarmonyPostfix]
+        private static void NewStation(Station station, GameRunController __instance)
+        {
+            bool? forced = Controller.Instance.IsForced;
+            Controller.Instance.IsForced = null;
+            if (forced == true) return;
 
             GameRunController gameRun = __instance;
-            int act = gameRun.CurrentStage.Level;
-            Station currentStation = gameRun.CurrentStation;
-            int level = currentStation.Level;
+            int act = station.Stage.Level;
+            int level = station.Level;
+            MapNode node = gameRun.CurrentMap.VisitingNode;
             int y = node.Y;
             string type = node.StationType.ToString();
 
@@ -31,28 +39,28 @@ namespace RunLogger.Patches.StationObjPatches
                 Level = level,
                 Y = y
             };
-            StationObj station = new StationObj
+            StationObj stationObj = new StationObj
             {
                 Type = type,
                 Node = stationNode
             };
 
-            string id = Helpers.GetAdventureId(currentStation);
+            string id = Helpers.GetAdventureId(station);
             if (id != null)
             {
-                station.Id = id;
+                stationObj.Id = id;
             }
             else
             {
-                id = Helpers.GetEnemyGroupId(currentStation);
-                station.Id = id;
+                id = Helpers.GetEnemyGroupId(station);
+                stationObj.Id = id;
             }
-            Controller.Instance.RunLog.Stations.Add(station);
+            Controller.Instance.RunLog.Stations.Add(stationObj);
 
             List<IEnumerable<StationReward>> rewardsBeforeDebut = Controller.Instance.RewardsBeforeDebut;
             if (rewardsBeforeDebut == null) return;
             foreach (IEnumerable<StationReward> rewards in rewardsBeforeDebut) RewardsManager.AddRewards(rewards);
-            rewardsBeforeDebut = null;
+            Controller.Instance.RewardsBeforeDebut = null;
         }
 
         [HarmonyPatch(typeof(BattleAdvTestStation), nameof(BattleAdvTestStation.SetEnemy)), HarmonyPostfix]

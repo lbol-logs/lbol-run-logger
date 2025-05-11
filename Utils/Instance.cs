@@ -18,6 +18,8 @@ namespace RunLogger.Utils
         internal int? BackgroundDancersIndex;
         internal int? DebutUncommonCardsIndex;
         internal bool DebutUncommonCardsChosen;
+
+        internal bool? IsForced;
         internal List<IEnumerable<StationReward>> RewardsBeforeDebut;
     }
 }

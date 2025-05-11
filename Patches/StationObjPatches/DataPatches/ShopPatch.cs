@@ -14,7 +14,7 @@ namespace RunLogger.Patches.StationObjPatches.DataPatches
     [HarmonyPatch]
     internal static class ShopPatch
     {
-        [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.EnterMapNode)), HarmonyPostfix, HarmonyPriority(Priority.Low)]
+        [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.EnterMapNode)), HarmonyPostfix]
         private static void AddData(bool forced, GameRunController __instance)
         {
             if (!(__instance.CurrentStation is ShopStation station)) return;
