@@ -4,6 +4,7 @@
     {
         EnterStage,
         EnterMapNode,
-        BattleFinish
+        BattleFinish,
+        Adventure
     }
 }
