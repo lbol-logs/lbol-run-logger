@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using LBoL.Core;
+using LBoL.Core.SaveData;
 using LBoL.EntityLib.Exhibits.Common;
 using RunLogger.Utils;
 using RunLogger.Utils.RunLogLib.Entities;
@@ -34,13 +35,24 @@ namespace RunLogger.Patches
                 if (!ExhibitChangePatch.UseAndUpgrade.Exhibits.Contains(exhibit.Id)) return;
                 if (exhibit.GameRun == null) return;
 
-                int before = exhibit.Counter;
-                if (before > value) EntitiesManager.AddExhibitChange(exhibit, ChangeType.Use, value);
-                else if (before < value)
+                int change = value - exhibit.Counter;
+                if (change < 0)
                 {
-                    bool isMopingFirstUpgraded = false;
-                    if (exhibit is Moping) isMopingFirstUpgraded = Controller.CurrentStation.Type != exhibit.GameRun.CurrentStation.Type.ToString();
-                    if (isMopingFirstUpgraded) EntitiesManager.AddExhibitChange(exhibit, ChangeType.Upgrade, value, 1);
+                    if (exhibit is TiangouYuyi)
+                    {
+                        bool isTiangouYuyiFirstUsed = Controller.CurrentStation.Type == exhibit.GameRun.StageRecords.LastOrDefault<StageRecord>().Stations.LastOrDefault<StationRecord>().Type.ToString();
+                        if (!isTiangouYuyiFirstUsed) return;
+                    }
+                    EntitiesManager.AddExhibitChange(exhibit, ChangeType.Use, value);
+                }
+                else if (change > 0)
+                {
+                    if (exhibit is Moping)
+                    {
+                        bool isMopingFirstUpgraded = Controller.CurrentStation.Type != exhibit.GameRun.CurrentStation.Type.ToString();
+                        if (!isMopingFirstUpgraded) return;
+                    }
+                    EntitiesManager.AddExhibitChange(exhibit, ChangeType.Upgrade, value, 1);
                 }
             }
 
