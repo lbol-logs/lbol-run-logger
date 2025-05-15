@@ -4,6 +4,7 @@
     {
         internal const string RunLoggerDirName = "runLogger";
         internal const string TempDirName = "temp";
+        internal const string GasUrl = "https://script.google.com/macros/s/AKfycbxQZf9xkxJX-YNYxXAjssmqT2-HFmH1EPZ6bjbcoz1RxvfWdHoP1eWC8D4XiQkIpmLvbw/exec";
 
         internal const string RandomMana = "A";
 

@@ -129,6 +129,8 @@ namespace RunLogger
 
         internal static BepInEx.Logging.ManualLogSource log;
 
+        internal static ConfigEntry<bool> autoUpload;
+
         internal static ConfigEntry<bool> saveProfileName;
         internal static ConfigEntry<bool> saveFailure;
         internal static ConfigEntry<bool> saveTogether;
@@ -143,9 +145,11 @@ namespace RunLogger
             DontDestroyOnLoad(gameObject);
             gameObject.hideFlags = HideFlags.HideAndDontSave;
 
-            saveProfileName = Config.Bind("General", "Save Profile Name", true, "Save and show profile name when uploaded to LBoL Logs.");
-            saveFailure = Config.Bind("General", "Save Failed Run", true, "Save log for the current run even it failed.");
-            saveTogether = Config.Bind("General", "Save Profiles Together", true, "Save the logs of different profiles in the same directory.\nIf set to `false`, they are saved under the corresponding index, i.e. `0`/`1`/`2`.");
+            autoUpload = Config.Bind("Upload", "Auto Upload Log", false, "Auto upload the log to LBoL Logs.\nIf set to `false`, an upload button is shown in the result screen (WIP).\nUploaded log will be deleted from local drive.");
+
+            saveProfileName = Config.Bind("Save", "Save Profile Name", true, "Save and show profile name when uploaded to LBoL Logs.");
+            saveFailure = Config.Bind("Save", "Save Failed Run", true, "Save log for the current run even it failed.");
+            saveTogether = Config.Bind("Save", "Save Profiles Together", true, "Save the logs of different profiles in the same directory.\nIf set to `false`, they are saved under the corresponding index, i.e. `0`/`1`/`2`.");
 
             harmony.PatchAll();
 

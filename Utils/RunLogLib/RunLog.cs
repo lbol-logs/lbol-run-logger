@@ -15,5 +15,8 @@ namespace RunLogger.Utils.RunLogLib
         public List<CardChange> Cards { get; set; } = new List<CardChange>();
         public List<ExhibitChange> Exhibits { get; set; } = new List<ExhibitChange>();
         public Result Result { get; set; }
+#nullable enable
+        public string? Description { get; set; }
+#nullable disable
     }
 }

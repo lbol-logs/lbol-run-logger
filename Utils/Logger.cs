@@ -8,7 +8,7 @@ namespace RunLogger.Utils
 {
     internal static class Logger
     {
-        private static string Encode(RunLog runLog, bool addIndent)
+        internal static string Encode(RunLog runLog, bool addIndent)
         {
             string jsonString = JsonConvert.SerializeObject(
                 runLog,
@@ -88,10 +88,16 @@ namespace RunLogger.Utils
             File.Delete(path);
         }
 
-        internal static void SaveLog(string name)
+        internal static string SaveLog(string name)
         {
             string path = GetLogPath(name);
             Write(path, false);
+            return path;
+        }
+
+        internal static void DeleteLog(string path)
+        {
+            File.Delete(path);
         }
     }
 }

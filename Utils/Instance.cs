@@ -12,6 +12,7 @@ namespace RunLogger.Utils
         }
 
         internal RunLog RunLog { get; private set; }
+        internal string Path;
         internal static bool IsInitialized;
 
         internal int? PreHealHp;
