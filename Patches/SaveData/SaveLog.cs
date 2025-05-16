@@ -80,8 +80,7 @@ namespace RunLogger.Patches.SaveData
                 resultType
             });
 
-            string path = Logger.SaveLog(name);
-            Controller.Instance.Path = path;
+            Logger.SaveLog(name);
 
             bool autoUpload = BepinexPlugin.autoUpload.Value;
             if (!autoUpload) return;

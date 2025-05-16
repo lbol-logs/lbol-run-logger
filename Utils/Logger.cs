@@ -88,11 +88,11 @@ namespace RunLogger.Utils
             File.Delete(path);
         }
 
-        internal static string SaveLog(string name)
+        internal static void SaveLog(string name)
         {
             string path = GetLogPath(name);
             Write(path, false);
-            return path;
+            Controller.Instance.Path = path;
         }
 
         internal static void DeleteLog(string path)
