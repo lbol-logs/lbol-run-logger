@@ -114,6 +114,7 @@ using Untitled.ConfigDataBuilder;
 using Untitled.ConfigDataBuilder.Base;
 using Debug = UnityEngine.Debug;
 using RunLogger.Wrappers;
+using RunLogger.Utils;
 
 
 namespace RunLogger
@@ -129,11 +130,11 @@ namespace RunLogger
 
         internal static BepInEx.Logging.ManualLogSource log;
 
-        internal static ConfigEntry<bool> autoUpload;
-
         internal static ConfigEntry<bool> saveProfileName;
         internal static ConfigEntry<bool> saveFailure;
         internal static ConfigEntry<bool> saveTogether;
+
+        internal static List<ConfigEntry<bool>> autoUploads = new List<ConfigEntry<bool>>();
 
         internal static bool hasPatchouliMod;
 
@@ -145,11 +146,11 @@ namespace RunLogger
             DontDestroyOnLoad(gameObject);
             gameObject.hideFlags = HideFlags.HideAndDontSave;
 
-            autoUpload = Config.Bind("Upload", "Auto Upload Log", false, "Auto upload the log to LBoL Logs.\nIf set to `false`, an upload button is shown in the result screen (WIP).\nUploaded log will be deleted from local drive.");
-
             saveProfileName = Config.Bind("Save", "Save Profile Name", true, "Save and show profile name when uploaded to LBoL Logs.");
             saveFailure = Config.Bind("Save", "Save Failed Run", true, "Save log for the current run even it failed.");
             saveTogether = Config.Bind("Save", "Save Profiles Together", true, "Save the logs of different profiles in the same directory.\nIf set to `false`, they are saved under the corresponding index, i.e. `0`/`1`/`2`.");
+
+            for (int i = 0; i < Configs.Profiles; i++) autoUploads.Add(Config.Bind("Upload", $"Auto Upload Log #{i}", false, $"Auto upload the log of Profile #{i} to LBoL Logs.\nIf set to `false`, you can upload with description at the result screen.\nUploaded log will be deleted from local drive."));
 
             harmony.PatchAll();
 

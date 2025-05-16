@@ -82,8 +82,7 @@ namespace RunLogger.Patches.SaveData
 
             Logger.SaveLog(name);
 
-            bool autoUpload = BepinexPlugin.autoUpload.Value;
-            if (!autoUpload) return;
+            if (!Helpers.AutoSave) return;
             LBoLLogs.Upload();
         }
     }

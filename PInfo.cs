@@ -7,7 +7,7 @@ namespace RunLogger
         // each loaded plugin needs to have a unique GUID. usually author+generalCategory+Name is good enough
         public const string GUID = "ev.lbol.utils.runLogger";
         public const string Name = "Run Logger";
-        public const string version = "2.2.0";
+        public const string version = "2.3.0";
         public static readonly Harmony harmony = new Harmony(GUID);
     }
 }
