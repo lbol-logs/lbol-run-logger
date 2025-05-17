@@ -160,11 +160,11 @@ namespace RunLogger.Utils
         {
             get
             {
-                return BepinexPlugin.autoUploads[Helpers.CurrentSaveIndex].Value;
+                return BepinexPlugin.AutoUploads[Helpers.CurrentSaveIndex].Value;
             }
             set
             {
-                BepinexPlugin.autoUploads[Helpers.CurrentSaveIndex].Value = value;
+                BepinexPlugin.AutoUploads[Helpers.CurrentSaveIndex].Value = value;
             }
         }
     }

@@ -69,7 +69,7 @@ namespace RunLogger.Utils
 
         private static string GetLogPath(string name)
         {
-            bool saveTogether = BepinexPlugin.saveTogether.Value;
+            bool saveTogether = BepinexPlugin.SaveTogether.Value;
             string subDir = saveTogether ? null : Logger.ProfileName;
             string path = FileManager.GetFilePath(name, FilenameExtension.Log, subDir);
             BepinexPlugin.log.LogDebug($"Log saved: {path}");

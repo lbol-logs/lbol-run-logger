@@ -30,7 +30,7 @@ namespace RunLogger.Patches.SaveData
 
             string resultType = gameRunRecord.ResultType.ToString();
 
-            bool saveFailure = BepinexPlugin.saveFailure.Value;
+            bool saveFailure = BepinexPlugin.SaveFailure.Value;
             bool isFailure = resultType == GameResultType.Failure.ToString();
             bool toSave = saveFailure || !isFailure;
 
