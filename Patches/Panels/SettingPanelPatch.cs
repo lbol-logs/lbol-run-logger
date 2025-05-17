@@ -11,12 +11,11 @@ namespace RunLogger.Patches.Panels
         [HarmonyPatch(typeof(SettingPanel), nameof(SettingPanel.Awake)), HarmonyPostfix]
         private static void CreateSwitch(SettingPanel __instance)
         {
-            if (Templates.AutoUploadSwitch != null) return;
-            BepinexPlugin.log.LogDebug("SettingPanel Awaked");
+            if (Templates.Switch != null) return;
             SettingPanel panel = __instance;
-            GameObject clone = Templates.Create(panel, "Root/Main/LeftPanel/AnimatingEnvironment/Switch");
+            GameObject clone = Templates.CopyGameObject(panel, "Root/Main/LeftPanel/AnimatingEnvironment/Switch");
             clone.name = Templates.Names.Switch;
-            Templates.AutoUploadSwitch = clone;
+            Templates.Switch = clone;
         }
     }
 }

@@ -1,8 +1,11 @@
 ﻿using HarmonyLib;
+using LBoL.Core.StatusEffects;
 using LBoL.Presentation.UI.Panels;
 using RunLogger.Utils.GameObjects;
+using System.Reflection;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace RunLogger.Patches.Panels
 {
@@ -12,15 +15,12 @@ namespace RunLogger.Patches.Panels
         [HarmonyPatch(typeof(MuseumPanel), nameof(MuseumPanel.Awake)), HarmonyPostfix]
         private static void CreateText(MuseumPanel __instance)
         {
-            if (Templates.AutoUploadText != null) return;
-            BepinexPlugin.log.LogDebug("MuseumPanel Awaked");
+            if (Templates.Text != null) return;
             MuseumPanel panel = __instance;
-            GameObject clone = Templates.Create(panel, "TabRoot/Cards/LeftScollView/Viewport/Content/TextFilter/TextFilterInput/Text Area");
+            GameObject clone = Templates.CopyGameObject(panel, "TabRoot/Cards/LeftScollView/Viewport/Content/TextFilter/TextFilterInput");
             clone.name = Templates.Names.Text;
-            Templates.ChangeText(clone, "Placeholder", "Description (optional)");
-            //clone.transform.parent = panel.transform;
-            clone.transform.SetParent(panel.transform, false);
-            Templates.AutoUploadText = clone;
+            Templates.ChangeText(clone.transform.Find("Text Area").gameObject, "Placeholder", "Description (optional)");
+            Templates.Text = clone;
         }
     }
 }
