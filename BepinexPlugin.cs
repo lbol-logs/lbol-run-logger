@@ -150,7 +150,7 @@ namespace RunLogger
             SaveFailure = Config.Bind("Save", "Save Failed Run", true, "Save log for the current run even it failed.");
             SaveTogether = Config.Bind("Save", "Save Profiles Together", true, "Save the logs of different profiles in the same directory.\nIf set to `false`, they are saved under the corresponding index, i.e. `0`/`1`/`2`.");
 
-            for (int i = 0; i < Configs.Profiles; i++) AutoUploads.Add(Config.Bind("Upload", $"Auto Upload Log #{i}", false, $"Auto upload the log of Profile #{i} to LBoL Logs.\nIf set to `false`, you can upload with description at the result screen.\nUploaded log will be deleted from local drive."));
+            for (int i = 0; i < Configs.Profiles; i++) AutoUploads.Add(Config.Bind("Upload", $"Auto Upload Log #{i}", false, $"Auto upload the log of Profile #{i} to LBoL Logs.\nUploaded log will be deleted from local drive."));
 
             harmony.PatchAll();
 
