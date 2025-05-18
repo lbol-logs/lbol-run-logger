@@ -5,6 +5,8 @@ using Newtonsoft.Json;
 using UnityEngine;
 using BepInEx;
 using System.Collections.Generic;
+using LBoL.Core;
+using LBoL.Presentation;
 
 namespace RunLogger.Utils
 {
@@ -13,8 +15,7 @@ namespace RunLogger.Utils
         internal static void Upload(string description = null)
         {
             Controller.Instance.RunLog.Description = description;
-            LBoLLogs lbolLogs = (new GameObject("LBoLLogs")).AddComponent<LBoLLogs>();
-            lbolLogs.StartCoroutine(LBoLLogs.Post());
+            Singleton<GameMaster>.Instance.StartCoroutine(LBoLLogs.Post());
         }
 
         private static IEnumerator Post()

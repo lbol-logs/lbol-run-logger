@@ -24,11 +24,11 @@ namespace RunLogger.Utils
             }
         }
 
-        internal static string CurrentSaveIndex
+        internal static int CurrentSaveIndex
         {
             get
             {
-                return (Singleton<GameMaster>.Instance.CurrentSaveIndex ?? default).ToString();
+                return (Singleton<GameMaster>.Instance.CurrentSaveIndex ?? default);
             }
         }
 
@@ -154,6 +154,18 @@ namespace RunLogger.Utils
                 values.Add((T1)value);
             }
             return values;
+        }
+
+        internal static bool AutoSave
+        {
+            get
+            {
+                return BepinexPlugin.AutoUploads[Helpers.CurrentSaveIndex].Value;
+            }
+            set
+            {
+                BepinexPlugin.AutoUploads[Helpers.CurrentSaveIndex].Value = value;
+            }
         }
     }
 }

@@ -50,7 +50,7 @@ namespace RunLogger.Patches.SaveData
                 }
 
                 Controller.Instance.RunLog.Version = VersionInfo.Current.Version;
-                if (BepinexPlugin.saveProfileName.Value) Controller.Instance.RunLog.Name = parameters.UserProfile.Name;
+                if (BepinexPlugin.SaveProfileName.Value) Controller.Instance.RunLog.Name = parameters.UserProfile.Name;
                 Settings settings = new Settings()
                 {
                     Character = character,

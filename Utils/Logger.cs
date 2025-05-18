@@ -51,9 +51,17 @@ namespace RunLogger.Utils
             FileManager.WriteFile(path, jsonString);
         }
 
+        private static string ProfileName
+        {
+            get
+            {
+                return Helpers.CurrentSaveIndex.ToString();
+            }
+        }
+
         private static string GetTempPath()
         {
-            string name = Helpers.CurrentSaveIndex;
+            string name = Logger.ProfileName;
             string subDir = Configs.TempDirName;
             string path = FileManager.GetFilePath(name, FilenameExtension.Temp, subDir);
             return path;
@@ -61,8 +69,8 @@ namespace RunLogger.Utils
 
         private static string GetLogPath(string name)
         {
-            bool saveTogether = BepinexPlugin.saveTogether.Value;
-            string subDir = saveTogether ? null : Helpers.CurrentSaveIndex;
+            bool saveTogether = BepinexPlugin.SaveTogether.Value;
+            string subDir = saveTogether ? null : Logger.ProfileName;
             string path = FileManager.GetFilePath(name, FilenameExtension.Log, subDir);
             BepinexPlugin.log.LogDebug($"Log saved: {path}");
             return path;
@@ -88,11 +96,11 @@ namespace RunLogger.Utils
             File.Delete(path);
         }
 
-        internal static string SaveLog(string name)
+        internal static void SaveLog(string name)
         {
             string path = GetLogPath(name);
             Write(path, false);
-            return path;
+            Controller.Instance.Path = path;
         }
 
         internal static void DeleteLog(string path)

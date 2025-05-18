@@ -8,6 +8,8 @@
 
         internal const string RandomMana = "A";
 
+        internal const int Profiles = 3;
+
         internal static readonly string[] PriorityMods = new string[] { PInfo.GUID, "neo.lbol.fix.rngFix" };
         internal static readonly string[] ExcludedMods = new string[] { "com.bepis.bepinex.scriptengine", "neo.lbol.tools.watermark" };
         internal const string HelpMeEirinMod = "neo.lbol.qol.helpMeEirin";

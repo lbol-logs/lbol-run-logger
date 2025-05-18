@@ -30,7 +30,7 @@ namespace RunLogger.Patches.SaveData
 
             string resultType = gameRunRecord.ResultType.ToString();
 
-            bool saveFailure = BepinexPlugin.saveFailure.Value;
+            bool saveFailure = BepinexPlugin.SaveFailure.Value;
             bool isFailure = resultType == GameResultType.Failure.ToString();
             bool toSave = saveFailure || !isFailure;
 
@@ -80,11 +80,9 @@ namespace RunLogger.Patches.SaveData
                 resultType
             });
 
-            string path = Logger.SaveLog(name);
-            Controller.Instance.Path = path;
+            Logger.SaveLog(name);
 
-            bool autoUpload = BepinexPlugin.autoUpload.Value;
-            if (!autoUpload) return;
+            if (!Helpers.AutoSave) return;
             LBoLLogs.Upload();
         }
     }
