@@ -29,9 +29,15 @@ namespace RunLogger.Utils
             yield return request.SendWebRequest();
 
             bool isNew = LBoLLogs.HandleResponse(request.downloadHandler.text);
-            if (isNew) BepinexPlugin.log.LogDebug("Uploaded");
-            else BepinexPlugin.log.LogDebug("Upload failed");
-            Logger.DeleteLog(Controller.Instance.Path);
+            if (isNew)
+            {
+                BepinexPlugin.log.LogDebug("Uploaded");
+                Logger.DeleteLog(Controller.Instance.Path);
+            }
+            else
+            {
+                BepinexPlugin.log.LogDebug("Upload failed");
+            }
             Controller.DestroyInstance();
 
             yield break;

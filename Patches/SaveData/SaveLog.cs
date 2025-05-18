@@ -82,7 +82,7 @@ namespace RunLogger.Patches.SaveData
 
             Logger.SaveLog(name);
 
-            if (!Helpers.AutoSave) return;
+            if (!Helpers.AutoUpload) return;
             LBoLLogs.Upload();
         }
     }

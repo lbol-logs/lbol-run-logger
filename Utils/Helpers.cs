@@ -156,15 +156,11 @@ namespace RunLogger.Utils
             return values;
         }
 
-        internal static bool AutoSave
+        internal static bool AutoUpload
         {
             get
             {
                 return BepinexPlugin.AutoUploads[Helpers.CurrentSaveIndex].Value;
-            }
-            set
-            {
-                BepinexPlugin.AutoUploads[Helpers.CurrentSaveIndex].Value = value;
             }
         }
     }
