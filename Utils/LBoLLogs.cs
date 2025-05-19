@@ -7,6 +7,7 @@ using BepInEx;
 using System.Collections.Generic;
 using LBoL.Core;
 using LBoL.Presentation;
+using RunLogger.Utils.Enums;
 
 namespace RunLogger.Utils
 {
@@ -20,6 +21,7 @@ namespace RunLogger.Utils
 
         private static IEnumerator Post()
         {
+            BepinexPlugin.log.LogDebug(UploadStatus.Uploading);
             UnityWebRequest request = new UnityWebRequest(Configs.GasUrl, "POST");
             byte[] data = Encoding.UTF8.GetBytes(Logger.Encode(Controller.Instance.RunLog, false));
             request.uploadHandler = (UploadHandler)new UploadHandlerRaw(data);
@@ -31,12 +33,12 @@ namespace RunLogger.Utils
             bool isNew = LBoLLogs.HandleResponse(request.downloadHandler.text);
             if (isNew)
             {
-                BepinexPlugin.log.LogDebug("Uploaded");
+                BepinexPlugin.log.LogDebug(UploadStatus.Uploaded);
                 Logger.DeleteLog(Controller.Instance.Path);
             }
             else
             {
-                BepinexPlugin.log.LogDebug("Upload failed");
+                BepinexPlugin.log.LogDebug(UploadStatus.Failed);
             }
             Controller.DestroyInstance();
 
