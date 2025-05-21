@@ -165,6 +165,8 @@ namespace RunLogger
         {
             if (harmony != null)
                 harmony.UnpatchSelf();
+
+            ObjectsManager.DestroyAllObjects();
         }
 
 
