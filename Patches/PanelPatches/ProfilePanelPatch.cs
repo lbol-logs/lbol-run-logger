@@ -39,6 +39,7 @@ namespace RunLogger.Patches.PanelPatches
             tmp.characterLimit = 300;
             Object.Destroy(tmp.GetComponent<CharNumTransf>());
 //TODO bg height and width
+//TODO horizontal wrap, vertical truncate
         }
     }
 }

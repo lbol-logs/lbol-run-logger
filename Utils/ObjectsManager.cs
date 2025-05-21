@@ -12,6 +12,7 @@ namespace RunLogger.Utils
             internal static GameObject Bg;
             internal static GameObject AutoUpload;
             internal static GameObject Upload;
+            internal static GameObject Edit;
             internal static GameObject QuickUpload;
             internal static GameObject Status;
             internal static GameObject TextArea;
@@ -50,6 +51,7 @@ namespace RunLogger.Utils
                 ObjectsManager.Objects.Bg,
                 ObjectsManager.Objects.AutoUpload,
                 ObjectsManager.Objects.Upload,
+                ObjectsManager.Objects.Edit,
                 ObjectsManager.Objects.QuickUpload,
                 ObjectsManager.Objects.Status,
                 ObjectsManager.Objects.TextArea

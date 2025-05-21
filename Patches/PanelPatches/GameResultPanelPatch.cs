@@ -58,7 +58,8 @@ namespace RunLogger.Patches.PanelPatches
             }
 
             Transform textAreaT = ObjectsManager.Objects.TextArea?.transform;
-            if (textAreaT != null)
+            Transform editT = ObjectsManager.Objects.Edit?.transform;
+            if (textAreaT != null && editT != null)
             {
                 textAreaT.SetAsLastSibling();
             }
