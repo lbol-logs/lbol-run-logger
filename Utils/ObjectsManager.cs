@@ -9,24 +9,29 @@ namespace RunLogger.Utils
         internal static class Objects
         {
             internal static GameObject Panel;
+            internal static GameObject Bg;
             internal static GameObject AutoUpload;
             internal static GameObject Upload;
+            internal static GameObject QuickUpload;
             internal static GameObject Status;
             internal static GameObject TextArea;
         }
 
-        internal static void Initialize()
+        internal static Transform Initialize()
         {
-            if (ObjectsManager.Objects.Panel != null) return;
+            GameObject panel = ObjectsManager.Objects.Panel;
+            if (panel == null)
+            {
+                panel = ObjectsManager.Objects.Panel = new GameObject("UploadPanel", typeof(RectTransform));
+                RectTransform panelT = panel.GetComponent<RectTransform>();
+                //panelT.anchorMin = new Vector2(0.5f, 0);
+                //panelT.anchorMax = new Vector2(0.5f, 0);
 
-            GameObject panel = ObjectsManager.Objects.Panel = new GameObject("UploadPanel", typeof(RectTransform));
-            RectTransform panelTransform = panel.GetComponent<RectTransform>();
-            panelTransform.anchorMin = new Vector2(0.5f, 0);
-            panelTransform.anchorMax = new Vector2(0.5f, 0);
-
-            GameObject upload = ObjectsManager.Objects.Upload = new GameObject("Upload", typeof(RectTransform));
-            Transform uploadTransform = upload.transform;
-            uploadTransform.SetParent(panelTransform, true);
+                GameObject upload = ObjectsManager.Objects.Upload = new GameObject("Upload", typeof(RectTransform));
+                Transform uploadT = upload.transform;
+                uploadT.SetParent(panelT, true);
+            }
+            return panel.transform;
         }
 
         internal static void ChangeText(GameObject gameObject, string text)
@@ -42,8 +47,10 @@ namespace RunLogger.Utils
             GameObject[] gameObjects = new[]
             {
                 ObjectsManager.Objects.Panel,
+                ObjectsManager.Objects.Bg,
                 ObjectsManager.Objects.AutoUpload,
                 ObjectsManager.Objects.Upload,
+                ObjectsManager.Objects.QuickUpload,
                 ObjectsManager.Objects.Status,
                 ObjectsManager.Objects.TextArea
             };
