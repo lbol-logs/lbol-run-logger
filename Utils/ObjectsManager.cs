@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using LBoL.Presentation.I10N;
+using TMPro;
+using UnityEngine;
 
 namespace RunLogger.Utils
 {
@@ -25,6 +27,14 @@ namespace RunLogger.Utils
             GameObject upload = ObjectsManager.Objects.Upload = new GameObject("Upload", typeof(RectTransform));
             Transform uploadTransform = upload.transform;
             uploadTransform.SetParent(panelTransform, true);
+        }
+
+        internal static void ChangeText(GameObject gameObject, string text)
+        {
+            LocalizedText localizedText = gameObject.GetComponent<LocalizedText>();
+            localizedText.enabled = false;
+            localizedText.key = null;
+            gameObject.GetComponent<TextMeshProUGUI>().text = text;
         }
 
         internal static void DestroyAllObjects()
