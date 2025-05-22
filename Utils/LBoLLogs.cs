@@ -15,12 +15,13 @@ namespace RunLogger.Utils
     {
         internal static void Upload(string description = null)
         {
-            Controller.Instance.RunLog.Description = description;
+            if (!description.IsNullOrWhiteSpace()) Controller.Instance.RunLog.Description = description;
             Singleton<GameMaster>.Instance.StartCoroutine(LBoLLogs.Post());
         }
 
         private static IEnumerator Post()
         {
+            ObjectsManager.Object.Upload?.SetActive(false);
             BepinexPlugin.log.LogDebug(UploadStatus.Uploading);
             UnityWebRequest request = new UnityWebRequest(Configs.GasUrl, "POST");
             byte[] data = Encoding.UTF8.GetBytes(Logger.Encode(Controller.Instance.RunLog, false));

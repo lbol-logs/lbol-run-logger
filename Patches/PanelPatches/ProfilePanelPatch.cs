@@ -1,10 +1,6 @@
 ﻿using HarmonyLib;
-using LBoL.Core;
-using LBoL.Presentation.I10N;
 using LBoL.Presentation.UI;
-using LBoL.Presentation.UI.ExtraWidgets;
 using LBoL.Presentation.UI.Panels;
-using LBoL.Presentation.UI.Widgets;
 using RunLogger.Utils;
 using TMPro;
 using UnityEngine;
@@ -17,10 +13,10 @@ namespace RunLogger.Patches.PanelPatches
         [HarmonyPatch(typeof(ProfilePanel), nameof(ProfilePanel.Awake)), HarmonyPostfix]
         private static void CreateTextArea(ProfilePanel __instance)
         {
-            if (ObjectsManager.Objects.TextArea != null) return;
+            if (ObjectsManager.Object.TextArea != null) return;
 
             Transform panelT = ObjectsManager.Initialize();
-            GameObject textArea = ObjectsManager.Objects.TextArea = Object.Instantiate(
+            GameObject textArea = ObjectsManager.Object.TextArea = Object.Instantiate(
                 __instance.transform.Find("NameInput").gameObject,
                 new InstantiateParameters
                 {
@@ -28,18 +24,53 @@ namespace RunLogger.Patches.PanelPatches
                     worldSpace = true
                 }
             );
+            textArea.SetActive(false);
             textArea.name = "TextArea";
-            //textArea.SetActive(false);
+            Transform textAreaT = textArea.transform;
 
-            Transform inputFieldT = textArea.transform.Find("InputField");
+            Transform inputFieldT = textAreaT.Find("InputField");
             TMP_InputField tmp = inputFieldT.GetComponent<TMP_InputField>();
             tmp.text = null;
             tmp.lineType = TMP_InputField.LineType.MultiLineNewline;
             tmp.onValidateInput = null;
             tmp.characterLimit = 300;
             Object.Destroy(tmp.GetComponent<CharNumTransf>());
-//TODO bg height and width
-//TODO horizontal wrap, vertical truncate
+
+            ObjectsManager.ChangeText(tmp.transform.Find("ViewPort/Text").gameObject, null);
+
+            ObjectsManager.ChangeText(textAreaT.Find("Title").gameObject, "Description");
+
+            Transform confirmT = textAreaT.Find("Confirm");
+            ObjectsManager.ChangeText(confirmT.Find("Layout/Text (TMP)").gameObject, "Upload");
+            ObjectsManager.SetClickEvent(confirmT, () =>
+            {
+                textArea.SetActive(false);
+                LBoLLogs.Upload(tmp.text);
+            });
+            ObjectsManager.SetClickEvent(textAreaT.Find("Cancel"), () =>
+            {
+                textArea.SetActive(false);
+                tmp.text = null;
+            });
+
+            GameObject edit = ObjectsManager.Object.Edit = Object.Instantiate(
+                __instance.transform.Find("Profiles/Layout/ProfileWidget0/Content/EditButton").gameObject,
+                new InstantiateParameters
+                {
+                    parent = ObjectsManager.Object.Upload.transform,
+                    worldSpace = true
+                }
+            );
+            edit.SetActive(false);
+            edit.name = "Edit";
+            ObjectsManager.SetTooltip(edit, "Add description", "optional");
+            ObjectsManager.SetClickEvent(edit.transform, () =>
+            {
+                textArea.SetActive(true);
+                //textArea.GetComponent<CanvasGroup>().interactable = true;
+            });
+            //TODO bg height and width
+            //TODO horizontal wrap, vertical truncate
         }
     }
 }

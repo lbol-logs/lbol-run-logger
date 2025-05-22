@@ -1,12 +1,9 @@
 ﻿using HarmonyLib;
 using LBoL.Core;
-using LBoL.Presentation.I10N;
 using LBoL.Presentation.UI;
-using LBoL.Presentation.UI.ExtraWidgets;
 using LBoL.Presentation.UI.Panels;
 using LBoL.Presentation.UI.Widgets;
 using RunLogger.Utils;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -15,13 +12,19 @@ namespace RunLogger.Patches.PanelPatches
     [HarmonyPatch]
     internal static class GameResultPanelPatch
     {
+        private const float X = 0;
+        private const float Y = -14.88f;
+        private const float EditOffset = 0.7f;
+        private static readonly Vector3 AutoUploadPosition = new Vector3(X, Y, 10);
+        private static readonly Vector3 EditPosition = new Vector3(X + EditOffset, Y, 10);
+
         [HarmonyPatch(typeof(GameResultPanel), nameof(GameResultPanel.OnShowing)), HarmonyPostfix]
         private static void DisplayPanel(GameResultPanel __instance)
         {
             Transform panelT = ObjectsManager.Initialize();
             panelT.SetParent(__instance.transform, true);
 
-            GameObject autoUpload = ObjectsManager.Objects.AutoUpload = Object.Instantiate(
+            GameObject autoUpload = ObjectsManager.Object.AutoUpload = Object.Instantiate(
                 UiManager.GetPanel<SettingPanel>().transform.Find("Root/Main/LeftPanel/AnimatingEnvironment").gameObject,
                 new InstantiateParameters
                 {
@@ -33,11 +36,11 @@ namespace RunLogger.Patches.PanelPatches
             Transform autoUploadT = autoUpload.transform;
             autoUpload.name = "AutoUpload";
             autoUpload.GetComponent<CanvasGroup>().alpha = 1;
-            autoUploadT.position = new Vector3(0, -14.8f, 10);
+            autoUploadT.position = GameResultPanelPatch.AutoUploadPosition;
             int i = Helpers.CurrentSaveIndex;
             string title = $"Auto Upload Log #{i}";
             string description = StringDecorator.Decorate($"Auto upload the log of |Profile #{i}| to LBoL Logs.\nIf set to |false|, you can upload with description at the result screen.\nChange is effective from next run.\nUploaded log will be deleted from local drive.");
-            SimpleTooltipSource.CreateDirect(autoUpload, title, description).WithPosition(TooltipDirection.Top, TooltipAlignment.Min);
+            ObjectsManager.SetTooltip(autoUpload, title, description);
 
             GameObject label = autoUploadT.Find("KeyTmp").gameObject;
             label.name = "Label";
@@ -48,31 +51,41 @@ namespace RunLogger.Patches.PanelPatches
             switchT.localPosition = new Vector3(switchT.localPosition.x - 600, switchT.localPosition.y, switchT.localPosition.z);
             SwitchWidget switchWidget = switchO.GetComponent<SwitchWidget>();
             switchWidget.onToggleChanged = new UnityEvent<bool>();
-            switchWidget.onToggleChanged.AddListener(value => Helpers.AutoUpload = value);
+            switchWidget.onToggleChanged.AddListener(isOn => Helpers.AutoUpload = isOn);
             switchWidget.SetValueWithoutNotifier(Helpers.AutoUpload, true);
 
-            Transform bgT = ObjectsManager.Objects.Bg?.transform;
+            Transform bgT = ObjectsManager.Object.Bg?.transform;
             if (bgT != null)
             {
                 bgT.SetAsFirstSibling();
             }
 
-            Transform textAreaT = ObjectsManager.Objects.TextArea?.transform;
-            Transform editT = ObjectsManager.Objects.Edit?.transform;
+            Transform textAreaT = ObjectsManager.Object.TextArea?.transform;
+            Transform editT = ObjectsManager.Object.Edit?.transform;
             if (textAreaT != null && editT != null)
             {
+                editT.SetAsLastSibling();
                 textAreaT.SetAsLastSibling();
+                editT.position = GameResultPanelPatch.EditPosition;
             }
 
             //TODO: positioning
             //TODO: switch position, onchange, default value
 
-            if (Helpers.AutoUpload) return;
-
-            Transform uploadT = ObjectsManager.Objects.Upload?.transform;
-            if (uploadT != null)
+            if (!Helpers.AutoUpload)
             {
-                //TODO
+                Transform uploadT = ObjectsManager.Object.Upload?.transform;
+                if (uploadT != null)
+                {
+                    //TODO
+                }
+            }
+
+            foreach (GameObject gameObject in ObjectsManager.Objects)
+            {
+                if (gameObject == ObjectsManager.Object.TextArea) continue;
+                if (Helpers.AutoUpload && gameObject == ObjectsManager.Object.Upload) continue;
+                gameObject.SetActive(true);
             }
         }
 
