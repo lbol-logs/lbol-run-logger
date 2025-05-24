@@ -1,4 +1,5 @@
-﻿using LBoL.Presentation.I10N;
+﻿using LBoL.Core;
+using LBoL.Presentation.I10N;
 using LBoL.Presentation.UI;
 using LBoL.Presentation.UI.ExtraWidgets;
 using System.Collections.Generic;
@@ -61,12 +62,12 @@ namespace RunLogger.Utils
             return panel.transform;
         }
 
-        internal static void ChangeText(Transform transform, string text)
+        internal static void ChangeText(Transform transform, string text, string color = null)
         {
             LocalizedText localizedText = transform.GetComponent<LocalizedText>();
             localizedText.enabled = false;
             localizedText.key = null;
-            transform.GetComponent<TextMeshProUGUI>().text = text;
+            transform.GetComponent<TextMeshProUGUI>().text = color == null ? text : $"<color=#{color}>{text}</color>";
         }
 
         internal static void SetClickEvent(Transform transform, UnityAction call)
@@ -79,6 +80,20 @@ namespace RunLogger.Utils
         internal static void SetTooltip(GameObject gameObject, string title, string description = null)
         {
             SimpleTooltipSource.CreateDirect(gameObject, title, description).WithPosition(TooltipDirection.Top, TooltipAlignment.Min);
+        }
+
+
+        internal static void UpdateStatus(string uploadStatus, string url)
+        {
+            Transform statusT = ObjectsManager.Object.Status?.transform;
+            if (statusT == null) return;
+            statusT.gameObject.SetActive(true);
+            string text = url == null ? uploadStatus : $"<u>{uploadStatus}</u>";
+            Transform textT = statusT.Find("SeedText");
+            string color = url == null ? null : ColorUtility.ToHtmlStringRGBA(GlobalConfig.UiBlue);
+            ObjectsManager.ChangeText(textT, text, color);
+            if (url == null) return;
+            ObjectsManager.SetClickEvent(statusT, () => Application.OpenURL(url));
         }
 
         internal static void DestroyAllObjects()

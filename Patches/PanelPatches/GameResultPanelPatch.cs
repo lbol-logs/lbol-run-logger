@@ -14,9 +14,11 @@ namespace RunLogger.Patches.PanelPatches
     {
         private const float X = 0;
         private const float Y = -14.88f;
-        private const float EditOffset = 0.7f;
+        private const float EditOffsetX = 0.7f;
+        private const float StatusOffsetY = 0.06f;
         private static readonly Vector3 AutoUploadPosition = new Vector3(X, Y, 10);
-        private static readonly Vector3 EditPosition = new Vector3(X + EditOffset, Y, 10);
+        private static readonly Vector3 EditPosition = new Vector3(X + EditOffsetX, Y, 10);
+        private static readonly Vector3 StatusPosition = new Vector3(X + EditOffsetX, Y + StatusOffsetY, 10);
 
         [HarmonyPatch(typeof(GameResultPanel), nameof(GameResultPanel.OnShowing)), HarmonyPostfix]
         private static void DisplayPanel(GameResultPanel __instance)
@@ -54,6 +56,13 @@ namespace RunLogger.Patches.PanelPatches
             switchWidget.onToggleChanged.AddListener(isOn => Helpers.AutoUpload = isOn);
             switchWidget.SetValueWithoutNotifier(Helpers.AutoUpload, true);
 
+            Transform statusT = ObjectsManager.Object.Status?.transform;
+            if (statusT != null)
+            {
+                statusT.position = GameResultPanelPatch.StatusPosition;
+                statusT.SetAsFirstSibling();
+            }
+
             Transform bgT = ObjectsManager.Object.Bg?.transform;
             if (bgT != null)
             {
@@ -84,6 +93,7 @@ namespace RunLogger.Patches.PanelPatches
             foreach (GameObject gameObject in ObjectsManager.Objects)
             {
                 if (gameObject == ObjectsManager.Object.TextArea) continue;
+                if (gameObject == ObjectsManager.Object.Status) continue;
                 if (Helpers.AutoUpload && gameObject == ObjectsManager.Object.Upload) continue;
                 gameObject.SetActive(true);
             }
