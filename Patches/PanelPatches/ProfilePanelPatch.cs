@@ -28,15 +28,23 @@ namespace RunLogger.Patches.PanelPatches
             textArea.name = "TextArea";
             Transform textAreaT = textArea.transform;
 
-            Transform inputFieldT = textAreaT.Find("InputField");
-            TMP_InputField tmp = inputFieldT.GetComponent<TMP_InputField>();
-            tmp.text = null;
-            tmp.lineType = TMP_InputField.LineType.MultiLineNewline;
-            tmp.onValidateInput = null;
-            tmp.characterLimit = 300;
-            Object.Destroy(tmp.GetComponent<CharNumTransf>());
+            RectTransform inputFieldT = textAreaT.Find("InputField").GetComponent<RectTransform>();
+            TMP_InputField tmpInput = inputFieldT.GetComponent<TMP_InputField>();
+            tmpInput.text = null;
+            tmpInput.lineType = TMP_InputField.LineType.MultiLineNewline;
+            tmpInput.onValidateInput = null;
+            tmpInput.characterLimit = 300;
+            inputFieldT.offsetMin = new Vector2(-1000, -80);
+            inputFieldT.offsetMax = new Vector2(1000, 80);
+            Object.Destroy(tmpInput.GetComponent<CharNumTransf>());
 
-            ObjectsManager.ChangeText(tmp.transform.Find("ViewPort/Text"), null);
+            RectTransform textT = tmpInput.transform.Find("ViewPort/Text").GetComponent<RectTransform>();
+            ObjectsManager.ChangeText(textT, null);
+            textT.offsetMin = Vector2.zero;
+            textT.offsetMax = Vector2.zero;
+            TextMeshProUGUI tmp = textT.GetComponent<TextMeshProUGUI>();
+            tmp.enableAutoSizing = false;
+            tmp.alignment = TextAlignmentOptions.TopLeft;
 
             ObjectsManager.ChangeText(textAreaT.Find("Title"), "Description");
 
@@ -45,12 +53,12 @@ namespace RunLogger.Patches.PanelPatches
             ObjectsManager.SetClickEvent(confirmT, () =>
             {
                 textArea.SetActive(false);
-                LBoLLogs.Upload(tmp.text);
+                LBoLLogs.Upload(tmpInput.text);
             });
             ObjectsManager.SetClickEvent(textAreaT.Find("Cancel"), () =>
             {
                 textArea.SetActive(false);
-                tmp.text = null;
+                tmpInput.text = null;
             });
 
             GameObject edit = ObjectsManager.Object.Edit = Object.Instantiate(
@@ -64,10 +72,13 @@ namespace RunLogger.Patches.PanelPatches
             edit.SetActive(false);
             edit.name = "Edit";
             ObjectsManager.SetTooltip(edit, "Add description", "optional");
-            ObjectsManager.SetClickEvent(edit.transform, () =>
+            RectTransform editT = edit.GetComponent<RectTransform>();
+            ObjectsManager.SetClickEvent(editT, () =>
             {
                 textArea.SetActive(true);
             });
+            editT.localPosition = Vector3.zero;
+
             //TODO bg height and width
             //TODO horizontal wrap, vertical truncate
         }

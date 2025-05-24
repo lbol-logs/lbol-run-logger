@@ -14,11 +14,11 @@ namespace RunLogger.Patches.PanelPatches
     {
         private const float X = 0;
         private const float Y = -14.88f;
-        private const float EditOffsetX = 0.7f;
+        private const float UploadOffsetX = 0.7f;
         private const float StatusOffsetY = 0.06f;
         private static readonly Vector3 AutoUploadPosition = new Vector3(X, Y, 10);
-        private static readonly Vector3 EditPosition = new Vector3(X + EditOffsetX, Y, 10);
-        private static readonly Vector3 StatusPosition = new Vector3(X + EditOffsetX, Y + StatusOffsetY, 10);
+        private static readonly Vector3 UploadPosition = new Vector3(X + UploadOffsetX, Y, 10);
+        private static readonly Vector3 StatusPosition = new Vector3(X + UploadOffsetX, Y + StatusOffsetY, 10);
 
         [HarmonyPatch(typeof(GameResultPanel), nameof(GameResultPanel.OnShowing)), HarmonyPostfix]
         private static void DisplayPanel(GameResultPanel __instance)
@@ -74,7 +74,6 @@ namespace RunLogger.Patches.PanelPatches
             {
                 editT.SetAsLastSibling();
                 textAreaT.SetAsLastSibling();
-                editT.position = GameResultPanelPatch.EditPosition;
             }
 
             //TODO: positioning
@@ -82,11 +81,8 @@ namespace RunLogger.Patches.PanelPatches
 
             if (!Helpers.AutoUpload)
             {
-                Transform uploadT = ObjectsManager.Object.Upload?.transform;
-                if (uploadT != null)
-                {
-                    //TODO
-                }
+                RectTransform uploadT = ObjectsManager.Object.Upload.GetComponent<RectTransform>();
+                uploadT.position = GameResultPanelPatch.UploadPosition;
             }
 
             foreach (GameObject gameObject in ObjectsManager.Objects)
