@@ -67,7 +67,6 @@ namespace RunLogger.Patches.PanelPatches
             ObjectsManager.SetClickEvent(edit.transform, () =>
             {
                 textArea.SetActive(true);
-                //textArea.GetComponent<CanvasGroup>().interactable = true;
             });
             //TODO bg height and width
             //TODO horizontal wrap, vertical truncate

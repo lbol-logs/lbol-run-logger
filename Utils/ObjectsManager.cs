@@ -52,8 +52,6 @@ namespace RunLogger.Utils
             {
                 panel = ObjectsManager.Object.Panel = new GameObject("UploadPanel", typeof(RectTransform));
                 RectTransform panelT = panel.GetComponent<RectTransform>();
-                //panelT.anchorMin = new Vector2(0.5f, 0);
-                //panelT.anchorMax = new Vector2(0.5f, 0);
 
                 GameObject upload = ObjectsManager.Object.Upload = new GameObject("Upload", typeof(RectTransform));
                 Transform uploadT = upload.transform;

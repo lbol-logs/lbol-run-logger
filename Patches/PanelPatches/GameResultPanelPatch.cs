@@ -32,7 +32,6 @@ namespace RunLogger.Patches.PanelPatches
                 {
                     parent = panelT,
                     worldSpace = true
-                    //worldSpace = false
                 }
             );
             Transform autoUploadT = autoUpload.transform;
