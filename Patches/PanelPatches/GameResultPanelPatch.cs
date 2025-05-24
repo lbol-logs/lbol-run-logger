@@ -44,7 +44,7 @@ namespace RunLogger.Patches.PanelPatches
 
             GameObject label = autoUploadT.Find("KeyTmp").gameObject;
             label.name = "Label";
-            ObjectsManager.ChangeText(label, "Auto Upload");
+            ObjectsManager.ChangeText(label.transform, "Auto Upload");
 
             GameObject switchO = autoUploadT.Find("Switch").gameObject;
             RectTransform switchT = switchO.GetComponent<RectTransform>();

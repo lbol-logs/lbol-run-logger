@@ -61,12 +61,12 @@ namespace RunLogger.Utils
             return panel.transform;
         }
 
-        internal static void ChangeText(GameObject gameObject, string text)
+        internal static void ChangeText(Transform transform, string text)
         {
-            LocalizedText localizedText = gameObject.GetComponent<LocalizedText>();
+            LocalizedText localizedText = transform.GetComponent<LocalizedText>();
             localizedText.enabled = false;
             localizedText.key = null;
-            gameObject.GetComponent<TextMeshProUGUI>().text = text;
+            transform.GetComponent<TextMeshProUGUI>().text = text;
         }
 
         internal static void SetClickEvent(Transform transform, UnityAction call)

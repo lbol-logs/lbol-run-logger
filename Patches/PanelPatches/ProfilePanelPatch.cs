@@ -36,12 +36,12 @@ namespace RunLogger.Patches.PanelPatches
             tmp.characterLimit = 300;
             Object.Destroy(tmp.GetComponent<CharNumTransf>());
 
-            ObjectsManager.ChangeText(tmp.transform.Find("ViewPort/Text").gameObject, null);
+            ObjectsManager.ChangeText(tmp.transform.Find("ViewPort/Text"), null);
 
-            ObjectsManager.ChangeText(textAreaT.Find("Title").gameObject, "Description");
+            ObjectsManager.ChangeText(textAreaT.Find("Title"), "Description");
 
             Transform confirmT = textAreaT.Find("Confirm");
-            ObjectsManager.ChangeText(confirmT.Find("Layout/Text (TMP)").gameObject, "Upload");
+            ObjectsManager.ChangeText(confirmT.Find("Layout/Text (TMP)"), "Upload");
             ObjectsManager.SetClickEvent(confirmT, () =>
             {
                 textArea.SetActive(false);
