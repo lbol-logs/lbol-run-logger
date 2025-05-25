@@ -13,7 +13,7 @@ namespace RunLogger.Patches.PanelPatches
         {
             if (ObjectsManager.Object.TextArea != null) return;
 
-            Transform panelT = ObjectsManager.Initialize();
+            Transform panelT = ObjectsManager.GetPanel();
             GameObject textArea = ObjectsManager.Object.TextArea = Object.Instantiate(
                 __instance.transform.Find("NameInput").gameObject,
                 new InstantiateParameters

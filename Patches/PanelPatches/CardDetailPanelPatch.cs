@@ -14,7 +14,7 @@ namespace RunLogger.Patches.PanelPatches
         {
             if (ObjectsManager.Object.Bg != null) return;
 
-            Transform panelT = ObjectsManager.Initialize();
+            Transform panelT = ObjectsManager.GetPanel();
             GameObject bg = ObjectsManager.Object.Bg = Object.Instantiate(
                 __instance.transform.Find("SubWidgetGroup/TooltipParent/TooltipTemplate/Root/ExtraText").gameObject,
                 new InstantiateParameters

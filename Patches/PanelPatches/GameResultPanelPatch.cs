@@ -29,7 +29,7 @@ namespace RunLogger.Patches.PanelPatches
         [HarmonyPatch(typeof(GameResultPanel), nameof(GameResultPanel.OnShowing)), HarmonyPostfix]
         private static void DisplayPanel(GameResultPanel __instance)
         {
-            Transform panelT = ObjectsManager.Initialize();
+            Transform panelT = ObjectsManager.GetPanel();
             panelT.SetParent(__instance.transform, true);
 BepinexPlugin.log.LogDebug(1);
             GameObject autoUpload = ObjectsManager.Object.AutoUpload = Object.Instantiate(

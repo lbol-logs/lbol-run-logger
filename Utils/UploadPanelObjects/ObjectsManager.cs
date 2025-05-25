@@ -2,6 +2,7 @@
 using LBoL.Presentation.I10N;
 using LBoL.Presentation.UI;
 using LBoL.Presentation.UI.ExtraWidgets;
+using LBoL.Presentation.UI.Panels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,12 +54,9 @@ namespace RunLogger.Utils.UploadPanelObjects
             {
                 GameObject[] gameObjects = new[]
                 {
-                    ObjectsManager.Object.Panel,
                     ObjectsManager.Object.Bg,
                     ObjectsManager.Object.AutoUpload,
-                    ObjectsManager.Object.Upload,
                     ObjectsManager.Object.Edit,
-                    ObjectsManager.Object.Upload,
                     ObjectsManager.Object.QuickUpload,
                     ObjectsManager.Object.Status,
                     ObjectsManager.Object.TextArea,
@@ -68,6 +66,7 @@ namespace RunLogger.Utils.UploadPanelObjects
             }
         }
 
+        //TODO
         internal static string Text
         {
             get
@@ -82,6 +81,7 @@ namespace RunLogger.Utils.UploadPanelObjects
             }
         }
 
+        //TODO
         internal static TMP_InputField TmpInput
         {
             get
@@ -92,7 +92,7 @@ namespace RunLogger.Utils.UploadPanelObjects
             }
         }
 
-        internal static Transform Initialize()
+        internal static Transform GetPanel()
         {
             BepinexPlugin.log.LogDebug(ObjectsManager.Panel != null);
             GameObject panel = ObjectsManager.Object.Panel;

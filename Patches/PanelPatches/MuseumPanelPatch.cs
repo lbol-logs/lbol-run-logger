@@ -14,7 +14,7 @@ namespace RunLogger.Patches.PanelPatches
         {
             if (ObjectsManager.Object.Input != null) return;
 
-            Transform panelT = ObjectsManager.Initialize();
+            Transform panelT = ObjectsManager.GetPanel();
             GameObject input = ObjectsManager.Object.Input = Object.Instantiate(
                 __instance.transform.Find("TabRoot/Cards/LeftScollView/Viewport/Content/TextFilter").gameObject,
                 new InstantiateParameters

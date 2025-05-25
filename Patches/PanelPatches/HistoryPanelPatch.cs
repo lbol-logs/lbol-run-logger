@@ -14,7 +14,7 @@ namespace RunLogger.Patches.PanelPatches
         {
             if (ObjectsManager.Object.Status != null) return;
 
-            Transform panelT = ObjectsManager.Initialize();
+            Transform panelT = ObjectsManager.GetPanel();
             GameObject status = ObjectsManager.Object.Status = Object.Instantiate(
                 __instance.transform.Find("RecordDataArea/SeedButton").gameObject,
                 new InstantiateParameters
