@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 namespace RunLogger.Patches.PanelPatches
 {
-    [HarmonyPatch]
+    //[HarmonyPatch]
     internal static class GameResultPanelPatch
     {
         private const float X = 0;
@@ -30,7 +30,7 @@ namespace RunLogger.Patches.PanelPatches
         {
             Transform panelT = ObjectsManager.Initialize();
             panelT.SetParent(__instance.transform, true);
-
+BepinexPlugin.log.LogDebug(1);
             GameObject autoUpload = ObjectsManager.Object.AutoUpload = Object.Instantiate(
                 UiManager.GetPanel<SettingPanel>().transform.Find("Root/Main/LeftPanel/AnimatingEnvironment").gameObject,
                 new InstantiateParameters
@@ -47,11 +47,11 @@ namespace RunLogger.Patches.PanelPatches
             string title = $"Auto Upload Log #{i}";
             string description = StringDecorator.Decorate($"Auto upload the log of |Profile #{i}| to LBoL Logs.\nIf set to |false|, you can upload with description at the result screen.\nChange is effective from next run.\nUploaded log will be deleted from local drive.");
             ObjectsManager.SetTooltip(autoUpload, title, description);
-
+BepinexPlugin.log.LogDebug(2);
             GameObject label = autoUploadT.Find("KeyTmp").gameObject;
             label.name = "Label";
             ObjectsManager.ChangeText(label.transform, "Auto Upload");
-
+BepinexPlugin.log.LogDebug(3);
             GameObject switchO = autoUploadT.Find("Switch").gameObject;
             RectTransform switchT = switchO.GetComponent<RectTransform>();
             switchT.localPosition = new Vector3(switchT.localPosition.x - 600, switchT.localPosition.y, switchT.localPosition.z);
@@ -59,37 +59,35 @@ namespace RunLogger.Patches.PanelPatches
             switchWidget.onToggleChanged = new UnityEvent<bool>();
             switchWidget.onToggleChanged.AddListener(isOn => Helpers.AutoUpload = isOn);
             switchWidget.SetValueWithoutNotifier(Helpers.AutoUpload, true);
+BepinexPlugin.log.LogDebug(4);
+BepinexPlugin.log.LogDebug(ObjectsManager.Object.Status != null);
+            Transform statusT = ObjectsManager.Object.Status.transform;
+BepinexPlugin.log.LogDebug("A");
+BepinexPlugin.log.LogDebug("B");
+            statusT.position = GameResultPanelPatch.StatusPosition;
+BepinexPlugin.log.LogDebug("C");
+            statusT.SetAsFirstSibling();
+BepinexPlugin.log.LogDebug("D");
+BepinexPlugin.log.LogDebug(5);
 
-            Transform statusT = ObjectsManager.Object.Status?.transform;
-            if (statusT != null)
-            {
-                statusT.position = GameResultPanelPatch.StatusPosition;
-                statusT.SetAsFirstSibling();
-            }
+            RectTransform bgT = ObjectsManager.Object.Bg.GetComponent<RectTransform>();
+            bgT.position = GameResultPanelPatch.BgPosition;
+            bgT.SetAsFirstSibling();
+BepinexPlugin.log.LogDebug(6);
 
-            RectTransform bgT = ObjectsManager.Object.Bg?.GetComponent<RectTransform>();
-            if (bgT != null)
-            {
-                bgT.position = GameResultPanelPatch.BgPosition;
-                bgT.SetAsFirstSibling();
-            }
+            Transform textAreaT = ObjectsManager.Object.TextArea.transform;
+            Transform editT = ObjectsManager.Object.Edit.transform;
+            Transform inputT = ObjectsManager.Object.Input.transform;
+            editT.SetAsLastSibling();
+            textAreaT.SetAsLastSibling();
 
-            Transform textAreaT = ObjectsManager.Object.TextArea?.transform;
-            Transform editT = ObjectsManager.Object.Edit?.transform;
-            Transform inputT = ObjectsManager.Object.Input?.transform;
-            if (textAreaT != null && editT != null && inputT != null)
-            {
-                editT.SetAsLastSibling();
-                textAreaT.SetAsLastSibling();
+            inputT.SetParent(textAreaT, true);
 
-                inputT.SetParent(textAreaT, true);
-                if (bgT != null)
-                {
-                    Image image = inputT.Find("TextFilterInput").GetComponent<Image>();
-                    image.sprite = bgT.GetComponent<Image>().sprite;
-                    image.type = Image.Type.Sliced;
-                }
-            }
+            Image image = inputT.Find("TextFilterInput").GetComponent<Image>();
+            image.sprite = bgT.GetComponent<Image>().sprite;
+            image.type = Image.Type.Sliced;
+BepinexPlugin.log.LogDebug(7);
+
             if (!Helpers.AutoUpload)
             {
                 RectTransform uploadT = ObjectsManager.Object.Upload.GetComponent<RectTransform>();
@@ -111,6 +109,7 @@ namespace RunLogger.Patches.PanelPatches
                 quickUploadT.localPosition = new Vector2(GameResultPanelPatch.QuickUploadOffsetX, 0);
                 quickUploadT.localScale = new Vector3(GameResultPanelPatch.QuickUploadScale, GameResultPanelPatch.QuickUploadScale, GameResultPanelPatch.QuickUploadScale);
             }
+BepinexPlugin.log.LogDebug(8);
             foreach (GameObject gameObject in ObjectsManager.Objects)
             {
                 if (gameObject == ObjectsManager.Object.TextArea) continue;

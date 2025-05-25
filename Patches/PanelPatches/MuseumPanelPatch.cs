@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace RunLogger.Patches.PanelPatches
 {
-    [HarmonyPatch]
+    //[HarmonyPatch]
     internal static class MuseumPanelPatch
     {
         [HarmonyPatch(typeof(MuseumPanel), nameof(MuseumPanel.Awake)), HarmonyPostfix]

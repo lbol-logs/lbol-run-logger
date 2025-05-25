@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace RunLogger.Patches.PanelPatches
 {
-    [HarmonyPatch]
+    //[HarmonyPatch]
     internal static class CardDetailPanelPatch
     {
         [HarmonyPatch(typeof(CardDetailPanel), nameof(CardDetailPanel.Awake)), HarmonyPostfix]

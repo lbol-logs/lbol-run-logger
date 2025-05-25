@@ -2,11 +2,13 @@
 using LBoL.Presentation.I10N;
 using LBoL.Presentation.UI;
 using LBoL.Presentation.UI.ExtraWidgets;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static UnityEngine.UI.Button;
 
@@ -14,6 +16,16 @@ namespace RunLogger.Utils
 {
     internal static class ObjectsManager
     {
+        internal static RectTransform Panel
+        {
+            get
+            {
+                Scene scene = SceneManager.GetSceneByName("GameRun");
+                GameObject[] gameObjects = scene.GetRootGameObjects();
+                return Array.Find(gameObjects, (GameObject gameObject) => gameObject.name == "UploadPanel")?.GetComponent<RectTransform>();
+            }
+        }
+
         internal static class Object
         {
             internal static GameObject Panel;
@@ -74,6 +86,7 @@ namespace RunLogger.Utils
 
         internal static Transform Initialize()
         {
+            BepinexPlugin.log.LogDebug(ObjectsManager.Panel != null);
             GameObject panel = ObjectsManager.Object.Panel;
             if (panel == null)
             {
@@ -110,8 +123,7 @@ namespace RunLogger.Utils
 
         internal static void UpdateStatus(string uploadStatus, string url)
         {
-            Transform statusT = ObjectsManager.Object.Status?.transform;
-            if (statusT == null) return;
+            Transform statusT = ObjectsManager.Object.Status.transform;
             statusT.gameObject.SetActive(true);
             string text = url == null ? uploadStatus : $"<u>{uploadStatus}</u>";
             Transform textT = statusT.Find("SeedText");

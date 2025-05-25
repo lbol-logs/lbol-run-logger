@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace RunLogger.Patches.PanelPatches
 {
-    [HarmonyPatch]
+    //[HarmonyPatch]
     internal static class ProfilePanelPatch
     {
         [HarmonyPatch(typeof(ProfilePanel), nameof(ProfilePanel.Awake)), HarmonyPostfix]

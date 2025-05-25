@@ -21,7 +21,7 @@ namespace RunLogger.Utils
 
         private static IEnumerator Post()
         {
-            ObjectsManager.Object.Upload?.SetActive(false);
+            ObjectsManager.Object.Upload.SetActive(false);
             LBoLLogs.Log(UploadStatus.Uploading);
             UnityWebRequest request = new UnityWebRequest(Configs.GasUrl, "POST");
             byte[] data = Encoding.UTF8.GetBytes(Logger.Encode(Controller.Instance.RunLog, false));
