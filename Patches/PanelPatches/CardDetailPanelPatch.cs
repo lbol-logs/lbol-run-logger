@@ -1,6 +1,6 @@
 ﻿using HarmonyLib;
 using LBoL.Presentation.UI.Panels;
-using RunLogger.Utils;
+using RunLogger.Utils.UploadPanel;
 using UnityEngine;
 using UnityEngine.UI;
 
