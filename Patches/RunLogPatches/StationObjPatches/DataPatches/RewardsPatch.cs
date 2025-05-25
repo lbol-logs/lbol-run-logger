@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using RunLogger.Utils;
 using System;
 using LBoL.EntityLib.Adventures;
+using RunLogger.Utils.Managers;
 
 namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches
 {

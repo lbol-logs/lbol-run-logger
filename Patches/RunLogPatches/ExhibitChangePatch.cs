@@ -3,6 +3,7 @@ using LBoL.Core;
 using LBoL.Core.SaveData;
 using LBoL.EntityLib.Exhibits.Common;
 using RunLogger.Utils;
+using RunLogger.Utils.Managers;
 using RunLogger.Utils.RunLogLib.Entities;
 using System.Collections.Generic;
 using System.Linq;

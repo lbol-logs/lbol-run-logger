@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using RunLogger.Utils;
 using RunLogger.Utils.RunLogLib.Entities;
 using System.Linq;
+using RunLogger.Utils.Managers;
 
 namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches
 {

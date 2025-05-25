@@ -4,7 +4,7 @@ using RunLogger.Utils.RunLogLib.Entities;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace RunLogger.Utils
+namespace RunLogger.Utils.Managers
 {
     internal static class TurnObjManager
     {

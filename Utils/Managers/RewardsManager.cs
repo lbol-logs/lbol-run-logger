@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using RunLogger.Utils.RunLogLib.Entities;
 using LBoL.Core;
 
-namespace RunLogger.Utils
+namespace RunLogger.Utils.Managers
 {
     internal static class RewardsManager
     {

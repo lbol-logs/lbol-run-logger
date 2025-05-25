@@ -7,6 +7,7 @@ using RunLogger.Utils;
 using LBoL.Core.Units;
 using LBoL.Core.Adventures;
 using System.Collections.Generic;
+using RunLogger.Utils.Managers;
 
 namespace RunLogger.Patches.RunLogPatches.StationObjPatches
 {
