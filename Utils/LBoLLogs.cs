@@ -2,7 +2,6 @@
 using UnityEngine.Networking;
 using System.Collections;
 using Newtonsoft.Json;
-using UnityEngine;
 using BepInEx;
 using System.Collections.Generic;
 using LBoL.Core;
@@ -13,7 +12,7 @@ using RunLogger.Utils.UploadPanelObjects;
 
 namespace RunLogger.Utils
 {
-    internal class LBoLLogs : MonoBehaviour
+    internal class LBoLLogs : UnityEngine.MonoBehaviour
     {
         internal static void Upload(string description = null)
         {
