@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace RunLogger.Utils
+namespace RunLogger.Utils.LogFile
 {
     internal static class FileManager
     {
