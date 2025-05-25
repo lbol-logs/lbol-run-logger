@@ -26,6 +26,14 @@ namespace RunLogger.Utils.UploadPanelObjects
             }
         }
 
+        private static GameObject Clone
+        {
+            get
+            {
+                return UiManager.GetPanel<GameResultPanel>().transform.Find("UploadPanel (Clone)")?.gameObject;
+            }
+        }
+
         internal static class Object
         {
             internal static GameObject Panel;
@@ -133,9 +141,10 @@ namespace RunLogger.Utils.UploadPanelObjects
             ObjectsManager.SetClickEvent(statusT, () => Application.OpenURL(url));
         }
 
-        internal static void DestroyAllObjects()
+        internal static void DestroyClone()
         {
-            foreach (GameObject gameObject in ObjectsManager.Objects) UnityEngine.Object.Destroy(gameObject);
+            GameObject clone = ObjectsManager.Clone;
+            if (clone != null) UnityEngine.Object.Destroy(clone);
         }
     }
 }

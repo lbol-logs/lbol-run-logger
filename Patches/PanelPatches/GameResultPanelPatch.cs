@@ -121,9 +121,9 @@ BepinexPlugin.log.LogDebug(8);
         }
 
         [HarmonyPatch(typeof(GameResultPanel), nameof(GameResultPanel.OnHiding)), HarmonyPostfix]
-        private static void DestroyAllObjects()
+        private static void DestroyClone()
         {
-            ObjectsManager.DestroyAllObjects();
+            ObjectsManager.DestroyClone();
         }
     }
 }
