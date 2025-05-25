@@ -1,8 +1,6 @@
 ﻿using HarmonyLib;
-using LBoL.Presentation.UI;
 using LBoL.Presentation.UI.Panels;
 using RunLogger.Utils;
-using TMPro;
 using UnityEngine;
 
 namespace RunLogger.Patches.PanelPatches
@@ -28,23 +26,7 @@ namespace RunLogger.Patches.PanelPatches
             textArea.name = "TextArea";
             Transform textAreaT = textArea.transform;
 
-            RectTransform inputFieldT = textAreaT.Find("InputField").GetComponent<RectTransform>();
-            TMP_InputField tmpInput = inputFieldT.GetComponent<TMP_InputField>();
-            tmpInput.text = null;
-            tmpInput.lineType = TMP_InputField.LineType.MultiLineNewline;
-            tmpInput.onValidateInput = null;
-            tmpInput.characterLimit = 300;
-            inputFieldT.offsetMin = new Vector2(-1000, -80);
-            inputFieldT.offsetMax = new Vector2(1000, 80);
-            Object.Destroy(tmpInput.GetComponent<CharNumTransf>());
-
-            RectTransform textT = tmpInput.transform.Find("ViewPort/Text").GetComponent<RectTransform>();
-            ObjectsManager.ChangeText(textT, null);
-            textT.offsetMin = Vector2.zero;
-            textT.offsetMax = Vector2.zero;
-            TextMeshProUGUI tmp = textT.GetComponent<TextMeshProUGUI>();
-            tmp.enableAutoSizing = false;
-            tmp.alignment = TextAlignmentOptions.TopLeft;
+            Object.Destroy(textAreaT.Find("InputField").gameObject);
 
             ObjectsManager.ChangeText(textAreaT.Find("Title"), "Description");
 
@@ -53,12 +35,13 @@ namespace RunLogger.Patches.PanelPatches
             ObjectsManager.SetClickEvent(confirmT, () =>
             {
                 textArea.SetActive(false);
-                LBoLLogs.Upload(tmpInput.text);
+                BepinexPlugin.log.LogDebug(ObjectsManager.Text);
+                //LBoLLogs.Upload(ObjectsManager.Text);
             });
             ObjectsManager.SetClickEvent(textAreaT.Find("Cancel"), () =>
             {
                 textArea.SetActive(false);
-                tmpInput.text = null;
+                ObjectsManager.Text = null;
             });
 
             GameObject edit = ObjectsManager.Object.Edit = Object.Instantiate(
@@ -78,9 +61,6 @@ namespace RunLogger.Patches.PanelPatches
                 textArea.SetActive(true);
             });
             editT.localPosition = Vector3.zero;
-
-            //TODO bg height and width
-            //TODO horizontal wrap, vertical truncate
         }
     }
 }

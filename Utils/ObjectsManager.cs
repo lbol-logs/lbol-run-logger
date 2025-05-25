@@ -24,6 +24,7 @@ namespace RunLogger.Utils
             internal static GameObject QuickUpload;
             internal static GameObject Status;
             internal static GameObject TextArea;
+            internal static GameObject Input;
         }
 
         internal static IEnumerable<GameObject> Objects
@@ -37,11 +38,37 @@ namespace RunLogger.Utils
                     ObjectsManager.Object.AutoUpload,
                     ObjectsManager.Object.Upload,
                     ObjectsManager.Object.Edit,
+                    ObjectsManager.Object.Upload,
                     ObjectsManager.Object.QuickUpload,
                     ObjectsManager.Object.Status,
-                    ObjectsManager.Object.TextArea
-                };
+                    ObjectsManager.Object.TextArea,
+                    ObjectsManager.Object.Input
+    };
                 return gameObjects.Where(gameObject => gameObject != null);
+            }
+        }
+
+        internal static string Text
+        {
+            get
+            {
+                TMP_InputField tmpInput = ObjectsManager.TmpInput;
+                return tmpInput.text;
+            }
+            set
+            {
+                TMP_InputField tmpInput = ObjectsManager.TmpInput;
+                tmpInput.text = value;
+            }
+        }
+
+        internal static TMP_InputField TmpInput
+        {
+            get
+            {
+                Transform inputT = ObjectsManager.Object.Input.transform;
+                TMP_InputField tmpInput = inputT.Find("TextFilterInput").GetComponent<TMP_InputField>();
+                return tmpInput;
             }
         }
 

@@ -6,6 +6,7 @@ using LBoL.Presentation.UI.Widgets;
 using RunLogger.Utils;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace RunLogger.Patches.PanelPatches
 {
@@ -14,8 +15,12 @@ namespace RunLogger.Patches.PanelPatches
     {
         private const float X = 0;
         private const float Y = -14.88f;
+        private const float BgOffsetX = -3.7f;
         private const float UploadOffsetX = 0.7f;
+        private const float QuickUploadOffsetX = 0.5f;
+        private const float QuickUploadScale = 0.004f;
         private const float StatusOffsetY = 0.06f;
+        private static readonly Vector3 BgPosition = new Vector3(X + BgOffsetX, Y, 10);
         private static readonly Vector3 AutoUploadPosition = new Vector3(X, Y, 10);
         private static readonly Vector3 UploadPosition = new Vector3(X + UploadOffsetX, Y, 10);
         private static readonly Vector3 StatusPosition = new Vector3(X + UploadOffsetX, Y + StatusOffsetY, 10);
@@ -62,29 +67,50 @@ namespace RunLogger.Patches.PanelPatches
                 statusT.SetAsFirstSibling();
             }
 
-            Transform bgT = ObjectsManager.Object.Bg?.transform;
+            RectTransform bgT = ObjectsManager.Object.Bg?.GetComponent<RectTransform>();
             if (bgT != null)
             {
+                bgT.position = GameResultPanelPatch.BgPosition;
                 bgT.SetAsFirstSibling();
             }
 
             Transform textAreaT = ObjectsManager.Object.TextArea?.transform;
             Transform editT = ObjectsManager.Object.Edit?.transform;
-            if (textAreaT != null && editT != null)
+            Transform inputT = ObjectsManager.Object.Input?.transform;
+            if (textAreaT != null && editT != null && inputT != null)
             {
                 editT.SetAsLastSibling();
                 textAreaT.SetAsLastSibling();
+
+                inputT.SetParent(textAreaT, true);
+                if (bgT != null)
+                {
+                    Image image = inputT.Find("TextFilterInput").GetComponent<Image>();
+                    image.sprite = bgT.GetComponent<Image>().sprite;
+                    image.type = Image.Type.Sliced;
+                }
             }
-
-            //TODO: positioning
-            //TODO: switch position, onchange, default value
-
             if (!Helpers.AutoUpload)
             {
                 RectTransform uploadT = ObjectsManager.Object.Upload.GetComponent<RectTransform>();
                 uploadT.position = GameResultPanelPatch.UploadPosition;
-            }
 
+                GameObject quickUpload = ObjectsManager.Object.QuickUpload = Object.Instantiate(
+                    __instance.transform.Find("CommonButton").gameObject,
+                    new InstantiateParameters
+                    {
+                        parent = uploadT,
+                        worldSpace = true
+                    }
+                );
+                quickUpload.name = "QuickUpload";
+                RectTransform quickUploadT = quickUpload.GetComponent<RectTransform>();
+                ObjectsManager.SetClickEvent(quickUploadT, () => LBoLLogs.Upload());
+                ObjectsManager.ChangeText(quickUploadT.Find("Layout/Text (TMP)"), "Upload");
+                quickUploadT.pivot = new Vector2(0, 0.5f);
+                quickUploadT.localPosition = new Vector2(GameResultPanelPatch.QuickUploadOffsetX, 0);
+                quickUploadT.localScale = new Vector3(GameResultPanelPatch.QuickUploadScale, GameResultPanelPatch.QuickUploadScale, GameResultPanelPatch.QuickUploadScale);
+            }
             foreach (GameObject gameObject in ObjectsManager.Objects)
             {
                 if (gameObject == ObjectsManager.Object.TextArea) continue;
