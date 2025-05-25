@@ -2,6 +2,7 @@
 using LBoL.Core;
 using RunLogger.Utils.RunLogLib;
 using RunLogger.Utils;
+using RunLogger.Utils.LogFile;
 
 namespace RunLogger.Patches.SaveData
 {
