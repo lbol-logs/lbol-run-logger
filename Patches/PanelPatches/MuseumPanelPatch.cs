@@ -6,41 +6,32 @@ using UnityEngine;
 
 namespace RunLogger.Patches.PanelPatches
 {
-    //[HarmonyPatch]
+    [HarmonyPatch]
     internal static class MuseumPanelPatch
     {
         [HarmonyPatch(typeof(MuseumPanel), nameof(MuseumPanel.Awake)), HarmonyPostfix]
-        private static void AddInput(MuseumPanel __instance)
+        private static void CreateInput(MuseumPanel __instance)
         {
-            if (ObjectsManager.Object.Input != null) return;
+            if (UploadPanel.HasPanel || ObjectsManager.GetFromTemp("Input") != null) return;
 
-            Transform panelT = ObjectsManager.GetPanel();
-            GameObject input = ObjectsManager.Object.Input = Object.Instantiate(
-                __instance.transform.Find("TabRoot/Cards/LeftScollView/Viewport/Content/TextFilter").gameObject,
-                new InstantiateParameters
-                {
-                    parent = panelT,
-                    worldSpace = true
-                }
-            );
-            input.SetActive(false);
+            RectTransform input = ObjectsManager.CopyGameObject(__instance.transform, "TabRoot/Cards/LeftScollView/Viewport/Content/TextFilter");
             input.name = "Input";
-            RectTransform inputT = input.GetComponent<RectTransform>();
-            Object.Destroy(inputT.Find("ClearTextFilter").gameObject);
-            inputT.localPosition = new Vector3(0, 100, 0);
-            inputT.sizeDelta = new Vector2(2000, 700);
+            Object.Destroy(input.Find("ClearTextFilter").gameObject);
+            input.localPosition = PositionsManager.InputLocalPosition;
+            input.sizeDelta = PositionsManager.InputSizeDelta;
 
-            TMP_InputField tmpInput = ObjectsManager.TmpInput;
+            TMP_InputField tmpInput = input.Find("TextFilterInput").GetComponent<TMP_InputField>();
             tmpInput.onValueChanged = null;
             tmpInput.lineType = TMP_InputField.LineType.MultiLineNewline;
             tmpInput.characterLimit = 300;
 
-            RectTransform boxT = inputT.Find("TextFilterInput").GetComponent<RectTransform>();
-            boxT.position = new Vector3(0, -9.4f, 10);
+            RectTransform box = input.Find("TextFilterInput").GetComponent<RectTransform>();
+            box.position = PositionsManager.BoxPosition;
 
-            Transform textAreaT = boxT.Find("Text Area");
-            ObjectsManager.ChangeText(textAreaT.Find("Placeholder"), "optional");
-            textAreaT.Find("Text").GetComponent<TextMeshProUGUI>().alignment = TextAlignmentOptions.TopLeft;
+            Transform textArea = box.Find("Text Area");
+            ObjectsManager.ChangeText(textArea.Find("Placeholder"), "optional");
+            textArea.Find("Text").GetComponent<TextMeshProUGUI>().alignment = TextAlignmentOptions.TopLeft;
+            UploadPanel.AdjustPanel();
         }
     }
 }

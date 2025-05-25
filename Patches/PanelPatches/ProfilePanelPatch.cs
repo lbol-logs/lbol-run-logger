@@ -5,62 +5,28 @@ using UnityEngine;
 
 namespace RunLogger.Patches.PanelPatches
 {
-    //[HarmonyPatch]
+    [HarmonyPatch]
     internal static class ProfilePanelPatch
     {
         [HarmonyPatch(typeof(ProfilePanel), nameof(ProfilePanel.Awake)), HarmonyPostfix]
         private static void CreateTextArea(ProfilePanel __instance)
         {
-            if (ObjectsManager.Object.TextArea != null) return;
+            if (UploadPanel.HasPanel || ObjectsManager.GetFromTemp("TextArea") != null) return;
 
-            Transform panelT = ObjectsManager.GetPanel();
-            GameObject textArea = ObjectsManager.Object.TextArea = Object.Instantiate(
-                __instance.transform.Find("NameInput").gameObject,
-                new InstantiateParameters
-                {
-                    parent = panelT,
-                    worldSpace = true
-                }
-            );
-            textArea.SetActive(false);
+            RectTransform textArea = ObjectsManager.CopyGameObject(__instance.transform, "NameInput");
             textArea.name = "TextArea";
-            Transform textAreaT = textArea.transform;
+            textArea.gameObject.SetActive(false);
 
-            Object.Destroy(textAreaT.Find("InputField").gameObject);
-
-            ObjectsManager.ChangeText(textAreaT.Find("Title"), "Description");
-
-            Transform confirmT = textAreaT.Find("Confirm");
+            Object.Destroy(textArea.Find("InputField").gameObject);
+            ObjectsManager.ChangeText(textArea.Find("Title"), "Description");
+            Transform confirmT = textArea.Find("Confirm");
             ObjectsManager.ChangeText(confirmT.Find("Layout/Text (TMP)"), "Upload");
-            ObjectsManager.SetClickEvent(confirmT, () =>
-            {
-                textArea.SetActive(false);
-                BepinexPlugin.log.LogDebug(ObjectsManager.Text);
-                //LBoLLogs.Upload(ObjectsManager.Text);
-            });
-            ObjectsManager.SetClickEvent(textAreaT.Find("Cancel"), () =>
-            {
-                textArea.SetActive(false);
-                ObjectsManager.Text = null;
-            });
 
-            GameObject edit = ObjectsManager.Object.Edit = Object.Instantiate(
-                __instance.transform.Find("Profiles/Layout/ProfileWidget0/Content/EditButton").gameObject,
-                new InstantiateParameters
-                {
-                    parent = ObjectsManager.Object.Upload.transform,
-                    worldSpace = true
-                }
-            );
-            edit.SetActive(false);
+
+            RectTransform edit = ObjectsManager.CopyGameObject(__instance.transform, "Profiles/Layout/ProfileWidget0/Content/EditButton", ObjectsManager.GetFromTemp("Upload"));
             edit.name = "Edit";
-            ObjectsManager.SetTooltip(edit, "Add description", "optional");
-            RectTransform editT = edit.GetComponent<RectTransform>();
-            ObjectsManager.SetClickEvent(editT, () =>
-            {
-                textArea.SetActive(true);
-            });
-            editT.localPosition = Vector3.zero;
+            edit.localPosition = Vector3.zero;
+            UploadPanel.AdjustPanel();
         }
     }
 }

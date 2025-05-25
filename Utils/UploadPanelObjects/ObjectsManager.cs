@@ -4,8 +4,6 @@ using LBoL.Presentation.UI;
 using LBoL.Presentation.UI.ExtraWidgets;
 using LBoL.Presentation.UI.Panels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -17,95 +15,70 @@ namespace RunLogger.Utils.UploadPanelObjects
 {
     internal static class ObjectsManager
     {
-        internal static RectTransform Panel
+        internal static Transform Panel
         {
             get
             {
-                Scene scene = SceneManager.GetSceneByName("GameRun");
-                GameObject[] gameObjects = scene.GetRootGameObjects();
-                return Array.Find(gameObjects, gameObject => gameObject.name == "UploadPanel")?.GetComponent<RectTransform>();
+                return ObjectsManager.GetTransformFromGameRunScene("UploadPanel");
             }
         }
 
-        private static GameObject Clone
+        internal static Transform PanelTemp
         {
             get
             {
-                return UiManager.GetPanel<GameResultPanel>().transform.Find("UploadPanel (Clone)")?.gameObject;
+                return ObjectsManager.GetTransformFromGameRunScene("UploadPanelTemp");
             }
         }
 
-        internal static class Object
+        private static Transform GetTransformFromGameRunScene(string name)
         {
-            internal static GameObject Panel;
-            internal static GameObject Bg;
-            internal static GameObject AutoUpload;
-            internal static GameObject Upload;
-            internal static GameObject Edit;
-            internal static GameObject QuickUpload;
-            internal static GameObject Status;
-            internal static GameObject TextArea;
-            internal static GameObject Input;
+            Scene scene = SceneManager.GetSceneByName("GameRun");
+            GameObject[] gameObjects = scene.GetRootGameObjects();
+            return Array.Find(gameObjects, gameObject => gameObject.name == name)?.transform;
         }
 
-        internal static IEnumerable<GameObject> Objects
+        internal static Transform Clone
         {
             get
             {
-                GameObject[] gameObjects = new[]
-                {
-                    ObjectsManager.Object.Bg,
-                    ObjectsManager.Object.AutoUpload,
-                    ObjectsManager.Object.Edit,
-                    ObjectsManager.Object.QuickUpload,
-                    ObjectsManager.Object.Status,
-                    ObjectsManager.Object.TextArea,
-                    ObjectsManager.Object.Input
-    };
-                return gameObjects.Where(gameObject => gameObject != null);
+                if (!UiManager.Instance._panelTable.TryGetValue(typeof(GameResultPanel), out UiPanelBase uiPanelBase)) return null;
+                return uiPanelBase.transform.Find("UploadPanel(Clone)");
             }
         }
 
-        //TODO
+        private static TMP_InputField TmpInput
+        {
+            get
+            {
+                return ObjectsManager.Clone.Find("TextArea/Input/TextFilterInput").GetComponent<TMP_InputField>();
+            }
+        }
+
         internal static string Text
         {
             get
             {
-                TMP_InputField tmpInput = ObjectsManager.TmpInput;
-                return tmpInput.text;
+                return ObjectsManager.TmpInput.text;
             }
             set
             {
-                TMP_InputField tmpInput = ObjectsManager.TmpInput;
-                tmpInput.text = value;
+                ObjectsManager.TmpInput.text = value;
             }
         }
 
-        //TODO
-        internal static TMP_InputField TmpInput
+        internal static Transform GetFromTemp(string path)
         {
-            get
-            {
-                Transform inputT = ObjectsManager.Object.Input.transform;
-                TMP_InputField tmpInput = inputT.Find("TextFilterInput").GetComponent<TMP_InputField>();
-                return tmpInput;
-            }
+            return ObjectsManager.PanelTemp?.Find(path);
         }
 
-        internal static Transform GetPanel()
+        internal static RectTransform CopyGameObject(Transform transform, string path, Transform parent = null)
         {
-            BepinexPlugin.log.LogDebug(ObjectsManager.Panel != null);
-            GameObject panel = ObjectsManager.Object.Panel;
-            if (panel == null)
-            {
-                panel = ObjectsManager.Object.Panel = new GameObject("UploadPanel", typeof(RectTransform));
-                RectTransform panelT = panel.GetComponent<RectTransform>();
-
-                GameObject upload = ObjectsManager.Object.Upload = new GameObject("Upload", typeof(RectTransform));
-                Transform uploadT = upload.transform;
-                uploadT.SetParent(panelT, true);
-            }
-            return panel.transform;
+            return UnityEngine.Object.Instantiate(
+                transform.Find(path).gameObject,
+                parent ?? ObjectsManager.PanelTemp,
+                true
+            ).GetComponent<RectTransform>();
         }
 
         internal static void ChangeText(Transform transform, string text, string color = null)
@@ -123,28 +96,27 @@ namespace RunLogger.Utils.UploadPanelObjects
             button.onClick.AddListener(new UnityAction(call));
         }
 
-        internal static void SetTooltip(GameObject gameObject, string title, string description = null)
+        internal static void SetTooltip(Transform transform, string title, string description = null)
         {
-            SimpleTooltipSource.CreateDirect(gameObject, title, description).WithPosition(TooltipDirection.Top, TooltipAlignment.Min);
+            SimpleTooltipSource.CreateDirect(transform.gameObject, title, description).WithPosition(TooltipDirection.Top, TooltipAlignment.Min);
         }
-
 
         internal static void UpdateStatus(string uploadStatus, string url)
         {
-            Transform statusT = ObjectsManager.Object.Status.transform;
-            statusT.gameObject.SetActive(true);
+            Transform status = ObjectsManager.Clone.Find("Status");
+            status.gameObject.SetActive(true);
             string text = url == null ? uploadStatus : $"<u>{uploadStatus}</u>";
-            Transform textT = statusT.Find("SeedText");
+            Transform textT = status.Find("SeedText");
             string color = url == null ? null : ColorUtility.ToHtmlStringRGBA(GlobalConfig.UiBlue);
             ObjectsManager.ChangeText(textT, text, color);
             if (url == null) return;
-            ObjectsManager.SetClickEvent(statusT, () => Application.OpenURL(url));
+            ObjectsManager.SetClickEvent(status, () => Application.OpenURL(url));
         }
 
         internal static void DestroyClone()
         {
-            GameObject clone = ObjectsManager.Clone;
-            if (clone != null) UnityEngine.Object.Destroy(clone);
+            Transform clone = ObjectsManager.Clone;
+            if (clone != null) UnityEngine.Object.Destroy(clone.gameObject);
         }
     }
 }

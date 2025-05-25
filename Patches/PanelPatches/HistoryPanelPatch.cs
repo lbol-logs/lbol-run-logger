@@ -6,35 +6,28 @@ using UnityEngine;
 
 namespace RunLogger.Patches.PanelPatches
 {
-    //[HarmonyPatch]
+    [HarmonyPatch]
     internal static class HistoryPanelPatch
     {
         [HarmonyPatch(typeof(HistoryPanel), nameof(HistoryPanel.Awake)), HarmonyPostfix]
         private static void CreateStatus(HistoryPanel __instance)
         {
-            if (ObjectsManager.Object.Status != null) return;
+            if (UploadPanel.HasPanel || ObjectsManager.GetFromTemp("Status") != null) return;
 
-            Transform panelT = ObjectsManager.GetPanel();
-            GameObject status = ObjectsManager.Object.Status = Object.Instantiate(
-                __instance.transform.Find("RecordDataArea/SeedButton").gameObject,
-                new InstantiateParameters
-                {
-                    parent = panelT,
-                    worldSpace = true
-                }
-            );
-            status.SetActive(false);
+            RectTransform status = ObjectsManager.CopyGameObject(__instance.transform, "RecordDataArea/SeedButton");
+            status.gameObject.SetActive(false);
             status.name = "Status";
-            RectTransform statusT = status.GetComponent<RectTransform>();
-            statusT.pivot = new Vector2(0.5f, 0.5f);
+            status.pivot = new Vector2(0.5f, 0.5f);
+            status.position = PositionsManager.StatusPosition;
 
-            RectTransform textT = statusT.Find("SeedText").GetComponent<RectTransform>();
-            ObjectsManager.ChangeText(textT, null);
-            TextMeshProUGUI textMeshProUGUI = textT.GetComponent<TextMeshProUGUI>();
+            RectTransform text = status.Find("SeedText").GetComponent<RectTransform>();
+            ObjectsManager.ChangeText(text, null);
+            TextMeshProUGUI textMeshProUGUI = text.GetComponent<TextMeshProUGUI>();
             textMeshProUGUI.fontSize = 60;
             textMeshProUGUI.fontSizeMax = 60;
-            textT.pivot = new Vector2(0, 0.5f);
-            textT.localPosition = Vector3.zero;
+            text.pivot = new Vector2(0, 0.5f);
+            text.localPosition = Vector3.zero;
+            UploadPanel.AdjustPanel();
         }
     }
 }

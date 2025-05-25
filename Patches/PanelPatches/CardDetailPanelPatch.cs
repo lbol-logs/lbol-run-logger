@@ -6,33 +6,25 @@ using UnityEngine.UI;
 
 namespace RunLogger.Patches.PanelPatches
 {
-    //[HarmonyPatch]
+    [HarmonyPatch]
     internal static class CardDetailPanelPatch
     {
         [HarmonyPatch(typeof(CardDetailPanel), nameof(CardDetailPanel.Awake)), HarmonyPostfix]
-        private static void AddBg(CardDetailPanel __instance)
+        private static void CreateBg(CardDetailPanel __instance)
         {
-            if (ObjectsManager.Object.Bg != null) return;
+            if (UploadPanel.HasPanel || ObjectsManager.GetFromTemp("Bg") != null) return;
 
-            Transform panelT = ObjectsManager.GetPanel();
-            GameObject bg = ObjectsManager.Object.Bg = Object.Instantiate(
-                __instance.transform.Find("SubWidgetGroup/TooltipParent/TooltipTemplate/Root/ExtraText").gameObject,
-                new InstantiateParameters
-                {
-                    parent = panelT,
-                    worldSpace = true
-                }
-            );
-            bg.SetActive(false);
+            RectTransform bg = ObjectsManager.CopyGameObject(__instance.transform, "SubWidgetGroup/TooltipParent/TooltipTemplate/Root/ExtraText");
             bg.name = "Bg";
-            RectTransform bgT = bg.GetComponent<RectTransform>();
-            bgT.pivot = new Vector2(0, 0.5f);
-            bgT.anchorMin = new Vector2(0, 1);
-            bgT.anchorMax = new Vector2(0, 1);
-            bgT.sizeDelta = new Vector2(700, 100);
-            Object.Destroy(bgT.Find("UpgradeText").gameObject);
-            Object.Destroy(bgT.GetComponent<ContentSizeFitter>());
-            ObjectsManager.ChangeText(bgT.Find("PoolText"), null);
+            bg.pivot = new Vector2(0, 0.5f);
+            bg.anchorMin = new Vector2(0, 1);
+            bg.anchorMax = new Vector2(0, 1);
+            bg.sizeDelta = new Vector2(700, 100);
+            bg.position = PositionsManager.BgPosition;
+            Object.Destroy(bg.Find("UpgradeText").gameObject);
+            Object.Destroy(bg.GetComponent<ContentSizeFitter>());
+            ObjectsManager.ChangeText(bg.Find("PoolText"), null);
+            UploadPanel.AdjustPanel();
         }
     }
 }
