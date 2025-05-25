@@ -9,7 +9,7 @@ using LBoL.Core;
 using LBoL.Presentation;
 using RunLogger.Utils.Enums;
 using RunLogger.Utils.LogFile;
-using RunLogger.Utils.UploadPanel;
+using RunLogger.Utils.UploadPanelObjects;
 
 namespace RunLogger.Utils
 {

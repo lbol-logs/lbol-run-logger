@@ -12,7 +12,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static UnityEngine.UI.Button;
 
-namespace RunLogger.Utils.UploadPanel
+namespace RunLogger.Utils.UploadPanelObjects
 {
     internal static class ObjectsManager
     {

@@ -4,7 +4,7 @@ using LBoL.Presentation.UI;
 using LBoL.Presentation.UI.Panels;
 using LBoL.Presentation.UI.Widgets;
 using RunLogger.Utils;
-using RunLogger.Utils.UploadPanel;
+using RunLogger.Utils.UploadPanelObjects;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
