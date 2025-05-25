@@ -12,7 +12,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using static UnityEngine.UI.Button;
 
-namespace RunLogger.Utils
+namespace RunLogger.Utils.UploadPanel
 {
     internal static class ObjectsManager
     {
@@ -22,7 +22,7 @@ namespace RunLogger.Utils
             {
                 Scene scene = SceneManager.GetSceneByName("GameRun");
                 GameObject[] gameObjects = scene.GetRootGameObjects();
-                return Array.Find(gameObjects, (GameObject gameObject) => gameObject.name == "UploadPanel")?.GetComponent<RectTransform>();
+                return Array.Find(gameObjects, gameObject => gameObject.name == "UploadPanel")?.GetComponent<RectTransform>();
             }
         }
 

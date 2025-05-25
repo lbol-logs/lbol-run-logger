@@ -103,6 +103,7 @@ using LBoL.Presentation.UI.Widgets;
 using LBoL.Presentation.Units;
 using RunLogger.Patches.PanelPatches;
 using RunLogger.Utils;
+using RunLogger.Utils.UploadPanel;
 using RunLogger.Wrappers;
 using System;
 using System.Collections;
