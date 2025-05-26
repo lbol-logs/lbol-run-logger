@@ -5,6 +5,7 @@ using LBoL.Core.Dialogs;
 using LBoL.EntityLib.Adventures.Stage3;
 using LBoL.EntityLib.PlayerUnits;
 using RunLogger.Utils;
+using RunLogger.Utils.Managers;
 
 namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPatches
 {

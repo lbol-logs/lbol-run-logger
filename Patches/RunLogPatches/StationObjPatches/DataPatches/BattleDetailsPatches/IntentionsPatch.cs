@@ -3,7 +3,7 @@ using LBoL.Core;
 using LBoL.Core.Intentions;
 using LBoL.Core.Units;
 using LBoL.EntityLib.EnemyUnits.Character;
-using RunLogger.Utils;
+using RunLogger.Utils.Managers;
 using RunLogger.Utils.RunLogLib.BattleDetails;
 using System.Collections.Generic;
 using System.Linq;

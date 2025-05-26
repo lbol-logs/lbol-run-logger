@@ -3,7 +3,7 @@ using LBoL.Core.Cards;
 using RunLogger.Utils.RunLogLib.Entities;
 using System.Collections.Generic;
 
-namespace RunLogger.Utils
+namespace RunLogger.Utils.Managers
 {
     internal static class EntitiesManager
     {

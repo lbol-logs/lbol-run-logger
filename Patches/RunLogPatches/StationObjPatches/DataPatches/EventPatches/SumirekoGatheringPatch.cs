@@ -6,6 +6,7 @@ using RunLogger.Utils;
 using System.Collections.Generic;
 using LBoL.Core.Battle;
 using RunLogger.Utils.RunLogLib.Entities;
+using RunLogger.Utils.Managers;
 
 namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPatches
 {

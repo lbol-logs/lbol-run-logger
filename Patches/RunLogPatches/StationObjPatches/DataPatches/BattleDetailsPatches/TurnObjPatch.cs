@@ -5,6 +5,7 @@ using LBoL.Core.Battle.BattleActions;
 using LBoL.Core.Units;
 using LBoL.EntityLib.EnemyUnits.Character;
 using RunLogger.Utils;
+using RunLogger.Utils.Managers;
 using RunLogger.Utils.RunLogLib.Entities;
 using System;
 using System.Collections.Generic;

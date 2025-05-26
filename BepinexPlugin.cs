@@ -32,11 +32,14 @@ using LBoL.EntityLib.Adventures.Shared23;
 using LBoL.EntityLib.Adventures.Stage1;
 using LBoL.EntityLib.Adventures.Stage2;
 using LBoL.EntityLib.Adventures.Stage3;
+using LBoL.EntityLib.Cards.Adventure;
 using LBoL.EntityLib.Cards.Character.Cirno;
 using LBoL.EntityLib.Cards.Character.Koishi;
 using LBoL.EntityLib.Cards.Character.Marisa;
 using LBoL.EntityLib.Cards.Character.Reimu;
 using LBoL.EntityLib.Cards.Character.Sakuya;
+using LBoL.EntityLib.Cards.Enemy;
+using LBoL.EntityLib.Cards.Misfortune;
 using LBoL.EntityLib.Cards.Neutral;
 using LBoL.EntityLib.Cards.Neutral.Black;
 using LBoL.EntityLib.Cards.Neutral.Blue;
@@ -46,11 +49,8 @@ using LBoL.EntityLib.Cards.Neutral.NoColor;
 using LBoL.EntityLib.Cards.Neutral.Red;
 using LBoL.EntityLib.Cards.Neutral.TwoColor;
 using LBoL.EntityLib.Cards.Neutral.White;
-using LBoL.EntityLib.Cards.Adventure;
-using LBoL.EntityLib.Cards.Enemy;
-using LBoL.EntityLib.Cards.Misfortune;
-using LBoL.EntityLib.Cards.Tool;
 using LBoL.EntityLib.Cards.Others;
+using LBoL.EntityLib.Cards.Tool;
 using LBoL.EntityLib.Dolls;
 using LBoL.EntityLib.EnemyUnits.Character;
 using LBoL.EntityLib.EnemyUnits.Character.DreamServants;
@@ -101,6 +101,10 @@ using LBoL.Presentation.UI.Panels;
 using LBoL.Presentation.UI.Transitions;
 using LBoL.Presentation.UI.Widgets;
 using LBoL.Presentation.Units;
+using RunLogger.Patches.PanelPatches;
+using RunLogger.Utils;
+using RunLogger.Utils.UploadPanelObjects;
+using RunLogger.Wrappers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -113,8 +117,6 @@ using Untitled;
 using Untitled.ConfigDataBuilder;
 using Untitled.ConfigDataBuilder.Base;
 using Debug = UnityEngine.Debug;
-using RunLogger.Wrappers;
-using RunLogger.Utils;
 
 
 namespace RunLogger
@@ -150,7 +152,7 @@ namespace RunLogger
             SaveFailure = Config.Bind("Save", "Save Failed Run", true, "Save log for the current run even it failed.");
             SaveTogether = Config.Bind("Save", "Save Profiles Together", true, "Save the logs of different profiles in the same directory.\nIf set to `false`, they are saved under the corresponding index, i.e. `0`/`1`/`2`.");
 
-            for (int i = 0; i < Configs.Profiles; i++) AutoUploads.Add(Config.Bind("Upload", $"Auto Upload Log #{i}", false, $"Auto upload the log of Profile #{i} to LBoL Logs.\nUploaded log will be deleted from local drive."));
+            for (int i = 0; i < Configs.Profiles; i++) AutoUploads.Add(Config.Bind("Upload", $"Auto Upload Log #{i}", false, $"Auto upload the log of Profile #{i} to LBoL Logs.\nIf set to `false`, you can upload with description at the result screen.\nUploaded log will be deleted from local drive."));
 
             harmony.PatchAll();
 
@@ -164,6 +166,8 @@ namespace RunLogger
         {
             if (harmony != null)
                 harmony.UnpatchSelf();
+
+            ObjectsManager.DestroyClone();
         }
 
 

@@ -8,6 +8,7 @@ using RunLogger.Utils;
 using System.Collections.Generic;
 using RunLogger.Utils.RunLogLib.Entities;
 using System.Linq;
+using RunLogger.Utils.LogFile;
 
 namespace RunLogger.Patches.SaveData
 {
@@ -81,9 +82,6 @@ namespace RunLogger.Patches.SaveData
             });
 
             Logger.SaveLog(name);
-
-            if (!Helpers.AutoUpload) return;
-            LBoLLogs.Upload();
         }
     }
 }

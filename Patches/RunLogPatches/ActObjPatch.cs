@@ -4,6 +4,7 @@ using LBoL.Core.Stations;
 using LBoL.Presentation;
 using RunLogger.Utils;
 using RunLogger.Utils.Enums;
+using RunLogger.Utils.LogFile;
 using RunLogger.Utils.RunLogLib;
 using RunLogger.Utils.RunLogLib.Nodes;
 using System.Collections;

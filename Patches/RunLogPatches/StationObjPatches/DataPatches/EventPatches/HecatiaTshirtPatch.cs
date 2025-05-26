@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using LBoL.Core;
 using LBoL.EntityLib.Exhibits.Adventure;
-using RunLogger.Utils;
+using RunLogger.Utils.Managers;
 using RunLogger.Utils.RunLogLib.Entities;
 
 namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPatches

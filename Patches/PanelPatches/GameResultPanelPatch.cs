@@ -1,0 +1,83 @@
+﻿using HarmonyLib;
+using LBoL.Core;
+using LBoL.Presentation.UI.Panels;
+using LBoL.Presentation.UI.Widgets;
+using RunLogger.Utils;
+using RunLogger.Utils.UploadPanelObjects;
+using System.Diagnostics;
+using UnityEngine;
+using UnityEngine.Events;
+
+namespace RunLogger.Patches.PanelPatches
+{
+    [HarmonyPatch]
+    internal static class GameResultPanelPatch
+    {
+        [HarmonyPatch(typeof(GameResultPanel), nameof(GameResultPanel.Awake)), HarmonyPostfix]
+        private static void CreateQuickUpload(GameResultPanel __instance)
+        {
+            if (UploadPanel.HasPanel || ObjectsManager.GetFromTemp("Upload/QuickUpload") != null) return;
+
+            RectTransform quickUpload = ObjectsManager.CopyGameObject(__instance.transform, "CommonButton", ObjectsManager.GetFromTemp("Upload"));
+            quickUpload.name = "QuickUpload";
+            quickUpload.gameObject.SetActive(true);
+            ObjectsManager.ChangeText(quickUpload.Find("Layout/Text (TMP)"), "Upload");
+            quickUpload.pivot = new Vector2(0, 0.5f);
+            quickUpload.localPosition = new Vector2(PositionsManager.QuickUploadOffsetX, 0);
+            quickUpload.localScale = new Vector3(PositionsManager.QuickUploadScale, PositionsManager.QuickUploadScale, PositionsManager.QuickUploadScale);
+            UploadPanel.AdjustPanel();
+        }
+
+        [HarmonyPatch(typeof(GameResultPanel), nameof(GameResultPanel.OnShowing)), HarmonyPostfix]
+        private static void DisplayPanel(GameResultPanel __instance)
+        {
+            Transform panel = Object.Instantiate(ObjectsManager.Panel, __instance.transform, true);
+
+            SwitchWidget switchWidget = panel.Find("AutoUpload/Switch").GetComponent<SwitchWidget>();
+            switchWidget.onToggleChanged = new UnityEvent<bool>();
+            switchWidget.onToggleChanged.AddListener(isOn => Helpers.AutoUpload = isOn);
+            switchWidget.SetValueWithoutNotifier(Helpers.AutoUpload, true);
+
+            int i = Helpers.CurrentSaveIndex;
+            string title = $"Auto Upload Log #{i}";
+            string description = StringDecorator.Decorate($"Auto upload the log of |Profile #{i}| to LBoL Logs.\nIf set to |false|, you can upload with description at the result screen.\nChange is effective from next run.\nUploaded log will be deleted from local drive.");
+            ObjectsManager.SetTooltip(panel.Find("AutoUpload"), title, description);
+
+            if (Helpers.AutoUpload)
+            {
+                LBoLLogs.Upload();
+                return;
+            }
+
+            panel.Find("Upload").gameObject.SetActive(true);
+
+            Transform edit = panel.Find("Upload/Edit");
+            Transform textArea = panel.Find("TextArea");
+
+            ObjectsManager.SetTooltip(edit, "Add description", "optional");
+            ObjectsManager.SetClickEvent(edit, () =>
+            {
+                textArea.gameObject.SetActive(true);
+            });
+
+            ObjectsManager.SetClickEvent(panel.Find("Upload/QuickUpload"), () => LBoLLogs.Upload());
+
+            ObjectsManager.SetClickEvent(textArea.Find("Confirm"), () =>
+            {
+                textArea.gameObject.SetActive(false);
+                LBoLLogs.Upload(ObjectsManager.Text);
+            });
+            ObjectsManager.SetClickEvent(textArea.Find("Cancel"), () =>
+            {
+                textArea.gameObject.SetActive(false);
+                ObjectsManager.Text = null;
+            });
+        }
+
+        [HarmonyPatch(typeof(GameResultPanel), nameof(GameResultPanel.OnHiding)), HarmonyPostfix]
+        private static void DestroyClone()
+        {
+            ObjectsManager.DestroyClone();
+        }
+    }
+}

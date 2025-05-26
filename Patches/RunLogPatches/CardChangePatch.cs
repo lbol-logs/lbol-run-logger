@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using LBoL.Core;
 using LBoL.Core.Cards;
-using RunLogger.Utils;
+using RunLogger.Utils.Managers;
 using RunLogger.Utils.RunLogLib.Entities;
 using System.Collections.Generic;
 

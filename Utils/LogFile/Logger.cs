@@ -4,7 +4,7 @@ using RunLogger.Utils.RunLogLib;
 using System;
 using System.IO;
 
-namespace RunLogger.Utils
+namespace RunLogger.Utils.LogFile
 {
     internal static class Logger
     {
@@ -92,14 +92,14 @@ namespace RunLogger.Utils
 
         internal static void DeleteTemp()
         {
-            string path = GetTempPath();
+            string path = Logger.GetTempPath();
             File.Delete(path);
         }
 
         internal static void SaveLog(string name)
         {
-            string path = GetLogPath(name);
-            Write(path, false);
+            string path = Logger.GetLogPath(name);
+            Logger.Write(path, false);
             Controller.Instance.Path = path;
         }
 

@@ -4,6 +4,7 @@ using LBoL.Core.Battle;
 using LBoL.Core.Dialogs;
 using LBoL.EntityLib.Adventures;
 using RunLogger.Utils;
+using RunLogger.Utils.Managers;
 using System;
 using System.Collections.Generic;
 
