@@ -48,12 +48,14 @@ namespace RunLogger.Patches.RunLogPatches
                 }
                 else if (change > 0)
                 {
+                    int offset = 0;
                     if (exhibit is Moping)
                     {
                         bool isMopingFirstUpgraded = Controller.CurrentStation.Type != exhibit.GameRun.CurrentStation.Type.ToString();
                         if (!isMopingFirstUpgraded) return;
+                        offset = 1;
                     }
-                    EntitiesManager.AddExhibitChange(exhibit, ChangeType.Upgrade, value, 1);
+                    EntitiesManager.AddExhibitChange(exhibit, ChangeType.Upgrade, value, offset);
                 }
             }
 

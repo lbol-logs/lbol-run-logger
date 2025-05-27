@@ -22,5 +22,6 @@ namespace RunLogger.Utils.UploadPanelObjects
         internal static Vector3 InputLocalPosition = new Vector3(0, 100, 0);
         internal static Vector3 InputSizeDelta = new Vector2(2000, 700);
         internal static Vector3 BoxPosition = new Vector3(X, Y + PositionsManager.BoxOffsetY, 10);
+        internal static Vector3 CountLocalPosition = new Vector3(150, -340, 0);
     }
 }

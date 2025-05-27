@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using LBoL.Presentation.UI.Panels;
 using RunLogger.Utils.UploadPanelObjects;
+using TMPro;
 using UnityEngine;
 
 namespace RunLogger.Patches.PanelPatches
@@ -17,11 +18,19 @@ namespace RunLogger.Patches.PanelPatches
             textArea.name = "TextArea";
             textArea.gameObject.SetActive(false);
 
-            Object.Destroy(textArea.Find("InputField").gameObject);
-            ObjectsManager.ChangeText(textArea.Find("Title"), "Description");
-            Transform confirmT = textArea.Find("Confirm");
-            ObjectsManager.ChangeText(confirmT.Find("Layout/Text (TMP)"), "Upload");
+            Transform input = textArea.Find("InputField");
+            RectTransform count = ObjectsManager.CopyGameObject(input, "ViewPort/Text", textArea);
+            count.name = "Count";
+            count.pivot = new Vector2(1, 0.5f);
+            count.localPosition = PositionsManager.CountLocalPosition;
+            count.GetComponent<TextMeshProUGUI>().alignment = TextAlignmentOptions.Right;
+            ObjectsManager.ChangeText(count, "0/300");
 
+            Object.Destroy(input.gameObject);
+
+            ObjectsManager.ChangeText(textArea.Find("Title"), "Description");
+            Transform confirm = textArea.Find("Confirm");
+            ObjectsManager.ChangeText(confirm.Find("Layout/Text (TMP)"), "Upload");
 
             RectTransform edit = ObjectsManager.CopyGameObject(__instance.transform, "Profiles/Layout/ProfileWidget0/Content/EditButton", ObjectsManager.GetFromTemp("Upload"));
             edit.name = "Edit";

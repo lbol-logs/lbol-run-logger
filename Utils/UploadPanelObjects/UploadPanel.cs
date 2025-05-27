@@ -24,7 +24,7 @@ namespace RunLogger.Utils.UploadPanelObjects
 
         internal static void AdjustPanel()
         {
-            if (ObjectsManager.PanelTemp.childCount != 6) return;
+            if (ObjectsManager.PanelTemp.childCount != 7) return;
 
             Transform bg = ObjectsManager.GetFromTemp("Bg");
             Transform status = ObjectsManager.GetFromTemp("Status");
@@ -32,9 +32,11 @@ namespace RunLogger.Utils.UploadPanelObjects
             Transform upload = ObjectsManager.GetFromTemp("Upload");
             Transform textArea = ObjectsManager.GetFromTemp("TextArea");
 
-            Transform edit = ObjectsManager.GetFromTemp("Upload/Edit");
+            Transform edit = upload.Find("Edit");
+            Transform quickUpload = ObjectsManager.GetFromTemp("QuickUpload");
             Transform input = ObjectsManager.GetFromTemp("Input");
 
+            quickUpload.SetParent(upload, false);
             input.SetParent(textArea, true);
 
             Image image = input.Find("TextFilterInput").GetComponent<Image>();

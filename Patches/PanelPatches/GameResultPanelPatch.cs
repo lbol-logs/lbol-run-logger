@@ -5,8 +5,11 @@ using LBoL.Presentation.UI.Widgets;
 using RunLogger.Utils;
 using RunLogger.Utils.UploadPanelObjects;
 using System.Diagnostics;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using static TMPro.TMP_InputField;
+using static UnityEngine.UI.Button;
 
 namespace RunLogger.Patches.PanelPatches
 {
@@ -18,7 +21,7 @@ namespace RunLogger.Patches.PanelPatches
         {
             if (UploadPanel.HasPanel || ObjectsManager.GetFromTemp("Upload/QuickUpload") != null) return;
 
-            RectTransform quickUpload = ObjectsManager.CopyGameObject(__instance.transform, "CommonButton", ObjectsManager.GetFromTemp("Upload"));
+            RectTransform quickUpload = ObjectsManager.CopyGameObject(__instance.transform, "CommonButton");
             quickUpload.name = "QuickUpload";
             quickUpload.gameObject.SetActive(true);
             ObjectsManager.ChangeText(quickUpload.Find("Layout/Text (TMP)"), "Upload");
@@ -43,6 +46,7 @@ namespace RunLogger.Patches.PanelPatches
             string description = StringDecorator.Decorate($"Auto upload the log of |Profile #{i}| to LBoL Logs.\nIf set to |false|, you can upload with description at the result screen.\nChange is effective from next run.\nUploaded log will be deleted from local drive.");
             ObjectsManager.SetTooltip(panel.Find("AutoUpload"), title, description);
 
+            if (Controller.Instance.Path == null) return;
             if (Helpers.AutoUpload)
             {
                 LBoLLogs.Upload();
@@ -53,6 +57,11 @@ namespace RunLogger.Patches.PanelPatches
 
             Transform edit = panel.Find("Upload/Edit");
             Transform textArea = panel.Find("TextArea");
+
+            TMP_InputField tmpInput = textArea.Find("Input/TextFilterInput").GetComponent<TMP_InputField>();
+            TextMeshProUGUI count = textArea.Find("Count").GetComponent<TextMeshProUGUI>();
+            tmpInput.onValueChanged = new OnChangeEvent();
+            tmpInput.onValueChanged.AddListener(new UnityAction<string>(value => count.text = $"{value.Length}/300"));
 
             ObjectsManager.SetTooltip(edit, "Add description", "optional");
             ObjectsManager.SetClickEvent(edit, () =>
