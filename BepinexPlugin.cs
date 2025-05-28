@@ -132,8 +132,9 @@ namespace RunLogger
 
         internal static BepInEx.Logging.ManualLogSource log;
 
-        internal static ConfigEntry<bool> SaveProfileName;
         internal static ConfigEntry<bool> SaveFailure;
+        internal static ConfigEntry<bool> SaveAbandoned;
+        internal static ConfigEntry<bool> SaveProfileName;
         internal static ConfigEntry<bool> SaveTogether;
 
         internal static List<ConfigEntry<bool>> AutoUploads = new List<ConfigEntry<bool>>();
@@ -148,8 +149,9 @@ namespace RunLogger
             DontDestroyOnLoad(gameObject);
             gameObject.hideFlags = HideFlags.HideAndDontSave;
 
-            SaveProfileName = Config.Bind("Save", "Save Profile Name", true, "Save and show profile name when uploaded to LBoL Logs.");
             SaveFailure = Config.Bind("Save", "Save Failed Run", true, "Save log for the current run even it failed.");
+            SaveAbandoned = Config.Bind("Save", "Save Abandoned Run", false, "Save log for the current run even it is abandoned.");
+            SaveProfileName = Config.Bind("Save", "Save Profile Name", true, "Save and show profile name when uploaded to LBoL Logs.");
             SaveTogether = Config.Bind("Save", "Save Profiles Together", true, "Save the logs of different profiles in the same directory.\nIf set to `false`, they are saved under the corresponding index, i.e. `0`/`1`/`2`.");
 
             for (int i = 0; i < Configs.Profiles; i++) AutoUploads.Add(Config.Bind("Upload", $"Auto Upload Log #{i}", false, $"Auto upload the log of Profile #{i} to LBoL Logs.\nIf set to `false`, you can upload with description at the result screen.\nUploaded log will be deleted from local drive."));

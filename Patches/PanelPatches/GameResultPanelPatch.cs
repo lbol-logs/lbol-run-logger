@@ -3,6 +3,7 @@ using LBoL.Core;
 using LBoL.Presentation.UI.Panels;
 using LBoL.Presentation.UI.Widgets;
 using RunLogger.Utils;
+using RunLogger.Utils.Enums;
 using RunLogger.Utils.UploadPanelObjects;
 using TMPro;
 using UnityEngine;
@@ -44,7 +45,12 @@ namespace RunLogger.Patches.PanelPatches
             string description = StringDecorator.Decorate($"Auto upload the log of |Profile #{i}| to LBoL Logs.\nIf set to |false|, you can upload with description at the result screen.\nChange is effective from next run.\nUploaded log will be deleted from local drive.");
             ObjectsManager.SetTooltip(panel.Find("AutoUpload"), title, description);
 
-            if (Controller.Instance.Path == null) return;
+            if (Controller.Instance?.Path == null)
+            {
+                ObjectsManager.ChangeText(panel.Find("Status").Find("SeedText"), UploadStatus.NotSaved);
+                return;
+            }
+
             if (Helpers.AutoUpload)
             {
                 LBoLLogs.Upload();

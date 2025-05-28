@@ -104,7 +104,6 @@ namespace RunLogger.Utils.UploadPanelObjects
         internal static void UpdateStatus(string uploadStatus, string url)
         {
             Transform status = ObjectsManager.Clone.Find("Status");
-            status.gameObject.SetActive(true);
             string text = url == null ? uploadStatus : $"<u>{uploadStatus}</u>";
             Transform textT = status.Find("SeedText");
             string color = url == null ? null : ColorUtility.ToHtmlStringRGBA(GlobalConfig.UiBlue);

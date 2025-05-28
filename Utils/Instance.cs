@@ -22,5 +22,6 @@ namespace RunLogger.Utils
 
         internal bool? IsForced;
         internal List<IEnumerable<StationReward>> RewardsBeforeDebut;
+        internal bool IsAbandoned;
     }
 }

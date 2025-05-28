@@ -17,6 +17,7 @@ namespace RunLogger.Utils.UploadPanelObjects
                     Transform upload = new GameObject("Upload", typeof(RectTransform)).transform;
                     upload.SetParent(panel, true);
                     upload.position = PositionsManager.UploadPosition;
+                    upload.gameObject.SetActive(false);
                 }
                 return false;
             }

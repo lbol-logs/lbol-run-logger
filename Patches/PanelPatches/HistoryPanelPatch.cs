@@ -15,7 +15,6 @@ namespace RunLogger.Patches.PanelPatches
             if (UploadPanel.HasPanel || ObjectsManager.GetFromTemp("Status") != null) return;
 
             RectTransform status = ObjectsManager.CopyGameObject(__instance.transform, "RecordDataArea/SeedButton");
-            status.gameObject.SetActive(false);
             status.name = "Status";
             status.pivot = new Vector2(0.5f, 0.5f);
             status.position = PositionsManager.StatusPosition;
