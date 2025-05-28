@@ -1,11 +1,7 @@
 ﻿using HarmonyLib;
-using LBoL.Core;
 using LBoL.Presentation.UI.Panels;
-using LBoL.Presentation.UI.Widgets;
-using RunLogger.Utils;
 using RunLogger.Utils.UploadPanelObjects;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace RunLogger.Patches.PanelPatches
 {

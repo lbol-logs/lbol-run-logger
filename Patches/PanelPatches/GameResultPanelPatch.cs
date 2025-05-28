@@ -4,12 +4,10 @@ using LBoL.Presentation.UI.Panels;
 using LBoL.Presentation.UI.Widgets;
 using RunLogger.Utils;
 using RunLogger.Utils.UploadPanelObjects;
-using System.Diagnostics;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using static TMPro.TMP_InputField;
-using static UnityEngine.UI.Button;
 
 namespace RunLogger.Patches.PanelPatches
 {
