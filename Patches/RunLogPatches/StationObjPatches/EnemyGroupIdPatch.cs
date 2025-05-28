@@ -11,6 +11,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches
         [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.LeaveBattle)), HarmonyPostfix]
         private static void AddEnemyGroupId(EnemyGroup enemyGroup, GameRunController __instance)
         {
+            if (!Instance.IsInitialized) return;
+
             GameRunController gameRun = __instance;
             string adventureId = Helpers.GetAdventureId(gameRun.CurrentStation);
             if (adventureId != null) Helpers.AddDataValue("Id", enemyGroup.Id);

@@ -15,6 +15,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
         [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.RemoveDeckCards)), HarmonyPostfix]
         private static void AddType(IEnumerable<Card> cards)
         {
+            if (!Instance.IsInitialized) return;
+
             if (!Helpers.IsAdventure<NarumiOfferCard>()) return;
 
             Card card = cards.First();

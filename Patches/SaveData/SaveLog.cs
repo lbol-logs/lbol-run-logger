@@ -18,12 +18,15 @@ namespace RunLogger.Patches.SaveData
         [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.AbandonGameRun)), HarmonyPostfix]
         private static void SetIsAbandoned()
         {
+            if (!Instance.IsInitialized) return;
             Controller.Instance.IsAbandoned = true;
         }
 
         [HarmonyPatch(typeof(GameMaster), nameof(GameMaster.SaveProfileWithEndingGameRun)), HarmonyPostfix]
         private static void EndRun(GameRunController gameRun, GameRunRecordSaveData gameRunRecord)
         {
+            if (!Instance.IsInitialized) return;
+
             BepinexPlugin.log.LogDebug("End run");
             SaveLog.EndRunInternal(gameRun, gameRunRecord);
             Logger.DeleteTemp();
@@ -31,8 +34,6 @@ namespace RunLogger.Patches.SaveData
 
         private static void EndRunInternal(GameRunController gameRun, GameRunRecordSaveData gameRunRecord)
         {
-            if (!Instance.IsInitialized) return;
-
             if (Controller.Instance.IsAbandoned && !BepinexPlugin.SaveAbandoned.Value) return;
 
             Helpers.AddStatus(gameRun, Controller.CurrentStation, null);

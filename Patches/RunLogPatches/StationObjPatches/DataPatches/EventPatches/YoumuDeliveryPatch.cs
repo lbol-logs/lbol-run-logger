@@ -10,6 +10,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
         [HarmonyPatch(typeof(YoumuDelivery), nameof(YoumuDelivery.InitVariables)), HarmonyPostfix]
         private static void AddCard(YoumuDelivery __instance)
         {
+            if (!Instance.IsInitialized) return;
+
             if (!Controller.ShowRandomResult) return;
             __instance.Storage.TryGetValue("$transformCard", out string card);
             Helpers.AddDataValue("Card", card);

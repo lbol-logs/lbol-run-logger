@@ -10,6 +10,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
         [HarmonyPatch(typeof(AssistKagerou), nameof(AssistKagerou.InitVariables)), HarmonyPostfix]
         private static void AddExhibit(AssistKagerou __instance)
         {
+            if (!Instance.IsInitialized) return;
+
             if (!Controller.ShowRandomResult) return;
             __instance.Storage.TryGetValue("$exhibitReward", out string exhibit);
             Helpers.AddDataValue("Exhibit", exhibit);

@@ -13,6 +13,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
         [HarmonyPatch(typeof(KeineSales), nameof(KeineSales.InitVariables)), HarmonyPostfix]
         private static void AddQuestions(KeineSales __instance)
         {
+            if (!Instance.IsInitialized) return;
+
             DialogStorage storage = __instance.Storage;
             storage.TryGetValue("$stageNo", out float stageNo);
             int[] keys = Enumerable.Range(1, (int)stageNo).ToArray();

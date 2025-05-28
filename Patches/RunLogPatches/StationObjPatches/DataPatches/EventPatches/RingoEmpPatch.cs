@@ -12,6 +12,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
         [HarmonyPatch(typeof(RingoEmp), nameof(RingoEmp.InitVariables)), HarmonyPostfix]
         private static void AddCards(RingoEmp __instance)
         {
+            if (!Instance.IsInitialized) return;
+
             if (!Controller.ShowRandomResult) return;
             DialogStorage storage = __instance.Storage;
             List<string> cards = Helpers.GetStorageList<string, int>(storage, new[] { 1, 2, 3 }, "$tool");

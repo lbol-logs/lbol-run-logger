@@ -13,6 +13,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
         [HarmonyPatch(typeof(KosuzuBookstore), nameof(KosuzuBookstore.InitVariables)), HarmonyPostfix]
         private static void AddData(KosuzuBookstore __instance)
         {
+            if (!Instance.IsInitialized) return;
+
             DialogStorage storage = __instance.Storage;
             storage.TryGetValue("$thirdBook", out bool thirdBook);
             int count = thirdBook ? 3 : 2;

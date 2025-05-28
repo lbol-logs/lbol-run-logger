@@ -18,6 +18,8 @@ namespace RunLogger.Patches.RunLogPatches
         [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.EnterStage)), HarmonyPostfix]
         private static void NewAct(GameRunController __instance)
         {
+            if (!Instance.IsInitialized) return;
+
             GameRunController gameRun = __instance;
             int act = gameRun.CurrentStage.Level;
             GameMap gameMap = gameRun.CurrentMap;
@@ -52,6 +54,8 @@ namespace RunLogger.Patches.RunLogPatches
         [HarmonyPatch(typeof(GameMaster), nameof(GameMaster.SelectStationFlow)), HarmonyPostfix]
         private static void AddBoss(ref IEnumerator __result)
         {
+            if (!Instance.IsInitialized) return;
+
             static void postfixAction()
             {
                 SelectStation selectStation = Helpers.CurrentStation as SelectStation;

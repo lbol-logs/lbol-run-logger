@@ -16,12 +16,14 @@ namespace RunLogger.Patches.RunLogPatches
         [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.GainExhibitRunner)), HarmonyPostfix, HarmonyPriority(Priority.Normal)]
         private static void Add(Exhibit exhibit)
         {
+            if (!Instance.IsInitialized) return;
             EntitiesManager.AddExhibitChange(exhibit, ChangeType.Add);
         }
 
         [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.LoseExhibit)), HarmonyPostfix]
         private static void Remove(Exhibit exhibit)
         {
+            if (!Instance.IsInitialized) return;
             EntitiesManager.AddExhibitChange(exhibit, ChangeType.Remove);
         }
 
@@ -32,6 +34,8 @@ namespace RunLogger.Patches.RunLogPatches
 
             private static void Prefix(int value, Exhibit __instance)
             {
+                if (!Instance.IsInitialized) return;
+
                 Exhibit exhibit = __instance;
                 if (!ExhibitChangePatch.UseAndUpgrade.Exhibits.Contains(exhibit.Id)) return;
                 if (exhibit.GameRun == null) return;

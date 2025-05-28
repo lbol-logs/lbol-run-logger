@@ -12,6 +12,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
         [HarmonyPatch(typeof(RinnosukeTrade), nameof(RinnosukeTrade.InitVariables)), HarmonyPostfix]
         private static void AddPrices(RinnosukeTrade __instance)
         {
+            if (!Instance.IsInitialized) return;
+
             DialogStorage storage = __instance.Storage;
             List<int> list = new List<int>();
             for (int i = 1; i <= 2; i++)

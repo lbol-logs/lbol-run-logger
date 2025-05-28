@@ -17,6 +17,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches
         [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.EnterMapNode)), HarmonyPostfix]
         private static void AddData(bool forced, GameRunController __instance)
         {
+            if (!Instance.IsInitialized) return;
+
             if (!(__instance.CurrentStation is ShopStation station)) return;
 
             List<CardObjWithPrice> cardObjs = station.ShopCards.Select(item => Helpers.ParseCardWithPrice(item.Content, item.Price)).ToList();
@@ -58,6 +60,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches
         [HarmonyPatch(typeof(ShopStation), nameof(ShopStation.RemoveDeckCard)), HarmonyPrefix]
         private static void AddRemove(Card card)
         {
+            if (!Instance.IsInitialized) return;
+
             Helpers.AddDataValue("Choice", 0);
             Helpers.AddDataValue("Remove", Helpers.ParseCard(card));
         }
@@ -65,6 +69,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches
         [HarmonyPatch(typeof(ShopStation), nameof(ShopStation.UpgradeDeckCard)), HarmonyPrefix]
         private static void AddUpgrade(Card card)
         {
+            if (!Instance.IsInitialized) return;
+
             Helpers.AddDataValue("Choice", 1);
             Helpers.AddDataValue("Upgrade", Helpers.ParseCard(card));
         }
@@ -72,6 +78,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches
         [HarmonyPatch(typeof(ShopStation), nameof(ShopStation.GetPrice), new Type[] { typeof(Card), typeof(bool) }), HarmonyPostfix]
         private static void AddExtraCard(Card card, int __result, ShopStation __instance)
         {
+            if (!Instance.IsInitialized) return;
+
             ShopStation shopStation = __instance;
             bool isOnEnter = ShopPatch.IsOnEnter(shopStation);
             if (isOnEnter) return;
@@ -89,6 +97,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches
         [HarmonyPatch(typeof(ShopStation), nameof(ShopStation.GetPrice), new Type[] { typeof(Exhibit) }), HarmonyPostfix]
         private static void AddExtraExhibit(Exhibit exhibit, int __result, ShopStation __instance)
         {
+            if (!Instance.IsInitialized) return;
+
             if (exhibit is KongZhanpinhe) return;
 
             ShopStation shopStation = __instance;

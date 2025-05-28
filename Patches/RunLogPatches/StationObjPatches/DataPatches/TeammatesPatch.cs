@@ -12,6 +12,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches
         [HarmonyPatch(typeof(Cirno), nameof(Cirno.SetNextBuff)), HarmonyPrefix]
         private static void AddTeammates(Cirno __instance)
         {
+            if (!Instance.IsInitialized) return;
+
             Cirno cirno = __instance;
             Type buff = cirno.NextBuff;
             if (buff == null) return;

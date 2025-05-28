@@ -15,6 +15,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
         [HarmonyPatch(typeof(DialogFunctions), nameof(DialogFunctions.AdventureRand)), HarmonyPostfix]
         private static void AddHasMoney(int a, int __result, GameRunController ____gameRun)
         {
+            if (!Instance.IsInitialized) return;
+
             if (a != 50) return;
             GameRunController gameRun = ____gameRun;
             if (gameRun.Player is Koishi) return;
@@ -28,6 +30,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
         [HarmonyPatch(typeof(InteractionViewer), nameof(InteractionViewer.View)), HarmonyPrefix]
         private static void AddCardsRewards(Interaction interaction)
         {
+            if (!Instance.IsInitialized) return;
+
             if (!Helpers.IsAdventure<SatoriCounseling>()) return;
             RewardsManager.AddCardsRewards(interaction);
         }

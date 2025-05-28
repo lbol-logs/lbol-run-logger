@@ -10,6 +10,7 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
         [HarmonyPatch(typeof(NazrinDetectPanel), nameof(NazrinDetectPanel.Roll)), HarmonyPostfix]
         private static void AddResult(int resultIndex)
         {
+            if (!Instance.IsInitialized) return;
             Helpers.AddDataValue("Result", resultIndex);
         }
     }

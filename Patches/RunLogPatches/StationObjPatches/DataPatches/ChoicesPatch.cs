@@ -10,6 +10,7 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches
         [HarmonyPatch(typeof(DialogRunner), nameof(DialogRunner.SelectOption)), HarmonyPostfix]
         private static void AddChoices(int id)
         {
+            if (!Instance.IsInitialized) return;
             Helpers.AddDataListItem("Choices", id);
         }
     }

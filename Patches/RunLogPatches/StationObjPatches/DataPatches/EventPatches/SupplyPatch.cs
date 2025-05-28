@@ -12,6 +12,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
         [HarmonyPatch(typeof(Supply), nameof(Supply.InitVariables)), HarmonyPostfix]
         private static void AddData(Supply __instance)
         {
+            if (!Instance.IsInitialized) return;
+
             DialogStorage storage = __instance.Storage;
             List<string> exhibits = Helpers.GetStorageList<string, string>(storage, new[] { "A", "B" }, "$exhibit");
             Helpers.AddDataValue("Exhibits", exhibits);

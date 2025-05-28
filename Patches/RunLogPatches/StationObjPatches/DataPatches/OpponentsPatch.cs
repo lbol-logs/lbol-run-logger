@@ -12,6 +12,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches
         [HarmonyPatch(typeof(SelectStation), nameof(SelectStation.GenerateRecord)), HarmonyPostfix]
         private static void AddOpponents(SelectStation __instance)
         {
+            if (!Instance.IsInitialized) return;
+
             List<string> opponents = __instance.Opponents.Select(opponent => opponent.Id).ToList();
             Helpers.AddDataValue("Opponents", opponents);
         }

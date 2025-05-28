@@ -15,6 +15,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches
         [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.LeaveBattle)), HarmonyPostfix]
         private static void AddRounds(BattleStats __result)
         {
+            if (!Instance.IsInitialized) return;
+
             BattleStats battleStats = __result;
             int rounds = battleStats.TotalRounds;
             Helpers.AddDataValue("Rounds", rounds);

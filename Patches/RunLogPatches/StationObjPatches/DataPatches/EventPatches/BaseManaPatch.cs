@@ -19,6 +19,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
         [HarmonyPatch(typeof(Adventure), nameof(Debut.InitVariables)), HarmonyPostfix]
         private static void AddBaseMana(Adventure __instance)
         {
+            if (!Instance.IsInitialized) return;
+
             if (!BaseManaPatch.Adventures.Contains(__instance.Id)) return;
             GameRunController gameRun = __instance.GameRun;
             string[] exhibits = gameRun.ExhibitRecord.ToArray();
@@ -31,6 +33,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
         {
             private static void Prefix(ManaGroup value)
             {
+                if (!Instance.IsInitialized) return;
+
                 ManaGroup mana = value;
                 string color = mana.MaxColor.ToShortName().ToString();
                 Helpers.AddDataValue("Color", color);

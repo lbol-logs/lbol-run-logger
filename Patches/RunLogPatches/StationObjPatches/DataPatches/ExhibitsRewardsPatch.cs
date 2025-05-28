@@ -20,6 +20,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches
         [HarmonyPatch(typeof(InteractionViewer), nameof(InteractionViewer.View)), HarmonyPrefix]
         private static void AddRewards(Interaction interaction)
         {
+            if (!Instance.IsInitialized) return;
+
             string source = interaction.Source?.Id;
             if (source == null) return;
 

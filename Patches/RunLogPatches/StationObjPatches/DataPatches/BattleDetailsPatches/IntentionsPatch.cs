@@ -3,6 +3,7 @@ using LBoL.Core;
 using LBoL.Core.Intentions;
 using LBoL.Core.Units;
 using LBoL.EntityLib.EnemyUnits.Character;
+using RunLogger.Utils;
 using RunLogger.Utils.Managers;
 using RunLogger.Utils.RunLogLib.BattleDetails;
 using System.Collections.Generic;
@@ -16,6 +17,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.BattleDe
         [HarmonyPatch(typeof(Seija), nameof(Seija.GetTurnMoves)), HarmonyPostfix]
         private static void AddIntentions(Seija __instance, IEnumerable<IEnemyMove> __result)
         {
+            if (!Instance.IsInitialized) return;
+
             Seija seija = __instance;
             if (seija.TurnCounter == 0) TurnObjManager.UpdateTurnObj(seija);
             IntentionsPatch.AddIntentionsInternal(seija, __result);

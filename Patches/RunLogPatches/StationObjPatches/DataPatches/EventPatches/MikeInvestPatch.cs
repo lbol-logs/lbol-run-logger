@@ -11,6 +11,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
         [HarmonyPatch(typeof(MikeInvest), nameof(MikeInvest.InitVariables)), HarmonyPostfix]
         private static void AddData(MikeInvest __instance)
         {
+            if (!Instance.IsInitialized) return;
+
             DialogStorage storage = __instance.Storage;
             storage.TryGetValue("$longMoney", out float money);
             Helpers.AddDataValue("Money", (int)money);

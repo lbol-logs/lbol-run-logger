@@ -10,6 +10,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
         [HarmonyPatch(typeof(WatatsukiPurify), nameof(WatatsukiPurify.InitVariables)), HarmonyPostfix]
         private static void AddLoseMax(WatatsukiPurify __instance)
         {
+            if (!Instance.IsInitialized) return;
+
             __instance.Storage.TryGetValue("$loseMax", out float loseMax);
             Helpers.AddDataValue("LoseMax", (int)loseMax);
         }

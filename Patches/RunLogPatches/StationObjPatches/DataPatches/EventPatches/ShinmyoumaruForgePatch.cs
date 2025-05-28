@@ -11,6 +11,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
         [HarmonyPatch(typeof(ShinmyoumaruForge), nameof(ShinmyoumaruForge.InitVariables)), HarmonyPostfix]
         private static void AddData(ShinmyoumaruForge __instance)
         {
+            if (!Instance.IsInitialized) return;
+
             DialogStorage storage = __instance.Storage;
             storage.TryGetValue("$hasUpgradableBasics", out bool hasUpgradableBasics);
             storage.TryGetValue("$hasNonBasics", out bool hasNonBasics);

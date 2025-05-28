@@ -29,6 +29,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches
         [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.EnterNextStage)), HarmonyPrefix]
         private static void AddStatusFix(GameRunController __instance)
         {
+            if (!Instance.IsInitialized) return;
+
             GameRunController gameRun = __instance;
             PlayerUnit character = gameRun.Player;
             Controller.Instance.PreHealHp = character.Hp;

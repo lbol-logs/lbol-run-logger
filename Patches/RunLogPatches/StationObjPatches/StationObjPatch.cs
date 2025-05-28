@@ -17,12 +17,15 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches
         [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.EnterMapNode)), HarmonyPrefix]
         private static void GetForced(bool forced)
         {
+            if (!Instance.IsInitialized) return;
             Controller.Instance.IsForced = forced;
         }
 
         [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.EnterStation)), HarmonyPostfix]
         private static void NewStation(Station station, GameRunController __instance)
         {
+            if (!Instance.IsInitialized) return;
+
             bool? forced = Controller.Instance.IsForced;
             Controller.Instance.IsForced = null;
             if (forced == true) return;
@@ -67,12 +70,14 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches
         [HarmonyPatch(typeof(BattleAdvTestStation), nameof(BattleAdvTestStation.SetEnemy)), HarmonyPostfix]
         private static void AddEnemyGroupId(EnemyGroupEntry entry)
         {
+            if (!Instance.IsInitialized) return;
             Controller.CurrentStation.Id = entry.Id;
         }
 
         [HarmonyPatch(typeof(BattleAdvTestStation), nameof(BattleAdvTestStation.SetAdventure)), HarmonyPostfix]
         private static void AddAdventureId(Adventure adventure)
         {
+            if (!Instance.IsInitialized) return;
             Controller.CurrentStation.Id = adventure.Id;
         }
     }

@@ -11,6 +11,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
         [HarmonyPatch(typeof(DialogRunner), nameof(DialogRunner.SelectOption)), HarmonyPostfix]
         private static void AddData(int id)
         {
+            if (!Instance.IsInitialized) return;
+
             if (!Helpers.IsAdventure<BuduSuanming>(out DialogStorage storage)) return;
             if (id == 0)
             {

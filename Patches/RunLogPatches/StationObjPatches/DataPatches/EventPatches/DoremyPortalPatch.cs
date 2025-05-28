@@ -10,6 +10,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
         [HarmonyPatch(typeof(DoremyPortal), nameof(DoremyPortal.InitVariables)), HarmonyPostfix]
         private static void AddExhibit(DoremyPortal __instance)
         {
+            if (!Instance.IsInitialized) return;
+
             if (!Controller.ShowRandomResult) return;
             __instance.Storage.TryGetValue("$randomExhibit", out string exhibit);
             Helpers.AddDataValue("Exhibit", exhibit);

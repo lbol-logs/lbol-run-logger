@@ -16,6 +16,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
         [HarmonyPatch(typeof(Debut), nameof(Debut.RollBonus)), HarmonyPostfix]
         private static void AddData(Exhibit ____exhibit, int[] ____bonusNos, Debut __instance)
         {
+            if (!Instance.IsInitialized) return;
+
             if (!Controller.Instance.RunLog.Settings.HasClearBonus) return;
 
             int[] options = ____bonusNos;
@@ -56,6 +58,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
         [HarmonyPatch(typeof(DialogRunner), nameof(DialogRunner.SelectOption)), HarmonyPostfix]
         private static void Prefix(int id)
         {
+            if (!Instance.IsInitialized) return;
+
             if (id != Controller.Instance.DebutUncommonCardsIndex) return;
             Controller.Instance.DebutUncommonCardsChosen = true;
         }
@@ -63,6 +67,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
         [HarmonyPatch(typeof(InteractionViewer), nameof(InteractionViewer.View)), HarmonyPrefix]
         private static void AddCardsRewards(Interaction interaction)
         {
+            if (!Instance.IsInitialized) return;
+
             if (!Controller.Instance.DebutUncommonCardsChosen) return;
             if (!Helpers.IsAdventure<Debut>()) return;
             RewardsManager.AddCardsRewards(interaction);

@@ -19,12 +19,15 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.BattleDe
         [HarmonyPatch(typeof(Seija), nameof(Seija.OnEnterBattle)), HarmonyPostfix]
         private static void AppendOnEnemyEnterBattle(Seija __instance)
         {
+            if (!Instance.IsInitialized) return;
             TurnObjManager.AppendTurnObj(0, 0, __instance.Id);
         }
 
         [HarmonyPatch(typeof(BattleAction), nameof(BattleAction.CreatePhase), new Type[] { typeof(string), typeof(Action), typeof(bool) }), HarmonyPrefix]
         private static void AppendOnPlayerStartTurn(string name, BattleAction __instance)
         {
+            if (!Instance.IsInitialized) return;
+
             if (name != "InTurn") return;
             BattleController battle = __instance.Battle;
             if (battle.EnemyGroup.Id != nameof(Seija)) return;
@@ -45,6 +48,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.BattleDe
             }
             private static void Prefix(string name, UnitEventArgs args, BattleAction __instance)
             {
+                if (!Instance.IsInitialized) return;
+
                 if (name != "TurnEnded") return;
                 BattleAction battleAction = __instance;
                 BattleController battle = battleAction.Battle;

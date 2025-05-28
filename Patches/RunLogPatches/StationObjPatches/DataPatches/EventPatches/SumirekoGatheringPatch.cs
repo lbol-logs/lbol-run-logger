@@ -16,6 +16,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
         [HarmonyPatch(typeof(SumirekoGathering), nameof(SumirekoGathering.InitVariables)), HarmonyPostfix]
         private static void AddData(SumirekoGathering __instance)
         {
+            if (!Instance.IsInitialized) return;
+
             DialogStorage storage = __instance.Storage;
             storage.TryGetValue("$rareCard1", out string id);
             if (id == null) return;
@@ -33,6 +35,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
         [HarmonyPatch(typeof(DialogFunctions), nameof(DialogFunctions.HasMoney)), HarmonyPostfix]
         private static void AddHasMoney(bool __result)
         {
+            if (!Instance.IsInitialized) return;
+
             if (!Helpers.IsAdventure<SumirekoGathering>(out DialogStorage storage)) return;
 
             bool hasMoney = __result;
@@ -48,6 +52,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
         [HarmonyPatch(typeof(InteractionViewer), nameof(InteractionViewer.View)), HarmonyPrefix]
         private static void AddCardsRewards(Interaction interaction)
         {
+            if (!Instance.IsInitialized) return;
+
             if (!Helpers.IsAdventure<SumirekoGathering>()) return;
             RewardsManager.AddCardsRewards(interaction);
         }

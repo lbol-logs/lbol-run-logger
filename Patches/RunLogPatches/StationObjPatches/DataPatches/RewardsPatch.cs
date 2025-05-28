@@ -15,6 +15,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches
         [HarmonyPatch(typeof(Station), nameof(Station.AddRewards), new Type[] { typeof(IEnumerable<StationReward>) }), HarmonyPrefix]
         private static void AddRewards(IEnumerable<StationReward> rewards)
         {
+            if (!Instance.IsInitialized) return;
+
             bool isDebut = Helpers.IsAdventure<Debut>();
             if (isDebut)
             {
@@ -32,6 +34,7 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches
         [HarmonyPatch(typeof(BossStation), nameof(BossStation.GenerateBossRewards)), HarmonyPostfix]
         private static void AddBossExhibits(BossStation __instance)
         {
+            if (!Instance.IsInitialized) return;
             foreach (Exhibit exhibit in __instance.BossRewards) RewardsManager.AddExhibitRewards(exhibit);
         }
 
@@ -39,6 +42,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches
         [HarmonyPatch(typeof(Stage), nameof(Stage.GetEnemyCardReward)), HarmonyPostfix]
         private static void AddExtraCardsReward(StationReward __result)
         {
+            if (!Instance.IsInitialized) return;
+
             Station currentStation = Helpers.CurrentStation;
             if (!(currentStation is EnemyStation)) return;
             bool isGenerateEnemyRewards = currentStation.Rewards.Count == 0;
@@ -51,6 +56,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches
         [HarmonyPatch(typeof(Stage), nameof(Stage.GetEliteEnemyExhibit)), HarmonyPostfix]
         private static void AddExtraExhibitReward(Exhibit __result)
         {
+            if (!Instance.IsInitialized) return;
+
             Exhibit exhibit = __result;
             Station currentStation = Helpers.CurrentStation;
             if (!(currentStation is EliteEnemyStation)) return;
@@ -64,6 +71,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches
         [HarmonyPatch(typeof(StationReward), nameof(StationReward.CreateToolCard)), HarmonyPostfix]
         private static void GetShopToolCardsPatch(StationReward __result)
         {
+            if (!Instance.IsInitialized) return;
+
             Station currentStation = Helpers.CurrentStation;
             if (!(currentStation is BattleStation)) return;
 

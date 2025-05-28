@@ -13,6 +13,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
         [HarmonyPatch(typeof(KaguyaVersusMokou), nameof(KaguyaVersusMokou.InitVariables)), HarmonyPostfix]
         private static void AddHps(KaguyaVersusMokou __instance)
         {
+            if (!Instance.IsInitialized) return;
+
             DialogStorage storage = __instance.Storage;
             List<int> hps = Helpers.GetStorageList<float, string>(storage, new[] { "", "Low" }, "$hpLose").Select(hp => (int)hp).ToList();
             Helpers.AddDataValue("Hps", hps);

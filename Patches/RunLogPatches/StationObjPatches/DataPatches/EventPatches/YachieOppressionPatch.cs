@@ -12,6 +12,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
         [HarmonyPatch(typeof(YachieOppression), nameof(YachieOppression.InitVariables)), HarmonyPostfix]
         private static void AddExhibitBeforeBattle(YachieOppression __instance)
         {
+            if (!Instance.IsInitialized) return;
+
             if (!Controller.ShowRandomResult) return;
             YachieOppressionPatch.AddExhibit(__instance.Storage);
         }
@@ -19,6 +21,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
         [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.LeaveBattle)), HarmonyPostfix]
         private static void AddExhibitAfterBattle()
         {
+            if (!Instance.IsInitialized) return;
+
             if (Controller.ShowRandomResult) return;
             if (!Helpers.IsAdventure<YachieOppression>(out DialogStorage storage)) return;
             YachieOppressionPatch.AddExhibit(storage);

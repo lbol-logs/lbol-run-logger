@@ -16,6 +16,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches
         [HarmonyPatch(typeof(GapOptionsPanel), nameof(GapOptionsPanel.OnShowing)), HarmonyPostfix]
         private static void AddOptions(GapStation gapStation)
         {
+            if (!Instance.IsInitialized) return;
+
             List<string> options = gapStation.GapOptions.Select(gapOption => gapOption.Type.ToString()).ToList();
             Helpers.AddDataValue("Options", options);
         }
@@ -23,6 +25,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches
         [HarmonyPatch(typeof(GapOptionsPanel), nameof(GapOptionsPanel.OptionClicked)), HarmonyPostfix]
         private static void AddChoice(GapOption option)
         {
+            if (!Instance.IsInitialized) return;
+
             string choice = option.Type.ToString();
             Controller.CurrentStation.Data["Choice"] = choice;
         }
@@ -31,6 +35,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches
         [HarmonyPatch(typeof(SelectCardPanel), nameof(SelectCardPanel.ShowMiniSelect)), HarmonyPrefix]
         private static void AddShanliangDengpao(SelectCardPayload payload)
         {
+            if (!Instance.IsInitialized) return;
+
             bool isShanliangDengpao = Library.CreateGapOption<GetRareCard>().Name == payload.Name;
             if (!isShanliangDengpao) return;
             List<CardObj> cards = Helpers.ParseCards(payload.Cards);

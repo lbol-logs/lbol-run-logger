@@ -14,6 +14,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
         [HarmonyPatch(typeof(BackgroundDancers), nameof(BackgroundDancers.InitVariables)), HarmonyPostfix]
         private static void AddHp(BackgroundDancers __instance)
         {
+            if (!Instance.IsInitialized) return;
+
             __instance.Storage.TryGetValue("$hpLose", out float hp);
             Helpers.AddDataValue("Hp", (int)hp);
         }
@@ -21,6 +23,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
         [HarmonyPatch(typeof(BackgroundDancers), nameof(BackgroundDancers.RollOptions)), HarmonyPostfix]
         private static void AddOptionsAndData(BackgroundDancers __instance, int[] ____optionIndices)
         {
+            if (!Instance.IsInitialized) return;
+
             Helpers.AddDataValue("Options", ____optionIndices.ToList());
             foreach (int option in ____optionIndices) BackgroundDancersPatch.HandleRandom(__instance, option);
         }
@@ -28,6 +32,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
         [HarmonyPatch(typeof(BackgroundDancers), nameof(BackgroundDancers.SelectOption)), HarmonyPostfix]
         private static void AddData(int index, ref IEnumerator __result)
         {
+            if (!Instance.IsInitialized) return;
+
             static void postfixAction()
             {
                 BackgroundDancers backgroundDancers = Helpers.GetAdventure(null) as BackgroundDancers;

@@ -10,6 +10,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
         [HarmonyPatch(typeof(RemiliaMeet), nameof(RemiliaMeet.InitVariables)), HarmonyPostfix]
         private static void AddHasExhibit(RemiliaMeet __instance)
         {
+            if (!Instance.IsInitialized) return;
+
             __instance.Storage.TryGetValue("$hasExhibit", out bool hasExhibit);
             Helpers.AddDataValue("HasExhibit", hasExhibit);
         }
