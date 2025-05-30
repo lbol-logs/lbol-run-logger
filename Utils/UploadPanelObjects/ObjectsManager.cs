@@ -42,7 +42,9 @@ namespace RunLogger.Utils.UploadPanelObjects
         {
             get
             {
-                if (!UiManager.Instance._panelTable.TryGetValue(typeof(GameResultPanel), out UiPanelBase uiPanelBase)) return null;
+                UiManager instance = UiManager._instance;
+                if (instance == null || !instance) return null;
+                if (!instance._panelTable.TryGetValue(typeof(GameResultPanel), out UiPanelBase uiPanelBase)) return null;
                 return uiPanelBase.transform.Find("UploadPanel(Clone)");
             }
         }
