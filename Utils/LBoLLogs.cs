@@ -23,7 +23,7 @@ namespace RunLogger.Utils
         private static IEnumerator Post()
         {
             ObjectsManager.Clone.Find("Upload").gameObject.SetActive(false);
-            LBoLLogs.Log(UploadStatus.Uploading);
+            UploadPanel.Log(UploadStatus.Uploading);
             UnityWebRequest request = new UnityWebRequest(Configs.GasUrl, "POST");
             byte[] data = Encoding.UTF8.GetBytes(Logger.Encode(Controller.Instance.RunLog, false));
             request.uploadHandler = (UploadHandler)new UploadHandlerRaw(data);
@@ -38,12 +38,12 @@ namespace RunLogger.Utils
                 result.TryGetValue("url", out object value);
                 string url = (string)value;
                 BepinexPlugin.log.LogDebug(url);
-                LBoLLogs.Log(UploadStatus.Uploaded, url);
+                UploadPanel.Log(UploadStatus.Uploaded, url);
                 Logger.DeleteLog(Controller.Instance.Path);
             }
             else
             {
-                LBoLLogs.Log(UploadStatus.Failed);
+                UploadPanel.Log(UploadStatus.Failed);
             }
             Controller.DestroyInstance();
 
@@ -58,12 +58,6 @@ namespace RunLogger.Utils
             if (!result.TryGetValue("isNew", out object value)) return false;
             bool isNew = (bool)value;
             return isNew;
-        }
-
-        private static void Log(string uploadStatus, string url = null)
-        {
-            ObjectsManager.UpdateStatus(uploadStatus, url);
-            BepinexPlugin.log.LogDebug(uploadStatus);
         }
     }
 }

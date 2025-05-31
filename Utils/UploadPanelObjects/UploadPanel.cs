@@ -51,5 +51,11 @@ namespace RunLogger.Utils.UploadPanelObjects
 
             ObjectsManager.PanelTemp.name = "UploadPanel";
         }
+
+        internal static void Log(string uploadStatus, string url = null)
+        {
+            ObjectsManager.UpdateStatus(uploadStatus, url);
+            BepinexPlugin.log.LogDebug(uploadStatus);
+        }
     }
 }

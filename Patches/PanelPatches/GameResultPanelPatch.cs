@@ -42,7 +42,7 @@ namespace RunLogger.Patches.PanelPatches
 
             int i = Helpers.CurrentSaveIndex;
             string title = $"Auto Upload Log #{i}";
-            string description = StringDecorator.Decorate($"Auto upload the log of |Profile #{i}| to LBoL Logs.\nIf set to |false|, you can upload with description at the result screen.\nChange is effective from next run.\nUploaded log will be deleted from local drive.");
+            string description = StringDecorator.Decorate($"Auto upload the log of |Profile #{i}| to LBoL Logs.\nIf set to |false|, you can upload with description at the result screen.\nChange is effective from next run.\nUploaded log will be deleted from local drive.\nAbandoned run is never auto uploaded.");
             ObjectsManager.SetTooltip(panel.Find("AutoUpload"), title, description);
 
             if (Controller.Instance?.Path == null)
@@ -53,7 +53,8 @@ namespace RunLogger.Patches.PanelPatches
 
             if (Helpers.AutoUpload)
             {
-                LBoLLogs.Upload();
+                if (Controller.Instance.IsAbandoned) UploadPanel.Log(UploadStatus.AbandonedRun);
+                else LBoLLogs.Upload();
                 return;
             }
 
