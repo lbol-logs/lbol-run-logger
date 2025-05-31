@@ -2,10 +2,10 @@
 {
     public class Status
     {
-        public int Money { get; set; }
-        public int Hp { get; set; }
-        public int MaxHp { get; set; }
-        public int Power { get; set; }
-        public int MaxPower { get; set; }
+        public int Money { get; internal set; }
+        public int Hp { get; internal set; }
+        public int MaxHp { get; internal set; }
+        public int Power { get; internal set; }
+        public int MaxPower { get; internal set; }
     }
 }

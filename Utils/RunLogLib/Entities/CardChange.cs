@@ -2,7 +2,7 @@
 {
     public class CardChange : CardObj
     {
-        public string Type { get; set; }
-        public int Station { get; set; }
+        public string Type { get; internal set; }
+        public int Station { get; internal set; }
     }
 }

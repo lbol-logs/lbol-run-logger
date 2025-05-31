@@ -2,10 +2,10 @@
 {
     public class StatusEffectObj
     {
-        public string Id { get; set; }
-        public int? Level { get; set; }
-        public int? Duration { get; set; }
-        public int? Count { get; set; }
-        public int? Limit { get; set; }
+        public string Id { get; internal set; }
+        public int? Level { get; internal set; }
+        public int? Duration { get; internal set; }
+        public int? Count { get; internal set; }
+        public int? Limit { get; internal set; }
     }
 }

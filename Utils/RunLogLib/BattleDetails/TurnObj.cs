@@ -5,14 +5,14 @@ namespace RunLogger.Utils.RunLogLib.BattleDetails
 {
     public class TurnObj
     {
-        public int Round { get; set; }
-        public int Turn { get; set; }
-        public string Id { get; set; }
+        public int Round { get; internal set; }
+        public int Turn { get; internal set; }
+        public string Id { get; internal set; }
 #nullable enable
-        public List<CardObj>? Cards { get; set; }
-        public List<IntentionObj>? Intentions { get; set; }
+        public List<CardObj>? Cards { get; internal set; }
+        public List<IntentionObj>? Intentions { get; internal set; }
 #nullable disable
-        public BattleStatusObj Status { get; set; }
-        public List<StatusEffectObj> StatusEffects { get; set; }
+        public BattleStatusObj Status { get; internal set; }
+        public List<StatusEffectObj> StatusEffects { get; internal set; }
     }
 }
