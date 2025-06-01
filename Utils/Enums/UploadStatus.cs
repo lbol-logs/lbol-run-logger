@@ -6,6 +6,5 @@
         internal const string Uploaded = "Uploaded";
         internal const string Failed = "Upload failed";
         internal const string NotSaved = "Log not saved";
-        internal const string AbandonedRun = "Abandoned run";
     }
 }

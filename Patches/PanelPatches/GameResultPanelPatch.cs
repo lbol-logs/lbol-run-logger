@@ -51,10 +51,9 @@ namespace RunLogger.Patches.PanelPatches
                 return;
             }
 
-            if (Helpers.AutoUpload)
+            if (Helpers.AutoUpload && !Controller.Instance.IsAbandoned)
             {
-                if (Controller.Instance.IsAbandoned) UploadPanel.Log(UploadStatus.AbandonedRun);
-                else LBoLLogs.Upload();
+                LBoLLogs.Upload();
                 return;
             }
 
