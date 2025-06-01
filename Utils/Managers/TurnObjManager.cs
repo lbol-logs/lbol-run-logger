@@ -14,13 +14,14 @@ namespace RunLogger.Utils.Managers
             turnObj = details[^1];
         }
 
-        internal static void AppendTurnObj(int round, int turn, string id, List<CardObj> cards = null)
+        internal static void AppendTurnObj(int round, int turn, string id, string mana = null, List<CardObj> cards = null)
         {
             TurnObj turnObj = new TurnObj()
             {
                 Round = round,
                 Turn = turn,
                 Id = id,
+                Mana = mana,
                 Cards = cards
             };
             Helpers.AddDataListItem("Details", turnObj);

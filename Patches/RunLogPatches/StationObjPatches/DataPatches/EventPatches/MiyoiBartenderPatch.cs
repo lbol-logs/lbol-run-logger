@@ -32,7 +32,7 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
         }
 
         [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.LeaveBattle)), HarmonyPostfix]
-        private static void AddExhibitAfterBattle(GameRunController __instance)
+        private static void AddExhibitAfterBattle()
         {
             if (!Instance.IsInitialized) return;
 

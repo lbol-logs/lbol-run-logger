@@ -9,6 +9,7 @@ namespace RunLogger.Utils.RunLogLib.BattleDetails
         public int Turn { get; internal set; }
         public string Id { get; internal set; }
 #nullable enable
+        public string? Mana { get; internal set; }
         public List<CardObj>? Cards { get; internal set; }
         public List<IntentionObj>? Intentions { get; internal set; }
 #nullable disable

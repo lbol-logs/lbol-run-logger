@@ -29,14 +29,17 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.BattleDe
             if (!Instance.IsInitialized) return;
 
             if (name != "InTurn") return;
+
             BattleController battle = __instance.Battle;
             if (battle.EnemyGroup.Id != nameof(Seija)) return;
             if (battle.PlayerTurnShouldEnd) return;
 
             int round = battle.RoundCounter;
             int turn = battle.Player.TurnCounter;
+            string mana = battle.BattleMana.ToString();
+
             List<CardObj> cards = Helpers.ParseCards(battle.HandZone);
-            TurnObjManager.AppendTurnObj(round, turn, "Player", cards);
+            TurnObjManager.AppendTurnObj(round, turn, "Player", mana, cards);
         }
 
         [HarmonyPatch]
