@@ -5,12 +5,12 @@ namespace RunLogger.Utils.RunLogLib
 {
     public class Result
     {
-        public string Type { get; internal set; }
-        public string Timestamp { get; internal set; }
-        public List<CardObj> Cards { get; internal set; }
-        public List<string> Exhibits { get; internal set; }
-        public string BaseMana { get; internal set; }
-        public int ReloadTimes { get; internal set; }
-        public string Seed { get; internal set; }
+        public string Type { get; set; }
+        public string Timestamp { get; set; }
+        public List<CardObj> Cards { get; set; }
+        public List<string> Exhibits { get; set; }
+        public string BaseMana { get; set; }
+        public int ReloadTimes { get; set; }
+        public string Seed { get; set; }
     }
 }

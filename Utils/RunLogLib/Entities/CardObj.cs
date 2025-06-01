@@ -2,8 +2,8 @@
 {
     public class CardObj
     {
-        public string Id { get; internal set; }
-        public bool IsUpgraded { get; internal set; }
-        public int? UpgradeCounter { get; internal set; }
+        public string Id { get; set; }
+        public bool IsUpgraded { get; set; }
+        public int? UpgradeCounter { get; set; }
     }
 }

@@ -5,18 +5,18 @@ namespace RunLogger.Utils.RunLogLib
 {
     public class RunLog
     {
-        public string Version { get; internal set; }
+        public string Version { get; set; }
 #nullable enable
-        public string? Name { get; internal set; }
+        public string? Name { get; set; }
 #nullable disable
-        public Settings Settings { get; internal set; }
-        public List<StationObj> Stations { get; internal set; } = new List<StationObj>();
-        public List<ActObj> Acts { get; internal set; } = new List<ActObj>();
-        public List<CardChange> Cards { get; internal set; } = new List<CardChange>();
-        public List<ExhibitChange> Exhibits { get; internal set; } = new List<ExhibitChange>();
-        public Result Result { get; internal set; }
+        public Settings Settings { get; set; }
+        public List<StationObj> Stations { get; set; } = new List<StationObj>();
+        public List<ActObj> Acts { get; set; } = new List<ActObj>();
+        public List<CardChange> Cards { get; set; } = new List<CardChange>();
+        public List<ExhibitChange> Exhibits { get; set; } = new List<ExhibitChange>();
+        public Result Result { get; set; }
 #nullable enable
-        public string? Description { get; internal set; }
+        public string? Description { get; set; }
 #nullable disable
     }
 }

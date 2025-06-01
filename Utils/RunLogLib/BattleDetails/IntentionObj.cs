@@ -2,9 +2,9 @@
 {
     public class IntentionObj
     {
-        public string Type { get; internal set; }
-        public int? Damage { get; internal set; }
-        public int? Times { get; internal set; }
-        public bool? IsAccurate { get; internal set; }
+        public string Type { get; set; }
+        public int? Damage { get; set; }
+        public int? Times { get; set; }
+        public bool? IsAccurate { get; set; }
     }
 }
