@@ -8,7 +8,7 @@ namespace RunLogger.Patches.PanelPatches
     [HarmonyPatch]
     internal static class SettingPanelPatch
     {
-        [HarmonyPatch(typeof(SettingPanel), nameof(SettingPanel.Awake)), HarmonyPostfix]
+        [HarmonyPatch(typeof(SettingPanel), nameof(SettingPanel.Awake)), HarmonyPostfix, HarmonyPriority(Priority.High)]
         private static void CreateAutoUpload(SettingPanel __instance)
         {
             if (UploadPanel.HasPanel || ObjectsManager.GetFromTemp("AutoUpload") != null) return;

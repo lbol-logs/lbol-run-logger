@@ -18,7 +18,7 @@ namespace RunLogger.Patches.PanelPatches
         [HarmonyPatch(typeof(GameResultPanel), nameof(GameResultPanel.Awake)), HarmonyPostfix]
         private static void CreateQuickUpload(GameResultPanel __instance)
         {
-            if (UploadPanel.HasPanel || ObjectsManager.GetFromTemp("Upload/QuickUpload") != null) return;
+            if (UploadPanel.HasPanel || ObjectsManager.GetFromTemp("QuickUpload") != null) return;
 
             RectTransform quickUpload = ObjectsManager.CopyGameObject(__instance.transform, "CommonButton");
             quickUpload.name = "QuickUpload";
@@ -33,7 +33,13 @@ namespace RunLogger.Patches.PanelPatches
         [HarmonyPatch(typeof(GameResultPanel), nameof(GameResultPanel.OnShowing)), HarmonyPostfix]
         private static void DisplayPanel(GameResultPanel __instance)
         {
-            Transform panel = Object.Instantiate(ObjectsManager.Panel, __instance.transform, true);
+            Transform panelTemplate = ObjectsManager.Panel;
+            if (panelTemplate == null)
+            {
+                BepinexPlugin.log.LogWarning("UploadPanel is not ready");
+                return;
+            }
+            Transform panel = Object.Instantiate(panelTemplate, __instance.transform, true);
 
             SwitchWidget switchWidget = panel.Find("AutoUpload/Switch").GetComponent<SwitchWidget>();
             switchWidget.onToggleChanged = new UnityEvent<bool>();

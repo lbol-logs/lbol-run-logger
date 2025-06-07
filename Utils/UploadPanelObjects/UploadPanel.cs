@@ -25,17 +25,19 @@ namespace RunLogger.Utils.UploadPanelObjects
 
         internal static void AdjustPanel()
         {
-            if (ObjectsManager.PanelTemp.childCount != 7) return;
+            if (ObjectsManager.PanelTemp == null) return;
 
             Transform bg = ObjectsManager.GetFromTemp("Bg");
             Transform status = ObjectsManager.GetFromTemp("Status");
             Transform autoUpload = ObjectsManager.GetFromTemp("AutoUpload");
             Transform upload = ObjectsManager.GetFromTemp("Upload");
             Transform textArea = ObjectsManager.GetFromTemp("TextArea");
-
-            Transform edit = upload.Find("Edit");
             Transform quickUpload = ObjectsManager.GetFromTemp("QuickUpload");
             Transform input = ObjectsManager.GetFromTemp("Input");
+
+            if (bg == null || status == null || autoUpload == null || upload == null || textArea == null || quickUpload == null || input == null) return;
+
+            Transform edit = upload.Find("Edit");
 
             quickUpload.SetParent(upload, false);
             input.SetParent(textArea, true);
