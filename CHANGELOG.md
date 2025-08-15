@@ -4,6 +4,7 @@ For all changelog, see the [commits](https://github.com/lbol-logs/lbol-run-logge
 
 | Version | Change |
 | --- | --- |
+| 3.2.3 | Add config option to show/hide upload panel at the result screen |
 | 3.1.0 | Add config option to enable/disable saving abandoned run |
 | 3.0.0 | Add upload panel to the result screen |
 | 2.3.0 | Add config options to enable/disable auto upload log of each profile |
