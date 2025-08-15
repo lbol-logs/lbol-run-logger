@@ -138,6 +138,7 @@ namespace RunLogger
         internal static ConfigEntry<bool> SaveTogether;
 
         internal static List<ConfigEntry<bool>> AutoUploads = new List<ConfigEntry<bool>>();
+        internal static ConfigEntry<bool> ShowUploadPanel;
 
         internal static bool HasPatchouliMod;
 
@@ -155,6 +156,7 @@ namespace RunLogger
             SaveTogether = Config.Bind("Save", "Save Profiles Together", true, "Save the logs of different profiles in the same directory.\nIf set to `false`, they are saved under the corresponding index, i.e. `0`/`1`/`2`.");
 
             for (int i = 0; i < Configs.Profiles; i++) AutoUploads.Add(Config.Bind("Upload", $"Auto Upload Log #{i}", false, $"Auto upload the log of Profile #{i} to LBoL Logs.\nIf set to `false`, you can upload with description at the result screen.\nUploaded log will be deleted from local drive."));
+            ShowUploadPanel = Config.Bind("Upload", "Show Upload Panel", true, "Show upload panel at the result screen.");
 
             harmony.PatchAll();
 
