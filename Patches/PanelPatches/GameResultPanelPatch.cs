@@ -33,6 +33,7 @@ namespace RunLogger.Patches.PanelPatches
         [HarmonyPatch(typeof(GameResultPanel), nameof(GameResultPanel.OnShowing)), HarmonyPostfix]
         private static void DisplayPanel(GameResultPanel __instance)
         {
+            if (!BepinexPlugin.ShowUploadPanel.Value) return;
             Transform panelTemplate = ObjectsManager.Panel;
             if (panelTemplate == null)
             {
