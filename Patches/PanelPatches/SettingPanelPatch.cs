@@ -11,7 +11,7 @@ namespace RunLogger.Patches.PanelPatches
         [HarmonyPatch(typeof(SettingPanel), nameof(SettingPanel.Awake)), HarmonyPostfix, HarmonyPriority(Priority.High)]
         private static void CreateAutoUpload(SettingPanel __instance)
         {
-            if (UploadPanel.HasPanel || ObjectsManager.GetFromTemp("AutoUpload") != null) return;
+            if (UploadPanel.SkipPanelTemp || ObjectsManager.GetFromTemp("AutoUpload") != null) return;
 
             RectTransform autoUpload = ObjectsManager.CopyGameObject(__instance.transform, "Root/Main/LeftPanel/AnimatingEnvironment");
             autoUpload.name = "AutoUpload";

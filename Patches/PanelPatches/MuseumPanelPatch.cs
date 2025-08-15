@@ -12,7 +12,7 @@ namespace RunLogger.Patches.PanelPatches
         [HarmonyPatch(typeof(MuseumPanel), nameof(MuseumPanel.Awake)), HarmonyPostfix]
         private static void CreateInput(MuseumPanel __instance)
         {
-            if (UploadPanel.HasPanel || ObjectsManager.GetFromTemp("Input") != null) return;
+            if (UploadPanel.SkipPanelTemp || ObjectsManager.GetFromTemp("Input") != null) return;
 
             RectTransform input = ObjectsManager.CopyGameObject(__instance.transform, "TabRoot/Cards/LeftScollView/Viewport/Content/TextFilter");
             input.name = "Input";

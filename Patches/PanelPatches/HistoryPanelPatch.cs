@@ -12,7 +12,7 @@ namespace RunLogger.Patches.PanelPatches
         [HarmonyPatch(typeof(HistoryPanel), nameof(HistoryPanel.Awake)), HarmonyPostfix]
         private static void CreateStatus(HistoryPanel __instance)
         {
-            if (UploadPanel.HasPanel || ObjectsManager.GetFromTemp("Status") != null) return;
+            if (UploadPanel.SkipPanelTemp || ObjectsManager.GetFromTemp("Status") != null) return;
 
             RectTransform status = ObjectsManager.CopyGameObject(__instance.transform, "RecordDataArea/SeedButton");
             status.name = "Status";

@@ -18,7 +18,7 @@ namespace RunLogger.Patches.PanelPatches
         [HarmonyPatch(typeof(GameResultPanel), nameof(GameResultPanel.Awake)), HarmonyPostfix]
         private static void CreateQuickUpload(GameResultPanel __instance)
         {
-            if (UploadPanel.HasPanel || ObjectsManager.GetFromTemp("QuickUpload") != null) return;
+            if (UploadPanel.SkipPanelTemp || ObjectsManager.GetFromTemp("QuickUpload") != null) return;
 
             RectTransform quickUpload = ObjectsManager.CopyGameObject(__instance.transform, "CommonButton");
             quickUpload.name = "QuickUpload";

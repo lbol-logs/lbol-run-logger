@@ -5,7 +5,7 @@ namespace RunLogger.Utils.UploadPanelObjects
 {
     internal static class UploadPanel
     {
-        internal static bool HasPanel
+        internal static bool SkipPanelTemp
         {
             get
             {
