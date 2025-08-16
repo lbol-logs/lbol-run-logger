@@ -40,6 +40,7 @@ namespace RunLogger.Patches.PanelPatches
 
         private static Transform PreAutoUpload(GameResultPanel __instance)
         {
+            if (!BepinexPlugin.ShowUploadPanel.Value) return null;
             Transform panelTemplate = ObjectsManager.Panel;
             if (panelTemplate == null)
             {
