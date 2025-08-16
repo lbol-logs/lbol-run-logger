@@ -12,7 +12,7 @@ namespace RunLogger.Patches.PanelPatches
         [HarmonyPatch(typeof(ProfilePanel), nameof(ProfilePanel.Awake)), HarmonyPostfix]
         private static void CreateTextArea(ProfilePanel __instance)
         {
-            if (UploadPanel.HasPanel || ObjectsManager.GetFromTemp("TextArea") != null) return;
+            if (UploadPanel.SkipPanelTemp || ObjectsManager.GetFromTemp("TextArea") != null) return;
 
             RectTransform textArea = ObjectsManager.CopyGameObject(__instance.transform, "NameInput");
             textArea.name = "TextArea";

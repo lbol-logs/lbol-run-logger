@@ -5,15 +5,14 @@ namespace RunLogger.Utils.UploadPanelObjects
 {
     internal static class UploadPanel
     {
-        internal static bool HasPanel
+        internal static bool SkipPanelTemp
         {
             get
             {
-                Transform panel = ObjectsManager.Panel;
-                if (panel != null) return true;
+                if (!BepinexPlugin.ShowUploadPanel.Value || ObjectsManager.Panel != null) return true;
                 if (ObjectsManager.PanelTemp == null)
                 {
-                    panel = new GameObject("UploadPanelTemp", typeof(RectTransform)).transform;
+                    Transform panel = new GameObject("UploadPanelTemp", typeof(RectTransform)).transform;
                     Transform upload = new GameObject("Upload", typeof(RectTransform)).transform;
                     upload.SetParent(panel, true);
                     upload.position = PositionsManager.UploadPosition;

@@ -12,7 +12,7 @@ namespace RunLogger.Patches.PanelPatches
         [HarmonyPatch(typeof(CardDetailPanel), nameof(CardDetailPanel.Awake)), HarmonyPostfix]
         private static void CreateBg(CardDetailPanel __instance)
         {
-            if (UploadPanel.HasPanel || ObjectsManager.GetFromTemp("Bg") != null) return;
+            if (UploadPanel.SkipPanelTemp || ObjectsManager.GetFromTemp("Bg") != null) return;
 
             RectTransform bg = ObjectsManager.CopyGameObject(__instance.transform, "SubWidgetGroup/TooltipParent/TooltipTemplate/Root/ExtraText");
             bg.name = "Bg";

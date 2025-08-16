@@ -19,3 +19,4 @@ BepInEx\config\ev.lbol.utils.runLogger.cfg
 | Save Profile Name | `true` | Save and show profile name when uploaded to LBoL Logs. |
 | Save Profiles Together | `true` | Save the logs of different profiles in the same directory.<br />If set to `false`, they are saved under the corresponding index, i.e. `0`/`1`/`2`. |
 | Auto Upload Log #0<br />Auto Upload Log #1<br />Auto Upload Log #2 | `false` | Auto upload the log of Profile #`i` to LBoL Logs.<br />If set to `false`, you can upload with description at the result screen.<br />Uploaded log will be deleted from local drive.<br />Abandoned run is never auto uploaded. |
+| ShowUploadPanel | `true` | Show upload panel at the result screen. |
