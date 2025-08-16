@@ -103,7 +103,7 @@ namespace RunLogger.Utils.UploadPanelObjects
             SimpleTooltipSource.CreateDirect(transform.gameObject, title, description).WithPosition(TooltipDirection.Top, TooltipAlignment.Min);
         }
 
-        internal static void UpdateStatus(string uploadStatus, string url)
+        internal static void UpdateStatus(string uploadStatus, string url = null)
         {
             if (!BepinexPlugin.ShowUploadPanel.Value) return;
             Transform status = ObjectsManager.Clone.Find("Status");

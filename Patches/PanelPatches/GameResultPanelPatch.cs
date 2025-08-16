@@ -33,12 +33,18 @@ namespace RunLogger.Patches.PanelPatches
         [HarmonyPatch(typeof(GameResultPanel), nameof(GameResultPanel.OnShowing)), HarmonyPostfix]
         private static void DisplayPanel(GameResultPanel __instance)
         {
-            if (!BepinexPlugin.ShowUploadPanel.Value) return;
+            Transform panel = GameResultPanelPatch.PreAutoUpload(__instance);
+            bool isAutoUploaded = GameResultPanelPatch.AutoUpload();
+            GameResultPanelPatch.PostAutoUpload(panel, isAutoUploaded);
+        }
+
+        private static Transform PreAutoUpload(GameResultPanel __instance)
+        {
             Transform panelTemplate = ObjectsManager.Panel;
             if (panelTemplate == null)
             {
                 BepinexPlugin.log.LogWarning("UploadPanel is not ready");
-                return;
+                return null;
             }
             Transform panel = Object.Instantiate(panelTemplate, __instance.transform, true);
 
@@ -54,16 +60,23 @@ namespace RunLogger.Patches.PanelPatches
 
             if (Controller.Instance?.Path == null)
             {
-                ObjectsManager.ChangeText(panel.Find("Status").Find("SeedText"), UploadStatus.NotSaved);
-                return;
+                ObjectsManager.UpdateStatus(UploadStatus.NotSaved);
+                return null;
             }
+            return panel;
+        }
 
-            if (Helpers.AutoUpload && !Controller.Instance.IsAbandoned)
-            {
-                LBoLLogs.Upload();
-                return;
-            }
+        private static bool AutoUpload()
+        {
+            if (!Helpers.AutoUpload || Controller.Instance.IsAbandoned) return false;
+            BepinexPlugin.log.LogDebug($"Auto Upload Log #{Helpers.CurrentSaveIndex}");
+            LBoLLogs.Upload();
+            return true;
+        }
 
+        private static void PostAutoUpload(Transform panel, bool isAutoUploaded)
+        {
+            if (panel == null || isAutoUploaded) return;
             panel.Find("Upload").gameObject.SetActive(true);
 
             Transform edit = panel.Find("Upload/Edit");
