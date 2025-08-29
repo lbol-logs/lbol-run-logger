@@ -17,6 +17,7 @@ namespace RunLogger.Patches.SaveData
             if (runLog == null)
             {
                 BepinexPlugin.log.LogDebug("Run restore failed");
+                Controller.DestroyInstance();
                 return;
             }
             Controller.CreateInstance(runLog);

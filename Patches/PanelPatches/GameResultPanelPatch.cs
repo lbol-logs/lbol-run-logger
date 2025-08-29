@@ -33,12 +33,12 @@ namespace RunLogger.Patches.PanelPatches
         [HarmonyPatch(typeof(GameResultPanel), nameof(GameResultPanel.OnShowing)), HarmonyPostfix]
         private static void DisplayPanel(GameResultPanel __instance)
         {
-            Transform panel = GameResultPanelPatch.PreAutoUpload(__instance);
-            bool isAutoUploaded = GameResultPanelPatch.AutoUpload();
-            GameResultPanelPatch.PostAutoUpload(panel, isAutoUploaded);
+            Transform panel = GameResultPanelPatch.DIsplayUploadPanel(__instance);
+            bool showUpload = GameResultPanelPatch.AutoUpload();
+            GameResultPanelPatch.DisplayUpload(panel, showUpload);
         }
 
-        private static Transform PreAutoUpload(GameResultPanel __instance)
+        private static Transform DIsplayUploadPanel(GameResultPanel __instance)
         {
             if (!BepinexPlugin.ShowUploadPanel.Value) return null;
             Transform panelTemplate = ObjectsManager.Panel;
@@ -59,25 +59,26 @@ namespace RunLogger.Patches.PanelPatches
             string description = StringDecorator.Decorate($"Auto upload the log of |Profile #{i}| to LBoL Logs.\nIf set to |false|, you can upload with description at the result screen.\nChange is effective from next run.\nUploaded log will be deleted from local drive.\nAbandoned run is never auto uploaded.");
             ObjectsManager.SetTooltip(panel.Find("AutoUpload"), title, description);
 
-            if (Controller.Instance?.Path == null)
-            {
-                ObjectsManager.UpdateStatus(UploadStatus.NotSaved);
-                return null;
-            }
             return panel;
         }
 
         private static bool AutoUpload()
         {
-            if (!Helpers.AutoUpload || Controller.Instance.IsAbandoned) return false;
+            if (!Helpers.AutoUpload) return true;
+            if (Instance.IsInitialized && Controller.Instance.IsAbandoned) return true;
+            if (Controller.Instance?.Path == null)
+            {
+                ObjectsManager.UpdateStatus(UploadStatus.NotSaved);
+                return false;
+            }
             BepinexPlugin.log.LogDebug($"Auto Upload Log #{Helpers.CurrentSaveIndex}");
             LBoLLogs.Upload();
-            return true;
+            return false;
         }
 
-        private static void PostAutoUpload(Transform panel, bool isAutoUploaded)
+        private static void DisplayUpload(Transform panel, bool showUpload)
         {
-            if (panel == null || isAutoUploaded) return;
+            if (panel == null || !showUpload) return;
             panel.Find("Upload").gameObject.SetActive(true);
 
             Transform edit = panel.Find("Upload/Edit");
