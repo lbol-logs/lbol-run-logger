@@ -13,7 +13,8 @@ namespace RunLogger.Utils.UploadPanelObjects
 
         internal const float QuickUploadOffsetX = 0.5f;
         internal const float QuickUploadScale = 0.004f;
-        internal const float SwitchOffsetX = -600;
+        internal const float LabelPositionX = -3.4748f;
+        internal const float SwitchPositionX = 0.2673f;
 
         internal static Vector3 BgPosition = new Vector3(X + PositionsManager.BgOffsetX, Y, 10);
         internal static Vector3 AutoUploadPosition = new Vector3(X, Y, 10);

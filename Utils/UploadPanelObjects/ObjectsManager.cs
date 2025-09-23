@@ -1,5 +1,6 @@
 ﻿using LBoL.Core;
 using LBoL.Presentation.I10N;
+using LBoL.Presentation.InputSystemExtend;
 using LBoL.Presentation.UI;
 using LBoL.Presentation.UI.ExtraWidgets;
 using LBoL.Presentation.UI.Panels;
@@ -74,13 +75,18 @@ namespace RunLogger.Utils.UploadPanelObjects
             return ObjectsManager.PanelTemp?.Find(path);
         }
 
-        internal static RectTransform CopyGameObject(Transform transform, string path, Transform parent = null)
+        internal static RectTransform CopyGameObject(Transform transform, string path, Transform parent = null, bool wrapped = false)
         {
-            return UnityEngine.Object.Instantiate(
-                transform.Find(path).gameObject,
+            Transform originalT = transform.Find(path);
+            if (originalT == null && wrapped == true) originalT = transform.Find($"BottomRoot/{path}");
+            GameObject gameObject = UnityEngine.Object.Instantiate(
+                originalT.gameObject,
                 parent ?? ObjectsManager.PanelTemp,
                 true
-            ).GetComponent<RectTransform>();
+            );
+            foreach (GamepadButtonTip component in gameObject.GetComponents<GamepadButtonTip>()) UnityEngine.Object.Destroy(component);
+            foreach (GamepadButton component in gameObject.GetComponents<GamepadButton>()) UnityEngine.Object.Destroy(component);
+            return gameObject.GetComponent<RectTransform>();
         }
 
         internal static void ChangeText(Transform transform, string text, string color = null)

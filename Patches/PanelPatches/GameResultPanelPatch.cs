@@ -20,7 +20,7 @@ namespace RunLogger.Patches.PanelPatches
         {
             if (UploadPanel.SkipPanelTemp || ObjectsManager.GetFromTemp("QuickUpload") != null) return;
 
-            RectTransform quickUpload = ObjectsManager.CopyGameObject(__instance.transform, "CommonButton");
+            RectTransform quickUpload = ObjectsManager.CopyGameObject(__instance.transform, "CommonButton", wrapped: true);
             quickUpload.name = "QuickUpload";
             quickUpload.gameObject.SetActive(true);
             ObjectsManager.ChangeText(quickUpload.Find("Layout/Text (TMP)"), "Upload");

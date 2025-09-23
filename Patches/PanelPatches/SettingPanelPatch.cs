@@ -19,10 +19,11 @@ namespace RunLogger.Patches.PanelPatches
 
             Transform label = autoUpload.Find("KeyTmp");
             label.name = "Label";
+            label.position = new Vector3(PositionsManager.LabelPositionX, label.position.y, label.position.z);
             ObjectsManager.ChangeText(label, "Auto Upload");
 
             RectTransform switchT = autoUpload.Find("Switch").GetComponent<RectTransform>();
-            switchT.localPosition = new Vector3(switchT.localPosition.x + PositionsManager.SwitchOffsetX, switchT.localPosition.y, switchT.localPosition.z);
+            switchT.position = new Vector3(PositionsManager.SwitchPositionX, switchT.position.y, switchT.position.z);
             UploadPanel.AdjustPanel();
         }
     }

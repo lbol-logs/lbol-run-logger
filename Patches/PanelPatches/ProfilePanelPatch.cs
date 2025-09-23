@@ -16,6 +16,7 @@ namespace RunLogger.Patches.PanelPatches
 
             RectTransform textArea = ObjectsManager.CopyGameObject(__instance.transform, "NameInput");
             textArea.name = "TextArea";
+            Object.Destroy(textArea.Find("RandomNameButton")?.gameObject);
             textArea.gameObject.SetActive(false);
 
             Transform input = textArea.Find("InputField");
@@ -35,6 +36,7 @@ namespace RunLogger.Patches.PanelPatches
             RectTransform edit = ObjectsManager.CopyGameObject(__instance.transform, "Profiles/Layout/ProfileWidget0/Content/EditButton", ObjectsManager.GetFromTemp("Upload"));
             edit.name = "Edit";
             edit.localPosition = Vector3.zero;
+            Object.Destroy(edit.Find("KeyTipX")?.gameObject);
             UploadPanel.AdjustPanel();
         }
     }
