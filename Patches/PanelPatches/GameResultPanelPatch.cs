@@ -64,13 +64,15 @@ namespace RunLogger.Patches.PanelPatches
 
         private static bool AutoUpload()
         {
-            if (!Helpers.AutoUpload) return true;
-            if (Instance.IsInitialized && Controller.Instance.IsAbandoned) return true;
+            if (!Instance.IsInitialized) return false;
             if (Controller.Instance?.Path == null)
             {
                 ObjectsManager.UpdateStatus(UploadStatus.NotSaved);
                 return false;
             }
+
+            if (!Helpers.AutoUpload) return true;
+            if (Controller.Instance.IsAbandoned) return true;
             BepinexPlugin.log.LogDebug($"Auto Upload Log #{Helpers.CurrentSaveIndex}");
             LBoLLogs.Upload();
             return false;
