@@ -1,0 +1,64 @@
+[h1]Description[/h1]
+An advanced logging mod for players to share runs on [url=https://lbol-logs.github.io/]LBoL Logs[/url]
+
+About: https://lbol-logs.github.io/about/
+
+Changelog: https://github.com/lbol-logs/lbol-run-logger/commits/main/
+
+
+[h1]Configs[/h1]
+[code]BepInEx\config\ev.lbol.utils.runLogger.cfg[/code]
+[table]
+  [tr]
+    [th]Config[/th]
+    [th]Default[/th]
+    [th]Description[/th]
+  [/tr]
+  [tr]
+    [td]Save Failed Run[/td]
+    [td][i]true[/i][/td]
+    [td]Save log for the current run even it failed.[/td]
+  [/tr]
+  [tr]
+    [td]Save Abandoned Run[/td]
+    [td][i]false[/i][/td]
+    [td]Save log for the current run even it is abandoned.[/td]
+  [/tr]
+  [tr]
+    [td]Save Abandoned Run[/td]
+    [td][i]false[/i][/td]
+    [td]Save log for the current run even it is abandoned.[/td]
+  [/tr]
+  [tr]
+    [td]Save Profile Name[/td]
+    [td][i]true[/i][/td]
+    [td]Save and show profile name when uploaded to LBoL Logs.[/td]
+  [/tr]
+  [tr]
+    [td]Save Profiles Together[/td]
+    [td][i]true[/i][/td]
+    [td]
+      Save the logs of different profiles in the same directory.
+      If set to [i]false[/i], they are saved under the corresponding index, i.e. [i]0[/i]/[i]1[/i]/[i]2[/i].
+    [/td]
+  [/tr]
+  [tr]
+    [td]
+      Auto Upload Log #0
+      Auto Upload Log #1
+      Auto Upload Log #2
+      [/td]
+    [td][i]false[/i][/td]
+    [td]
+      Auto upload the log of Profile #[i]i[/i] to LBoL Logs.
+      If set to [i]false[/i], you can upload with description at the result screen.
+      Uploaded log will be deleted from local drive.
+      Abandoned run is never auto uploaded.
+    [/td]
+  [/tr]
+  [tr]
+    [td]Show Upload Panel[/td]
+    [td][i]true[/i][/td]
+    [td]Show upload panel at the result screen.[/td]
+  [/tr]
+[/table]
