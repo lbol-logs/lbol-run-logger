@@ -4,6 +4,8 @@ namespace RunLogger.Utils.RunLogLib
 {
     public class Settings
     {
+        public string GameMode {  get; set; }
+        public List<string> Packs { get; set; }
         public string Character { get; set; }
         public string PlayerType { get; set; }
         public bool HasClearBonus { get; set; }

@@ -6,6 +6,7 @@ using RunLogger.Utils.RunLogLib;
 using RunLogger.Wrappers;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace RunLogger.Patches.SaveData
 {
@@ -22,11 +23,16 @@ namespace RunLogger.Patches.SaveData
 
             private static void Postfix(GameRunStartupParameters parameters, GameRunController __result)
             {
+                GameRunController gameRun = __result;
+                string gameMode = parameters.Mode.ToString();
+                List<string> packs = new List<string>();
+                PropertyInfo property = gameRun.GetType().GetProperty("Packs");
+                if (property != null) packs = (List<string>)property.GetValue(gameRun);
                 string character = parameters.Player.Id;
                 string playerType = parameters.PlayerType.ToString().Replace("Type", "");
-                bool hasClearBonus = __result.HasClearBonus;
+                bool hasClearBonus = gameRun.HasClearBonus;
                 bool showRandomResult = parameters.ShowRandomResult;
-                bool isAutoSeed = __result.IsAutoSeed;
+                bool isAutoSeed = gameRun.IsAutoSeed;
                 string difficulty = parameters.Difficulty.ToString();
                 IEnumerable<PuzzleFlag> allPuzzleFlags = PuzzleFlags.EnumerateComponents(parameters.Puzzles);
                 List<string> requests = allPuzzleFlags.Select(puzzleFlag => puzzleFlag.ToString()).ToList();
@@ -53,6 +59,8 @@ namespace RunLogger.Patches.SaveData
                 if (BepinexPlugin.SaveProfileName.Value) Controller.Instance.RunLog.Name = parameters.UserProfile.Name;
                 Settings settings = new Settings()
                 {
+                    GameMode = gameMode,
+                    Packs = packs,
                     Character = character,
                     PlayerType = playerType,
                     HasClearBonus = hasClearBonus,
