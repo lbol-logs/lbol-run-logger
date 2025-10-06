@@ -20,7 +20,7 @@ namespace RunLogger.Utils
         {
             get
             {
-                return Singleton<GameMaster>.Instance.CurrentGameRun.CurrentStation;
+                return Singleton<GameMaster>.Instance.CurrentGameRun?.CurrentStation;
             }
         }
 
