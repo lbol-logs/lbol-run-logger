@@ -71,6 +71,7 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
 
             if (!Controller.Instance.DebutUncommonCardsChosen) return;
             if (!Helpers.IsAdventure<Debut>()) return;
+            if (interaction.CanCancel) return;
             RewardsManager.AddCardsRewards(interaction);
             Controller.Instance.DebutUncommonCardsIndex = null;
             Controller.Instance.DebutUncommonCardsChosen = false;
