@@ -33,6 +33,7 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
             if (!Instance.IsInitialized) return;
 
             if (!Helpers.IsAdventure<SatoriCounseling>()) return;
+            if (interaction.CanCancel) return;
             RewardsManager.AddCardsRewards(interaction);
         }
     }

@@ -18,6 +18,7 @@ namespace RunLogger.Patches.PanelPatches
             status.name = "Status";
             status.pivot = new Vector2(0.5f, 0.5f);
             status.position = PositionsManager.StatusPosition;
+            ObjectsManager.RemoveGamepadButtonCursor(status);
 
             RectTransform text = status.Find("SeedText").GetComponent<RectTransform>();
             ObjectsManager.ChangeText(text, null);

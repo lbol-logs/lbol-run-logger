@@ -6,7 +6,6 @@ using RunLogger.Utils.RunLogLib;
 using RunLogger.Wrappers;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 namespace RunLogger.Patches.SaveData
 {
@@ -25,9 +24,7 @@ namespace RunLogger.Patches.SaveData
             {
                 GameRunController gameRun = __result;
                 string gameMode = parameters.Mode.ToString();
-                List<string> packs = new List<string>();
-                PropertyInfo property = gameRun.GetType().GetProperty("Packs");
-                if (property != null) packs = (List<string>)property.GetValue(gameRun);
+                List<string> packs = gameRun.Packs;
                 string character = parameters.Player.Id;
                 string playerType = parameters.PlayerType.ToString().Replace("Type", "");
                 bool hasClearBonus = gameRun.HasClearBonus;

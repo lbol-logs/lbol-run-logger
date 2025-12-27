@@ -23,6 +23,7 @@ namespace RunLogger.Patches.PanelPatches
             ObjectsManager.ChangeText(label, "Auto Upload");
 
             RectTransform switchT = autoUpload.Find("Switch").GetComponent<RectTransform>();
+            ObjectsManager.RemoveGamepadButtonCursor(switchT);
             switchT.position = new Vector3(PositionsManager.SwitchPositionX, switchT.position.y, switchT.position.z);
             UploadPanel.AdjustPanel();
         }
