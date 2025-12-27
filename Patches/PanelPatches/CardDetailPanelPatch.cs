@@ -22,8 +22,8 @@ namespace RunLogger.Patches.PanelPatches
             bg.sizeDelta = new Vector2(700, 100);
             bg.position = PositionsManager.BgPosition;
             Object.Destroy(bg.Find("UpgradeText").gameObject);
-            Object.Destroy(bg.GetComponent<ContentSizeFitter>());
             Object.Destroy(bg.Find("PackText")?.gameObject);
+            Object.Destroy(bg.GetComponent<ContentSizeFitter>());
             ObjectsManager.ChangeText(bg.Find("PoolText"), null);
             UploadPanel.AdjustPanel();
         }
