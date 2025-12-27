@@ -126,5 +126,11 @@ namespace RunLogger.Utils.UploadPanelObjects
             Transform clone = ObjectsManager.Clone;
             if (clone != null) UnityEngine.Object.Destroy(clone.gameObject);
         }
+
+        internal static void RemoveGamepadButtonCursor(Transform transform)
+        {
+            UnityEngine.Object.Destroy(transform.GetComponent<GamepadButtonCursor>());
+            UnityEngine.Object.Destroy(transform.GetComponent<Button>());
+        }
     }
 }
