@@ -17,6 +17,7 @@ namespace RunLogger.Utils.RunLogLib
         public Result Result { get; set; }
 #nullable enable
         public string? Description { get; set; }
+        public Website? Website { get; set; }
 #nullable disable
     }
 }
