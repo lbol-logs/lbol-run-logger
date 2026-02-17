@@ -9,6 +9,7 @@ using LBoL.Presentation;
 using RunLogger.Utils.Enums;
 using RunLogger.Utils.LogFile;
 using RunLogger.Utils.UploadPanelObjects;
+using RunLogger.Utils.RunLogLib;
 
 namespace RunLogger.Utils
 {
@@ -17,6 +18,15 @@ namespace RunLogger.Utils
         internal static void Upload(string description = null)
         {
             if (!description.IsNullOrWhiteSpace()) Controller.Instance.RunLog.Description = description;
+            string title = Helpers.Left(BepinexPlugin.WebsiteTitle.Value, Configs.WebsiteTitleMaxLength);
+            string url = Helpers.Left(BepinexPlugin.WebsiteUrl.Value, Configs.WebsiteUrlMaxLength);
+            if (!title.IsNullOrWhiteSpace() && url.StartsWith("https://"))
+            {
+                Controller.Instance.RunLog.Website = new Website() { 
+                    Title = title,
+                    Url = url
+                };
+            }
             Singleton<GameMaster>.Instance.StartCoroutine(LBoLLogs.Post());
         }
 
