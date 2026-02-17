@@ -140,6 +140,9 @@ namespace RunLogger
         internal static List<ConfigEntry<bool>> AutoUploads = new List<ConfigEntry<bool>>();
         internal static ConfigEntry<bool> ShowUploadPanel;
 
+        internal static ConfigEntry<string> WebsiteTitle;
+        internal static ConfigEntry<string> WebsiteUrl;
+
         internal static bool HasPatchouliMod;
 
         private void Awake()
@@ -157,6 +160,9 @@ namespace RunLogger
 
             for (int i = 0; i < Configs.Profiles; i++) AutoUploads.Add(Config.Bind("Upload", $"Auto Upload Log #{i}", false, $"Auto upload the log of Profile #{i} to LBoL Logs.\nIf set to `false`, you can upload with description at the result screen.\nUploaded log will be deleted from local drive."));
             ShowUploadPanel = Config.Bind("Upload", "Show Upload Panel", true, "Show upload panel at the result screen.");
+
+            WebsiteTitle = Config.Bind("Website", "Website Title", "", "Max length: 50 characters.\nAppend your website to log when BOTH title and url are not empty.");
+            WebsiteUrl = Config.Bind("Website", "Website URL", "", "Max length: 300 characters.\nMust start with `https://`.");
 
             harmony.PatchAll();
 

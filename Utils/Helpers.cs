@@ -167,5 +167,10 @@ namespace RunLogger.Utils
                 BepinexPlugin.AutoUploads[Helpers.CurrentSaveIndex].Value = value;
             }
         }
+
+        internal static string Left(string input, int maxLength)
+        {
+            return input.Length <= maxLength ? input : input[..maxLength];
+        }
     }
 }

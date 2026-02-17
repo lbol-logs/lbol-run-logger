@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using LBoL.Presentation.UI.Panels;
+using RunLogger.Utils;
 using RunLogger.Utils.UploadPanelObjects;
 using TMPro;
 using UnityEngine;
@@ -25,7 +26,7 @@ namespace RunLogger.Patches.PanelPatches
             count.pivot = new Vector2(1, 0.5f);
             count.localPosition = PositionsManager.CountLocalPosition;
             count.GetComponent<TextMeshProUGUI>().alignment = TextAlignmentOptions.Right;
-            ObjectsManager.ChangeText(count, "0/300");
+            ObjectsManager.ChangeText(count, $"0/{Configs.DescriptionMaxLength}");
 
             Object.Destroy(input.gameObject);
 
