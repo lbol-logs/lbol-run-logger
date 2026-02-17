@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using LBoL.Presentation.UI.Panels;
+using RunLogger.Utils;
 using RunLogger.Utils.UploadPanelObjects;
 using TMPro;
 using UnityEngine;
@@ -23,7 +24,7 @@ namespace RunLogger.Patches.PanelPatches
             TMP_InputField tmpInput = input.Find("TextFilterInput").GetComponent<TMP_InputField>();
             tmpInput.onValueChanged = null;
             tmpInput.lineType = TMP_InputField.LineType.MultiLineNewline;
-            tmpInput.characterLimit = 300;
+            tmpInput.characterLimit = Configs.DescriptionMaxLength;
 
             RectTransform box = input.Find("TextFilterInput").GetComponent<RectTransform>();
             box.position = PositionsManager.BoxPosition;

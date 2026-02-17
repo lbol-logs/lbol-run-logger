@@ -10,6 +10,10 @@
 
         internal const int Profiles = 3;
 
+        internal const int DescriptionMaxLength = 300;
+        internal const int WebsiteTitleMaxLength = 50;
+        internal const int WebsiteUrlMaxLength = 300;
+
         internal static readonly string[] PriorityMods = new string[] { PInfo.GUID, "neo.lbol.fix.rngFix" };
         internal static readonly string[] ExcludedMods = new string[] { "com.bepis.bepinex.scriptengine", "neo.lbol.tools.watermark" };
         internal const string HelpMeEirinMod = "neo.lbol.qol.helpMeEirin";

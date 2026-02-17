@@ -89,7 +89,7 @@ namespace RunLogger.Patches.PanelPatches
             TMP_InputField tmpInput = textArea.Find("Input/TextFilterInput").GetComponent<TMP_InputField>();
             TextMeshProUGUI count = textArea.Find("Count").GetComponent<TextMeshProUGUI>();
             tmpInput.onValueChanged = new OnChangeEvent();
-            tmpInput.onValueChanged.AddListener(new UnityAction<string>(value => count.text = $"{value.Length}/300"));
+            tmpInput.onValueChanged.AddListener(new UnityAction<string>(value => count.text = $"{value.Length}/{Configs.DescriptionMaxLength}"));
 
             ObjectsManager.SetTooltip(edit, "Add description", "optional");
             ObjectsManager.SetClickEvent(edit, () =>
