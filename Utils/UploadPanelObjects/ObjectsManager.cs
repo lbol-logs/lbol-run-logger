@@ -118,6 +118,7 @@ namespace RunLogger.Utils.UploadPanelObjects
             string color = url == null ? null : ColorUtility.ToHtmlStringRGBA(GlobalConfig.UiBlue);
             ObjectsManager.ChangeText(textT, text, color);
             if (url == null) return;
+            status.gameObject.AddComponent<Button>();
             ObjectsManager.SetClickEvent(status, () => Application.OpenURL(url));
         }
 
