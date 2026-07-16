@@ -4,6 +4,7 @@ using LBoL.Core.GapOptions;
 using LBoL.Core.Stations;
 using LBoL.Presentation.UI.Panels;
 using RunLogger.Utils;
+using RunLogger.Utils.Managers;
 using RunLogger.Utils.RunLogLib.Entities;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,15 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches
 
             string choice = option.Type.ToString();
             Controller.CurrentStation.Data["Choice"] = choice;
+        }
+
+        //HuangyouJiqiren
+        [HarmonyPatch(typeof(Stage), nameof(Stage.GetDrinkTeaCardReward)), HarmonyPostfix]
+        private static void AddCardRewards(StationReward __result)
+        {
+            if (!Instance.IsInitialized) return;
+
+            RewardsManager.AddReward(__result);
         }
 
         //ShanliangDengpao
