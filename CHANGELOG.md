@@ -4,6 +4,7 @@ For all changelog, see the [commits](https://github.com/lbol-logs/lbol-run-logge
 
 | Version | Change |
 | --- | --- |
+| 4.0.0 | Add 1.8.1 (beta) compatibility. Not compatible with previous versions. |
 | 3.6.0 | Add config options to append your website upon upload |
 | 3.2.3 | Add config option to show/hide upload panel at the result screen |
 | 3.1.0 | Add config option to enable/disable saving abandoned run |

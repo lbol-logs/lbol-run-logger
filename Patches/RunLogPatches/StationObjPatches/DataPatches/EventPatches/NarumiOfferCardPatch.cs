@@ -2,7 +2,7 @@
 using LBoL.Base;
 using LBoL.Core.Cards;
 using LBoL.Core;
-using LBoL.EntityLib.Adventures.Shared23;
+using LBoL.EntityLib.Adventures.Stage3;
 using RunLogger.Utils;
 using System.Collections.Generic;
 using System.Linq;
