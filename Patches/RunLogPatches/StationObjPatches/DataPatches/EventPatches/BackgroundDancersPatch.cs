@@ -56,6 +56,7 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
         private static void HandleRandom(BackgroundDancers __instance, int option)
         {
             if (!Controller.ShowRandomResult) return;
+
             DialogStorage storage = __instance.Storage;
             switch (option)
             {
