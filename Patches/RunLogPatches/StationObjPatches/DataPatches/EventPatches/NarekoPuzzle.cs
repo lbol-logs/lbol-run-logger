@@ -16,6 +16,7 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
 
             DialogStorage storage = __instance.Storage;
             List<string> cards = Helpers.GetStorageList<string, string>(storage, new[] { "A", "B", "C" }, "$card");
+            List<bool> isUpgradeds = Helpers.GetStorageList<bool, string>(storage, new[] { "A", "B", "C" }, "$isUpgraded");
             List<string> exhibits = Helpers.GetStorageList<string, string>(storage, new[] { "B", "C" }, "$exhibit");
             Dictionary<string, object> trades = new Dictionary<string, object>();
             (string, int, int)[] tradeConfigs = new (string, int, int)[]
@@ -28,9 +29,10 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
             {
                 if (string.IsNullOrEmpty(cards[c])) continue;
 
-                Dictionary<string, string> tradeItem = new Dictionary<string, string>()
+                Dictionary<string, object> tradeItem = new Dictionary<string, object>()
                 {
-                    { "Card", cards[c] }
+                    { "Card", cards[c] },
+                    { "IsUpgraded", isUpgradeds[c] }
                 };
                 if (e != -1) tradeItem["Exhibit"] = exhibits[e];
                 trades[key] = tradeItem;
