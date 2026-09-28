@@ -18,6 +18,8 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
 
             __instance.Storage.TryGetValue("$hpLose", out float hp);
             Helpers.AddDataValue("Hp", (int)hp);
+            __instance.Storage.TryGetValue("$maxHpGain", out float maxHp);
+            Helpers.AddDataValue("MaxHp", (int)maxHp);
         }
 
         [HarmonyPatch(typeof(BackgroundDancers), nameof(BackgroundDancers.RollOptions)), HarmonyPostfix]
