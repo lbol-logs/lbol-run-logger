@@ -3,6 +3,7 @@ using LBoL.Core.Dialogs;
 using LBoL.EntityLib.Adventures.Shared23;
 using RunLogger.Utils;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPatches
 {
@@ -15,26 +16,32 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches.EventPat
             if (!Instance.IsInitialized) return;
 
             DialogStorage storage = __instance.Storage;
-            List<string> cards = Helpers.GetStorageList<string, string>(storage, new[] { "A", "B", "C" }, "$card");
-            List<bool> isUpgradeds = Helpers.GetStorageList<bool, string>(storage, new[] { "A", "B", "C" }, "$isUpgraded");
-            List<string> exhibits = Helpers.GetStorageList<string, string>(storage, new[] { "B", "C" }, "$exhibit");
-            Dictionary<string, object> trades = new Dictionary<string, object>();
-            (string, int, int)[] tradeConfigs = new (string, int, int)[]
+            (string, bool)[] tradeConfigs = new (string, bool)[]
             {
-                ("A", 0, -1),
-                ("B", 1,  0),
-                ("C", 2,  1)
+                ("A", false),
+                ("B", true),
+                ("C", true)
             };
-            foreach ((string key, int c, int e) in tradeConfigs)
-            {
-                if (string.IsNullOrEmpty(cards[c])) continue;
+            List<bool> hasCards = Helpers.GetStorageList<bool, string>(storage, tradeConfigs.Select(x => x.Item1).ToArray(), "$hasCard");
 
+            Dictionary<string, object> trades = new Dictionary<string, object>();
+            for (int i = 0; i < tradeConfigs.Length; i++)
+            {
+                if (!hasCards[i]) continue;
+
+                (string key, bool hasExhibit) = tradeConfigs[i];
+                storage.TryGetValue($"$card{key}", out string card);
+                storage.TryGetValue($"$isUpgraded{key}", out bool isUpgraded);
                 Dictionary<string, object> tradeItem = new Dictionary<string, object>()
                 {
-                    { "Card", cards[c] },
-                    { "IsUpgraded", isUpgradeds[c] }
+                    { "Card", card },
+                    { "IsUpgraded", isUpgraded }
                 };
-                if (e != -1) tradeItem["Exhibit"] = exhibits[e];
+                if (hasExhibit)
+                {
+                    storage.TryGetValue($"$exhibit{key}", out string exhibit);
+                    tradeItem["Exhibit"] = exhibit;
+                }
                 trades[key] = tradeItem;
             }
             Helpers.AddDataValue("Trade", trades);
