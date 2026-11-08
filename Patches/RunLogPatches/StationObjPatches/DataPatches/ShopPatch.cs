@@ -84,8 +84,7 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches
             bool isOnEnter = ShopPatch.IsOnEnter(shopStation);
             if (isOnEnter) return;
 
-            Controller.CurrentStation.Rewards.TryGetValue("Cards", out object value);
-            List<List<CardObjWithPrice>> cards = value as List<List<CardObjWithPrice>>;
+            Helpers.GetDictList(Controller.CurrentStation.Rewards, "Cards", out List<List<CardObjWithPrice>> cards);
 
             bool isAppended = cards.Count > 1 && cards[1][0].Price != null;
             if (!isAppended) cards.Insert(1, new List<CardObjWithPrice>());
@@ -105,15 +104,13 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches
             bool isOnEnter = IsOnEnter(shopStation);
             if (isOnEnter) return;
 
-            Controller.CurrentStation.Rewards.TryGetValue("Exhibits", out object value);
-            List<string> exhibits = value as List<string>;
+            Helpers.GetDictList(Controller.CurrentStation.Rewards, "Exhibits", out List<string> exhibits);
 
             int price = ShopPatch.GetPrice(shopStation, __result);
             string id = exhibit.Id;
             exhibits.Add(id);
             Helpers.GetData(out Dictionary<string, object> data);
-            data.TryGetValue("Prices", out object value2);
-            Dictionary<string, int> prices = value2 as Dictionary<string, int>;
+            Helpers.GetDictDict(data, "Prices", out Dictionary<string, int> prices);
             prices.Add(id, price);
         }
 

@@ -7,8 +7,10 @@ using LBoL.Core.Dialogs;
 using LBoL.Core.Stations;
 using LBoL.Core.Units;
 using LBoL.Presentation;
+using Newtonsoft.Json.Linq;
 using RunLogger.Utils.RunLogLib;
 using RunLogger.Utils.RunLogLib.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -139,9 +141,66 @@ namespace RunLogger.Utils
         internal static void AddDataListItem<T>(string key, T item)
         {
             Helpers.GetData(out Dictionary<string, object> data);
-            List<T> list = data.TryGetValue(key, out object value) ? (List<T>)value : new List<T>();
+            Helpers.GetDictList(data, key, out List<T> list);
             list.Add(item);
             data[key] = list;
+        }
+
+        internal static bool GetDictList<T>(Dictionary<string, object> dict, string key, out List<T> result)
+        {
+            bool exist = dict.TryGetValue(key, out object value);
+            if (exist)
+            {
+                if (value is JArray j) result = j.ToObject<List<T>>();
+                else result = (List<T>)value;
+            }
+            else 
+            {
+                result = new List<T>();
+            }
+            dict[key] = result;
+            return exist;
+        }
+
+        internal static bool GetDictDict<T>(Dictionary<string, object> dict, string key, out Dictionary<string, T> result)
+        {
+            bool exist = dict.TryGetValue(key, out object value);
+            if (exist)
+            {
+                if (value is JObject j) result = j.ToObject<Dictionary<string, T>>();
+                else result = (Dictionary<string, T>)value;
+            }
+            else
+            {
+                result = new Dictionary<string, T>();
+            }
+            dict[key] = result;
+            return exist;
+        }
+
+        internal static bool GetDictPrice<T1, T2>(Dictionary<string, object> dict, string key, out object result)
+        {
+            bool exist = dict.TryGetValue(key, out object value);
+            if (exist)
+            {
+                if (value is JArray j)
+                {
+                    bool hasPrice = j.First is JArray j2 && j2.First is JObject j3 && j3.ContainsKey("Price");
+                    if (hasPrice) result = j.ToObject<T2>();
+                    else result = j.ToObject<T1>();
+                }
+                else
+                {
+                    if (value is T1) result = (T1)value;
+                    else result = (T2)value;
+                }
+            }
+            else
+            {
+                result = Activator.CreateInstance<T1>();
+            }
+            dict[key] = result;
+            return exist;
         }
 
         internal static List<T1> GetStorageList<T1, T2>(DialogStorage storage, T2[] keys, string prefix, string suffix = "")
