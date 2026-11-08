@@ -39,8 +39,7 @@ namespace RunLogger.Utils.Managers
         {
             string key = type + "s";
             RewardsManager.GetRewards(out Dictionary<string, object> rewards);
-            if (!rewards.TryGetValue(key, out object value)) rewards[key] = new List<T>();
-            List<T> entitiesRewards = (value ?? rewards[key]) as List<T>;
+            Helpers.GetDictList(rewards, key, out List<T> entitiesRewards);
             entitiesRewards.Add(listItem);
         }
 

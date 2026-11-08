@@ -32,8 +32,7 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches
                     IReadOnlyList<Exhibit> exhibits = rewardInteraction.PendingExhibits;
 
                     RewardsManager.GetRewards(out Dictionary<string, object> rewards);
-                    if (!rewards.TryGetValue("Exhibits", out object value)) rewards["Exhibits"] = new List<string>();
-                    List<string> exhibitsRewards = (value ?? rewards["Exhibits"]) as List<string>;
+                    Helpers.GetDictList(rewards, "Exhibits", out List<string> exhibitsRewards);
                     foreach (Exhibit exhibit in exhibits) exhibitsRewards.Add(exhibit.Id);
                 }
             }
@@ -43,8 +42,7 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches
                 {
                     IReadOnlyList<Card> cards = miniSelectCardInteraction.PendingCards;
                     RewardsManager.GetRewards(out Dictionary<string, object> rewards);
-                    if (!rewards.TryGetValue("Cards", out object value)) rewards["Cards"] = new List<List<CardObj>>();
-                    object cardsRewards = value ?? rewards["Cards"];
+                    Helpers.GetDictPrice<List<List<CardObj>>, List<List<CardObjWithPrice>>>(rewards, "Cards", out object cardsRewards);
 
                     if (cardsRewards is List<List<CardObj>> cardsWithoutPrice)
                     {
