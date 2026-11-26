@@ -32,9 +32,10 @@ namespace RunLogger.Patches.RunLogPatches.StationObjPatches.DataPatches
         }
 
         [HarmonyPatch(typeof(BossStation), nameof(BossStation.GenerateBossRewards)), HarmonyPostfix]
-        private static void AddBossExhibits(BossStation __instance)
+        private static void AddBossExhibits(BossStation __instance, bool __runOriginal)
         {
             if (!Instance.IsInitialized) return;
+            if (!__runOriginal) return;
             foreach (Exhibit exhibit in __instance.BossRewards) RewardsManager.AddExhibitRewards(exhibit);
         }
 
