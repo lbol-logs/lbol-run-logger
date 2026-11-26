@@ -6,7 +6,7 @@ namespace RunLogger
     {
         public const string GUID = "ev.lbol.utils.runLogger";
         public const string Name = "Run Logger";
-        public const string version = "4.0.4";
+        public const string version = "4.0.5";
         public static readonly Harmony harmony = new Harmony(GUID);
     }
 }
